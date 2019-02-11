@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
+import { AuthService } from './auth/auth.service';
 
 // Import containers
 import {
@@ -66,6 +67,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { CallbackComponent } from './callback/callback.component';
 
 @NgModule({
   imports: [
@@ -79,14 +81,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
   ],
   declarations: [
     AppComponent,
+    CallbackComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES
+    ...APP_DIRECTIVES,
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
-  bootstrap: [ AppComponent ]
+  providers: [
+    AuthService,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

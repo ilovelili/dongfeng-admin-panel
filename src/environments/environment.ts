@@ -4,5 +4,12 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  auth: {
+    clientID: 'o9qQfEpDggK3Osq9GUFYC7XFg42GQ734',
+    domain: 'mju.auth0.com',
+    audience: 'http://localhost:8080',
+    redirect: 'http://localhost:4200/callback',
+    scope: 'openid profile email'
+  }
 };

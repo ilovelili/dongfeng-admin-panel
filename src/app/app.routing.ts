@@ -4,13 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import {
   FullLayoutComponent,
-  SimpleLayoutComponent
+  SimpleLayoutComponent,
 } from './containers';
+import { AuthGuard } from './auth/auth.guard';
+import { CallbackComponent } from './callback/callback.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'pages/login',
     pathMatch: 'full',
   },
   {
@@ -21,61 +23,9 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'base',
-        loadChildren: './views/base/base.module#BaseModule'
-      },
-      {
-        path: 'buttons',
-        loadChildren: './views/buttons/buttons.module#ButtonsModule'
-      },
-      {
-        path: 'charts',
-        loadChildren: './views/chartjs/chartjs.module#ChartJSModule'
-      },
-      {
         path: 'dashboard',
-        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule',        
       },
-      {
-        path: 'editors',
-        loadChildren: './views/editors/editors.module#EditorsModule'
-      },
-      {
-        path: 'forms',
-        loadChildren: './views/forms/forms.module#FormsModule'
-      },
-      {
-        path: 'google-maps',
-        loadChildren: './views/google-maps/google-maps.module#GoogleMapsModule'
-      },
-      {
-        path: 'icons',
-        loadChildren: './views/icons/icons.module#IconsModule'
-      },
-      {
-        path: 'notifications',
-        loadChildren: './views/notifications/notifications.module#NotificationsModule'
-      },
-      {
-        path: 'plugins',
-        loadChildren: './views/plugins/plugins.module#PluginsModule'
-      },
-      {
-        path: 'tables',
-        loadChildren: './views/tables/tables.module#TablesModule'
-      },
-      {
-        path: 'theme',
-        loadChildren: './views/theme/theme.module#ThemeModule'
-      },
-      {
-        path: 'uikits',
-        loadChildren: './views/uikits/uikits.module#UIKitsModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
     ]
   },
   {
@@ -88,13 +38,18 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: './views/pages/pages.module#PagesModule',
-      }
+      },
     ]
+  },
+  {
+    path: 'callback',
+    component: CallbackComponent,
   }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  providers: [AuthGuard],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

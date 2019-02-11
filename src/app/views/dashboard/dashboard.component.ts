@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-
-  // constructor( ) { }
+  constructor(private router: Router, private authService: AuthService) { 
+    if (!this.authService.isLoggedIn) {
+      this.router.navigate(['pages/login']);
+    }
+  }
 
   public brandPrimary = '#20a8d8';
   public brandSuccess = '#4dbd74';
@@ -265,7 +269,7 @@ export class DashboardComponent implements OnInit {
           drawOnChartArea: false,
         },
         ticks: {
-          callback: function(value: any) {
+          callback: function (value: any) {
             return value.charAt(0);
           }
         }
