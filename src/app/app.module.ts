@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
@@ -68,9 +67,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CallbackComponent } from './callback/callback.component';
+import { UserClient } from './clients/user.client';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [
+  imports: [    
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -84,10 +86,11 @@ import { CallbackComponent } from './callback/callback.component';
     CallbackComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES,
+    ...APP_DIRECTIVES,    
   ],
   providers: [
     AuthService,
+    UserClient,    
   ],
   bootstrap: [AppComponent]
 })

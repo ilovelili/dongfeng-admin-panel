@@ -48,7 +48,7 @@ export class AuthService {
       } else if (err) {
         console.error(`Error: ${err.error}`);
       }
-      window.location.replace(environment.host);
+      window.location.replace(`${environment.host}/dashboard`);
       // this.router.navigate(['dashboard']);
     });
   }

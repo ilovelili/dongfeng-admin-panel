@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { BaseComponent } from '../../base.component';
 
 @Component({
   templateUrl: 'dashboard.component.html'
 })
-export class DashboardComponent implements OnInit {
-  constructor(private router: Router, private authService: AuthService) { 
-    if (!this.authService.isLoggedIn) {
-      this.router.navigate(['pages/login']);
-    }
+export class DashboardComponent extends BaseComponent implements OnInit {
+  constructor(protected router: Router, protected authService: AuthService) {
+    super(router, authService);
   }
 
   public brandPrimary = '#20a8d8';

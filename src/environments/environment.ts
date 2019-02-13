@@ -14,5 +14,8 @@ export const environment = {
     audience: 'http://localhost:8080',
     redirect: `${host}/callback`,
     scope: 'openid profile email'
-  },  
+  },
+  api: {
+    baseURI: 'http://localhost:8080/api'
+  }
 };

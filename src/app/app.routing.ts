@@ -24,7 +24,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: './views/dashboard/dashboard.module#DashboardModule',        
+        loadChildren: './views/dashboard/dashboard.module#DashboardModule',
       },
     ]
   },
