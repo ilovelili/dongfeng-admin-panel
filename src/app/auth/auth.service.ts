@@ -7,7 +7,6 @@ import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.
 
 (window as any).global = window;
 
-const CALLBACK_URI = 'http://localhost:4200';
 const KEY_TOKEN: string = 'token';
 const KEY_EXP: string = 'exp';
 const KEY_PROFILE: string = 'profile';
@@ -35,7 +34,9 @@ export class AuthService {
 
   login() {
     // Auth0 authorize request
-    this.auth0.authorize();
+    this.auth0.authorize({
+      language: environment.language,
+    });
   }
 
   handleLoginCallback() {
@@ -47,7 +48,7 @@ export class AuthService {
       } else if (err) {
         console.error(`Error: ${err.error}`);
       }
-      window.location.replace("http://localhost:4200/dashboard");
+      window.location.replace(environment.host);
       // this.router.navigate(['dashboard']);
     });
   }
@@ -84,7 +85,7 @@ export class AuthService {
     // Ensure that returnTo URL is specified in Auth0
     // Application settings for Allowed Logout URLs
     this.auth0.logout({
-      returnTo: CALLBACK_URI,
+      returnTo: environment.host,
       clientID: environment.auth.clientID
     });
   }
