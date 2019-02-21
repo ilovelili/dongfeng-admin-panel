@@ -44,7 +44,12 @@ export const routes: Routes = [
   {
     path: 'callback',
     component: CallbackComponent,
-  }
+  },
+  {
+    path: 'null',
+    redirectTo: 'pages/login',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

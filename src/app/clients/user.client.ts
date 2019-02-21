@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { Login } from '../models/user';
+import { Empty } from '../models';
 
 @Injectable()
 export class UserClient extends BaseClient {
@@ -11,7 +12,11 @@ export class UserClient extends BaseClient {
     super(http);
   }
 
-  public getUser(): Observable<Login> {
+  getUser(): Observable<Login> {
     return this.http.post<Login>(environment.api.baseURI + '/login', {}, this.defaultHttpOptions);
+  };
+
+  logout(): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/logout', {}, this.defaultHttpOptions);
   };
 }

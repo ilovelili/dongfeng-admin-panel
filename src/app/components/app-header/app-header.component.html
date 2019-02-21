@@ -12,26 +12,65 @@
         dropdownToggle (click)="false">
         <i class="icon-bell"></i><span class="badge badge-pill badge-danger">{{broadcasts.length}}</span>
       </a>
+
       <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg" *dropdownMenu aria-labelledby="simple-dropdown">
-        <div class="dropdown-header text-center"><strong>{{broadcasts.length}} 条系统通知</strong></div>
-        <a href="{{broadcast.Link}}" *ngFor="let broadcast of broadcasts" class="dropdown-item">
-          <div class="text-truncate font-weight-bold">{{broadcast.Title}}</div>
-          <div class="small text-muted text-truncate">{{broadcast.Content}}</div>          
+        <div class="dropdown-header text-center">
+          <strong>{{broadcasts.length}} 条系统通知</strong>
+        </div>
+
+        <a (click)="stopPropagation($event)" *ngFor="let broadcast of broadcasts" class="dropdown-item">
+          <div class="message">
+            <div class="card">
+              <div class="card-header">
+                {{broadcast.Title}}
+                <label [attr.for]="broadcast.id"
+                  class="switch switch-icon switch-pill switch-primary-outline-alt float-right">
+                  <input [attr.id]="broadcast.id" type="checkbox" class="switch-input" checked
+                    [(ngModel)]="broadcast.read" (change)="updateNotification([broadcast.id], true)">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+              <div class="card-body">
+                <div class="text-truncate font-weight-bold">
+                  <a href="{{broadcast.link}}">{{broadcast.Title}}</a>
+                </div>
+                <div class="small text-muted text-truncate">{{broadcast.Content}}</div>
+              </div>
+            </div>
+          </div>
         </a>
       </div>
     </li>
 
     <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
-      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="false">
         <i class="icon-envelope-letter"></i><span class="badge badge-pill badge-info">{{notifications.length}}</span>
       </a>
       <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg" *dropdownMenu aria-labelledby="simple-dropdown">
-        <div class="dropdown-header text-center"><strong>您有 {{notifications.length}} 条信息</strong></div>
-        <a href="#" *ngFor="let notification of notifications" class="dropdown-item">
-            <div class="message">
-                <div class="text-truncate font-weight-bold">{{notification.Title}}</div>
-                <div class="small text-muted text-truncate">{{notification.Detail}}</div>
+        <div class="dropdown-header text-center">
+          <strong>您有 {{notifications.length}} 条信息</strong>
+        </div>
+
+        <a (click)="stopPropagation($event)" *ngFor="let notification of notifications" class="dropdown-item">
+          <div class="message">
+            <div class="card">
+              <div class="card-header">
+                {{notification.Title}}
+                <label [attr.for]="notification.id"
+                  class="switch switch-icon switch-pill switch-primary-outline-alt float-right">
+                  <input [attr.id]="notification.id" type="checkbox" class="switch-input" checked
+                    [(ngModel)]="notification.read" (change)="updateNotification([notification.id])">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+              <div class="card-body small text-muted text-truncate">
+                {{notification.Detail}}
+              </div>
             </div>
+          </div>
         </a>
       </div>
     </li>

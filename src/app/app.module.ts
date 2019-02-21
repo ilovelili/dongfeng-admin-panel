@@ -70,6 +70,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationClient } from './clients/notification.client';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [    
@@ -78,6 +79,7 @@ import { NotificationClient } from './clients/notification.client';
     BrowserAnimationsModule,
     AppRoutingModule,
     ChartsModule,
+    FormsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),

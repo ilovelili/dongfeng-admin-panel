@@ -13,7 +13,8 @@ export class Notification {
     public category_id: number,
     public details: string,
     public link: string,
-    public time: string) { }
+    public time: string,
+    public read: boolean = false) { }
 
   // parse details by customcode and detail info
   get Detail(): string {

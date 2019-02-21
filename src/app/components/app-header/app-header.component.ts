@@ -49,7 +49,39 @@ export class AppHeaderComponent implements OnInit {
       );
   }
 
-  logout() {
-    this.authService.logout();
+  logout() {    
+    this.userClient.logout().
+      subscribe(
+        _ => this.authService.logout(),
+        e => console.error(e),
+        () => console.log("app header component logout completed")
+      );
+  }
+
+  updateNotification(ids: number[], agentsmith: boolean = false) {
+    this.notificationClient.updateNotifications(ids).
+      subscribe(
+        _ => {
+          if (agentsmith) {
+            this.broadcasts = this.broadcasts.filter(b => {
+              for (let id of ids) {
+                return id != b.id;
+              }
+            });
+          } else {
+            this.notifications = this.notifications.filter(n => {
+              for (let id of ids) {
+                return id != n.id;
+              }
+            });
+          }          
+        },
+        e => console.error(e),
+        () => console.log("app header component notification updating completed")
+      );
+  }
+
+  stopPropagation(e: Event) {
+    e.stopPropagation();
   }
 }

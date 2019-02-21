@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
-import { Notifications } from '../models';
+import { Notifications, Empty } from '../models';
 
 @Injectable()
 export class NotificationClient extends BaseClient {
@@ -11,7 +11,11 @@ export class NotificationClient extends BaseClient {
     super(http);
   }
 
-  public getNotifications(): Observable<Notifications> {
+  getNotifications(): Observable<Notifications> {
     return this.http.get<Notifications>(environment.api.baseURI + '/dashboard', this.defaultHttpOptions);
   };
+
+  updateNotifications(ids: number[]): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/notifications', { ids: ids }, this.defaultHttpOptions);
+  }
 }
