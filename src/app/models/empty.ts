@@ -1,2 +1,2 @@
 // for empty request / response
-export class Empty {};
+export class Empty {}

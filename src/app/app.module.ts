@@ -69,6 +69,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CallbackComponent } from './callback/callback.component';
 import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
+import { NotificationClient } from './clients/notification.client';
 
 @NgModule({
   imports: [    
@@ -90,7 +91,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     AuthService,
-    UserClient,    
+    UserClient,
+    NotificationClient,
   ],
   bootstrap: [AppComponent]
 })
