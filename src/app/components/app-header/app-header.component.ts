@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { User, Notification, Notifications } from '../../models';
 import { UserClient } from '../../clients/user.client';
 import { NotificationClient } from '../../clients/notification.client';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,10 @@ export class AppHeaderComponent implements OnInit {
     this.userClient.getUser().
       subscribe(
         d => this.user = d.user,
-        e => console.error(e),
+        e => {
+          console.error(e);
+          this.authService.logout();
+        },
         () => console.log("app header component user loading completed")
       );
 
@@ -44,7 +48,10 @@ export class AppHeaderComponent implements OnInit {
             }
           });
         },
-        e => console.error(e),
+        e => {
+          console.error(e);
+          this.authService.logout();
+        },
         () => console.log("app header component notification loading completed")
       );
   }
