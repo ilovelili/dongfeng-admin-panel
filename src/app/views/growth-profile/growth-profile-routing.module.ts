@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
 
-import { DashboardComponent } from './dashboard.component';
+import { GrowthProfileComponent } from './growth-profile.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
+    component: GrowthProfileComponent,
     data: {
-      title: 'Dashboard'
+      title: '成长档案'
     }
   }
 ];
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class GrowthProfileRoutingModule {}

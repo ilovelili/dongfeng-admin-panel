@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
-import { Login } from '../models/user';
+import { Login, User } from '../models/user';
 import { Empty } from '../models';
 
 @Injectable()
@@ -14,6 +14,10 @@ export class UserClient extends BaseClient {
 
   getUser(): Observable<Login> {
     return this.http.post<Login>(environment.api.baseURI + '/login', {}, this.defaultHttpOptions);
+  };
+
+  updateUser(user: User): Observable<Empty> {
+    return this.http.put<Empty>(environment.api.baseURI + '/user/update', {name: user.name, avatar: user.avatar}, this.defaultHttpOptions);
   };
 
   logout(): Observable<Empty> {

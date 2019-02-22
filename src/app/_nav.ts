@@ -1,12 +1,7 @@
-export const navigation = [
-  {
-    name: '东风圈',
-    url: '/dashboard',
-    icon: 'icon-speedometer',    
-  },  
+export const navigation = [  
   {
     name: '成长档案',
-    url: '/theme/typography',
+    url: '/growth-profile',
     icon: 'icon-note'
   },
   {

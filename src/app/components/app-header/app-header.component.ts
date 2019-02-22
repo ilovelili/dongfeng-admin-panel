@@ -3,7 +3,6 @@ import { AuthService } from '../../auth/auth.service';
 import { User, Notification, Notifications } from '../../models';
 import { UserClient } from '../../clients/user.client';
 import { NotificationClient } from '../../clients/notification.client';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +13,7 @@ export class AppHeaderComponent implements OnInit {
   private broadcasts: Notification[];
   private notifications: Notification[];
   private user: User
+  
   constructor(
     private authService: AuthService,
     private userClient: UserClient,

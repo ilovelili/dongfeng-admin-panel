@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { BaseComponent } from '../../base.component';
 
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'growth-profile.component.html'
 })
-export class DashboardComponent extends BaseComponent implements OnInit {
+export class GrowthProfileComponent extends BaseComponent implements OnInit {
   constructor(protected router: Router, protected authService: AuthService) {
     super(router, authService);
   }

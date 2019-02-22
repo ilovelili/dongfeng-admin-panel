@@ -19,21 +19,22 @@ export const routes: Routes = [
     path: '',
     component: FullLayoutComponent,
     data: {
-      title: 'Home'
+      title: '首页'
     },
     children: [
       {
-        path: 'dashboard',
-        loadChildren: './views/dashboard/dashboard.module#DashboardModule',
+        path: 'growth-profile',
+        loadChildren: './views/growth-profile/growth-profile.module#GrowthProfileModule',
+      },
+      {
+        path: 'user-profile',
+        loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
       },
     ]
   },
   {
     path: 'pages',
-    component: SimpleLayoutComponent,
-    data: {
-      title: 'Pages'
-    },
+    component: SimpleLayoutComponent,    
     children: [
       {
         path: '',

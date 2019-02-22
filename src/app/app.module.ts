@@ -17,8 +17,7 @@ const APP_CONTAINERS = [
 ]
 
 // Import components
-import {
-  AppAsideComponent,
+import {  
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -30,8 +29,7 @@ import {
   APP_SIDEBAR_NAV
 } from './components';
 
-const APP_COMPONENTS = [
-  AppAsideComponent,
+const APP_COMPONENTS = [  
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,

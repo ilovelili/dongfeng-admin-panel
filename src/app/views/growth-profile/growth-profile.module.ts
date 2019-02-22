@@ -4,18 +4,18 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
-import { DashboardComponent } from './dashboard.component';
-import { DashboardRoutingModule } from './dashboard-routing.module';
+import { GrowthProfileComponent } from './growth-profile.component';
+import { GrowthProfileRoutingModule } from './growth-profile-routing.module';
 
 @NgModule({
   imports: [
     FormsModule,
-    DashboardRoutingModule,
+    GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ GrowthProfileComponent ]
 })
 
-export class DashboardModule {}
+export class GrowthProfileModule {}

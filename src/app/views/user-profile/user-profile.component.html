@@ -1,0 +1,46 @@
+<div class="animated fadeIn">
+
+  <div class="card">
+    <div class="card-header"><small>用户ID: {{user.id}}</small></div>
+    <div class="card-body">
+      <form class="form-horizontal" #f="ngForm" (ngSubmit)="update(f.value)">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="avatar">头像</label>
+          <div class="avatar col-md-9 avatar-lg">
+            <img [src]="user.avatar" class="img-avatar" alt="{{user.email}}">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="name">用户名</label>
+          <div class="col-md-9">
+            <input type="text" id="name" name="name" ngControl="name" class="form-control" [disabled]="!toggled"
+              [(ngModel)]="user.name" #name="ngModel" required>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="email">电子邮件</label>
+          <div class="col-md-9">
+            <input type="email" id="email" name="email" class="form-control" disabled value="{{user.email}}">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="role">权限</label>
+          <div class="col-md-9">
+            <input type="text" id="role" name="role" class="form-control" disabled value="{{resolveRole(user.role)}}">
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button type="button" (click)="toggle()" [hidden]="toggled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</button>
+          <button type="submit" [hidden]="!toggled" [disabled]="!f.form.valid" class="btn btn-sm btn-danger"><i class="fa fa-dot-circle-o"></i> 确定</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
