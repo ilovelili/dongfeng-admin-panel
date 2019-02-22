@@ -35,7 +35,7 @@ export class AuthService {
   login() {
     // Auth0 authorize request
     this.auth0.authorize({
-      language: environment.language,
+      language: environment.language,      
     });
   }
 

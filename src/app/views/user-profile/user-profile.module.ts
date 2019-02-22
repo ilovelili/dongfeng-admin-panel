@@ -7,14 +7,16 @@ import { UserProfileRoutingModule } from './user-profile-routing.module';
 import { UserProfileComponent } from './user-profile.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToasterModule } from 'angular2-toaster';
+import { AppImageUploadModule } from '../../components';
 
 @NgModule({
   imports: [
     UserProfileRoutingModule,
-    BsDropdownModule.forRoot(),
     FormsModule,
     ToasterModule,
-  ],
+    AppImageUploadModule,
+    BsDropdownModule.forRoot(),
+  ],  
   declarations: [
     UserProfileComponent
   ]

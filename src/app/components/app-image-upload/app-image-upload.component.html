@@ -1,0 +1,9 @@
+<label class="image-upload-container btn btn-primary">
+    <span>{{title}}</span>
+    <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" class="img-avatar">
+</label>
+
+<div *ngIf="selectedfile" class="img-preview-container">    
+    <div *ngIf="selectedfile.status === 'ok'" class="alert alert-success"> 图像上传成功</div>
+    <div *ngIf="selectedfile.status === 'fail'" class="alert alert-danger"> 图像上传失败</div>
+</div>

@@ -18,4 +18,14 @@ export abstract class BaseClient {
       })
     };
   }
+
+  get multipartFormDataHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        // Setting the Content-Type header manually means it's missing the boundary parameter. Remove that header
+        // 'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+      })
+    };
+  }
 }

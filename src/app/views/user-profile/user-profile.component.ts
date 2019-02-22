@@ -53,6 +53,10 @@ export class UserProfileComponent implements OnInit {
     return '一般用户';
   }
 
+  setUser(uri: string) {
+    this.user.avatar = uri;
+  }
+
   update(form: User) {
     this.user.name = form.name;
     this.userClient.updateUser(this.user).

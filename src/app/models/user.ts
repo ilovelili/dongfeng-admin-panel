@@ -10,3 +10,7 @@ export class User {
 export class Login {
   user: User;
 }
+
+export class ImageUpload {
+  uri: string;
+}

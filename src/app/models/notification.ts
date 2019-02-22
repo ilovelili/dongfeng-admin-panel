@@ -49,7 +49,7 @@ export class Notification {
       replace(/{{time}}/g, this.formatDate(this.time));
   }
 
-  get Link(): string {    
+  get Link(): string {
     return this.link || "#";
   }
 
@@ -63,7 +63,7 @@ export class Notification {
       if (key == "title") {
         title = value;
       }
-    });        
+    });
     return title;
   }
 
@@ -75,22 +75,27 @@ export class Notification {
 
     JSON.parse(this.details, (key, value) => {
       if (key == "content") {
-        content = `${this.formatDate(this.time)}: ${value}`;
+        content = `${this.formatDate(this.time)} ${value}`;
       }
-    });        
+    });
     return content;
   }
 
-  private formatDate(date: string) {
+  private formatDate(date: string, exacttime = true) {
     let d = new Date(date),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
-      year = d.getFullYear();
+      year = d.getFullYear(),
+      hour = d.getHours(),
+      minute = d.getMinutes();
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [year, month, day].join('-');
+    if (!exacttime) {
+      return [year, month, day].join('-');
+    }
+    return [year, month, day].join('-') + ' ' + [hour, minute].join(':');
   }
 }
 
@@ -100,12 +105,12 @@ class BroadcastContent {
 }
 
 class DetailPlaceHolder {
-  static ProfileUpdated: string = "{{time}}: 用户信息更新";
-  static NamelistUpdated: string = "{{time}}: 班级名单更新";
-  static PhysiqueUpdated: string = "{{time}}: 体格信息表更新";
-  static RecipeUpdated: string = "{{time}}: 菜谱信息更新";
-  static MenuUpdated: string = "{{time}}: 菜单信息更新";
-  static IngredientUpdated: string = "{{time}}: 配菜信息更新";
-  static AttendanceUpdated: string = "{{time}}: 点名信息更新";
-  static AgentSmith: string = "{{time}}: {{title}}{{details}}";
+  static ProfileUpdated: string = "{{time}} 用户信息更新";
+  static NamelistUpdated: string = "{{time}} 班级名单更新";
+  static PhysiqueUpdated: string = "{{time}} 体格信息表更新";
+  static RecipeUpdated: string = "{{time}} 菜谱信息更新";
+  static MenuUpdated: string = "{{time}} 菜单信息更新";
+  static IngredientUpdated: string = "{{time}} 配菜信息更新";
+  static AttendanceUpdated: string = "{{time}} 点名信息更新";
+  static AgentSmith: string = "{{time}} {{title}}{{details}}";
 }
