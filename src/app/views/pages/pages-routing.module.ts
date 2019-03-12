@@ -4,13 +4,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { P404Component } from './404.component';
 import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
-import { RegisterComponent } from './register.component';
 
 const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Example Pages'
+      title: '东风幼儿园'
     },
     children: [
       {
@@ -31,16 +30,9 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         data: {
-          title: 'Login Page'
+          title: '东风幼儿园登录页面'
         }
-      },
-      {
-        path: 'register',
-        component: RegisterComponent,
-        data: {
-          title: 'Register Page'
-        }
-      }
+      },      
     ]
   }
 ];

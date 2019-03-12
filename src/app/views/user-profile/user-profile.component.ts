@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { User } from '../../models';
 import { UserClient } from '../../clients/user.client';
-import { AuthService } from '../../auth/auth.service';
 import { ToasterService, ToasterConfig }  from 'angular2-toaster/angular2-toaster';
+import { Router } from '@angular/router';
 
 @Component({
   providers: [User],
@@ -21,10 +21,10 @@ export class UserProfileComponent implements OnInit {
     });
 
   constructor(
-    private user: User,
-    private authService: AuthService,
+    private user: User,    
     private userClient: UserClient,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +33,8 @@ export class UserProfileComponent implements OnInit {
         d => this.user = d.user,
         e => {
           console.error(e);
-          this.authService.logout();
+          this.toasterService.pop('error', '', '获取用户信息失败，请重试');
+          // this.authService.logout();
         },
         () => console.log("user profile component user loading completed")
       );
@@ -64,6 +65,7 @@ export class UserProfileComponent implements OnInit {
         _ => {
           this.toggle();
           this.toasterService.pop('primary', '', '用户信息更新');
+          this.router.navigate(['/growth-profile']);
         },
         e => {
           console.error(e);          
