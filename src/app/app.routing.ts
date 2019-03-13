@@ -51,6 +51,11 @@ export const routes: Routes = [
     redirectTo: 'pages/login',
     pathMatch: 'full',
   },
+  {
+    path: '**',
+    redirectTo: 'pages/404',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

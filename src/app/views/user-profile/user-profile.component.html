@@ -37,6 +37,7 @@
         <div class="card-footer">
           <button type="button" (click)="toggle()" [hidden]="toggled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</button>
           <button type="submit" [hidden]="!toggled" [disabled]="!f.form.valid" class="btn btn-sm btn-danger"><i class="fa fa-dot-circle-o"></i> 确定</button>
+          <button type="button" (click)="home()" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> 返回</button>
         </div>
       </form>
     </div>

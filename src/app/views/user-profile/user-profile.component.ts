@@ -44,6 +44,10 @@ export class UserProfileComponent implements OnInit {
     this.toggled = !this.toggled;
   }
 
+  home() {
+    this.router.navigate(['growth-profile']);
+  }
+
   resolveRole(role: string) {
     if (role == 'sudo') {
       return '超级管理员';
@@ -65,7 +69,7 @@ export class UserProfileComponent implements OnInit {
         _ => {
           this.toggle();
           this.toasterService.pop('primary', '', '用户信息更新');
-          this.router.navigate(['/growth-profile']);
+          this.router.navigate(['growth-profile']);
         },
         e => {
           console.error(e);          

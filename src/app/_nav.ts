@@ -5,6 +5,11 @@ export const navigation = [
     icon: 'icon-note'
   },
   {
+    name: '班级管理',
+    url: '/class-management',
+    icon: 'icon-notebook'
+  },
+  {
     name: '出勤管理',
     url: '/theme/typography',
     icon: 'icon-user'
