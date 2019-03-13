@@ -30,6 +30,10 @@ export const routes: Routes = [
         path: 'user-profile',
         loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
       },
+      {
+        path: 'class-management',
+        loadChildren: './views/class-management/class-management.module#ClassManagementModule',
+      },
     ]
   },
   {
@@ -45,12 +49,7 @@ export const routes: Routes = [
   {
     path: 'callback',
     component: CallbackComponent,
-  },
-  {
-    path: 'null',
-    redirectTo: 'pages/login',
-    pathMatch: 'full',
-  },
+  },  
   {
     path: '**',
     redirectTo: 'pages/404',

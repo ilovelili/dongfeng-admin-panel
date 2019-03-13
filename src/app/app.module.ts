@@ -17,7 +17,7 @@ const APP_CONTAINERS = [
 ]
 
 // Import components
-import {  
+import {
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -25,12 +25,13 @@ import {
   AppSidebarFooterComponent,
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
-  AppSidebarMinimizerComponent,  
+  AppSidebarMinimizerComponent,
   APP_SIDEBAR_NAV,
-  
+  AppCsvDownloadService,
+
 } from './components';
 
-const APP_COMPONENTS = [  
+const APP_COMPONENTS = [
   AppBreadcrumbsComponent,
   AppFooterComponent,
   AppHeaderComponent,
@@ -38,8 +39,8 @@ const APP_COMPONENTS = [
   AppSidebarFooterComponent,
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
-  AppSidebarMinimizerComponent,  
-  APP_SIDEBAR_NAV,  
+  AppSidebarMinimizerComponent,
+  APP_SIDEBAR_NAV,
 ]
 
 // Import directives
@@ -70,9 +71,16 @@ import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationClient } from './clients/notification.client';
 import { FormsModule } from '@angular/forms';
+import { NameClient } from './clients/name.client';
+
+const APP_CLIENTS = [
+  UserClient,
+  NotificationClient,
+  NameClient,
+]
 
 @NgModule({
-  imports: [    
+  imports: [
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -88,12 +96,12 @@ import { FormsModule } from '@angular/forms';
     CallbackComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES,    
+    ...APP_DIRECTIVES,
   ],
   providers: [
     AuthService,
-    UserClient,
-    NotificationClient,
+    AppCsvDownloadService,
+    ...APP_CLIENTS,
   ],
   bootstrap: [AppComponent]
 })

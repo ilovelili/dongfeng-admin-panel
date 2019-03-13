@@ -10,14 +10,18 @@ export abstract class BaseClient {
     this.sessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
   }
 
+  get defaultHeaders() {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+    });
+  }
+
   get defaultHttpOptions() {
     return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      })
+      headers: this.defaultHeaders,
     };
-  }
+  }  
 
   get multipartFormDataHttpOptions() {
     return {

@@ -13,7 +13,7 @@ export class AppHeaderComponent implements OnInit {
   private broadcasts: Notification[];
   private notifications: Notification[];
   private user: User
-  
+
   constructor(
     private authService: AuthService,
     private userClient: UserClient,
@@ -39,14 +39,16 @@ export class AppHeaderComponent implements OnInit {
       subscribe(
         // https://stackoverflow.com/questions/43367692/typescript-method-on-class-undefined
         d => {
-          d.notifications.forEach(n => {
-            // agentsmith
-            if (n.custom_code === 'N7001') {
-              this.broadcasts.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
-            } else {
-              this.notifications.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
-            }
-          });
+          if (d.notifications && d.notifications.length) {
+            d.notifications.forEach(n => {
+              // agentsmith
+              if (n.custom_code === 'N7001') {
+                this.broadcasts.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
+              } else {
+                this.notifications.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
+              }
+            });
+          }
         },
         e => {
           console.error(e);
@@ -56,7 +58,7 @@ export class AppHeaderComponent implements OnInit {
       );
   }
 
-  logout() {    
+  logout() {
     this.userClient.logout().
       subscribe(
         _ => this.authService.logout(),
@@ -81,7 +83,7 @@ export class AppHeaderComponent implements OnInit {
                 return id != n.id;
               }
             });
-          }          
+          }
         },
         e => console.error(e),
         () => console.log("app header component notification updating completed")

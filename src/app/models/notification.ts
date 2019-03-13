@@ -1,5 +1,3 @@
-import { Title } from "@angular/platform-browser";
-
 export class Notifications {
   notifications: Notification[];
 }
@@ -97,11 +95,6 @@ export class Notification {
     }
     return [year, month, day].join('-') + ' ' + [hour, minute].join(':');
   }
-}
-
-class BroadcastContent {
-  title: string;
-  content: string;
 }
 
 class DetailPlaceHolder {

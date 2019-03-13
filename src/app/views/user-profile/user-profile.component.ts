@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { User } from '../../models';
 import { UserClient } from '../../clients/user.client';
-import { ToasterService, ToasterConfig }  from 'angular2-toaster/angular2-toaster';
+import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,14 +14,14 @@ import { Router } from '@angular/router';
 export class UserProfileComponent implements OnInit {
   private toggled: boolean = false;
 
-  public toasterconfig : ToasterConfig =
+  toasterconfig: ToasterConfig =
     new ToasterConfig({
       tapToDismiss: true,
       timeout: 5000,
     });
 
   constructor(
-    private user: User,    
+    private user: User,
     private userClient: UserClient,
     private toasterService: ToasterService,
     private router: Router
@@ -51,7 +51,7 @@ export class UserProfileComponent implements OnInit {
   resolveRole(role: string) {
     if (role == 'sudo') {
       return '超级管理员';
-    }    
+    }
     if (role == 'admin') {
       return '管理员';
     }
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit {
           this.router.navigate(['growth-profile']);
         },
         e => {
-          console.error(e);          
+          console.error(e);
         },
         () => console.log("user profile component user updating completed")
       );
