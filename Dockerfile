@@ -9,9 +9,9 @@ RUN npm install
 
 COPY ./ /app/
 
-ARG configuration=production
+ARG env=prod
 
-RUN npm run build -- --output-path=./dist/out --configuration $configuration
+RUN npm run build -- --output-path=./dist/out --environment $env
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.15
@@ -21,4 +21,4 @@ COPY --from=builder /app/dist/out/ /usr/share/nginx/html
 COPY --from=builder /nginx.conf /etc/nginx/conf.d/default.conf
 
 # build prod: docker build -t ilovelili/dongfeng-admin-panel:prod .
-# build dev: docker build -t ilovelili/dongfeng-admin-panel:dev --build-arg configuration="" .
+# build dev: docker build -t ilovelili/dongfeng-admin-panel:dev --build-arg env="dev" .
