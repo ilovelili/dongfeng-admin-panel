@@ -24,7 +24,7 @@ export class AuthService {
     domain: environment.auth.domain,
     responseType: 'id_token',
     redirectUri: environment.auth.redirect,
-    audience: environment.auth.audience,
+    // audience: environment.auth.audience,
     scope: environment.auth.scope
   });
 
