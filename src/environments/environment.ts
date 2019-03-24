@@ -11,7 +11,7 @@ export const environment = {
   auth: {
     clientID: 'o9qQfEpDggK3Osq9GUFYC7XFg42GQ734',
     domain: 'mju.auth0.com',
-    audience: 'http://localhost:8080',
+    // audience: 'http://localhost:8080',
     redirect: `${host}/callback`,
     scope: 'openid profile email'
   },
