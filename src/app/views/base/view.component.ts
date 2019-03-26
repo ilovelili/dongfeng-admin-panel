@@ -5,7 +5,7 @@ import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
 
 export abstract class ViewComponent {
-  protected items: any[];
+  protected items: any[] = [];
 
   protected key_token: string = 'token';
   protected namespace: string = 'dongfeng';
@@ -19,8 +19,8 @@ export abstract class ViewComponent {
 
   constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) { }
 
-  protected DownloadCsv = (format: CsvFormat) => {
-    let filename = (window.location.hash.replace('#/', '') || this.activatedRoute.component) + '.csv';
+  protected DownloadCsv = (filename?: string, format?: CsvFormat) => {
+    filename = filename || (window.location.hash.replace('#/', '') || (this.activatedRoute.component as any).name) + '.csv';
     this.csvDownloader.WriteFormattedCSV(this.items, format, filename);
   };
 

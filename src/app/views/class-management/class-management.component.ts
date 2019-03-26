@@ -9,6 +9,29 @@ import { FormattedNameList } from '../../models/name';
 import { environment } from '../../../environments/environment';
 import { ViewComponent } from '../base/view.component';
 
+const namelist_template = [
+  {
+    year: "2019",
+    class: "小一班",
+    name: "王子涵"
+  },
+  {
+    year: "2019",
+    class: "中二班",
+    name: "张梓轩"
+  },
+  {
+    year: "2019",
+    class: "大三班",
+    name: "李雨轩"
+  },
+  {
+    year: "2019",
+    class: "小一班",
+    name: "赵欣怡"
+  },
+];
+
 @Component({
   providers: [User],
   templateUrl: 'class-management.component.html',
@@ -35,17 +58,23 @@ export class ClassManagementComponent extends ViewComponent implements OnInit {
   ngOnInit(): void {
     this.fileUploader = new FileUploader({
       url: environment.api.baseURI + '/namelist',
+      allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
-      authToken: "Authorization",
-      authTokenHeader: `Bearer ${this.sessionFactory.get(this.key_token)}`,
+      authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
+      authTokenHeader: `Authorization`,
     });
 
-    this.fileUploader.onCompleteItem = () => {
+    this.fileUploader.onProgressItem = () => {
+      this.toasterService.pop('info', '', '上传中');
+    };
+
+    this.fileUploader.onSuccessItem = () => {
       this.toasterService.pop('success', '', '上传名单信息成功');
     };
 
-    this.fileUploader.onErrorItem = () => {
+    this.fileUploader.onErrorItem = (_, res) => {
+      console.error(res);
       this.toasterService.pop('error', '', '上传名单信息失败，请重试');
     };
 
@@ -55,6 +84,9 @@ export class ClassManagementComponent extends ViewComponent implements OnInit {
           this.namelist = d.FormattedNameList;
           if (!this.hasname()) {
             this.modal.show();
+            this.items = namelist_template;
+          } else {
+            this.items = this.namelist.items;
           }
         },
         e => this.LogError(e, '获取名单信息失败，请重试'),
