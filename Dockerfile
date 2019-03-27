@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 # china registry to speed up npm install
-RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org
+RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm
 
 RUN npm install
 
