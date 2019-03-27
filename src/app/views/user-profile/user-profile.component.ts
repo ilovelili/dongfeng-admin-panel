@@ -45,7 +45,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   home() {
-    this.router.navigate(['growth-profile']);
+    this.router.navigate(['class']);
   }
 
   resolveRole(role: string) {

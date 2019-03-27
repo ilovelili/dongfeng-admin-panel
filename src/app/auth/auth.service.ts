@@ -48,8 +48,8 @@ export class AuthService {
       } else if (err) {
         console.error(`Error: ${err.error}`);
       }
-      window.location.replace(`${environment.host}/growth-profile`);
-      // this.router.navigate(['growth-profile']);
+      window.location.replace(`${environment.host}/class`);
+      // this.router.navigate(['class']);
     });
   }
 
