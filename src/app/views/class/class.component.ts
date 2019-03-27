@@ -44,13 +44,16 @@ const namelist_template = [
 })
 export class ClassComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
-  @ViewChild('infoModal') modal
+  @ViewChild('infoModal') infoModal
+  @ViewChild('historyModal') historyModal
 
   fileUploader: FileUploader;
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
   namelist: FormattedNameList;
   filterQuery = '';
+  years = [];
+  currentYear = '';
 
   constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
@@ -84,7 +87,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
     };
 
     this.fileUploader.onCompleteAll = () => {      
-      this.modal.hide();
+      this.infoModal.hide();
       this.getnamelist();
     };
 
@@ -95,16 +98,33 @@ export class ClassComponent extends ViewComponent implements OnInit {
     return this.namelist && this.namelist.items.length > 0;
   }
 
-  getnamelist() {
-    this.nameClient.getNamelist().
+  showhistory() {
+    this.historyModal.show();
+  }
+
+  searchbynewyear(year: string) {
+    if (year != this.currentYear) {
+      this.currentYear = year;
+    }
+    this.getnamelist();
+    this.historyModal.hide();
+  }
+
+  getnamelist() {    
+    this.nameClient.getNamelist(this.currentYear).
     subscribe(
       d => {        
         this.namelist = new NameList(d.items).FormattedNameList;
         if (!this.hasname()) {
-          this.modal.show();
+          this.infoModal.show();
           this.items = namelist_template;
         } else {
           this.items = this.namelist.items;
+          this.items.forEach(n => {
+            if (!this.years.includes(n.year)) {
+              this.years.push(n.year);
+            }
+          });
         }
       },
       e => this.LogError(e, '获取名单信息失败，请重试'),

@@ -11,13 +11,13 @@ export class NameClient extends BaseClient {
     super(http);
   }
 
-  getNamelist(cls?: string, year?: string): Observable<NameList> {
+  getNamelist(year?: string, cls?: string): Observable<NameList> {
     let params = new HttpParams();
     if (cls && cls != "") {
-      params.append("class", cls);
+      params = params.set("class", cls);
     }
     if (year && year != "") {
-      params.append("year", year);
+      params = params.set("year", year);
     }
 
     return this.http.get<NameList>(environment.api.baseURI + '/namelist', {headers: this.defaultHeaders, params: params});

@@ -1,7 +1,9 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!hasname()">
-    <div class="card-header">园儿名单
-      <csv (Download)="DownloadCsv('园儿名单.csv', $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']"></csv>
+    <div class="card-header">园儿名单 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+      <csv (Download)="DownloadCsv('园儿名单.csv', $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+      </csv>
+      <button type="button" (click)="showhistory()" class="btn btn-sm btn-primary pull-right">查看不同学年</button>
     </div>
     <div class="card-body">
       <div class="row mb-3">
@@ -76,6 +78,27 @@
         下载csv模板 <csv (Download)="DownloadCsv('园儿名单模板.csv', $event)" [headers]="['年度','班级','姓名']"
           [columns]="['year','class','name']"></csv>
       </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #historyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">      
+      <div class="modal-body">
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+              请选择学年 <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li *ngFor="let year of years" role="menuitem">
+              <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>      
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

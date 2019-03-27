@@ -8,7 +8,7 @@ import { ClassComponent } from './class.component';
 import { AppCsvModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DataFilterPipe } from '../base/datafilterpipe';
 
@@ -21,7 +21,8 @@ import { DataFilterPipe } from '../base/datafilterpipe';
     FileUploadModule,
     DataTableModule,
     FormsModule,    
-    ModalModule.forRoot(),    
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
   ],  
   declarations: [
     ClassComponent,
