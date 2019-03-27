@@ -6,7 +6,7 @@ export const navigation = [
   },
   {
     name: '班级管理',
-    url: '/class-management',
+    url: '/class',
     icon: 'icon-notebook'
   },
   {

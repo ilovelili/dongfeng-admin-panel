@@ -80,7 +80,6 @@ export class AuthService {
     this.sessionFactory.remove(KEY_PROFILE);
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
-
     // Log out of Auth0 session
     // Ensure that returnTo URL is specified in Auth0
     // Application settings for Allowed Logout URLs
@@ -96,7 +95,7 @@ export class AuthService {
       return false;
     }
 
-    let authed = this.sessionFactory.get(KEY_EXP);
+    let authed = this.sessionFactory.get(KEY_AUTHED);
     if (!authed) {
       return false;
     }

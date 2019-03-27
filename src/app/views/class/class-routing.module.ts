@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ClassManagementComponent } from './class-management.component';
+import { ClassComponent } from './class.component';
 
 
 
 const routes: Routes = [
   {
     path: '',
-    component: ClassManagementComponent,
+    component: ClassComponent,
     data: {
       title: '班级管理'
     }
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ClassManagementRoutingModule { }
+export class ClassRoutingModule { }

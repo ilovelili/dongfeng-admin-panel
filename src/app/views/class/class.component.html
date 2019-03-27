@@ -1,0 +1,81 @@
+<div class="animated fadeIn">
+  <div class="card" [hidden]="!hasname()">
+    <div class="card-header">园儿名单
+      <csv (Download)="DownloadCsv('园儿名单.csv', $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']"></csv>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="10">
+        <thead>
+          <tr>
+            <th style="width: 5%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="age">班级</mfDefaultSorter>
+            </th>
+            <th style="width: 50%">
+              <mfDefaultSorter by="name">姓名</mfDefaultSorter>
+            </th>
+            <th style="width: 25%">详细</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{item.id}}</td>
+            <td>{{item.class}}</td>
+            <td>{{item.name}}</td>
+            <td><a [routerLink]="['/pupil', item.id]"><i class="fa fa-link"></i></a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">没有园儿名单信息，请上传</h4>
+        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
+          (fileOver)="fileOverBase($event)" class="well my-drop-zone">
+          请将园儿名单csv格式文件拖至此处上传
+        </div>
+        <!-- 
+        <div>
+        或直接打开文件上传
+        <input type="file" ng2FileSelect [uploader]="fileUploader" /><br/>
+        </div> 
+        -->
+      </div>
+      <div class="modal-footer">
+        下载csv模板 <csv (Download)="DownloadCsv('园儿名单模板.csv', $event)" [headers]="['年度','班级','姓名']"
+          [columns]="['year','class','name']"></csv>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

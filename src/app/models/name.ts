@@ -1,6 +1,6 @@
 export class NameList {
-  items: NameListItem[];
-
+  constructor(public items: NameListItem[]){}
+  
   get FormattedNameList(): FormattedNameList {
     let items: FormattedNameListItem[] = [];
     if (!this.items) {
@@ -14,7 +14,8 @@ export class NameList {
         items.push({
           year: i.year,
           class: i.class,
-          name: name,
+          id: name.id,
+          name: name.name,
         });
       });
     });
@@ -28,7 +29,12 @@ export class NameList {
 export class NameListItem {
   year: string;
   class: string;
-  names: string[];
+  names: NameItem[];
+}
+
+class NameItem {
+  id: number;
+  name: string;
 }
 
 export class FormattedNameList {
@@ -38,5 +44,6 @@ export class FormattedNameList {
 export class FormattedNameListItem {
   year: string;
   class: string;
-  name: string;
+  id: number;
+  name: string;  
 }

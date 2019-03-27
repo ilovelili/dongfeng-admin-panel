@@ -31,8 +31,8 @@ export const routes: Routes = [
         loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
       },
       {
-        path: 'class-management',
-        loadChildren: './views/class-management/class-management.module#ClassManagementModule',
+        path: 'class',
+        loadChildren: './views/class/class.module#ClassModule',
       },
     ]
   },

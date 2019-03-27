@@ -5,27 +5,31 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppCsvDownloadService } from '../../components';
 import { FileUploader } from 'ng2-file-upload';
 import { NameClient } from '../../clients/name.client';
-import { FormattedNameList } from '../../models/name';
+import { FormattedNameList, NameList } from '../../models/name';
 import { environment } from '../../../environments/environment';
 import { ViewComponent } from '../base/view.component';
 
 const namelist_template = [
   {
+    id: 1,
     year: "2019",
     class: "小一班",
     name: "王子涵"
   },
   {
+    id: 2,
     year: "2019",
     class: "中二班",
     name: "张梓轩"
   },
   {
+    id: 3,
     year: "2019",
     class: "大三班",
     name: "李雨轩"
   },
   {
+    id: 4,
     year: "2019",
     class: "小一班",
     name: "赵欣怡"
@@ -34,11 +38,11 @@ const namelist_template = [
 
 @Component({
   providers: [User],
-  templateUrl: 'class-management.component.html',
+  templateUrl: 'class.component.html',
   styleUrls: ['../../../scss/vendors/file-uploader/file-uploader.scss', '../../../scss/vendors/toastr/toastr.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ClassManagementComponent extends ViewComponent implements OnInit {
+export class ClassComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') modal
 
@@ -46,6 +50,7 @@ export class ClassManagementComponent extends ViewComponent implements OnInit {
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
   namelist: FormattedNameList;
+  filterQuery = '';
 
   constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
@@ -70,7 +75,7 @@ export class ClassManagementComponent extends ViewComponent implements OnInit {
     };
 
     this.fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', '上传名单信息成功');
+      this.toasterService.pop('success', '', '上传名单信息成功');      
     };
 
     this.fileUploader.onErrorItem = (_, res) => {
@@ -78,23 +83,32 @@ export class ClassManagementComponent extends ViewComponent implements OnInit {
       this.toasterService.pop('error', '', '上传名单信息失败，请重试');
     };
 
-    this.nameClient.getNamelist().
-      subscribe(
-        d => {
-          this.namelist = d.FormattedNameList;
-          if (!this.hasname()) {
-            this.modal.show();
-            this.items = namelist_template;
-          } else {
-            this.items = this.namelist.items;
-          }
-        },
-        e => this.LogError(e, '获取名单信息失败，请重试'),
-        () => this.LogComplete('"class management component namelist loading completed"')
-      );
+    this.fileUploader.onCompleteAll = () => {      
+      this.modal.hide();
+      this.getnamelist();
+    };
+
+    this.getnamelist();
   }
 
   hasname() {
     return this.namelist && this.namelist.items.length > 0;
+  }
+
+  getnamelist() {
+    this.nameClient.getNamelist().
+    subscribe(
+      d => {        
+        this.namelist = new NameList(d.items).FormattedNameList;
+        if (!this.hasname()) {
+          this.modal.show();
+          this.items = namelist_template;
+        } else {
+          this.items = this.namelist.items;
+        }
+      },
+      e => this.LogError(e, '获取名单信息失败，请重试'),
+      () => this.LogComplete('"class management component namelist loading completed"')
+    );
   }
 }

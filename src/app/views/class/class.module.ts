@@ -1,25 +1,31 @@
 import { NgModule } from '@angular/core';
+import { DataTableModule } from 'angular2-datatable';
 
 //Routing
-import { ClassManagementRoutingModule } from './class-management-routing.module';
+import { ClassRoutingModule } from './class-routing.module';
 import { ToasterModule } from 'angular2-toaster';
-import { ClassManagementComponent } from './class-management.component';
+import { ClassComponent } from './class.component';
 import { AppCsvModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule } from 'ngx-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { DataFilterPipe } from '../base/datafilterpipe';
 
 @NgModule({
   imports: [
-    ClassManagementRoutingModule,
+    ClassRoutingModule,
     CommonModule,    
     ToasterModule,
     AppCsvModule,    
     FileUploadModule,
-    ModalModule.forRoot(),
+    DataTableModule,
+    FormsModule,    
+    ModalModule.forRoot(),    
   ],  
   declarations: [
-    ClassManagementComponent
+    ClassComponent,
+    DataFilterPipe
   ]
 })
-export class ClassManagementModule { }
+export class ClassModule { }
