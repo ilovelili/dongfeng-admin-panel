@@ -69,7 +69,7 @@ export class UserProfileComponent implements OnInit {
         _ => {
           this.toggle();
           this.toasterService.pop('primary', '', '用户信息更新');
-          this.router.navigate(['growth-profile']);
+          this.router.navigate(['class']);
         },
         e => {
           console.error(e);
