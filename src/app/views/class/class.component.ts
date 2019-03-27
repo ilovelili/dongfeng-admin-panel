@@ -131,4 +131,8 @@ export class ClassComponent extends ViewComponent implements OnInit {
       () => this.LogComplete('"class management component namelist loading completed"')
     );
   }
+
+  get filename(): string {
+    return `园儿名单${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
+  }
 }

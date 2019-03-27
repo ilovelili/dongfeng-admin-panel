@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!hasname()">
     <div class="card-header">园儿名单 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv('园儿名单.csv', $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
       </csv>
       <button type="button" (click)="showhistory()" class="btn btn-sm btn-primary pull-right">查看不同学年</button>
     </div>
