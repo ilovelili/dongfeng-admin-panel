@@ -5,6 +5,11 @@ export const navigation = [
     icon: 'icon-notebook'
   },
   {
+    name: '教师信息',
+    url: '/teacher',
+    icon: 'icon-user-female'
+  },
+  {
     name: '成长档案',
     url: '/growth-profile',
     icon: 'icon-note'

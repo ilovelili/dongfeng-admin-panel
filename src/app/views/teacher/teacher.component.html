@@ -1,7 +1,8 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!hasname()">
-    <div class="card-header">园儿名单 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+    <div class="card-header">教师信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名','指导班级','邮箱','权限']"
+        [columns]="['id','name','class','email','role']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showhistory()" class="btn btn-sm btn-primary pull-right">查看不同学年</button>
@@ -22,26 +23,34 @@
             <th style="width: 5%">
               <mfDefaultSorter by="id">ID</mfDefaultSorter>
             </th>
-            <th style="width: 20%">
-              <mfDefaultSorter by="age">班级</mfDefaultSorter>
-            </th>
-            <th style="width: 50%">
+            <th style="width: 15%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
-            <th style="width: 25%">详细</th>
+            <th style="width: 25%">
+              <mfDefaultSorter by="age">指导班级</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="age">邮箱</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="age">权限</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">编辑</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
             <td>{{item.id}}</td>
-            <td>{{item.class}}</td>
             <td>{{item.name}}</td>
-            <td><a [routerLink]="['/pupil', item.id]"><i class="fa fa-link"></i></a></td>
+            <td>{{item.class}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.role}}</td>
+            <td><a (click)="edit(item.id)"><i class="fa fa-edit"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -58,7 +67,7 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">没有园儿名单信息，请上传</h4>
+        <h4 class="modal-title">请上传教师信息</h4>
         <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,18 +75,12 @@
       <div class="modal-body">
         <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
-          请将园儿名单csv格式文件拖至此处上传
+          请将教师信息csv格式文件拖至此处上传
         </div>
-        <!-- 
-        <div>
-        或直接打开文件上传
-        <input type="file" ng2FileSelect [uploader]="fileUploader" /><br/>
-        </div> 
-        -->
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('园儿名单模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
-          [columns]="['id','year','class','name']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv('教师信息模板.csv', $event)" [headers]="['ID','学年','姓名','指导班级','邮箱','权限']"
+          [columns]="['id','year','name','class','email','role']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -101,7 +104,7 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-                <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
+              <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
             </li>
             <li *ngFor="let year of years" role="menuitem">
               <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>

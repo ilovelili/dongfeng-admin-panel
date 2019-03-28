@@ -1,9 +1,9 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import * as auth0 from 'auth0-js';
-import { environment } from './../../environments/environment';
 import { Router } from '@angular/router';
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
+import { environment } from 'environments/environment';
 
 (window as any).global = window;
 

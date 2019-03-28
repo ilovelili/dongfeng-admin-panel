@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core';
 import { DataTableModule } from 'angular2-datatable';
 
 //Routing
-import { ClassRoutingModule } from './class-routing.module';
+import { TeacherRoutingModule } from './teacher-routing.module';
 import { ToasterModule } from 'angular2-toaster';
-import { ClassComponent } from './class.component';
+import { TeacherComponent } from './teacher.component';
 import { AppCsvModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { DataFilterPipe } from './datafilterpipe';
+import { DataFilterPipe } from './datafilterpipeline';
 
 @NgModule({
   imports: [
-    ClassRoutingModule,
+    TeacherRoutingModule,
     CommonModule,    
     ToasterModule,
     AppCsvModule,    
@@ -25,8 +25,8 @@ import { DataFilterPipe } from './datafilterpipe';
     BsDropdownModule.forRoot(),
   ],  
   declarations: [
-    ClassComponent,
+    TeacherComponent,
     DataFilterPipe
   ]
 })
-export class ClassModule { }
+export class TeacherModule { }
