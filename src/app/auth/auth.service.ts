@@ -30,9 +30,10 @@ export class AuthService {
 
   constructor(private router: Router) {
     this.saveAuthInfo();
-  }
+  }  
 
   login() {
+    this._clearSession();
     // Auth0 authorize request
     this.auth0.authorize({
       language: environment.language,      
@@ -75,11 +76,15 @@ export class AuthService {
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
-  logout() {
+  private _clearSession() {
     this.sessionFactory.remove(KEY_TOKEN);
     this.sessionFactory.remove(KEY_PROFILE);
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
+  }
+
+  logout() {
+    this._clearSession();
     // Log out of Auth0 session
     // Ensure that returnTo URL is specified in Auth0
     // Application settings for Allowed Logout URLs

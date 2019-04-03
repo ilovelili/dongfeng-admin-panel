@@ -58,7 +58,8 @@ export class AppHeaderComponent implements OnInit {
       );
   }
 
-  logout() {
+  logout(e: Event) {
+    e.preventDefault();    
     this.userClient.logout().
       subscribe(
         _ => this.authService.logout(),
