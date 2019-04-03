@@ -3,35 +3,27 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppCsvDownloadService } from '../../components';
 import { FileUploader } from 'ng2-file-upload';
-import { NameClient } from '../../clients/name.client';
-import { FormattedNameList, NameList } from '../../models/name';
 import { ViewComponent } from '../base/view.component';
 import { environment } from 'environments/environment';
+import { ClassList } from 'app/models/class';
+import { ClassClient } from 'app/clients/class.client';
 
-const namelist_template = [
+const classlist_template = [
   {
-    id: 1,
-    year: "2019",
+    id: 1,    
     class: "小一班",
-    name: "王子涵"
   },
   {
-    id: 2,
-    year: "2019",
-    class: "中二班",
-    name: "张梓轩"
+    id: 2,    
+    class: "中二班",    
   },
   {
-    id: 3,
-    year: "2019",
-    class: "大三班",
-    name: "李雨轩"
+    id: 3,    
+    class: "大一班",
   },
   {
-    id: 4,
-    year: "2019",
-    class: "小一班",
-    name: "赵欣怡"
+    id: 4,    
+    class: "大二班",
   },
 ];
 
@@ -43,17 +35,14 @@ const namelist_template = [
 export class ClassComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
-  @ViewChild('historyModal') historyModal
 
   fileUploader: FileUploader;
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
-  namelist: FormattedNameList;
+  classlist: ClassList;
   filterQuery = '';
-  years = [];
-  currentYear = '';
 
-  constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
   }
 
@@ -63,7 +52,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.fileUploader = new FileUploader({
-      url: environment.api.baseURI + '/namelist',
+      url: environment.api.baseURI + '/classlist',
       allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
@@ -76,67 +65,44 @@ export class ClassComponent extends ViewComponent implements OnInit {
     };
 
     this.fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', '上传名单信息成功');      
+      this.toasterService.pop('success', '', '上传班级信息成功');      
     };
 
     this.fileUploader.onErrorItem = (_, res) => {
       console.error(res);
-      this.toasterService.pop('error', '', '上传名单信息失败，请重试');
+      this.toasterService.pop('error', '', '上传班级信息失败，请重试');
     };
 
     this.fileUploader.onCompleteAll = () => {      
       this.infoModal.hide();
-      this.getnamelist();
+      this.getclasslist();
     };
 
-    this.getnamelist();
+    this.getclasslist();
   }
 
-  hasname() {
-    return this.namelist && this.namelist.items.length > 0;
-  }
+  hasclass() {
+    return this.classlist && this.classlist.items && this.classlist.items.length > 0;
+  }  
 
-  showhistory() {
-    this.infoModal.hide();
-    this.historyModal.show();
-  }
-
-  showupload() {
-    this.historyModal.hide();
+  showupload() {    
     this.infoModal.show();    
   }
 
-  searchbynewyear(year: string) {
-    if (year != this.currentYear) {
-      this.currentYear = year;
-    }
-    this.getnamelist();
-    this.historyModal.hide();
-  }
-
-  getnamelist() {    
-    this.nameClient.getNamelist(this.currentYear).
+  getclasslist() {    
+    this.classClient.getClasslist().
     subscribe(
       d => {        
-        this.namelist = new NameList(d.items).FormattedNameList;
-        if (!this.hasname()) {
+        this.classlist = new ClassList(d.items);
+        if (!this.hasclass()) {
           this.infoModal.show();
-          this.items = namelist_template;
+          this.items = classlist_template;
         } else {
-          this.items = this.namelist.items;
-          this.items.forEach(n => {
-            if (!this.years.includes(n.year)) {
-              this.years.push(n.year);
-            }
-          });
+          this.items = this.classlist.items;          
         }
       },
-      e => this.LogError(e, '获取名单信息失败，请重试'),
-      () => this.LogComplete('"class management component namelist loading completed"')
+      e => this.LogError(e, '获取班级信息失败，请重试'),
+      () => this.LogComplete('"class management component classlist loading completed"')
     );
-  }
-
-  get filename(): string {
-    return `园儿名单${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
   }
 }

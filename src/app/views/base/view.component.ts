@@ -10,6 +10,7 @@ export abstract class ViewComponent {
   protected key_token: string = 'token';
   protected namespace: string = 'dongfeng';
   protected sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+  protected params: Object
 
   protected toasterconfig: ToasterConfig =
     new ToasterConfig({
@@ -17,7 +18,11 @@ export abstract class ViewComponent {
       timeout: 5000,
     });
 
-  constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) { }
+  constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
+    this.activatedRoute.params.subscribe((params) => {
+      this.params = params;
+    });
+  }
 
   protected DownloadCsv = (filename?: string, format?: CsvFormat) => {
     filename = filename || (window.location.hash.replace('#/', '') || (this.activatedRoute.component as any).name) + '.csv';

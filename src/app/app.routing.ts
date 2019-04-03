@@ -35,7 +35,19 @@ export const routes: Routes = [
         loadChildren: './views/class/class.module#ClassModule',
       },
       {
+        path: 'pupil',
+        loadChildren: './views/pupil/pupil.module#PupilModule',
+      },
+      {
+        path: 'pupil/:class',
+        loadChildren: './views/pupil/pupil.module#PupilModule',
+      },
+      {
         path: 'teacher',
+        loadChildren: './views/teacher/teacher.module#TeacherModule',
+      },
+      {
+        path: 'teacher/:class',
         loadChildren: './views/teacher/teacher.module#TeacherModule',
       },
     ]

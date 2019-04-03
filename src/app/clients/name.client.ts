@@ -14,11 +14,12 @@ export class NameClient extends BaseClient {
 
   getNamelist(year?: string, cls?: string): Observable<NameList> {
     let params = new HttpParams();
-    if (cls && cls != "") {
-      params = params.set("class", cls);
-    }
+
     if (year && year != "") {
       params = params.set("year", year);
+    }
+    if (cls && cls != "") {
+      params = params.set("class", cls);
     }
 
     return this.http.get<NameList>(environment.api.baseURI + '/namelist', {headers: this.defaultHeaders, params: params});
@@ -26,11 +27,12 @@ export class NameClient extends BaseClient {
 
   getTeacherlist(year?: string, cls?: string): Observable<TeacherList> {
     let params = new HttpParams();
-    if (cls && cls != "") {
-      params = params.set("class", cls);
-    }
+    
     if (year && year != "") {
       params = params.set("year", year);
+    }
+    if (cls && cls != "") {
+      params = params.set("class", cls);
     }
 
     return this.http.get<TeacherList>(environment.api.baseURI + '/teacherlist', {headers: this.defaultHeaders, params: params});

@@ -24,6 +24,15 @@ export class Notification {
       case "N1002":
         result = DetailPlaceHolder.NamelistUpdated;
         break;
+      case "N1003":
+        result = DetailPlaceHolder.ClasslistUpdated;
+        break;
+      case "N1004":
+        result = DetailPlaceHolder.TeacherlistUpdated;
+        break;
+      case "N1005":
+        result = DetailPlaceHolder.AttendanceUpdated;
+        break;
       case "N2001":
         result = DetailPlaceHolder.PhysiqueUpdated;
         break;
@@ -100,6 +109,8 @@ export class Notification {
 class DetailPlaceHolder {
   static ProfileUpdated: string = "{{time}} 用户信息更新";
   static NamelistUpdated: string = "{{time}} 班级名单更新";
+  static ClasslistUpdated: string = "{{time}} 班级信息更新";
+  static TeacherlistUpdated: string = "{{time}} 教师信息更新";
   static PhysiqueUpdated: string = "{{time}} 体格信息表更新";
   static RecipeUpdated: string = "{{time}} 菜谱信息更新";
   static MenuUpdated: string = "{{time}} 菜单信息更新";

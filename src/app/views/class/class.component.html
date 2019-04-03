@@ -1,42 +1,31 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!hasname()">
-    <div class="card-header">园儿名单 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+  <div class="card" [hidden]="!hasclass()">
+    <div class="card-header">班级一览
+      <csv (Download)="DownloadCsv('班级信息.csv', $event)" [headers]="['ID','班级']" [columns]="['id','name']">
       </csv>
-      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
-      <button type="button" (click)="showhistory()" class="btn btn-sm btn-primary pull-right">查看不同学年</button>
+      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
     </div>
-    <div class="card-body">
-      <div class="row mb-3">
-        <div class="col-md-4 offset-md-8">
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-search"></i></span>
-            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
-          </div>
-        </div>
-      </div>
-      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+    <div class="card-body">      
+      <table class="table table-striped" [mfData]="items" #mf="mfDataTable"
         [mfRowsOnPage]="10">
         <thead>
           <tr>
             <th style="width: 5%">
               <mfDefaultSorter by="id">ID</mfDefaultSorter>
             </th>
-            <th style="width: 20%">
+            <th style="width: 55%">
               <mfDefaultSorter by="age">班级</mfDefaultSorter>
-            </th>
-            <th style="width: 50%">
-              <mfDefaultSorter by="name">姓名</mfDefaultSorter>
-            </th>
-            <th style="width: 25%">详细</th>
+            </th>            
+            <th style="width: 20%">园儿一览</th>
+            <th style="width: 20%">教师一览</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
             <td>{{item.id}}</td>
-            <td>{{item.class}}</td>
-            <td>{{item.name}}</td>
-            <td><a [routerLink]="['/pupil', item.id]"><i class="fa fa-link"></i></a></td>
+            <td>{{item.name}}</td>            
+            <td><a [routerLink]="['/pupil', item.name]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/teacher', item.name]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
@@ -58,7 +47,7 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">没有园儿名单信息，请上传</h4>
+        <h4 class="modal-title">没有班级信息，请上传</h4>
         <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,7 +55,7 @@
       <div class="modal-body">
         <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
-          请将园儿名单csv格式文件拖至此处上传
+          请将班级信息csv格式文件拖至此处上传
         </div>
         <!-- 
         <div>
@@ -76,38 +65,8 @@
         -->
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('园儿名单模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
-          [columns]="['id','year','class','name']"></csv>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-<div bsModal #historyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-  <div class="modal-dialog modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">选择不同学年</h6>
-        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            请选择学年 <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-                <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
-            </li>
-            <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
-            </li>
-          </ul>
-        </div>
+        下载csv模板 <csv (Download)="DownloadCsv('班级信息模板.csv', $event)" [headers]="['ID','班级']"
+          [columns]="['id','class']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

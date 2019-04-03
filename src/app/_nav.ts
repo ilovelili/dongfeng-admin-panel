@@ -1,19 +1,14 @@
 export const navigation = [  
   {
-    name: '班级管理',
+    name: '班级信息',
     url: '/class',
     icon: 'icon-notebook'
-  },
-  {
-    name: '教师信息',
-    url: '/teacher',
-    icon: 'icon-user-female'
   },
   {
     name: '成长档案',
     url: '/growth-profile',
     icon: 'icon-note'
-  },  
+  },
   {
     name: '出勤管理',
     url: '/theme/typography',
