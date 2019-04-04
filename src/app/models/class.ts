@@ -1,8 +1,12 @@
-export class ClassList {
-  constructor(public items: ClassItem[]) { }
+export class Classes {
+  constructor(public classes: Class[]) {}
+
+  empty(): boolean {
+    return !this || !this.classes || this.classes.length == 0;
+  }
 }
 
-export class ClassItem {
+export class Class {
   id: number;
-  class: string;
+  name: string;  
 }

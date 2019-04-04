@@ -3,12 +3,12 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppCsvDownloadService } from '../../components';
 import { FileUploader } from 'ng2-file-upload';
-import { NameClient } from '../../clients/name.client';
-import { FormattedNameList, NameList } from '../../models/name';
 import { ViewComponent } from '../base/view.component';
 import { environment } from 'environments/environment';
+import { ClassClient } from 'app/clients/class.client';
+import { Pupils } from 'app/models/pupil';
 
-const namelist_template = [
+const pupils_template = [
   {
     id: 1,
     year: "2019",
@@ -45,17 +45,18 @@ export class PupilComponent extends ViewComponent implements OnInit {
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
 
-  fileUploader: FileUploader;
+  fileUploader1: FileUploader = new FileUploader({});
+  fileUploader2: FileUploader = new FileUploader({});  
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
-  namelist: FormattedNameList;
+  pupils: Pupils;
   filterQuery = '';
   years = [];
   classes = [];
   currentYear = '';
   currentClass = '';
   
-  constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {    
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {    
     super(router, activatedRoute, csvDownloader, toasterService);
     this.currentClass = this.params["class"];
   }
@@ -65,8 +66,14 @@ export class PupilComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fileUploader = new FileUploader({
-      url: environment.api.baseURI + '/namelist',
+    this.initfileuploader(this.fileUploader1);
+    this.initfileuploader(this.fileUploader2);
+    this.getpupils();
+  }
+
+  initfileuploader(fileUploader: FileUploader) {    
+    fileUploader.setOptions({
+      url: environment.api.baseURI + '/pupils',
       allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
@@ -74,31 +81,25 @@ export class PupilComponent extends ViewComponent implements OnInit {
       authTokenHeader: `Authorization`,
     });
 
-    this.fileUploader.onProgressItem = () => {
+    fileUploader.onProgressItem = () => {
       this.toasterService.pop('info', '', '上传中');
     };
 
-    this.fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', '上传园儿信息成功');      
+    fileUploader.onSuccessItem = () => {
+      this.toasterService.pop('success', '', '上传园儿信息成功');
     };
 
-    this.fileUploader.onErrorItem = (_, res) => {
+    fileUploader.onErrorItem = (_, res) => {
       console.error(res);
       this.toasterService.pop('error', '', '上传园儿信息失败，请重试');
     };
 
-    this.fileUploader.onCompleteAll = () => {      
+    fileUploader.onCompleteAll = () => {      
       this.infoModal.hide();
-      this.getnamelist();
+      this.getpupils();
     };
-
-    this.getnamelist();
   }
-
-  hasname() {
-    return this.namelist && this.namelist.items && this.namelist.items.length > 0;
-  }
-
+  
   showconditionsearch() {
     this.infoModal.hide();
     this.conditionModal.show();
@@ -113,7 +114,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
     if (year != this.currentYear) {
       this.currentYear = year;
     }
-    this.getnamelist();
+    this.getpupils();
     this.conditionModal.hide();
   }
 
@@ -121,20 +122,20 @@ export class PupilComponent extends ViewComponent implements OnInit {
     if (cls != this.currentClass) {
       this.currentClass = cls;
     }
-    this.getnamelist();
+    this.getpupils();
     this.conditionModal.hide();
   }
 
-  getnamelist() {    
-    this.nameClient.getNamelist(this.currentYear, this.currentClass).
+  getpupils() {    
+    this.classClient.getPupils(this.currentYear, this.currentClass).
     subscribe(
       d => {        
-        this.namelist = new NameList(d.items).FormattedNameList;
-        if (!this.hasname()) {
+        this.pupils = new Pupils(d.pupils);
+        if (this.pupils.empty()) {
           this.infoModal.show();
-          this.items = namelist_template;
+          this.items = pupils_template;
         } else {
-          this.items = this.namelist.items;
+          this.items = this.pupils.pupils;
           this.items.forEach(n => {
             if (!this.years.includes(n.year)) {
               this.years.push(n.year);
@@ -146,7 +147,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取园儿信息失败，请重试'),
-      () => this.LogComplete('"pupil component namelist loading completed"')
+      () => this.LogComplete('"pupil component pupils loading completed"')
     );
   }
 

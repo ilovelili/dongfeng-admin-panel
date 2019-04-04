@@ -7,7 +7,7 @@ const routes: Routes = [
     path: '',
     component: TeacherComponent,
     data: {
-      title: '教师管理'
+      title: '教师信息'
     }
   }
 ];

@@ -5,10 +5,10 @@ import { AppCsvDownloadService } from '../../components';
 import { FileUploader } from 'ng2-file-upload';
 import { ViewComponent } from '../base/view.component';
 import { environment } from 'environments/environment';
-import { ClassList } from 'app/models/class';
 import { ClassClient } from 'app/clients/class.client';
+import { Classes } from 'app/models/class';
 
-const classlist_template = [
+const classes_template = [
   {
     id: 1,
     class: "小一班",
@@ -36,10 +36,11 @@ export class ClassComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
 
-  fileUploader: FileUploader;
+  fileUploader1: FileUploader = new FileUploader({});
+  fileUploader2: FileUploader = new FileUploader({});
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
-  classlist: ClassList;
+  classes: Classes;
   filterQuery = '';
 
   constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
@@ -51,8 +52,14 @@ export class ClassComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fileUploader = new FileUploader({
-      url: environment.api.baseURI + '/classlist',
+    this.initfileuploader(this.fileUploader1);
+    this.initfileuploader(this.fileUploader2);
+    this.getclasses();
+  }
+
+  initfileuploader(fileUploader: FileUploader) {    
+    fileUploader.setOptions({
+      url: environment.api.baseURI + '/classes',
       allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
@@ -60,49 +67,43 @@ export class ClassComponent extends ViewComponent implements OnInit {
       authTokenHeader: `Authorization`,
     });
 
-    this.fileUploader.onProgressItem = () => {
+    fileUploader.onProgressItem = () => {
       this.toasterService.pop('info', '', '上传中');
     };
 
-    this.fileUploader.onSuccessItem = () => {
+    fileUploader.onSuccessItem = () => {
       this.toasterService.pop('success', '', '上传班级信息成功');      
     };
 
-    this.fileUploader.onErrorItem = (_, res) => {
+    fileUploader.onErrorItem = (_, res) => {
       console.error(res);
       this.toasterService.pop('error', '', '上传班级信息失败，请重试');
     };
 
-    this.fileUploader.onCompleteAll = () => {      
+    fileUploader.onCompleteAll = () => {      
       this.infoModal.hide();
-      this.getclasslist();
+      this.getclasses();
     };
-
-    this.getclasslist();
   }
-
-  hasclass() {
-    return this.classlist && this.classlist.items && this.classlist.items.length > 0;
-  }  
 
   showupload() {    
     this.infoModal.show();    
   }
 
-  getclasslist() {    
-    this.classClient.getClasslist().
+  getclasses() {    
+    this.classClient.getClasses().
     subscribe(
       d => {        
-        this.classlist = new ClassList(d.items);
-        if (!this.hasclass()) {
+        this.classes = new Classes(d.classes);
+        if (this.classes.empty()) {
           this.infoModal.show();
-          this.items = classlist_template;
+          this.items = classes_template;
         } else {
-          this.items = this.classlist.items;          
+          this.items = this.classes.classes;
         }
       },
       e => this.LogError(e, '获取班级信息失败，请重试'),
-      () => this.LogComplete('"class management component classlist loading completed"')
+      () => this.LogComplete('"class management component classes loading completed"')
     );
   }
 }

@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!hasclass()">
-    <div class="card-header">班级一览
+  <div class="card" [hidden]="!classes || classes.empty()">
+    <div class="card-header">班级信息
       <csv (Download)="DownloadCsv('班级信息.csv', $event)" [headers]="['ID','班级']" [columns]="['id','name']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
@@ -16,8 +16,8 @@
             <th style="width: 55%">
               <mfDefaultSorter by="age">班级</mfDefaultSorter>
             </th>            
-            <th style="width: 20%">园儿一览</th>
-            <th style="width: 20%">教师一览</th>
+            <th style="width: 20%">园儿信息</th>
+            <th style="width: 20%">教师信息</th>
           </tr>
         </thead>
         <tbody>
@@ -53,20 +53,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
           请将班级信息csv格式文件拖至此处上传
         </div>
-        <!-- 
         <div>
-        或直接打开文件上传
-        <input type="file" ng2FileSelect [uploader]="fileUploader" /><br/>
-        </div> 
-        -->
+          或直接打开文件上传
+          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br/>
+        </div>
       </div>
       <div class="modal-footer">
         下载csv模板 <csv (Download)="DownloadCsv('班级信息模板.csv', $event)" [headers]="['ID','班级']"
-          [columns]="['id','class']"></csv>
+          [columns]="['id','name']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

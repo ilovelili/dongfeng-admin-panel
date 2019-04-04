@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!hasname()">
+  <div class="card" [hidden]="!pupils || pupils.empty()">
     <div class="card-header">{{currentClass}} 园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
       <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
       </csv>
@@ -28,8 +28,9 @@
             <th style="width: 45%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
-            <th style="width: 15%">出勤情况</th>
-            <th style="width: 15%">体格信息</th>
+            <th style="width: 10%">出勤情况</th>
+            <th style="width: 10%">体格信息</th>
+            <th style="width: 10%">编辑</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +40,12 @@
             <td>{{item.name}}</td>
             <td><a [routerLink]="['/attendance', item.id]"><i class="fa fa-link"></i></a></td>
             <td><a [routerLink]="['/physique', item.id]"><i class="fa fa-link"></i></a></td>
+            <td><a (click)="edit(item.id)"><i class="fa fa-edit"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -66,16 +68,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
           请将园儿信息csv格式文件拖至此处上传
-        </div>
-        <!-- 
+        </div>        
         <div>
-        或直接打开文件上传
-        <input type="file" ng2FileSelect [uploader]="fileUploader" /><br/>
-        </div> 
-        -->
+          或直接打开文件上传
+          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br/>
+        </div>
       </div>
       <div class="modal-footer">
         下载csv模板 <csv (Download)="DownloadCsv('园儿信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
@@ -84,7 +84,6 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
 
 <div bsModal #conditionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">

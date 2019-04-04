@@ -3,17 +3,17 @@ import { ToasterService } from 'angular2-toaster/angular2-toaster';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppCsvDownloadService } from '../../components';
 import { FileUploader } from 'ng2-file-upload';
-import { NameClient } from '../../clients/name.client';
 import { ViewComponent } from '../base/view.component';
-import { FormattedTeacherList, TeacherList, TeacherListItem } from 'app/models/teacher';
 import { environment } from 'environments/environment';
+import { Teachers, Teacher } from 'app/models/teacher';
+import { ClassClient } from 'app/clients/class.client';
 
-const teacherlist_template = [
+const teachers_template = [
   {
     id: 1,
     year: "2019",
     name: "陆美美",
-    class: "中一班|中二班|中三班 (注:用'|'分割不同班级)",
+    class: "小一班|中二班|大一班 (注:用'|'分割不同班级)",
     email: "12345@qq.com",
     role: "管理员 (注:有'管理员'权限的教师可以更新重要的系统数据，请谨慎选择。默认一般权限可以不填)",
   },
@@ -21,7 +21,7 @@ const teacherlist_template = [
     id: 2,
     year: "2019",
     name: "王莉莉",
-    class: "大一班|中一班",
+    class: "大一班|中二班",
     email: "54321@163.com",
     role: "",
   },
@@ -43,27 +43,37 @@ const teacherlist_template = [
 export class TeacherComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
-  @ViewChild('historyModal') historyModal
+  @ViewChild('conditionModal') conditionModal
 
-  fileUploader: FileUploader;
+  fileUploader1: FileUploader = new FileUploader({});
+  fileUploader2: FileUploader = new FileUploader({});
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
-  teacherlist: FormattedTeacherList;
+  teachers: Teachers;
   filterQuery = '';
-  years = [];
+  years = [];  
+  classes = [];
   currentYear = '';
+  currentClass = '';
 
-  constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
+    this.currentClass = this.params["class"];
   }
 
   fileOverBase = (e) => {
     this.hasBaseDropZoneOver = e;
   }
 
-  ngOnInit(): void {
-    this.fileUploader = new FileUploader({
-      url: environment.api.baseURI + '/teacherlist',
+  ngOnInit(): void {    
+    this.initfileuploader(this.fileUploader1);
+    this.initfileuploader(this.fileUploader2);
+    this.getteachers();
+  }
+
+  initfileuploader(fileUploader: FileUploader) {
+    fileUploader.setOptions({
+      url: environment.api.baseURI + '/teachers',
       allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
@@ -71,38 +81,32 @@ export class TeacherComponent extends ViewComponent implements OnInit {
       authTokenHeader: `Authorization`,
     });
 
-    this.fileUploader.onProgressItem = () => {
+    fileUploader.onProgressItem = () => {
       this.toasterService.pop('info', '', '上传中');
     };
 
-    this.fileUploader.onSuccessItem = () => {
+    fileUploader.onSuccessItem = () => {
       this.toasterService.pop('success', '', '上传教师信息成功');      
     };
 
-    this.fileUploader.onErrorItem = (_, res) => {
+    fileUploader.onErrorItem = (_, res) => {
       console.error(res);
       this.toasterService.pop('error', '', '上传教师信息失败，请重试');
     };
 
-    this.fileUploader.onCompleteAll = () => {      
+    fileUploader.onCompleteAll = () => {      
       this.infoModal.hide();
-      this.getteacherlist();
+      this.getteachers();
     };
-
-    this.getteacherlist();
   }
 
-  hasname() {
-    return this.teacherlist && this.teacherlist.items && this.teacherlist.items.length > 0;
-  }
-
-  showhistory() {
+  showconditionsearch() {
     this.infoModal.hide();
-    this.historyModal.show();
+    this.conditionModal.show();
   }
 
   showupload() {
-    this.historyModal.hide();
+    this.conditionModal.hide();
     this.infoModal.show();    
   }
 
@@ -110,20 +114,28 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     if (year != this.currentYear) {
       this.currentYear = year;
     }
-    this.getteacherlist();
-    this.historyModal.hide();
-  }  
+    this.getteachers();
+    this.conditionModal.hide();
+  }
 
-  getteacherlist() {    
-    this.nameClient.getTeacherlist(this.currentYear).
+  searchbyclass(cls: string) {
+    if (cls != this.currentClass) {
+      this.currentClass = cls;
+    }
+    this.getteachers();
+    this.conditionModal.hide();
+  }
+
+  getteachers() {    
+    this.classClient.getTeachers(this.currentYear, this.currentClass).
     subscribe(
       d => {        
-        this.teacherlist = new TeacherList(d.items).FormattedTeacherList;
-        if (!this.hasname()) {
+        this.teachers = new Teachers(d.teachers).format();
+        if (this.teachers.empty()) {
           this.infoModal.show();
-          this.items = teacherlist_template;
+          this.items = teachers_template;
         } else {
-          this.items = this.teacherlist.items;
+          this.items = this.teachers.teachers;
           this.items.forEach(n => {
             if (!this.years.includes(n.year)) {
               this.years.push(n.year);
@@ -132,17 +144,17 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取教师信息失败，请重试'),
-      () => this.LogComplete('"class management component teacherlist loading completed"')
+      () => this.LogComplete('"class management component teachers loading completed"')
     );
   }
 
-  edit(item: TeacherListItem, e: Event) {    
+  edit(item: Teacher, e: Event) {    
     e.preventDefault();
     // todo
 
   }
 
   get filename(): string {
-    return `教师信息${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
+    return `教师信息${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
   }
 }
