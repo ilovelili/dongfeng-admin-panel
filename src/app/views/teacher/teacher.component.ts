@@ -140,6 +140,13 @@ export class TeacherComponent extends ViewComponent implements OnInit {
             if (!this.years.includes(n.year)) {
               this.years.push(n.year);
             }
+            
+            let class_segments = (<Teacher>n).class.split('|');
+            class_segments.forEach((s: string) => {
+              if (!this.classes.includes(s)) {  
+                this.classes.push(s);
+              }
+            });
           });
         }
       },

@@ -31,7 +31,7 @@ export class Teachers {
     id: number;
     year: string;    
     name: string;
-    class: string[];
+    class: string;
     email: string;
     role: string;
   }
