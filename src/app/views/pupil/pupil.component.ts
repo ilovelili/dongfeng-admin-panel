@@ -24,7 +24,7 @@ const namelist_template = [
   {
     id: 3,
     year: "2019",
-    class: "大三班",
+    class: "大一班",
     name: "李雨轩"
   },
   {

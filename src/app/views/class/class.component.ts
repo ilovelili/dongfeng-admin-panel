@@ -10,19 +10,19 @@ import { ClassClient } from 'app/clients/class.client';
 
 const classlist_template = [
   {
-    id: 1,    
+    id: 1,
     class: "小一班",
   },
   {
-    id: 2,    
+    id: 2,
     class: "中二班",    
   },
   {
-    id: 3,    
+    id: 3,
     class: "大一班",
   },
   {
-    id: 4,    
+    id: 4,
     class: "大二班",
   },
 ];

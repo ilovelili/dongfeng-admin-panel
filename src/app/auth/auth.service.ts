@@ -72,7 +72,7 @@ export class AuthService {
       nickname: authResult.idTokenPayload.nickname,
       picture: authResult.idTokenPayload.picture,
     });
-    this.sessionFactory.set(KEY_EXP, authResult.idTokenPayload.exp * 1000 + Date.now());
+    this.sessionFactory.set(KEY_EXP, authResult.idTokenPayload.exp * 1000);
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
