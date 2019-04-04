@@ -29,7 +29,7 @@ const namelist_template = [
   },
   {
     id: 4,
-    year: "2019",
+    year: "2018",
     class: "小一班",
     name: "赵欣怡"
   },
@@ -43,7 +43,7 @@ const namelist_template = [
 export class PupilComponent extends ViewComponent implements OnInit {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
-  @ViewChild('historyModal') historyModal
+  @ViewChild('conditionModal') conditionModal
 
   fileUploader: FileUploader;
   hasBaseDropZoneOver: boolean = false;
@@ -51,10 +51,13 @@ export class PupilComponent extends ViewComponent implements OnInit {
   namelist: FormattedNameList;
   filterQuery = '';
   years = [];
+  classes = [];
   currentYear = '';
+  currentClass = '';
   
   constructor(private nameClient: NameClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {    
-    super(router, activatedRoute, csvDownloader, toasterService);    
+    super(router, activatedRoute, csvDownloader, toasterService);
+    this.currentClass = this.params["class"];
   }
 
   fileOverBase = (e) => {
@@ -96,13 +99,13 @@ export class PupilComponent extends ViewComponent implements OnInit {
     return this.namelist && this.namelist.items && this.namelist.items.length > 0;
   }
 
-  showhistory() {
+  showconditionsearch() {
     this.infoModal.hide();
-    this.historyModal.show();
+    this.conditionModal.show();
   }
 
   showupload() {
-    this.historyModal.hide();
+    this.conditionModal.hide();
     this.infoModal.show();    
   }
 
@@ -111,11 +114,19 @@ export class PupilComponent extends ViewComponent implements OnInit {
       this.currentYear = year;
     }
     this.getnamelist();
-    this.historyModal.hide();
+    this.conditionModal.hide();
+  }
+
+  searchbyclass(cls: string) {
+    if (cls != this.currentClass) {
+      this.currentClass = cls;
+    }
+    this.getnamelist();
+    this.conditionModal.hide();
   }
 
   getnamelist() {    
-    this.nameClient.getNamelist(this.currentYear, this.params["class"]).
+    this.nameClient.getNamelist(this.currentYear, this.currentClass).
     subscribe(
       d => {        
         this.namelist = new NameList(d.items).FormattedNameList;
@@ -128,6 +139,9 @@ export class PupilComponent extends ViewComponent implements OnInit {
             if (!this.years.includes(n.year)) {
               this.years.push(n.year);
             }
+            if (!this.classes.includes(n.class)) {
+              this.classes.push(n.class);
+            }
           });
         }
       },
@@ -137,6 +151,6 @@ export class PupilComponent extends ViewComponent implements OnInit {
   }
 
   get filename(): string {
-    return `园儿${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
+    return `园儿信息${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
   }
 }

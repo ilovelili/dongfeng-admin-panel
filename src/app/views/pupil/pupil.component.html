@@ -1,10 +1,10 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!hasname()">
-    <div class="card-header">园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+    <div class="card-header">{{currentClass}} 园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
       <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
-      <button type="button" (click)="showhistory()" class="btn btn-sm btn-primary pull-right">查看不同学年</button>
+      <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
     </div>
     <div class="card-body">
       <div class="row mb-3">
@@ -25,10 +25,11 @@
             <th style="width: 20%">
               <mfDefaultSorter by="age">班级</mfDefaultSorter>
             </th>
-            <th style="width: 50%">
+            <th style="width: 45%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
-            <th style="width: 25%">详细</th>
+            <th style="width: 15%">出勤情况</th>
+            <th style="width: 15%">体格信息</th>
           </tr>
         </thead>
         <tbody>
@@ -36,12 +37,13 @@
             <td>{{item.id}}</td>
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
-            <td><a [routerLink]="['/pupil', item.id]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/attendance', item.id]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/physique', item.id]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -84,20 +86,20 @@
 </div><!-- /.modal -->
 
 
-<div bsModal #historyModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #conditionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">选择不同学年</h6>
-        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+        <h6 class="modal-title">按条件检索</h6>
+        <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            请选择学年 <span class="caret"></span>
+            按学年检索 <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
@@ -105,6 +107,20 @@
             </li>
             <li *ngFor="let year of years" role="menuitem">
               <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            按班级检索 <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+                <a class="dropdown-item" (click)="searchbyclass('')">全部</a>
+            </li>
+            <li *ngFor="let class of classes" role="menuitem">
+              <a class="dropdown-item" (click)="searchbyclass(class)">{{class}}</a>
             </li>
           </ul>
         </div>
