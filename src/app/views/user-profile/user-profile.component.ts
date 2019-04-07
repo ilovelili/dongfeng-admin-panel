@@ -3,6 +3,7 @@ import { User } from '../../models';
 import { UserClient } from '../../clients/user.client';
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { Router } from '@angular/router';
+import { environment } from 'environments/environment';
 
 @Component({
   providers: [User],
@@ -69,12 +70,12 @@ export class UserProfileComponent implements OnInit {
         _ => {
           this.toggle();
           this.toasterService.pop('primary', '', '用户信息更新');
-          this.router.navigate(['class']);
+          window.location.replace(`${environment.host}/class`);
         },
         e => {
           console.error(e);
         },
         () => console.log("user profile component user updating completed")
       );
-  }
+  }  
 }
