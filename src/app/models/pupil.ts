@@ -1,9 +1,11 @@
+import { empty } from "rxjs/observable/empty";
+
 export class Pupils {
   constructor(public pupils: Pupil[]){}
 
   empty(): boolean {
     return !this || !this.pupils || this.pupils.length == 0;
-  }
+  }  
 }
 
 export class Pupil {

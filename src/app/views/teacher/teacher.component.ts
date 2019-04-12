@@ -151,7 +151,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取教师信息失败，请重试'),
-      () => this.LogComplete('"class management component teachers loading completed"')
+      () => this.LogComplete('"class component teachers loading completed"')
     );
   }
 

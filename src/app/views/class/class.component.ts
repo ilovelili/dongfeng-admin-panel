@@ -103,7 +103,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取班级信息失败，请重试'),
-      () => this.LogComplete('"class management component classes loading completed"')
+      () => this.LogComplete('"class component classes loading completed"')
     );
   }
 }

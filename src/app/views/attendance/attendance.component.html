@@ -1,0 +1,160 @@
+<div class="animated fadeIn">
+  <div class="card" [hidden]="!attendances || attendances.length == 0">
+    <div class="card-header">{{currentClass}} 出勤信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['日期','班级','姓名','出勤']"
+        [columns]="['date','class','name','attendance']">
+      </csv>
+      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
+      <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="10">
+        <thead>
+          <tr>            
+            <th style="width: 20%">
+              <mfDefaultSorter by="date">日期</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="class">班级</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="name">姓名</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="attendance">出勤</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">编辑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">            
+            <td>{{item.date}}</td>
+            <td>{{item.class}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.attendance}}</td>
+            <td><a (click)="edit(item)"><i class="fa fa-edit"></i></a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+<div bsModal #infoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">请上传出勤信息</h4>
+        <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
+          (fileOver)="fileOverBase($event)" class="well my-drop-zone">
+          请将出勤信息csv格式文件拖至此处上传
+        </div>
+        <div>
+          或直接打开文件上传
+          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br />
+        </div>
+      </div>
+      <div class="modal-footer">
+        下载csv模板 <csv (Download)="DownloadCsv('出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名','出勤']"
+          [columns]="['id','year','date','class','name','attendance']"></csv>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #conditionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">选择不同学年</h6>
+        <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            按学年检索 <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
+            </li>
+            <li *ngFor="let year of years" role="menuitem">
+              <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+            按班级检索 <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="searchbyclass('')">全部</a>
+            </li>
+            <li *ngFor="let class of classes" role="menuitem">
+              <a class="dropdown-item" (click)="searchbyclass(class)">{{class}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- <div class="btn-group">
+          <div class="card-header">
+            <strong>Horizontal</strong> Form
+          </div>
+          <div class="card-body">
+            <form action="" method="post" class="form-horizontal">
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="hf-email">Email</label>
+                <div class="col-md-9">
+                  <input type="email" id="hf-email" name="hf-email" class="form-control" placeholder="Enter Email..">
+                  <span class="help-block">Please enter your email</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="hf-password">Password</label>
+                <div class="col-md-9">
+                  <input type="password" id="hf-password" name="hf-password" class="form-control"
+                    placeholder="Enter Password..">
+                  <span class="help-block">Please enter your password</span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="card-footer">
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+          </div>
+        </div> -->
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

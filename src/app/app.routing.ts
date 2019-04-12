@@ -50,6 +50,22 @@ export const routes: Routes = [
         path: 'teacher/:class',
         loadChildren: './views/teacher/teacher.module#TeacherModule',
       },
+      {
+        path: 'attendance',
+        loadChildren: './views/attendance/attendance.module#AttendanceModule',
+      },
+      {
+        path: 'attendance/:class/:from/:to',
+        loadChildren: './views/attendance/attendance.module#AttendanceModule',
+      },
+      {
+        path: 'attendance/:name/:from/:to',
+        loadChildren: './views/attendance/attendance.module#AttendanceModule',
+      },
+      {
+        path: 'attendance/:class/:name/:from/:to',
+        loadChildren: './views/attendance/attendance.module#AttendanceModule',
+      },
     ]
   },
   {

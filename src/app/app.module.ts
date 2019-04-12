@@ -72,11 +72,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotificationClient } from './clients/notification.client';
 import { FormsModule } from '@angular/forms';
 import { ClassClient } from './clients/class.client';
+import { AttendanceClient } from './clients/attendance.client';
 
 const APP_CLIENTS = [
   UserClient,  
   NotificationClient,
   ClassClient,
+  AttendanceClient,
 ]
 
 @NgModule({

@@ -11,7 +11,7 @@ export const navigation = [
   },
   {
     name: '出勤管理',
-    url: '/theme/typography',
+    url: '/attendance',
     icon: 'icon-user'
   },
   {
