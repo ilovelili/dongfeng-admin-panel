@@ -91,6 +91,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
   dateTo = '';
   dateRange: Date[];
   datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  searchcriteria: any;
 
   constructor(private localeService: BsLocaleService, private classClient: ClassClient, private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
@@ -100,6 +101,10 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.dateFrom = this.params["from"] || '2019-01-01';
     this.dateTo = this.params["to"] || this.formatDate(new Date());
     this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
+    this.searchcriteria = {
+      year: '学年',
+      class: '班级',
+    };
 
     // https://github.com/valor-software/ngx-bootstrap/issues/4054
     this.localeService.use(zhCn.abbr);
@@ -164,12 +169,26 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     if (year != this.currentYear) {
       this.currentYear = year;
     }
+
+    if (year == '') {
+      this.searchcriteria.year = '学年';
+    } else {
+      {
+        this.searchcriteria.year = year;
+      }
+    }
   }
 
   setclass(cls: string) {
     if (cls != this.currentClass) {
       this.currentClass = cls;
     };
+
+    if (cls == '') {
+      this.searchcriteria.class = '班级';
+    } else {
+      this.searchcriteria.class = cls;
+    }
   }
 
   setfrom(from: string) {
@@ -182,39 +201,20 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     if (to != this.dateTo) {
       this.dateTo = to;
     };
-  }
+  }  
 
-  searchbyname(name: string, from?: string, to?: string) {
-    this.searchby(() => {
-      if (name != this.currentName) {
-        this.currentName = name;
-      };
-    }, from, to);
-  }
-
-  searchby(criteria: () => void, from?: string, to?: string) {
-    criteria();
-    if (from) {
-      this.dateFrom = from;
-    }
-    if (to) {
-      this.dateTo = to;
-    }
-
-    this.getattendances();
-    this.conditionModal.hide();
-  }
-
-  getattendances() {
+  getattendances(showinfomodal: boolean = true) {
     this.classClient.getPupils(this.currentYear, this.currentClass).
       subscribe(
         d => {
           let namelist = new Pupils(d.pupils);
+          this.dateFrom = this.formatDate(this.dateRange[0]);
+          this.dateTo = this.formatDate(this.dateRange[1]);
           this.attendanceClient.getAttendances(this.currentYear, this.currentClass, this.currentName, this.dateFrom, this.dateTo).
             subscribe(
               d => {
                 this.attendances = new Attendances(d.attendances, namelist).format();
-                if (this.attendances.length == 0) {
+                if (this.attendances.length == 0 && showinfomodal) {
                   this.infoModal.show();
                   this.items = attendances_template;
                 } else {
@@ -241,7 +241,6 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
   edit(item: FormattedAttendance, e: Event) {
     e.preventDefault();
     // todo
-
   }
 
   get filename(): string {

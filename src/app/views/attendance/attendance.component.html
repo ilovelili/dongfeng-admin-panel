@@ -104,7 +104,7 @@
 
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            学年 <span class="caret"></span>
+            {{searchcriteria.year}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
@@ -118,7 +118,7 @@
 
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            班级 <span class="caret"></span>
+            {{searchcriteria.class}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
@@ -131,7 +131,7 @@
         </div>
 
         <div class="btn-group text-right">
-          <button type="button" class="btn btn-success" (click)="getattendances()">检索</button>
+          <button type="button" class="btn btn-success" (click)="getattendances(false)">检索</button>
         </div>
 
       </div>

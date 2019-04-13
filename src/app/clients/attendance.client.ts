@@ -30,6 +30,6 @@ export class AttendanceClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<Attendances>(environment.api.baseURI + '/attendances', {headers: this.defaultHeaders});
+    return this.http.get<Attendances>(environment.api.baseURI + '/attendances', {headers: this.defaultHeaders, params: params});
   };  
 }
