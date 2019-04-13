@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!classes || classes.empty()">
+  <div class="card" [hidden]="!classinfos || classinfos.empty()">
     <div class="card-header">班级信息
       <csv (Download)="DownloadCsv('班级信息.csv', $event)" [headers]="['ID','班级']" [columns]="['id','name']">
       </csv>

@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!pupils || pupils.empty()">
     <div class="card-header">{{currentClass}} 园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(filename, $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+      <csv (Download)="DownloadCsv(filename('园儿信息'), $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
@@ -95,34 +95,39 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body">        
         <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            按学年检索 <span class="caret"></span>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.year}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-                <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
+              <a class="dropdown-item" (click)="setyear('')">全部</a>
             </li>
             <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
+              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
             </li>
           </ul>
         </div>
 
         <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            按班级检索 <span class="caret"></span>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.class}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-                <a class="dropdown-item" (click)="searchbyclass('')">全部</a>
+              <a class="dropdown-item" (click)="setclass('')">全部</a>
             </li>
             <li *ngFor="let class of classes" role="menuitem">
-              <a class="dropdown-item" (click)="searchbyclass(class)">{{class}}</a>
+              <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
             </li>
           </ul>
         </div>
+
+        <div class="btn-group text-right">
+          <button type="button" class="btn btn-success" (click)="getpupils(false)">检索</button>
+        </div>
+
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

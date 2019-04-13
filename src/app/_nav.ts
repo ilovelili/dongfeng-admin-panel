@@ -10,7 +10,7 @@ export const navigation = [
     icon: 'icon-note'
   },
   {
-    name: '出勤管理',
+    name: '出勤信息',
     url: '/attendance',
     icon: 'icon-user'
   },

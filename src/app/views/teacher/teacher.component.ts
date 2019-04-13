@@ -1,10 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppCsvDownloadService } from '../../components';
-import { FileUploader } from 'ng2-file-upload';
 import { ViewComponent } from '../base/view.component';
-import { environment } from 'environments/environment';
 import { Teachers, Teacher } from 'app/models/teacher';
 import { ClassClient } from 'app/clients/class.client';
 
@@ -37,101 +33,32 @@ const teachers_template = [
 
 @Component({  
   templateUrl: 'teacher.component.html',
-  styleUrls: ['../../../scss/vendors/file-uploader/file-uploader.scss', '../../../scss/vendors/toastr/toastr.scss'],
+  styleUrls: [
+    '../../../scss/vendors/file-uploader/file-uploader.scss', 
+    '../../../scss/vendors/toastr/toastr.scss',
+    'teacher.component.scss',
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-export class TeacherComponent extends ViewComponent implements OnInit {
-  // user viewchild to get dom element by ref (#infoModal)
-  @ViewChild('infoModal') infoModal
-  @ViewChild('conditionModal') conditionModal
+export class TeacherComponent extends ViewComponent implements OnInit {  
+  teachers: Teachers;  
 
-  fileUploader1: FileUploader = new FileUploader({});
-  fileUploader2: FileUploader = new FileUploader({});
-  hasBaseDropZoneOver: boolean = false;
-  hasAnotherDropZoneOver: boolean = false;
-  teachers: Teachers;
-  filterQuery = '';
-  years = [];  
-  classes = [];
-  currentYear = '';
-  currentClass = '';
-
-  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
-    super(router, activatedRoute, csvDownloader, toasterService);
-    this.currentClass = this.params["class"];
-  }
-
-  fileOverBase = (e) => {
-    this.hasBaseDropZoneOver = e;
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute) {
+    super(router, activatedRoute);    
   }
 
   ngOnInit(): void {    
-    this.initfileuploader(this.fileUploader1);
-    this.initfileuploader(this.fileUploader2);
+    this.initfileuploader(this.fileUploader1, 'teachers', '教师', this.getteachers);
+    this.initfileuploader(this.fileUploader2, 'teachers', '教师', this.getteachers);
     this.getteachers();
-  }
+  }  
 
-  initfileuploader(fileUploader: FileUploader) {
-    fileUploader.setOptions({
-      url: environment.api.baseURI + '/teachers',
-      allowedMimeType: ['text/csv'],
-      method: 'POST',
-      autoUpload: true,
-      authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
-      authTokenHeader: `Authorization`,
-    });
-
-    fileUploader.onProgressItem = () => {
-      this.toasterService.pop('info', '', '上传中');
-    };
-
-    fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', '上传教师信息成功');      
-    };
-
-    fileUploader.onErrorItem = (_, res) => {
-      console.error(res);
-      this.toasterService.pop('error', '', '上传教师信息失败，请重试');
-    };
-
-    fileUploader.onCompleteAll = () => {      
-      this.infoModal.hide();
-      this.getteachers();
-    };
-  }
-
-  showconditionsearch() {
-    this.infoModal.hide();
-    this.conditionModal.show();
-  }
-
-  showupload() {
-    this.conditionModal.hide();
-    this.infoModal.show();    
-  }
-
-  searchbynewyear(year: string) {
-    if (year != this.currentYear) {
-      this.currentYear = year;
-    }
-    this.getteachers();
-    this.conditionModal.hide();
-  }
-
-  searchbyclass(cls: string) {
-    if (cls != this.currentClass) {
-      this.currentClass = cls;
-    }
-    this.getteachers();
-    this.conditionModal.hide();
-  }
-
-  getteachers() {    
+  getteachers(showinfomodal: boolean = true) {    
     this.classClient.getTeachers(this.currentYear, this.currentClass).
     subscribe(
       d => {        
         this.teachers = new Teachers(d.teachers).format();
-        if (this.teachers.empty()) {
+        if (this.teachers.empty() && showinfomodal) {
           this.infoModal.show();
           this.items = teachers_template;
         } else {
@@ -151,17 +78,12 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取教师信息失败，请重试'),
-      () => this.LogComplete('"class component teachers loading completed"')
+      () => this.LogComplete('class component teachers loading completed')
     );
   }
 
   edit(item: Teacher, e: Event) {    
     e.preventDefault();
     // todo
-
-  }
-
-  get filename(): string {
-    return `教师信息${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}.csv`;
   }
 }

@@ -1,12 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { ToasterService } from 'angular2-toaster/angular2-toaster';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppCsvDownloadService } from '../../components';
-import { FileUploader } from 'ng2-file-upload';
 import { ViewComponent } from '../base/view.component';
-import { environment } from 'environments/environment';
 import { ClassClient } from 'app/clients/class.client';
-import { Classes } from 'app/models/class';
+import { Classes } from 'app/models';
 
 const classes_template = [
   {
@@ -29,77 +25,36 @@ const classes_template = [
 
 @Component({  
   templateUrl: 'class.component.html',
-  styleUrls: ['../../../scss/vendors/file-uploader/file-uploader.scss', '../../../scss/vendors/toastr/toastr.scss'],
+  styleUrls: [
+    '../../../scss/vendors/file-uploader/file-uploader.scss', 
+    '../../../scss/vendors/toastr/toastr.scss',
+    'class.component.scss',
+  ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ClassComponent extends ViewComponent implements OnInit {
-  // user viewchild to get dom element by ref (#infoModal)
-  @ViewChild('infoModal') infoModal
+export class ClassComponent extends ViewComponent implements OnInit {  
+  classinfos: Classes;
 
-  fileUploader1: FileUploader = new FileUploader({});
-  fileUploader2: FileUploader = new FileUploader({});
-  hasBaseDropZoneOver: boolean = false;
-  hasAnotherDropZoneOver: boolean = false;
-  classes: Classes;
-  filterQuery = '';
-
-  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
-    super(router, activatedRoute, csvDownloader, toasterService);
-  }
-
-  fileOverBase = (e) => {
-    this.hasBaseDropZoneOver = e;
-  }
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute) {
+    super(router, activatedRoute);
+  }  
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1);
-    this.initfileuploader(this.fileUploader2);
+    this.initfileuploader(this.fileUploader1, 'classes', '班级', this.getclasses);
+    this.initfileuploader(this.fileUploader2, 'classes', '班级', this.getclasses);
     this.getclasses();
   }
-
-  initfileuploader(fileUploader: FileUploader) {    
-    fileUploader.setOptions({
-      url: environment.api.baseURI + '/classes',
-      allowedMimeType: ['text/csv'],
-      method: 'POST',
-      autoUpload: true,
-      authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
-      authTokenHeader: `Authorization`,
-    });
-
-    fileUploader.onProgressItem = () => {
-      this.toasterService.pop('info', '', '上传中');
-    };
-
-    fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', '上传班级信息成功');      
-    };
-
-    fileUploader.onErrorItem = (_, res) => {
-      console.error(res);
-      this.toasterService.pop('error', '', '上传班级信息失败，请重试');
-    };
-
-    fileUploader.onCompleteAll = () => {      
-      this.infoModal.hide();
-      this.getclasses();
-    };
-  }
-
-  showupload() {    
-    this.infoModal.show();    
-  }
-
+  
   getclasses() {    
     this.classClient.getClasses().
     subscribe(
       d => {        
-        this.classes = new Classes(d.classes);
-        if (this.classes.empty()) {
+        this.classinfos = new Classes(d.classes);
+        if (this.classinfos.empty()) {
           this.infoModal.show();
           this.items = classes_template;
         } else {
-          this.items = this.classes.classes;
+          this.items = this.classinfos.classes;
         }
       },
       e => this.LogError(e, '获取班级信息失败，请重试'),
