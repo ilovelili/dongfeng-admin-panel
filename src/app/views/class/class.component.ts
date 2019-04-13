@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients/class.client';
 import { Classes } from 'app/models';
+import { ToasterService } from 'angular2-toaster';
 
 const classes_template = [
   {
@@ -35,8 +36,8 @@ const classes_template = [
 export class ClassComponent extends ViewComponent implements OnInit {  
   classinfos: Classes;
 
-  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute) {
-    super(router, activatedRoute);
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, activatedRoute, toasterService);
   }  
 
   ngOnInit(): void {
@@ -58,7 +59,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取班级信息失败，请重试'),
-      () => this.LogComplete('"class component classes loading completed"')
+      () => this.LogComplete('class component classes loading completed')
     );
   }
 }

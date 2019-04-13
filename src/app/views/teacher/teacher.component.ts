@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { Teachers, Teacher } from 'app/models/teacher';
 import { ClassClient } from 'app/clients/class.client';
+import { ToasterService } from 'angular2-toaster';
 
 const teachers_template = [
   {
@@ -43,8 +44,8 @@ const teachers_template = [
 export class TeacherComponent extends ViewComponent implements OnInit {  
   teachers: Teachers;  
 
-  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute) {
-    super(router, activatedRoute);    
+  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, activatedRoute, toasterService);
   }
 
   ngOnInit(): void {    

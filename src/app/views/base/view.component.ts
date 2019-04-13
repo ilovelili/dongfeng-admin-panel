@@ -35,7 +35,7 @@ export abstract class ViewComponent {
     year: '学年',
     class: '班级',
   };
-  protected toasterService: ToasterService = new ToasterService();
+  
   protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
 
   fileUploader1: FileUploader = new FileUploader({});
@@ -82,14 +82,14 @@ export abstract class ViewComponent {
     };
   }
 
-  constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected localeService?: BsLocaleService) {
+  constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
 
       this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
-      this.dateFrom = this.params["from"] || '2019-01-01';
+      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPreviousMonth());
       this.dateTo = this.params["to"] || this.formatDate(new Date());
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
 
@@ -128,6 +128,11 @@ export abstract class ViewComponent {
     console.error(err);
     this.toasterService.pop('error', '', msg);
   };
+
+  protected firstDayInPreviousMonth(): Date {
+    let d = new Date();
+    return new Date(d.getFullYear(), d.getMonth() - 1, 1);
+  }
 
   protected formatDate(d: Date): string {
     let month = '' + (d.getMonth() + 1),

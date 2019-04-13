@@ -5,6 +5,7 @@ import { ClassClient } from 'app/clients/class.client';
 import { AttendanceClient } from 'app/clients/attendance.client';
 import { Pupils, Attendances, FormattedAttendance } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
+import { ToasterService } from 'angular2-toaster';
 
 const attendances_template = [
   {
@@ -69,8 +70,8 @@ const attendances_template = [
 })
 export class AttendanceComponent extends ViewComponent implements OnInit {
   attendances: FormattedAttendance[];  
-  constructor(private classClient: ClassClient, private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected localeService: BsLocaleService) {
-    super(router, activatedRoute, localeService);
+  constructor(private classClient: ClassClient, private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
+    super(router, activatedRoute, toasterService, localeService);
   }
 
   ngOnInit(): void {
@@ -110,7 +111,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
             );
         },
         e => this.LogError(e, '获取出勤信息失败，请重试'),
-        () => this.LogComplete('"pupil component pupils loading completed"')
+        () => this.LogComplete('pupil component pupils loading completed')
       );
   }
 
