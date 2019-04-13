@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
+import { zhCn } from 'ngx-bootstrap/locale'
 
 // Import containers
 import {
@@ -64,7 +65,7 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CallbackComponent } from './callback/callback.component';
 import { UserClient } from './clients/user.client';
@@ -73,6 +74,8 @@ import { NotificationClient } from './clients/notification.client';
 import { FormsModule } from '@angular/forms';
 import { ClassClient } from './clients/class.client';
 import { AttendanceClient } from './clients/attendance.client';
+
+defineLocale(zhCn.abbr, zhCn);
 
 const APP_CLIENTS = [
   UserClient,  

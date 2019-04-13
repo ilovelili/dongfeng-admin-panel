@@ -53,17 +53,9 @@ export const routes: Routes = [
       {
         path: 'attendance',
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
-      },
+      },      
       {
-        path: 'attendance/:class/:from/:to',
-        loadChildren: './views/attendance/attendance.module#AttendanceModule',
-      },
-      {
-        path: 'attendance/:name/:from/:to',
-        loadChildren: './views/attendance/attendance.module#AttendanceModule',
-      },
-      {
-        path: 'attendance/:class/:name/:from/:to',
+        path: 'attendance/:year/:class/:name/:from/:to',
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
       },
     ]

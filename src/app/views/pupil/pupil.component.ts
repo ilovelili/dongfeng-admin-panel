@@ -6,7 +6,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { ViewComponent } from '../base/view.component';
 import { environment } from 'environments/environment';
 import { ClassClient } from 'app/clients/class.client';
-import { Pupils } from 'app/models/pupil';
+import { Pupils } from 'app/models';
 
 const pupils_template = [
   {

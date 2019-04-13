@@ -19,7 +19,7 @@
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10">
         <thead>
-          <tr>            
+          <tr>
             <th style="width: 20%">
               <mfDefaultSorter by="date">日期</mfDefaultSorter>
             </th>
@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data">            
+          <tr *ngFor="let item of mf.data">
             <td>{{item.date}}</td>
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
@@ -91,68 +91,48 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">选择不同学年</h6>
+        <h6 class="modal-title">条件检索</h6>
         <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+
       <div class="modal-body">
+        <div class="btn-group">          
+          <input id="searchpanel" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRange" [bsConfig]="datepickerconfig">
+        </div>
+
         <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            按学年检索 <span class="caret"></span>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            学年 <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="searchbynewyear('')">全部</a>
+              <a class="dropdown-item" (click)="setyear('')">全部</a>
             </li>
             <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="searchbynewyear(year)">{{year}}</a>
+              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
             </li>
           </ul>
         </div>
 
         <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-            按班级检索 <span class="caret"></span>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            班级 <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="searchbyclass('')">全部</a>
+              <a class="dropdown-item" (click)="setclass('')">全部</a>
             </li>
             <li *ngFor="let class of classes" role="menuitem">
-              <a class="dropdown-item" (click)="searchbyclass(class)">{{class}}</a>
+              <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
             </li>
           </ul>
         </div>
 
-        <!-- <div class="btn-group">
-          <div class="card-header">
-            <strong>Horizontal</strong> Form
-          </div>
-          <div class="card-body">
-            <form action="" method="post" class="form-horizontal">
-              <div class="form-group row">
-                <label class="col-md-3 col-form-label" for="hf-email">Email</label>
-                <div class="col-md-9">
-                  <input type="email" id="hf-email" name="hf-email" class="form-control" placeholder="Enter Email..">
-                  <span class="help-block">Please enter your email</span>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-md-3 col-form-label" for="hf-password">Password</label>
-                <div class="col-md-9">
-                  <input type="password" id="hf-password" name="hf-password" class="form-control"
-                    placeholder="Enter Password..">
-                  <span class="help-block">Please enter your password</span>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="card-footer">
-            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
-            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-          </div>
-        </div> -->
+        <div class="btn-group text-right">
+          <button type="button" class="btn btn-success" (click)="getattendances()">检索</button>
+        </div>
 
       </div>
     </div><!-- /.modal-content -->

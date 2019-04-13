@@ -11,6 +11,9 @@ import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DataFilterPipe } from './datafilterpipeline';
+// Datepicker
+import { BsDatepickerModule } from 'ngx-bootstrap';
+
 
 @NgModule({
   imports: [
@@ -20,7 +23,8 @@ import { DataFilterPipe } from './datafilterpipeline';
     AppCsvModule,    
     FileUploadModule,
     DataTableModule,
-    FormsModule,    
+    FormsModule,
+    BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],  

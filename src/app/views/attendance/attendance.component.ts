@@ -6,9 +6,9 @@ import { FileUploader } from 'ng2-file-upload';
 import { ViewComponent } from '../base/view.component';
 import { environment } from 'environments/environment';
 import { ClassClient } from 'app/clients/class.client';
-import { Attendances, FormattedAttendance } from 'app/models/attendance';
 import { AttendanceClient } from 'app/clients/attendance.client';
-import { Pupils } from 'app/models/pupil';
+import { Pupils, Attendances, FormattedAttendance, DateRange } from 'app/models';
+import { BsDatepickerConfig, BsLocaleService, zhCn } from 'ngx-bootstrap';
 
 const attendances_template = [
   {
@@ -63,7 +63,12 @@ const attendances_template = [
 
 @Component({
   templateUrl: 'attendance.component.html',
-  styleUrls: ['../../../scss/vendors/file-uploader/file-uploader.scss', '../../../scss/vendors/toastr/toastr.scss'],
+  styleUrls: [
+    '../../../scss/vendors/file-uploader/file-uploader.scss',
+    '../../../scss/vendors/toastr/toastr.scss',
+    '../../../scss/vendors/bs-datepicker/bs-datepicker.scss',
+    'attendance.component.scss'
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class AttendanceComponent extends ViewComponent implements OnInit {
@@ -84,13 +89,26 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
   currentName = '';
   dateFrom = '';
   dateTo = '';
+  dateRange: Date[];
+  datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
-  constructor(private classClient: ClassClient, private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
+  constructor(private localeService: BsLocaleService, private classClient: ClassClient, private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected csvDownloader: AppCsvDownloadService, protected toasterService: ToasterService) {
     super(router, activatedRoute, csvDownloader, toasterService);
+    this.currentYear = this.params["year"];
     this.currentClass = this.params["class"];
-    this.currentName = this.params["year"];
-    this.dateFrom = this.params["from"];
-    this.dateTo = this.params["to"];
+    this.currentName = this.params["name"];
+    this.dateFrom = this.params["from"] || '2019-01-01';
+    this.dateTo = this.params["to"] || this.formatDate(new Date());
+    this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
+
+    // https://github.com/valor-software/ngx-bootstrap/issues/4054
+    this.localeService.use(zhCn.abbr);
+
+    this.datepickerconfig = {
+      containerClass: 'theme-dark-blue',
+      value: this.dateRange,
+      dateInputFormat: 'yyyy-MM-dd',
+    }
   }
 
   fileOverBase = (e) => {
@@ -99,7 +117,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.initfileuploader(this.fileUploader1);
-    this.initfileuploader(this.fileUploader2);    
+    this.initfileuploader(this.fileUploader2);
     this.getattendances();
   }
 
@@ -142,20 +160,28 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.infoModal.show();
   }
 
-  searchbynewyear(year: string, from?: string, to?: string) {
-    this.searchby(() => {
-      if (year != this.currentYear) {
-        this.currentYear = year;
-      }
-    }, from, to);
+  setyear(year: string) {
+    if (year != this.currentYear) {
+      this.currentYear = year;
+    }
   }
 
-  searchbyclass(cls: string, from?: string, to?: string) {
-    this.searchby(() => {
-      if (cls != this.currentClass) {
-        this.currentClass = cls;
-      };
-    }, from, to);
+  setclass(cls: string) {
+    if (cls != this.currentClass) {
+      this.currentClass = cls;
+    };
+  }
+
+  setfrom(from: string) {
+    if (from != this.dateFrom) {
+      this.dateFrom = from;
+    };
+  }
+
+  setto(to: string) {
+    if (to != this.dateTo) {
+      this.dateTo = to;
+    };
   }
 
   searchbyname(name: string, from?: string, to?: string) {
@@ -220,5 +246,16 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   get filename(): string {
     return `出勤信息${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
+  }
+
+  formatDate(d: Date): string {
+    let month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }
