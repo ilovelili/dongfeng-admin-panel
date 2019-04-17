@@ -13,16 +13,33 @@ export class Attendances {
     }
 
     this.attendances.forEach(a => {
-      a.names.forEach(n => {
-        result.push({
-          id: a.id,
-          year: a.year,
-          date: a.date,
-          class: a.class,
-          name: n,
-          holiday: 0,
+      if (a.attendances && a.attendances.length > 0) {
+        a.attendances.forEach(n => {
+          result.push({
+            id: a.id,
+            year: a.year,
+            date: a.date,
+            class: a.class,
+            name: n,
+            attendance: 'o',
+            holiday: 0,
+          });
         });
-      });
+      }
+
+      if (a.absences && a.absences.length > 0) {
+        a.absences.forEach(n => {
+          result.push({
+            id: a.id,
+            year: a.year,
+            date: a.date,
+            class: a.class,
+            name: n,
+            attendance: 'x',
+            holiday: 0,
+          });
+        });
+      }      
     });
 
     if (this.holidays.empty() == false) {
@@ -33,6 +50,7 @@ export class Attendances {
           date: h.date,
           class: '',
           name: '',
+          attendance: '-',
           holiday: h.type,
         });
       });
@@ -55,7 +73,8 @@ export class Attendance {
   year: string;
   date: string;
   class: string;
-  names: string[];
+  attendances: string[];
+  absences: string[];
 }
 
 export class FormattedAttendance {
@@ -64,6 +83,7 @@ export class FormattedAttendance {
   date: string;
   class: string;
   name: string;
+  attendance: string;
   holiday: number;
 }
 
