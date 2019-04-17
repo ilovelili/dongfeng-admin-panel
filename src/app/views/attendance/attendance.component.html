@@ -36,7 +36,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data">
+          <tr *ngFor="let item of mf.data" [ngClass]="{'weekend':item.holiday== 1,'holiday':item.holiday==2}">
             <td>{{item.date}}</td>
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
@@ -79,8 +79,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名','出勤']"
-          [columns]="['id','year','date','class','name','attendance']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv('出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名']"
+          [columns]="['id','year','date','class','name']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

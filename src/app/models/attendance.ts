@@ -1,9 +1,9 @@
-import { Pupils } from "./pupil";
+import { Holiday, Holidays } from "./holiday";
 
 export class Attendances {
-  constructor(public attendances: Attendance[], public pupils: Pupils) { }
+  constructor(public attendances: Attendance[], public holidays: Holidays) { }
   empty(): boolean {
-    return !this || !this.attendances || this.attendances.length == 0 || this.pupils.empty();
+    return !this || !this.attendances || this.attendances.length == 0;
   }
 
   format(): FormattedAttendance[] {
@@ -12,35 +12,41 @@ export class Attendances {
       return result;
     }
 
-    this.attendances.forEach(a => {      
-      this.pupils.pupils.forEach(p => {        
-        if (a.year != p.year || a.class != p.class) {
-          return;
-        }
-        
-        if (a.names.includes(p.name)) {
-          result.push({
-            id: a.id,
-            year: a.year,
-            date: a.date,
-            class: a.class,
-            name: p.name,
-            attendance: '',
-          });
-        } else {
-          result.push({
-            id: a.id,
-            year: a.year,
-            date: a.date,
-            class: a.class,
-            name: p.name,
-            attendance: 'x',
-          });
-        }
+    this.attendances.forEach(a => {
+      a.names.forEach(n => {
+        result.push({
+          id: a.id,
+          year: a.year,
+          date: a.date,
+          class: a.class,
+          name: n,
+          holiday: 0,
+        });
       });
     });
 
-    return result;
+    if (this.holidays.empty() == false) {
+      this.holidays.holidays.forEach(h => {
+        result.push({
+          id: -1,
+          year: '',
+          date: h.date,
+          class: '',
+          name: '',
+          holiday: h.type,
+        });
+      });
+    }
+
+    return result.sort((r1, r2): number => {
+      let d = new Date(r2.date).getTime() - new Date(r1.date).getTime();
+      if (d > 0) return 1;
+      if (d < 0) return -1;
+      if (r2.class > r1.class) return 1;
+      if (r2.class < r1.class) return -1;
+
+      return 0;
+    });
   }
 }
 
@@ -58,5 +64,10 @@ export class FormattedAttendance {
   date: string;
   class: string;
   name: string;
-  attendance: string;
+  holiday: number;
+}
+
+export class AttendanceResponse {
+  attendances: Attendance[];
+  holidays: Holiday[];
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Attendances } from 'app/models/attendance';
+import { AttendanceResponse } from 'app/models/';
 
 @Injectable()
 export class AttendanceClient extends BaseClient {
@@ -11,7 +11,7 @@ export class AttendanceClient extends BaseClient {
     super(http);
   }
 
-  getAttendances(year?:string, cls?: string, name?: string, from?: string, to?: string): Observable<Attendances> {
+  getAttendances(year?:string, cls?: string, name?: string, from?: string, to?: string): Observable<AttendanceResponse> {
     let params = new HttpParams();
     
     if (year && year != "") {
@@ -30,6 +30,6 @@ export class AttendanceClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<Attendances>(environment.api.baseURI + '/attendances', {headers: this.defaultHeaders, params: params});
+    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', {headers: this.defaultHeaders, params: params});
   };  
 }

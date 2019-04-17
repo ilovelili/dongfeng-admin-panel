@@ -15,7 +15,7 @@ export abstract class ViewComponent {
   @ViewChild('conditionModal') conditionModal
 
   protected items: any[] = [];
-
+  
   protected key_token: string = 'token';
   protected namespace: string = 'dongfeng';
   protected sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
@@ -35,7 +35,7 @@ export abstract class ViewComponent {
     year: '学年',
     class: '班级',
   };
-  
+
   protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
 
   fileUploader1: FileUploader = new FileUploader({});
@@ -112,7 +112,7 @@ export abstract class ViewComponent {
 
   protected showupload() {
     this.conditionModal.hide();
-    this.infoModal.show();
+    this.infoModal.show();    
   }
 
   protected DownloadCsv = (filename?: string, format?: CsvFormat) => {
@@ -128,22 +128,6 @@ export abstract class ViewComponent {
     console.error(err);
     this.toasterService.pop('error', '', msg);
   };
-
-  protected firstDayInPreviousMonth(): Date {
-    let d = new Date();
-    return new Date(d.getFullYear(), d.getMonth() - 1, 1);
-  }
-
-  protected formatDate(d: Date): string {
-    let month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-  }
 
   protected setyear(year: string) {
     if (year != this.currentYear) {
@@ -186,4 +170,31 @@ export abstract class ViewComponent {
   protected filename(prefix: string): string {
     return `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
   }
+
+  protected firstDayInPreviousMonth(): Date {
+    let d = new Date();
+    return new Date(d.getFullYear(), d.getMonth() - 1, 1);
+  }
+
+  protected formatDate(d: Date): string {
+    let month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+
+  protected deformatDate(d: string): Date {
+    // yyyy/mm/dd or yyyy-mm-dd
+    let segments = d.replace("/", "-").split("-");
+    if (segments.length != 3) {
+      throw 'invalid date';
+    }
+
+    let year = parseInt(segments[0]), month = parseInt(segments[1]) - 1 /* since month starts with 0 */, day = parseInt(segments[2]);
+    return new Date(year, month, day);
+  }  
 }
