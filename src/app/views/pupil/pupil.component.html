@@ -17,7 +17,7 @@
       </div>
 
       <app-loading [hidden]="!loading"></app-loading>
-      
+
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
@@ -31,7 +31,7 @@
             <th style="width: 45%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
-            <th style="width: 10%">出勤情况</th>
+            <th style="width: 10%">出勤信息</th>
             <th style="width: 10%">体格信息</th>
             <th style="width: 10%">编辑</th>
           </tr>
@@ -41,8 +41,8 @@
             <td>{{item.id}}</td>
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
-            <td><a [routerLink]="['/attendance', item.id]"><i class="fa fa-link"></i></a></td>
-            <td><a [routerLink]="['/physique', item.id]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/出勤信息', item.class, item.name]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/体格信息', item.id]"><i class="fa fa-link"></i></a></td>
             <td><a (click)="edit(item.id)"><i class="fa fa-edit"></i></a></td>
           </tr>
         </tbody>

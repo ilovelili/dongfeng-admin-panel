@@ -1,7 +1,7 @@
 export const navigation = [  
   {
     name: '班级信息',
-    url: '/class',
+    url: '/班级信息',
     icon: 'icon-notebook'
   },
   {
@@ -11,7 +11,7 @@ export const navigation = [
   },
   {
     name: '出勤信息',
-    url: '/attendance',
+    url: '/出勤信息',
     icon: 'icon-user'
   },
   {

@@ -46,7 +46,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   home() {
-    this.router.navigate(['class']);
+    this.router.navigate(['班级信息']);
   }
 
   resolveRole(role: string) {

@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!attendances || attendances.length == 0">
-    <div class="card-header">{{currentClass}} 出勤信息 ({{dateFrom}} ~ {{dateTo}}) {{currentYear ? '(' + currentYear + '学年)' : ''}}
+    <div class="card-header">{{currentClass}} {{currentName}} 出勤信息 ({{dateFrom}} ~ {{dateTo}}) {{currentYear ? '(' + currentYear + '学年)' : ''}}
       <csv (Download)="DownloadCsv(filename('出勤信息'), $event)" [headers]="['日期','班级','姓名','出勤']"
         [columns]="['date','class','name','attendance']">
       </csv>
@@ -51,7 +51,7 @@
         <tfoot>
           <tr>
             <td colspan="6">
-              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
         </tfoot>

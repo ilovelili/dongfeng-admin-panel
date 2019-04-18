@@ -5,7 +5,7 @@ import { AuthService } from "./auth/auth.service";
 export abstract class BaseComponent {
   constructor(protected router: Router, protected authService: AuthService, protected omitAuth: boolean = false) {
     if (!omitAuth && !authService.isLoggedIn) {
-      this.router.navigate(['pages/login']);
+      this.router.navigate(['页面/登录']);
     }
   }
 }

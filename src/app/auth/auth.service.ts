@@ -49,8 +49,8 @@ export class AuthService {
       } else if (err) {
         console.error(`Error: ${err.error}`);
       }
-      window.location.replace(`${environment.host}/class`);
-      // this.router.navigate(['class']);
+      window.location.replace(`${environment.host}/班级信息`);
+      // this.router.navigate(['班级信息']);
     });
   }
 

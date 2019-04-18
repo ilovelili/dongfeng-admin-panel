@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   constructor(private router: Router, private authService: AuthService) {    
     if (this.authService.isLoggedIn) {
-      this.router.navigate(["class"]);
+      this.router.navigate(["班级信息"]);
     }
   }
 }

@@ -26,14 +26,14 @@
           <tr *ngFor="let item of mf.data">
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>            
-            <td><a [routerLink]="['/pupil', item.name]"><i class="fa fa-link"></i></a></td>
-            <td><a [routerLink]="['/teacher', item.name]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/园儿信息', item.name]"><i class="fa fa-link"></i></a></td>
+            <td><a [routerLink]="['/教师信息', item.name]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="4">
-              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
         </tfoot>

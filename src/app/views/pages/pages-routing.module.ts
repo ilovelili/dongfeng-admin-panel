@@ -27,7 +27,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'login',
+        path: '登录',
         component: LoginComponent,
         data: {
           title: '东风幼儿园登录页面'

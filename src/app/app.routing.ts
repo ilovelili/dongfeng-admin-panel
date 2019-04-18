@@ -12,7 +12,7 @@ import { CallbackComponent } from './components';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'pages/login',
+    redirectTo: '页面/登录',
     pathMatch: 'full',
   },
   {
@@ -23,45 +23,45 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'growth-profile',
+        path: '成长档案',
         loadChildren: './views/growth-profile/growth-profile.module#GrowthProfileModule',
       },
       {
-        path: 'user-profile',
+        path: '成长档案',
         loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
       },
       {
-        path: 'class',
+        path: '班级信息',
         loadChildren: './views/class/class.module#ClassModule',
       },
       {
-        path: 'pupil',
+        path: '园儿信息',
         loadChildren: './views/pupil/pupil.module#PupilModule',
       },
       {
-        path: 'pupil/:class',
+        path: '园儿信息/:class',
         loadChildren: './views/pupil/pupil.module#PupilModule',
       },
       {
-        path: 'teacher',
+        path: '教师信息',
         loadChildren: './views/teacher/teacher.module#TeacherModule',
       },
       {
-        path: 'teacher/:class',
+        path: '教师信息/:class',
         loadChildren: './views/teacher/teacher.module#TeacherModule',
       },
       {
-        path: 'attendance',
+        path: '出勤信息',
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
       },      
       {
-        path: 'attendance/:year/:class/:name/:from/:to',
+        path: '出勤信息/:class/:name',
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
       },
     ]
   },
   {
-    path: 'pages',
+    path: '页面',
     component: SimpleLayoutComponent,    
     children: [
       {
