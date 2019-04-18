@@ -7,7 +7,7 @@ import {
   SimpleLayoutComponent,
 } from './containers';
 import { AuthGuard } from './auth/auth.guard';
-import { CallbackComponent } from './callback/callback.component';
+import { CallbackComponent } from './components';
 
 export const routes: Routes = [
   {

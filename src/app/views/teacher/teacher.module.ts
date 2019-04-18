@@ -5,7 +5,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { TeacherRoutingModule } from './teacher-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { TeacherComponent } from './teacher.component';
-import { AppCsvModule } from '../../components';
+import { AppCsvModule, AppLoadingModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -20,7 +20,8 @@ import { DataFilterPipe } from './datafilterpipeline';
     AppCsvModule,    
     FileUploadModule,
     DataTableModule,
-    FormsModule,    
+    FormsModule,
+    AppLoadingModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],  

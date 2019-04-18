@@ -14,6 +14,7 @@ export abstract class ViewComponent {
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
 
+  protected loading: boolean;
   protected items: any[] = [];
   
   protected key_token: string = 'token';
@@ -83,13 +84,15 @@ export abstract class ViewComponent {
   }
 
   constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
+    this.loading = true;
+
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
 
       this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
-      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPreviousMonth());
+      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInThisMonth());
       this.dateTo = this.params["to"] || this.formatDate(new Date());
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
 
@@ -171,9 +174,9 @@ export abstract class ViewComponent {
     return `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
   }
 
-  protected firstDayInPreviousMonth(): Date {
+  protected firstDayInThisMonth(): Date {
     let d = new Date();
-    return new Date(d.getFullYear(), d.getMonth() - 1, 1);
+    return new Date(d.getFullYear(), d.getMonth(), 1);
   }
 
   protected formatDate(d: Date): string {

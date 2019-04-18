@@ -29,7 +29,7 @@ const classes_template = [
   styleUrls: [
     '../../../scss/vendors/file-uploader/file-uploader.scss', 
     '../../../scss/vendors/toastr/toastr.scss',
-    'class.component.scss',
+    'class.component.scss',    
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -40,16 +40,18 @@ export class ClassComponent extends ViewComponent implements OnInit {
     super(router, activatedRoute, toasterService);
   }  
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.initfileuploader(this.fileUploader1, 'classes', '班级', this.getclasses);
     this.initfileuploader(this.fileUploader2, 'classes', '班级', this.getclasses);
     this.getclasses();
   }
   
-  getclasses() {    
+  getclasses() {
+    this.loading = true;
     this.classClient.getClasses().
     subscribe(
-      d => {        
+      d => {
+        this.loading = false;
         this.classinfos = new Classes(d.classes);
         if (this.classinfos.empty()) {
           this.infoModal.show();

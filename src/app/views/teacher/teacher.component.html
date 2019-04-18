@@ -16,8 +16,11 @@
           </div>
         </div>
       </div>
+
+      <app-loading [hidden]="!loading"></app-loading>
+      
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
-        [mfRowsOnPage]="10">
+        [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
           <tr>
             <th style="width: 5%">

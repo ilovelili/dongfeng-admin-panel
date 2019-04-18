@@ -29,6 +29,7 @@ import {
   AppSidebarMinimizerComponent,
   APP_SIDEBAR_NAV,
   AppCsvDownloadService,
+  CallbackComponent,
 
 } from './components';
 
@@ -67,7 +68,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { CallbackComponent } from './callback/callback.component';
 import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationClient } from './clients/notification.client';

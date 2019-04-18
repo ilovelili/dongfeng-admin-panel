@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation, Output, EventEmitter } from "@angular/core";
 import { UserClient } from "../../clients/user.client";
-import { ImageUpload } from "../../models";
 
 class ImageSnippet {
   pending: boolean = false;

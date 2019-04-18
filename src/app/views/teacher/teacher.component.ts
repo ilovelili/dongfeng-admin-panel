@@ -54,10 +54,12 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     this.getteachers();
   }  
 
-  getteachers(showinfomodal: boolean = true) {    
+  getteachers(showinfomodal: boolean = true) {
+    this.loading = true;
     this.classClient.getTeachers(this.currentYear, this.currentClass).
     subscribe(
-      d => {        
+      d => {
+        this.loading = false;
         this.teachers = new Teachers(d.teachers).format();
         if (this.teachers.empty() && showinfomodal) {
           this.infoModal.show();

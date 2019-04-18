@@ -5,7 +5,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { ClassRoutingModule } from './class-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { ClassComponent } from './class.component';
-import { AppCsvModule } from '../../components';
+import { AppCsvModule, AppLoadingModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -19,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     AppCsvModule,    
     FileUploadModule,
     DataTableModule,
-    FormsModule,    
+    FormsModule,
+    AppLoadingModule,    
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],  

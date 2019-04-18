@@ -5,13 +5,12 @@ import { DataTableModule } from 'angular2-datatable';
 import { AttendanceRoutingModule } from './attendance-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { AttendanceComponent } from './attendance.component';
-import { AppCsvModule } from '../../components';
+import { AppCsvModule, AppLoadingModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DataFilterPipe } from './datafilterpipeline';
-// Datepicker
 import { BsDatepickerModule } from 'ngx-bootstrap';
 
 
@@ -24,6 +23,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     FileUploadModule,
     DataTableModule,
     FormsModule,
+    AppLoadingModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),

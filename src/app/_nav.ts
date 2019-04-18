@@ -6,7 +6,7 @@ export const navigation = [
   },
   {
     name: '成长档案',
-    url: '/growth-profile',
+    url: '/theme/typography',
     icon: 'icon-note'
   },
   {
