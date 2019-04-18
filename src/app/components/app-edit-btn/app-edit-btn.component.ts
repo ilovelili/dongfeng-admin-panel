@@ -26,6 +26,7 @@ export class AppEditButtonComponent {
   setitem(key: string, value: any, item: any) {
     this.item = item;
     this.item[key] = value;
+    this.editcriteria[key] = value;
   }
 
   @Output()
@@ -33,11 +34,11 @@ export class AppEditButtonComponent {
 
   edit(e: Event) {
     e.preventDefault()
-    this.editModal.show();
+    this.editModal.show();    
   }
 
   submit() {
-    // this.onItemSelected.emit(item);
+    this.onItemSelected.emit(this.item);
     this.editModal.hide();
   }
 }

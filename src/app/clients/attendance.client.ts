@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { AttendanceResponse } from 'app/models/';
+import { AttendanceResponse, Empty } from 'app/models/';
 
 @Injectable()
 export class AttendanceClient extends BaseClient {
@@ -11,9 +11,9 @@ export class AttendanceClient extends BaseClient {
     super(http);
   }
 
-  getAttendances(year?:string, cls?: string, name?: string, from?: string, to?: string): Observable<AttendanceResponse> {
+  getAttendances(year?: string, cls?: string, name?: string, from?: string, to?: string): Observable<AttendanceResponse> {
     let params = new HttpParams();
-    
+
     if (year && year != "") {
       params = params.set("year", year);
     }
@@ -30,6 +30,16 @@ export class AttendanceClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', {headers: this.defaultHeaders, params: params});
-  };  
+    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', { headers: this.defaultHeaders, params: params });
+  };
+
+  updateAttendance(year: string, cls: string, date: string, name: string, attendance: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/attendance', {
+      year: year,
+      class: cls,
+      date: date,
+      name: name,
+      attendance: attendance == 'o',
+    }, this.defaultHttpOptions);
+  };
 }

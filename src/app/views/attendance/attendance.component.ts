@@ -66,7 +66,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   constructor(private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, activatedRoute, toasterService, localeService);
-  }  
+  }
 
   ngOnInit(): void {
     this.initfileuploader(this.fileUploader1, 'attendances', '出勤', this.getattendances);
@@ -84,7 +84,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
           this.loading = false;
           this.attendances = new Attendances(d.attendances, new Holidays(d.holidays)).format();
           if (this.attendances.length == 0 && showinfomodal) {
-            this.infoModal.show();            
+            this.infoModal.show();
             this.items = absences_template;
           } else {
             this.items = this.attendances;
@@ -99,11 +99,26 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
           }
         },
         e => this.LogError(e, '获取出勤信息失败，请重试'),
-        () => this.LogComplete('"class component teachers loading completed"')
+        () => this.LogComplete('attendance component teachers loading completed')
       );
   }
 
   updateattendance(item: FormattedAttendance) {
-    console.log(item);
-  }  
+    this.loading = true;
+    let original = this.items.find(i => i.year == item.year && i.class == item.class && i.date == item.date && i.name == item.name);
+    // do not update if no change
+    if (original.attendance == item.attendance) {
+      this.loading = false;
+    } else {
+      this.attendanceClient.updateAttendance(item.year, item.class, item.date, item.name, item.attendance).
+        subscribe(
+          _ => {
+            this.loading = false;
+            original.attendance = item.attendance;
+          },
+          e => this.LogError(e, '出勤信息更新失败，请重试'),
+          () => this.LogComplete('attendance component teachers loading completed')
+        );
+    }
+  }
 }
