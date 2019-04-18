@@ -35,6 +35,7 @@ export abstract class ViewComponent {
   protected searchcriteria = {
     year: '学年',
     class: '班级',
+    name: '姓名',
   };
 
   protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
@@ -155,6 +156,18 @@ export abstract class ViewComponent {
       this.searchcriteria.class = '班级';
     } else {
       this.searchcriteria.class = cls;
+    }
+  }
+
+  protected setname(name: string) {
+    if (name != this.currentName) {
+      this.currentName = name;
+    };
+
+    if (name == '') {
+      this.searchcriteria.name = '姓名';
+    } else {
+      this.searchcriteria.name = name;
     }
   }
 

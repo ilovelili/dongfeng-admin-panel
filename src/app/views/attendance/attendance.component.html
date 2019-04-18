@@ -134,6 +134,20 @@
           </ul>
         </div>
 
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.name}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setname('')">全部</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setname(params['name'])">{{params['name']}}</a>
+            </li>
+          </ul>
+        </div>
+
         <div class="btn-group text-right">
           <button type="button" class="btn btn-success" (click)="getattendances(false)">检索</button>
         </div>
