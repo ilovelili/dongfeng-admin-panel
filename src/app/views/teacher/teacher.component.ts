@@ -33,11 +33,11 @@ const teachers_template = [
 ];
 
 @Component({  
-  templateUrl: 'teacher.component.html',
+  templateUrl: './teacher.component.html',
   styleUrls: [
     '../../../scss/vendors/file-uploader/file-uploader.scss', 
     '../../../scss/vendors/toastr/toastr.scss',
-    'teacher.component.scss',
+    './teacher.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })

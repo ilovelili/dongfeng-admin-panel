@@ -6,7 +6,4 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   styleUrls: ['../../../../node_modules/spinkit/css/spinkit.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppLoadingComponent {
-  @Input("hidden")
-  public hidden: boolean;
-}
+export class AppLoadingComponent { }

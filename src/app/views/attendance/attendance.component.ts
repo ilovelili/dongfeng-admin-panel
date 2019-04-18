@@ -52,12 +52,12 @@ const absences_template = [
 ];
 
 @Component({
-  templateUrl: 'attendance.component.html',
+  templateUrl: './attendance.component.html',
   styleUrls: [
     '../../../scss/vendors/file-uploader/file-uploader.scss',
     '../../../scss/vendors/toastr/toastr.scss',
     '../../../scss/vendors/bs-datepicker/bs-datepicker.scss',
-    'attendance.component.scss'
+    './attendance.component.scss'
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -84,7 +84,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
           this.loading = false;
           this.attendances = new Attendances(d.attendances, new Holidays(d.holidays)).format();
           if (this.attendances.length == 0 && showinfomodal) {
-            this.infoModal.show();
+            this.infoModal.show();            
             this.items = absences_template;
           } else {
             this.items = this.attendances;
@@ -103,8 +103,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
       );
   }
 
-  edit(item: FormattedAttendance, e: Event) {
-    e.preventDefault();
-    // todo
+  updateattendance(item: FormattedAttendance) {
+    console.log(item);
   }  
 }

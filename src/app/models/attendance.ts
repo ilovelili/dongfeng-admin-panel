@@ -22,7 +22,23 @@ export class Attendances {
             class: a.class,
             name: n,
             attendance: 'o',
-            holiday: 0,
+            holiday: 0,            
+            edititems: [
+              {
+                year: a.year,
+                date: a.date,
+                class: a.class,
+                name: n,
+                attendance: 'o',
+              },
+              {
+                year: a.year,
+                date: a.date,
+                class: a.class,
+                name: n,
+                attendance: 'x',
+              }
+            ],
           });
         });
       }
@@ -36,10 +52,26 @@ export class Attendances {
             class: a.class,
             name: n,
             attendance: 'x',
-            holiday: 0,
+            holiday: 0,            
+            edititems: [
+              {
+                year: a.year,
+                date: a.date,
+                class: a.class,
+                name: n,
+                attendance: 'o',
+              },
+              {
+                year: a.year,
+                date: a.date,
+                class: a.class,
+                name: n,
+                attendance: 'x',
+              }
+            ],
           });
         });
-      }      
+      }
     });
 
     if (this.holidays.empty() == false) {
@@ -52,6 +84,7 @@ export class Attendances {
           name: '',
           attendance: '-',
           holiday: h.type,
+          edititems: [],          
         });
       });
     }
@@ -85,6 +118,7 @@ export class FormattedAttendance {
   name: string;
   attendance: string;
   holiday: number;
+  edititems: Partial<FormattedAttendance>[];
 }
 
 export class AttendanceResponse {

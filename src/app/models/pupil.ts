@@ -1,5 +1,3 @@
-import { empty } from "rxjs/observable/empty";
-
 export class Pupils {
   constructor(public pupils: Pupil[]){}
 
@@ -12,5 +10,5 @@ export class Pupil {
   id: number;
   year: string;
   class: string;  
-  name: string;  
+  name: string;
 }

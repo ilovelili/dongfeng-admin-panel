@@ -33,11 +33,11 @@ const pupils_template = [
 ];
 
 @Component({
-  templateUrl: 'pupil.component.html',
+  templateUrl: './pupil.component.html',
   styleUrls: [
     '../../../scss/vendors/file-uploader/file-uploader.scss',
     '../../../scss/vendors/toastr/toastr.scss',
-    'pupil.component.scss',
+    './pupil.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })

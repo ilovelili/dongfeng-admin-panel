@@ -25,11 +25,11 @@ const classes_template = [
 ];
 
 @Component({  
-  templateUrl: 'class.component.html',
+  templateUrl: './class.component.html',
   styleUrls: [
     '../../../scss/vendors/file-uploader/file-uploader.scss', 
     '../../../scss/vendors/toastr/toastr.scss',
-    'class.component.scss',    
+    './class.component.scss',    
   ],
   encapsulation: ViewEncapsulation.None,
 })

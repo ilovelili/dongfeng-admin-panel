@@ -14,7 +14,7 @@ export abstract class ViewComponent {
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
 
-  protected loading: boolean;
+  protected loading: boolean;  
   protected items: any[] = [];
   
   protected key_token: string = 'token';
@@ -85,7 +85,7 @@ export abstract class ViewComponent {
   }
 
   constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
-    this.loading = true;
+    this.loading = true;    
 
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
@@ -212,5 +212,5 @@ export abstract class ViewComponent {
 
     let year = parseInt(segments[0]), month = parseInt(segments[1]) - 1 /* since month starts with 0 */, day = parseInt(segments[2]);
     return new Date(year, month, day);
-  }  
+  }
 }

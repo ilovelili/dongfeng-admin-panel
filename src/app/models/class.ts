@@ -8,5 +8,5 @@ export class Classes {
 
 export class Class {
   id: number;
-  name: string;  
+  name: string;
 }
