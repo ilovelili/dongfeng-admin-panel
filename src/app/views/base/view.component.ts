@@ -110,13 +110,23 @@ export abstract class ViewComponent {
   }
 
   protected showconditionsearch() {
-    this.infoModal.hide();
-    this.conditionModal.show();
+    if (this.infoModal) {
+      this.infoModal.hide();
+    }
+
+    if (this.conditionModal) {
+      this.conditionModal.show();
+    }
   }
 
   protected showupload() {
-    this.conditionModal.hide();
-    this.infoModal.show();    
+    if (this.conditionModal) {
+      this.conditionModal.hide();
+    }
+    
+    if (this.infoModal) {
+      this.infoModal.show();    
+    }    
   }
 
   protected DownloadCsv = (filename?: string, format?: CsvFormat) => {
