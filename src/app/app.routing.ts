@@ -27,7 +27,7 @@ export const routes: Routes = [
         loadChildren: './views/growth-profile/growth-profile.module#GrowthProfileModule',
       },
       {
-        path: '成长档案',
+        path: '用户信息',
         loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
       },
       {
