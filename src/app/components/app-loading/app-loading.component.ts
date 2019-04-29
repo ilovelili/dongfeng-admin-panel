@@ -6,4 +6,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
   styleUrls: ['../../../../node_modules/spinkit/css/spinkit.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppLoadingComponent { }
+export class AppLoadingComponent { 
+  @Input("loading")
+  public loading: boolean;
+}

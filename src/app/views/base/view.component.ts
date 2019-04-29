@@ -9,7 +9,7 @@ import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 
-export abstract class ViewComponent {
+export abstract class ViewComponent {  
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
@@ -55,7 +55,7 @@ export abstract class ViewComponent {
       timeout: 5000,
     });
 
-  protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback: Function) {
+  protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function) {
     fileUploader.setOptions({
       url: environment.api.baseURI + `/${endpoint}`,
       allowedMimeType: ['text/csv'],
@@ -71,6 +71,9 @@ export abstract class ViewComponent {
 
     fileUploader.onSuccessItem = () => {
       this.toasterService.pop('success', '', `上传${msg}信息成功`);
+      if (!callback) {
+        window.location.reload();
+      }
     };
 
     fileUploader.onErrorItem = (_, res) => {
@@ -79,13 +82,15 @@ export abstract class ViewComponent {
     };
 
     fileUploader.onCompleteAll = () => {
-      this.infoModal.hide();
-      callback();
+      if (callback) {
+        this.infoModal.hide();
+        callback(this);
+      }      
     };
   }
 
   constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
-    this.loading = true;    
+    this.loading = true;
 
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;

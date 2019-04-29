@@ -48,8 +48,8 @@ export class PupilComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'pupils', '园儿', this.getpupils);
-    this.initfileuploader(this.fileUploader2, 'pupils', '园儿', this.getpupils);
+    this.initfileuploader(this.fileUploader1, 'pupils', '园儿');
+    this.initfileuploader(this.fileUploader2, 'pupils', '园儿');
     this.getpupils();
   }
 

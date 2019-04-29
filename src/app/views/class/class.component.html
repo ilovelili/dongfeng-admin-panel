@@ -6,7 +6,7 @@
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
     </div>
     <div class="card-body">
-      <app-loading [hidden]="!loading"></app-loading>
+      <app-loading [loading]="loading"></app-loading>
 
       <table class="table table-striped" [mfData]="items" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">

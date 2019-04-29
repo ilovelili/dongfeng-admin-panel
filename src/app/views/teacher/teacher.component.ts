@@ -49,8 +49,8 @@ export class TeacherComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    this.initfileuploader(this.fileUploader1, 'teachers', '教师', this.getteachers);
-    this.initfileuploader(this.fileUploader2, 'teachers', '教师', this.getteachers);
+    this.initfileuploader(this.fileUploader1, 'teachers', '教师');
+    this.initfileuploader(this.fileUploader2, 'teachers', '教师');
     this.getteachers();
   }  
 

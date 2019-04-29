@@ -69,8 +69,8 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'attendances', '出勤', this.getattendances);
-    this.initfileuploader(this.fileUploader2, 'attendances', '出勤', this.getattendances);
+    this.initfileuploader(this.fileUploader1, 'attendances', '出勤');
+    this.initfileuploader(this.fileUploader2, 'attendances', '出勤');
     this.getattendances();
   }
 
