@@ -5,7 +5,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { AttendanceRoutingModule } from './attendance-routing.module';
 import { ToasterModule } from 'angular2-toaster';
 import { AttendanceComponent } from './attendance.component';
-import { AppCsvModule, AppLoadingModule, AppEditButtonModule } from '../../components';
+import { AppCsvModule, AppLoadingModule, AppEditButtonDropDownModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule } from 'ngx-bootstrap';
@@ -24,7 +24,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     DataTableModule,
     FormsModule,
     AppLoadingModule,
-    AppEditButtonModule,
+    AppEditButtonDropDownModule,
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients/class.client';
-import { Pupils } from 'app/models';
+import { Pupils, Pupil } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
 
 const pupils_template = [
@@ -77,6 +77,18 @@ export class PupilComponent extends ViewComponent implements OnInit {
         },
         e => this.LogError(e, '获取园儿信息失败，请重试'),
         () => this.LogComplete('pupil component pupils loading completed')
+      );
+  }
+
+  updatepupil(item: Pupil) {
+    this.loading = true;
+    this.classClient.updatePupil(item).
+      subscribe(
+        _ => {
+          this.loading = false;
+        },
+        e => this.LogError(e, '园儿信息更新失败，请重试'),
+        () => this.LogComplete('pupil component pupil updating completed')
       );
   }
 }

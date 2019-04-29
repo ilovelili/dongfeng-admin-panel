@@ -1,0 +1,38 @@
+<a (click)="edit($event)"><i class="fa fa-edit"></i></a>
+
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">编辑</h6>
+        <button type="button" class="close" (click)="editModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+            <strong>{{title}}</strong>
+          </div>
+          <div class="card-body">
+            <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="submit(f.value, $event)">
+                            
+              <div class="form-group row" *ngFor="let field of fields">
+                <label class="col-md-3 col-form-label" for="field">{{editcriteria[field]}}</label>
+                <div class="col-md-9">
+                  <input type="text" id="{{field}}" name="{{field}}" ngControl="field" class="form-control"
+                    [(ngModel)]="item[field]" #name="ngModel" required>
+                </div>
+              </div>
+
+              <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger float-right"><i class="fa fa-dot-circle-o"></i> 确定</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

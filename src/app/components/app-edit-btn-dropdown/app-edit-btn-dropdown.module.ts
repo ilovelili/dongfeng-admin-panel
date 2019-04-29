@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppEditButtonComponent } from './app-edit-btn.component';
+import { AppEditButtonDropDownComponent } from './app-edit-btn-dropdown.component';
 import { BsDropdownModule, ModalModule } from 'ngx-bootstrap';
 
 @NgModule({
@@ -10,10 +10,10 @@ import { BsDropdownModule, ModalModule } from 'ngx-bootstrap';
     BsDropdownModule.forRoot(),
   ],
   exports: [
-    AppEditButtonComponent
+    AppEditButtonDropDownComponent,
   ],
   declarations: [
-    AppEditButtonComponent
+    AppEditButtonDropDownComponent,
   ]
 })
-export class AppEditButtonModule { }
+export class AppEditButtonDropDownModule { }

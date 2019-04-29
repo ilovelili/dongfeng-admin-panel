@@ -10,5 +10,6 @@ export * from './app-sidebar-nav';
 export * from './app-image-upload';
 export * from './app-csv';
 export * from './app-loading';
-export * from './app-edit-btn';
+export * from './app-edit-btn-dropdown';
+export * from './app-edit-btn-input';
 export * from './callback';

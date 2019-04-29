@@ -99,7 +99,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
           }
         },
         e => this.LogError(e, '获取出勤信息失败，请重试'),
-        () => this.LogComplete('attendance component teachers loading completed')
+        () => this.LogComplete('attendance component attendences loading completed')
       );
   }
 
@@ -117,7 +117,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
             original.attendance = item.attendance;
           },
           e => this.LogError(e, '出勤信息更新失败，请重试'),
-          () => this.LogComplete('attendance component teachers loading completed')
+          () => this.LogComplete('attendance component attendence upload completed')
         );
     }
   }

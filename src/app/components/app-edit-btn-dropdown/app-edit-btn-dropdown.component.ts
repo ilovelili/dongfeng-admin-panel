@@ -1,12 +1,12 @@
 import { Component, Input, ViewEncapsulation, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-btn',
-  templateUrl: './app-edit-btn.component.html',
-  styleUrls: ['./app-edit-btn.component.scss'],
+  selector: 'app-edit-btn-dropdown',
+  templateUrl: './app-edit-btn-dropdown.component.html',
+  styleUrls: ['./app-edit-btn-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppEditButtonComponent {
+export class AppEditButtonDropDownComponent {
   @ViewChild('editModal') editModal
 
   @Input("items")
