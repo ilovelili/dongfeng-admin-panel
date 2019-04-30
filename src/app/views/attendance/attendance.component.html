@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!attendances || attendances.length == 0">
     <div class="card-header">{{currentClass}} {{currentName}} 出勤信息 ({{dateFrom}} ~ {{dateTo}}) {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(filename('出勤信息'), $event)" [headers]="['日期','班级','姓名','出勤']"
+      <csv (Download)="DownloadCsv(false, filename('出勤信息'), $event)" [headers]="['日期','班级','姓名','出勤']"
         [columns]="['date','class','name','attendance']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名']"
+        下载csv模板 <csv (Download)="DownloadCsv(true, '出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名']"
           [columns]="['id','year','date','class','name']"></csv>
       </div>
     </div><!-- /.modal-content -->

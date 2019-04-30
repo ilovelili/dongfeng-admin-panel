@@ -6,33 +6,6 @@ import { ClassClient } from 'app/clients/class.client';
 import { ToasterService } from 'angular2-toaster';
 import { ErrorCode } from 'app/models/errorcode';
 
-const teachers_template = [
-  {
-    id: 1,
-    year: "2019",
-    name: "陆美美",
-    class: "小一班|中二班|大一班 (注:用'|'分割不同班级)",
-    email: "12345@qq.com",
-    role: "管理员 (注:有'管理员'权限的教师可以更新重要的系统数据，请谨慎选择。默认一般权限可以不填)",
-  },
-  {
-    id: 2,
-    year: "2019",
-    name: "王莉莉",
-    class: "大一班|中二班",
-    email: "54321@163.com",
-    role: "",
-  },
-  {
-    id: 3,
-    year: "2018",
-    name: "陆美美",
-    class: "大三班",
-    email: "12345@qq.com",
-    role: "管理员",
-  }
-];
-
 @Component({  
   templateUrl: './teacher.component.html',
   styleUrls: [
@@ -53,6 +26,33 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     this.initfileuploader(this.fileUploader1, 'teachers', '教师');
     this.initfileuploader(this.fileUploader2, 'teachers', '教师');
     this.getteachers();
+
+    this.template = [
+      {
+        id: 1,
+        year: "2019",
+        name: "陆美美",
+        class: "小一班|中二班|大一班 (注:用'|'分割不同班级)",
+        email: "12345@qq.com",
+        role: "管理员 (注:有'管理员'权限的教师可以更新重要的系统数据，请谨慎选择。默认一般权限可以不填)",
+      },
+      {
+        id: 2,
+        year: "2019",
+        name: "王莉莉",
+        class: "大一班|中二班",
+        email: "54321@163.com",
+        role: "",
+      },
+      {
+        id: 3,
+        year: "2018",
+        name: "陆美美",
+        class: "大三班",
+        email: "12345@qq.com",
+        role: "管理员",
+      }
+    ];    
   }  
 
   getteachers(showinfomodal: boolean = true) {
@@ -64,7 +64,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         this.teachers = new Teachers(d.teachers).format();
         if (this.teachers.empty() && showinfomodal) {
           this.infoModal.show();
-          this.items = teachers_template;
+          this.items = this.template;
         } else {
           this.items = this.teachers.teachers;
           this.items.forEach(n => {

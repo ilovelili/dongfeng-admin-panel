@@ -6,51 +6,6 @@ import { Attendances, FormattedAttendance, Holidays } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { ToasterService } from 'angular2-toaster';
 
-const absences_template = [
-  {
-    id: 1,
-    year: "2019",
-    date: "2019-04-01 (注:日期为 年-月-日 或者 年/月/日 格式)",
-    class: "小一班",
-    name: "王子涵 (注:只需上传缺席园儿名单,出席园儿不必记录)",
-  },
-  {
-    id: 2,
-    year: "2019",
-    date: "2019-04-01",
-    class: "小一班",
-    name: "赵欣怡",
-  },
-  {
-    id: 3,
-    year: "2019",
-    date: "2019-04-02",
-    class: "小一班",
-    name: "王子涵",
-  },
-  {
-    id: 4,
-    year: "2019",
-    date: "2019-04-02",
-    class: "大一班",
-    name: "李雨轩",
-  },
-  {
-    id: 5,
-    year: "2019",
-    date: "2019-04-03",
-    class: "小一班",
-    name: "赵欣怡",
-  },
-  {
-    id: 6,
-    year: "2019",
-    date: "2019-04-03",
-    class: "大一班",
-    name: "李雨轩",
-  },
-];
-
 @Component({
   templateUrl: './attendance.component.html',
   styleUrls: [
@@ -72,6 +27,51 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.initfileuploader(this.fileUploader1, 'attendances', '出勤');
     this.initfileuploader(this.fileUploader2, 'attendances', '出勤');
     this.getattendances();
+
+    this.template = [
+      {
+        id: 1,
+        year: "2019",
+        date: "2019-04-01 (注:日期为 年-月-日 或者 年/月/日 格式)",
+        class: "小一班",
+        name: "王子涵 (注:只需上传缺席园儿名单,出席园儿不必记录)",
+      },
+      {
+        id: 2,
+        year: "2019",
+        date: "2019-04-01",
+        class: "小一班",
+        name: "赵欣怡",
+      },
+      {
+        id: 3,
+        year: "2019",
+        date: "2019-04-02",
+        class: "小一班",
+        name: "王子涵",
+      },
+      {
+        id: 4,
+        year: "2019",
+        date: "2019-04-02",
+        class: "大一班",
+        name: "李雨轩",
+      },
+      {
+        id: 5,
+        year: "2019",
+        date: "2019-04-03",
+        class: "小一班",
+        name: "赵欣怡",
+      },
+      {
+        id: 6,
+        year: "2019",
+        date: "2019-04-03",
+        class: "大一班",
+        name: "李雨轩",
+      },
+    ];
   }
 
   getattendances(showinfomodal: boolean = true) {
@@ -85,7 +85,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
           this.attendances = new Attendances(d.attendances, new Holidays(d.holidays)).format();
           if (this.attendances.length == 0 && showinfomodal) {
             this.infoModal.show();
-            this.items = absences_template;
+            this.items = this.template;
           } else {
             this.items = this.attendances;
             this.items.forEach(n => {

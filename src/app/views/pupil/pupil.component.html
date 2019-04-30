@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!pupils || pupils.empty()">
     <div class="card-header">{{currentClass}} 园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(filename('园儿信息'), $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
+      <csv (Download)="DownloadCsv(false, filename('园儿信息'), $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
@@ -81,7 +81,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('园儿信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
+        下载csv模板 <csv (Download)="DownloadCsv(true, '园儿信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
           [columns]="['id','year','class','name']"></csv>
       </div>
     </div><!-- /.modal-content -->

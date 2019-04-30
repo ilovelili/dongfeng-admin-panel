@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!classinfos || classinfos.empty()">
     <div class="card-header">班级信息
-      <csv (Download)="DownloadCsv('班级信息.csv', $event)" [headers]="['ID','班级']" [columns]="['id','name']">
+      <csv (Download)="DownloadCsv(false, '班级信息.csv', $event)" [headers]="['ID','班级']" [columns]="['id','name']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
     </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv('班级信息模板.csv', $event)" [headers]="['ID','班级']"
+        下载csv模板 <csv (Download)="DownloadCsv(true, '班级信息模板.csv', $event)" [headers]="['ID','班级']"
           [columns]="['id','name']"></csv>
       </div>
     </div><!-- /.modal-content -->

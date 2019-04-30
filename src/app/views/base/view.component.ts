@@ -15,6 +15,8 @@ export abstract class ViewComponent {
   @ViewChild('conditionModal') conditionModal
 
   protected loading: boolean;  
+  
+  protected template: any[] = [];
   protected items: any[] = [];
   
   protected key_token: string = 'token';
@@ -134,9 +136,10 @@ export abstract class ViewComponent {
     }    
   }
 
-  protected DownloadCsv = (filename?: string, format?: CsvFormat) => {
+  protected DownloadCsv = (downloadtemplate: boolean, filename?: string, format?: CsvFormat) => {
     filename = filename || (window.location.hash.replace('#/', '') || (this.activatedRoute.component as any).name) + '.csv';
-    this.csvDownloader.WriteFormattedCSV(this.items, format, filename);
+    let items = downloadtemplate ? this.template : this.items;
+    this.csvDownloader.WriteFormattedCSV(items, format, filename);
   };
 
   protected LogComplete = (msg: string) => {

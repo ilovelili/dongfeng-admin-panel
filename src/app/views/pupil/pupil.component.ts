@@ -6,33 +6,6 @@ import { Pupils, Pupil } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
 import { ErrorCode } from 'app/models/errorcode';
 
-const pupils_template = [
-  {
-    id: 1,
-    year: "2019",
-    class: "小一班",
-    name: "王子涵"
-  },
-  {
-    id: 2,
-    year: "2019",
-    class: "中二班",
-    name: "张梓轩"
-  },
-  {
-    id: 3,
-    year: "2019",
-    class: "大一班",
-    name: "李雨轩"
-  },
-  {
-    id: 4,
-    year: "2018",
-    class: "小一班",
-    name: "赵欣怡"
-  },
-];
-
 @Component({
   templateUrl: './pupil.component.html',
   styleUrls: [
@@ -52,6 +25,33 @@ export class PupilComponent extends ViewComponent implements OnInit {
     this.initfileuploader(this.fileUploader1, 'pupils', '园儿');
     this.initfileuploader(this.fileUploader2, 'pupils', '园儿');
     this.getpupils();
+
+    this.template = [
+      {
+        id: 1,
+        year: "2019",
+        class: "小一班",
+        name: "王子涵"
+      },
+      {
+        id: 2,
+        year: "2019",
+        class: "中二班",
+        name: "张梓轩"
+      },
+      {
+        id: 3,
+        year: "2019",
+        class: "大一班",
+        name: "李雨轩"
+      },
+      {
+        id: 4,
+        year: "2018",
+        class: "小一班",
+        name: "赵欣怡"
+      },
+    ];    
   }
 
   getpupils(showinfomodal: boolean = true) {
@@ -63,7 +63,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
           this.pupils = new Pupils(d.pupils);
           if (this.pupils.empty() && showinfomodal) {
             this.infoModal.show();
-            this.items = pupils_template;
+            this.items = this.template;
           } else {
             this.items = this.pupils.pupils;
             this.items.forEach(n => {
