@@ -27,7 +27,7 @@ export class AppEditButtonInputComponent {
   @Output()
   onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  private original: Object = {};
+  private original: Object = {};  
 
   edit(e: Event) {
     e.preventDefault();
@@ -36,7 +36,17 @@ export class AppEditButtonInputComponent {
     for (let k in this.item) {
       this.original[k] = this.item[k];
     }
+    
     this.editModal.show();    
+  }
+
+  close(e: Event) {
+    // revert on close modal.
+    for (let k in this.original) {
+      this.item[k] = this.original[k];
+    }
+    
+    this.editModal.hide();
   }
 
   submit(form: any) {
