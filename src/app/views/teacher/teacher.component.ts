@@ -4,6 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { Teachers, Teacher } from 'app/models/teacher';
 import { ClassClient } from 'app/clients/class.client';
 import { ToasterService } from 'angular2-toaster';
+import { ErrorCode } from 'app/models/errorcode';
 
 const teachers_template = [
   {
@@ -81,12 +82,30 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         }
       },
       e => this.LogError(e, '获取教师信息失败，请重试'),
-      () => this.LogComplete('class component teachers loading completed')
+      () => this.LogComplete('teacher component teachers loading completed')
     );
   }
 
-  edit(item: Teacher, e: Event) {    
-    e.preventDefault();
-    // todo
+  updateteacher(item: Teacher) {
+    this.loading = true;
+    this.classClient.updateTeacher(item).
+      subscribe(
+        _ => {
+          this.loading = false;
+        },
+        e => {
+          if (e.error.custom_code = ErrorCode.InvalidClass) {
+            this.LogError(e, '教师信息更新失败，请检查班级名');
+          } else {
+            this.LogError(e, '教师信息更新失败，请重试');
+          }
+          this.loading = false;
+
+          // revert
+          let idx = this.items.findIndex(i => i.id == item.id);
+          this.items[idx] = (<any>item).original;
+        },
+        () => this.LogComplete('teacher component teacher updating completed')
+      );
   }
 }

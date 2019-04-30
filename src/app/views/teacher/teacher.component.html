@@ -18,7 +18,7 @@
       </div>
 
       <app-loading [loading]="loading"></app-loading>
-      
+
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
@@ -30,13 +30,13 @@
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
             <th style="width: 25%">
-              <mfDefaultSorter by="age">指导班级</mfDefaultSorter>
+              <mfDefaultSorter by="class">指导班级</mfDefaultSorter>
             </th>
             <th style="width: 20%">
-              <mfDefaultSorter by="age">邮箱</mfDefaultSorter>
+              <mfDefaultSorter by="email">邮箱</mfDefaultSorter>
             </th>
             <th style="width: 15%">
-              <mfDefaultSorter by="age">权限</mfDefaultSorter>
+              <mfDefaultSorter by="role">权限</mfDefaultSorter>
             </th>
             <th style="width: 20%">编辑</th>
           </tr>
@@ -48,7 +48,10 @@
             <td>{{item.class}}</td>
             <td>{{item.email}}</td>
             <td>{{item.role}}</td>
-            <td><a (click)="edit(item.id)"><i class="fa fa-edit"></i></a></td>
+            <td>
+              <app-edit-btn-input [title]="'编辑教师信息'" [item]="item" [fields]="['name','class','email']"
+                (onSubmit)="updateteacher($event)"></app-edit-btn-input>
+            </td>
           </tr>
         </tbody>
         <tfoot>
@@ -79,10 +82,10 @@
         <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
           请将教师信息csv格式文件拖至此处上传
-        </div>        
+        </div>
         <div>
-        或直接打开文件上传
-        <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br/>
+          或直接打开文件上传
+          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br />
         </div>
       </div>
       <div class="modal-footer">
@@ -97,44 +100,44 @@
   aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
-        <div class="modal-header">
-            <h6 class="modal-title">按条件检索</h6>
-            <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">        
-            <div class="btn-group" dropdown>
-              <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                {{searchcriteria.year}} <span class="caret"></span>
-              </button>
-              <ul *dropdownMenu class="dropdown-menu" role="menu">
-                <li role="menuitem">
-                  <a class="dropdown-item" (click)="setyear('')">全部</a>
-                </li>
-                <li *ngFor="let year of years" role="menuitem">
-                  <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
-                </li>
-              </ul>
-            </div>
-    
-            <div class="btn-group" dropdown>
-              <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                {{searchcriteria.class}} <span class="caret"></span>
-              </button>
-              <ul *dropdownMenu class="dropdown-menu" role="menu">
-                <li role="menuitem">
-                  <a class="dropdown-item" (click)="setclass('')">全部</a>
-                </li>
-                <li *ngFor="let class of classes" role="menuitem">
-                  <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
-                </li>
-              </ul>
-            </div>            
-    
-            <div class="btn-group float-right">
-              <button type="button" class="btn btn-success" (click)="getteachers(false)">检索</button>
-            </div>
+      <div class="modal-header">
+        <h6 class="modal-title">按条件检索</h6>
+        <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.year}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setyear('')">全部</a>
+            </li>
+            <li *ngFor="let year of years" role="menuitem">
+              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.class}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setclass('')">全部</a>
+            </li>
+            <li *ngFor="let class of classes" role="menuitem">
+              <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group float-right">
+          <button type="button" class="btn btn-success" (click)="getteachers(false)">检索</button>
+        </div>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

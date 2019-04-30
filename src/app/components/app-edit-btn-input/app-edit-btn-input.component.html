@@ -20,10 +20,9 @@
             <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="submit(f.value, $event)">
                             
               <div class="form-group row" *ngFor="let field of fields">
-                <label class="col-md-3 col-form-label" for="field">{{editcriteria[field]}}</label>
+                <label class="col-md-3 col-form-label" [attr.for]="field">{{editcriteria[field]}}</label>
                 <div class="col-md-9">
-                  <input type="text" id="{{field}}" name="{{field}}" ngControl="field" class="form-control"
-                    [(ngModel)]="item[field]" #name="ngModel" required>
+                  <input type="text" name="{{field}}" ngControl="field" class="form-control" [(ngModel)]="item[field]" required>
                 </div>
               </div>
 

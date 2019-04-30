@@ -4,6 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients/class.client';
 import { Pupils, Pupil } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
+import { ErrorCode } from 'app/models/errorcode';
 
 const pupils_template = [
   {
@@ -87,8 +88,21 @@ export class PupilComponent extends ViewComponent implements OnInit {
         _ => {
           this.loading = false;
         },
-        e => this.LogError(e, '园儿信息更新失败，请重试'),
-        () => this.LogComplete('pupil component pupil updating completed')
+        e => {
+          if (e.error.custom_code = ErrorCode.InvalidClass) {
+            this.LogError(e, '园儿信息更新失败，请检查班级名');
+          } else {
+            this.LogError(e, '园儿信息更新失败，请重试');
+          }
+          this.loading = false;
+
+          // revert
+          let idx = this.items.findIndex(i => i.id == item.id);
+          this.items[idx] = (<any>item).original;
+        },
+        () => {
+          this.LogComplete('pupil component pupil updating completed');          
+        }
       );
   }
 }

@@ -21,13 +21,21 @@ export class AppEditButtonInputComponent {
   editcriteria = {
     name: "姓名",
     class: "班级",
+    email: "邮件",
   }
 
   @Output()
   onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
+  private original: Object = {};
+
   edit(e: Event) {
-    e.preventDefault()
+    e.preventDefault();
+
+    // copy by value so that original will save the item before edited
+    for (let k in this.item) {
+      this.original[k] = this.item[k];
+    }
     this.editModal.show();    
   }
 
@@ -35,7 +43,10 @@ export class AppEditButtonInputComponent {
     // append id if exists
     if (this.item.id) {
       form.id = this.item.id;
-    }    
+    }
+
+    // add original for easy rollback when error happens
+    form.original = this.original;
 
     this.onSubmit.emit(form);
     this.editModal.hide();
