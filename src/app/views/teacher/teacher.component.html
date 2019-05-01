@@ -49,8 +49,8 @@
             <td>{{item.email}}</td>
             <td>{{item.role}}</td>
             <td>
-              <app-edit-btn-input [title]="'编辑教师信息'" [item]="item" [fields]="['name','class','email']"
-                (onSubmit)="updateteacher($event)"></app-edit-btn-input>
+              <app-edit-btn [title]="'编辑教师信息'" [item]="item" [fields]="['name','class','email']"
+                (onSubmit)="updateteacher($event)"></app-edit-btn>
             </td>
           </tr>
         </tbody>

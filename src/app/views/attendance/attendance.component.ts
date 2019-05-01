@@ -103,22 +103,29 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
       );
   }
 
-  updateattendance(item: FormattedAttendance) {
+  updateattendance(item: FormattedAttendance, e: Event) {
+    e.preventDefault();
     this.loading = true;
-    let original = this.items.find(i => i.year == item.year && i.class == item.class && i.date == item.date && i.name == item.name);
-    // do not update if no change
-    if (original.attendance == item.attendance) {
-      this.loading = false;
-    } else {
-      this.attendanceClient.updateAttendance(item.year, item.class, item.date, item.name, item.attendance).
-        subscribe(
-          _ => {
-            this.loading = false;
-            original.attendance = item.attendance;
-          },
-          e => this.LogError(e, '出勤信息更新失败，请重试'),
-          () => this.LogComplete('attendance component attendence upload completed')
-        );
+    let original = item.attendance;
+
+    // toggle attendence
+    if (original == "o") {
+      item.attendance = "x";
+    } else if (original == "x") {
+      item.attendance = "o";
     }
+
+    this.attendanceClient.updateAttendance(item).
+      subscribe(
+        _ => {
+          this.loading = false;
+        },
+        e => {
+          this.LogError(e, '出勤信息更新失败，请重试');
+          this.loading = false;
+          item.attendance = original;
+        },
+        () => this.LogComplete('attendance component attendence upload completed')
+      );
   }
 }

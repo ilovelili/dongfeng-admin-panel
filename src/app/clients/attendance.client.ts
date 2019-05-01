@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { AttendanceResponse, Empty } from 'app/models/';
+import { AttendanceResponse, Empty, FormattedAttendance } from 'app/models/';
 
 @Injectable()
 export class AttendanceClient extends BaseClient {
@@ -33,13 +33,13 @@ export class AttendanceClient extends BaseClient {
     return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', { headers: this.defaultHeaders, params: params });
   };
 
-  updateAttendance(year: string, cls: string, date: string, name: string, attendance: string): Observable<Empty> {
+  updateAttendance(attendance: FormattedAttendance): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + '/attendance', {
-      year: year,
-      class: cls,
-      date: date,
-      name: name,
-      attendance: attendance == 'o',
+      year: attendance.year,
+      class: attendance.class,
+      date: attendance.date,
+      name: attendance.name,
+      attendance: attendance.attendance == 'o',
     }, this.defaultHttpOptions);
   };
 }

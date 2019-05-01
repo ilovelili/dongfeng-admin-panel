@@ -1,12 +1,12 @@
 import { Component, Input, ViewEncapsulation, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-edit-btn-input',
-  templateUrl: './app-edit-btn-input.component.html',
-  styleUrls: ['./app-edit-btn-input.component.scss'],
+  selector: 'app-edit-btn',
+  templateUrl: './app-edit-btn.component.html',
+  styleUrls: ['./app-edit-btn.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AppEditButtonInputComponent {
+export class AppEditButtonComponent {
   @ViewChild('editModal') editModal
 
   @Input("title")

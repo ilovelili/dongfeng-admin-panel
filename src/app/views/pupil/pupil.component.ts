@@ -95,7 +95,6 @@ export class PupilComponent extends ViewComponent implements OnInit {
             this.LogError(e, '园儿信息更新失败，请重试');
           }
           this.loading = false;
-
           // revert
           let idx = this.items.findIndex(i => i.id == item.id);
           this.items[idx] = (<any>item).original;

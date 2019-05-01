@@ -9,16 +9,16 @@ import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 
-export abstract class ViewComponent {  
+export abstract class ViewComponent {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
 
-  protected loading: boolean;  
-  
+  protected loading: boolean;
+
   protected template: any[] = [];
   protected items: any[] = [];
-  
+
   protected key_token: string = 'token';
   protected namespace: string = 'dongfeng';
   protected sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
@@ -87,7 +87,7 @@ export abstract class ViewComponent {
       if (callback) {
         this.infoModal.hide();
         callback(this);
-      }      
+      }
     };
   }
 
@@ -100,7 +100,7 @@ export abstract class ViewComponent {
       this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
-      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInThisMonth());
+      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPrevMonth());
       this.dateTo = this.params["to"] || this.formatDate(new Date());
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
 
@@ -130,10 +130,10 @@ export abstract class ViewComponent {
     if (this.conditionModal) {
       this.conditionModal.hide();
     }
-    
+
     if (this.infoModal) {
-      this.infoModal.show();    
-    }    
+      this.infoModal.show();
+    }
   }
 
   protected DownloadCsv = (downloadtemplate: boolean, filename?: string, format?: CsvFormat) => {
@@ -205,11 +205,6 @@ export abstract class ViewComponent {
     return `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
   }
 
-  protected firstDayInThisMonth(): Date {
-    let d = new Date();
-    return new Date(d.getFullYear(), d.getMonth(), 1);
-  }
-
   protected formatDate(d: Date): string {
     let month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -221,14 +216,10 @@ export abstract class ViewComponent {
     return [year, month, day].join('-');
   }
 
-  protected deformatDate(d: string): Date {
-    // yyyy/mm/dd or yyyy-mm-dd
-    let segments = d.replace("/", "-").split("-");
-    if (segments.length != 3) {
-      throw 'invalid date';
-    }
-
-    let year = parseInt(segments[0]), month = parseInt(segments[1]) - 1 /* since month starts with 0 */, day = parseInt(segments[2]);
-    return new Date(year, month, day);
+  private firstDayInPrevMonth(): Date {
+    let d = new Date();
+    d.setDate(1);
+    d.setMonth(d.getMonth() - 1);
+    return d;
   }
 }

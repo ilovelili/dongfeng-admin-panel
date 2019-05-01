@@ -45,7 +45,7 @@
             <td>{{item.name}}</td>
             <td>{{item.attendance}}</td>
             <td [hidden]="item.holiday!=0">
-              <app-edit-btn-dropdown [items]="item.edititems" [fields]="['attendance']" (onItemSelected)="updateattendance($event)"></app-edit-btn-dropdown>
+              <a (click)="updateattendance(item, $event)"><i class="fa fa-edit"></i></a>
             </td>
             <td [hidden]="item.holiday==0">-</td>
           </tr>
