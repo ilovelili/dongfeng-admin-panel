@@ -17,12 +17,12 @@ export const navigation = [
   // {
   //   name: '成长档案',
   //   url: '/theme/typography',
-  //   icon: 'icon-note'
+  //   icon: 'icon-pencil'
   // },
   {
     name: '出勤信息',
     url: '/出勤信息',
-    icon: 'icon-user'
+    icon: 'icon-note'
   },
   // {
   //   name: '体格检查',
