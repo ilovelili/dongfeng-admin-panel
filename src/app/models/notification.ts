@@ -115,6 +115,6 @@ class DetailPlaceHolder {
   static RecipeUpdated: string = "{{time}} 菜谱信息更新";
   static MenuUpdated: string = "{{time}} 菜单信息更新";
   static IngredientUpdated: string = "{{time}} 配菜信息更新";
-  static AttendanceUpdated: string = "{{time}} 点名信息更新";
+  static AttendanceUpdated: string = "{{time}} 出勤信息更新";
   static AgentSmith: string = "{{time}} {{title}}{{details}}";
 }
