@@ -58,6 +58,14 @@ export const routes: Routes = [
         path: '出勤信息/:class/:name',
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
       },
+      {
+        path: '体格检查',
+        loadChildren: './views/physique/physique.module#PhysiqueModule',
+      },      
+      {
+        path: '体格检查/:class/:name',
+        loadChildren: './views/physique/physique.module#PhysiqueModule',
+      },
     ]
   },
   {

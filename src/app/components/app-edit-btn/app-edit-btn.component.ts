@@ -18,10 +18,15 @@ export class AppEditButtonComponent {
   @Input("fields")
   public fields: string[];
 
-  editcriteria = {
+  editcriteria = {    
     name: "姓名",
     class: "班级",
     email: "邮件",
+    gender: '性别',
+    birth_date: '出生日期',
+    exam_date: '体检日期',
+    height: '身高',
+    weight: '体重',
   }
 
   @Output()

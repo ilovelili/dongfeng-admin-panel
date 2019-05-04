@@ -16,7 +16,7 @@ export class Teachers {
     }
 
     empty(): boolean {
-      return !this || !this.teachers || this.teachers.length == 0;
+      return !this || !this.teachers || !this.teachers.length;
     }
 
     private resolveRole(teacher: Teacher): string {

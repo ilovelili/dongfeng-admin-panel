@@ -2,7 +2,7 @@ export class Pupils {
   constructor(public pupils: Pupil[]){}
 
   empty(): boolean {
-    return !this || !this.pupils || this.pupils.length == 0;
+    return !this || !this.pupils || !this.pupils.length;
   }  
 }
 

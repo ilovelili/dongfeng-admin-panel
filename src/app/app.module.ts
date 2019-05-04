@@ -74,6 +74,7 @@ import { NotificationClient } from './clients/notification.client';
 import { FormsModule } from '@angular/forms';
 import { ClassClient } from './clients/class.client';
 import { AttendanceClient } from './clients/attendance.client';
+import { PhysiqueClient } from './clients/physique.client';
 
 defineLocale(zhCn.abbr, zhCn);
 
@@ -82,6 +83,7 @@ const APP_CLIENTS = [
   NotificationClient,
   ClassClient,
   AttendanceClient,
+  PhysiqueClient,
 ]
 
 @NgModule({

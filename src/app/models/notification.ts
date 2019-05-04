@@ -33,7 +33,7 @@ export class Notification {
       case "N1005":
         result = DetailPlaceHolder.AttendanceUpdated;
         break;
-      case "N2001":
+      case "N1006":
         result = DetailPlaceHolder.PhysiqueUpdated;
         break;
       case "N5001":

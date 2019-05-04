@@ -3,7 +3,7 @@ import { Holiday, Holidays } from "./holiday";
 export class Attendances {
   constructor(public attendances: Attendance[], public holidays: Holidays) { }
   empty(): boolean {
-    return !this || !this.attendances || this.attendances.length == 0;
+    return !this || !this.attendances || !this.attendances.length;
   }
 
   format(): FormattedAttendance[] {

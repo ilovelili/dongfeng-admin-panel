@@ -42,7 +42,7 @@
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
             <td><a [routerLink]="['/出勤信息', item.class, item.name]"><i class="fa fa-link"></i></a></td>
-            <td><a [routerLink]="['/体格信息', item.id]"><i class="fa fa-link"></i></a></td>            
+            <td><a [routerLink]="['/体格检查', item.class, item.name]"><i class="fa fa-link"></i></a></td>            
             <td><app-edit-btn [title]="'编辑园儿信息'" [item]="item" [fields]="['name','class']" (onSubmit)="updatepupil($event)"></app-edit-btn></td>
           </tr>
         </tbody>

@@ -22,8 +22,8 @@ export class PupilComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'pupils', '园儿');
-    this.initfileuploader(this.fileUploader2, 'pupils', '园儿');
+    this.initfileuploader(this.fileUploader1, 'pupils', '园儿', null, this.errorcallback);
+    this.initfileuploader(this.fileUploader2, 'pupils', '园儿', null, this.errorcallback);
     this.getpupils();
 
     this.template = [
@@ -61,9 +61,11 @@ export class PupilComponent extends ViewComponent implements OnInit {
         d => {
           this.loading = false;
           this.pupils = new Pupils(d.pupils);
-          if (this.pupils.empty() && showinfomodal) {
-            this.infoModal.show();
-            this.items = this.template;
+          if (this.pupils.empty()) {
+            if (showinfomodal) {
+              this.infoModal.show();
+              this.items = this.template;
+            }            
           } else {
             this.items = this.pupils.pupils;
             this.items.forEach(n => {
@@ -89,7 +91,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
           this.loading = false;
         },
         e => {
-          if (e.error.custom_code = ErrorCode.InvalidClass) {
+          if (e.error.custom_code == ErrorCode.InvalidClass) {
             this.LogError(e, '园儿信息更新失败，请检查班级名');
           } else {
             this.LogError(e, '园儿信息更新失败，请重试');
@@ -103,5 +105,14 @@ export class PupilComponent extends ViewComponent implements OnInit {
           this.LogComplete('pupil component pupil updating completed');          
         }
       );
+  }
+
+  errorcallback(res: string, me: any) {
+    let resjson = JSON.parse(res);
+    if (resjson.custom_code == ErrorCode.InvalidClass) {
+      me.LogError(res, '园儿信息更新失败，请检查班级名');
+    } else {
+      me.LogError(res, '园儿信息更新失败，请重试');
+    }
   }
 }

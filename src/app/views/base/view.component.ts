@@ -13,6 +13,7 @@ export abstract class ViewComponent {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
+  @ViewChild('explainModal') explainModal
 
   protected loading: boolean;
 
@@ -57,7 +58,7 @@ export abstract class ViewComponent {
       timeout: 5000,
     });
 
-  protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function) {
+  protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
     fileUploader.setOptions({
       url: environment.api.baseURI + `/${endpoint}`,
       allowedMimeType: ['text/csv'],
@@ -71,16 +72,22 @@ export abstract class ViewComponent {
       this.toasterService.pop('info', '', '上传中');
     };
 
-    fileUploader.onSuccessItem = () => {
-      this.toasterService.pop('success', '', `上传${msg}信息成功`);
+    fileUploader.onSuccessItem = () => {      
       if (!callback) {
+        this.toasterService.pop('success', '', `上传${msg}信息成功`);
         window.location.reload();
+      } else {
+        callback(this);
       }
     };
 
-    fileUploader.onErrorItem = (_, res) => {
-      console.error(res);
-      this.toasterService.pop('error', '', `上传${msg}信息失败，请重试`);
+    fileUploader.onErrorItem = (_, res) => {      
+      if (!errcallback) {
+        console.error(res);
+        this.toasterService.pop('error', '', `上传${msg}信息失败，请重试`);        
+      } else {
+        errcallback(res, this);
+      }
     };
 
     fileUploader.onCompleteAll = () => {
@@ -121,6 +128,10 @@ export abstract class ViewComponent {
       this.infoModal.hide();
     }
 
+    if (this.explainModal) {
+      this.explainModal.hide();
+    }
+
     if (this.conditionModal) {
       this.conditionModal.show();
     }
@@ -131,8 +142,26 @@ export abstract class ViewComponent {
       this.conditionModal.hide();
     }
 
+    if (this.explainModal) {
+      this.explainModal.hide();
+    }
+
     if (this.infoModal) {
       this.infoModal.show();
+    }
+  }
+
+  protected showexplain() {
+    if (this.conditionModal) {
+      this.conditionModal.hide();
+    }
+
+    if (this.infoModal) {
+      this.infoModal.hide();
+    }
+
+    if (this.explainModal) {
+      this.explainModal.show();
     }
   }
 

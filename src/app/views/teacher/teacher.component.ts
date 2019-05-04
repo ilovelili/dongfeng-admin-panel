@@ -23,8 +23,8 @@ export class TeacherComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    this.initfileuploader(this.fileUploader1, 'teachers', '教师');
-    this.initfileuploader(this.fileUploader2, 'teachers', '教师');
+    this.initfileuploader(this.fileUploader1, 'teachers', '教师', null, this.errorcallback);
+    this.initfileuploader(this.fileUploader2, 'teachers', '教师', null, this.errorcallback);
     this.getteachers();
 
     this.template = [
@@ -62,9 +62,11 @@ export class TeacherComponent extends ViewComponent implements OnInit {
       d => {
         this.loading = false;
         this.teachers = new Teachers(d.teachers).format();
-        if (this.teachers.empty() && showinfomodal) {
-          this.infoModal.show();
-          this.items = this.template;
+        if (this.teachers.empty()) {
+          if (showinfomodal) {
+            this.infoModal.show();
+            this.items = this.template;
+          }          
         } else {
           this.items = this.teachers.teachers;
           this.items.forEach(n => {
@@ -94,7 +96,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
           this.loading = false;
         },
         e => {
-          if (e.error.custom_code = ErrorCode.InvalidClass) {
+          if (e.error.custom_code == ErrorCode.InvalidClass) {
             this.LogError(e, '教师信息更新失败，请检查班级名');
           } else {
             this.LogError(e, '教师信息更新失败，请重试');
@@ -106,5 +108,14 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         },
         () => this.LogComplete('teacher component teacher updating completed')
       );
+  }
+
+  errorcallback(res: string, me: any) {
+    let resjson = JSON.parse(res);
+    if (resjson.custom_code == ErrorCode.InvalidClass) {
+      me.LogError(res, '教师信息更新失败，请检查班级名');
+    } else {
+      me.LogError(res, '教师信息更新失败，请重试');
+    }
   }
 }
