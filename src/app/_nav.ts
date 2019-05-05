@@ -25,8 +25,8 @@ export const navigation = [
     icon: 'icon-note'
   },
   {
-    name: '体格检查',
-    url: '/体格检查',
+    name: '体格发育',
+    url: '/体格发育',
     icon: 'icon-heart'
   },
   // {
@@ -34,4 +34,36 @@ export const navigation = [
   //   url: '/theme/typography',
   //   icon: 'icon-cup'
   // },
+  {
+    name: '标准数据',
+    url: '/标准数据',
+    icon: 'icon-printer',
+    children: [
+      {
+        name: '体格发育五项指标',
+        url: '/体格发育/体格发育五项指标对照表',
+        icon: 'icon-doc'
+      },
+      {
+        name: '生长迟缓标准表',
+        url: '/体格发育/生长迟缓标准表',
+        icon: 'icon-doc'
+      },
+      {
+        name: 'BMI指标',
+        url: '/体格发育/BMI指标对照表',
+        icon: 'icon-doc'
+      },
+      {
+        name: '身高测体重对照表',
+        url: '/体格发育/身高测体重对照表',
+        icon: 'icon-doc'
+      },
+      {
+        name: '身高别体重标准表',
+        url: '/体格发育/身高别体重标准表',
+        icon: 'icon-doc'
+      }
+    ]
+  },
 ];

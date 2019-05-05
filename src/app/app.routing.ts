@@ -39,15 +39,7 @@ export const routes: Routes = [
         loadChildren: './views/pupil/pupil.module#PupilModule',
       },
       {
-        path: '园儿信息/:class',
-        loadChildren: './views/pupil/pupil.module#PupilModule',
-      },
-      {
         path: '教师信息',
-        loadChildren: './views/teacher/teacher.module#TeacherModule',
-      },
-      {
-        path: '教师信息/:class',
         loadChildren: './views/teacher/teacher.module#TeacherModule',
       },
       {
@@ -55,17 +47,9 @@ export const routes: Routes = [
         loadChildren: './views/attendance/attendance.module#AttendanceModule',
       },      
       {
-        path: '出勤信息/:class/:name',
-        loadChildren: './views/attendance/attendance.module#AttendanceModule',
-      },
-      {
-        path: '体格检查',
+        path: '体格发育',
         loadChildren: './views/physique/physique.module#PhysiqueModule',
-      },      
-      {
-        path: '体格检查/:class/:name',
-        loadChildren: './views/physique/physique.module#PhysiqueModule',
-      },
+      },            
     ]
   },
   {

@@ -1,0 +1,70 @@
+<div class="animated fadeIn">
+    <div class="card">
+      <div class="card-header">生长迟缓标准对照表
+        <csv (Download)="DownloadCsv(false, filename('生长迟缓标准对照表'), $event)"
+          [headers]="['ID','身高/体重','性别','年龄','-2SD','-1SD','0SD','1SD','2SD']"
+          [columns]="['id','hw','gender','age','sdm2','sdm1','avg','sd1','sd2']">
+        </csv>        
+      </div>
+      <div class="card-body">
+        <app-loading [loading]="loading"></app-loading>
+  
+        <table class="table table-striped" [mfData]="items" #mf="mfDataTable"
+          [mfRowsOnPage]="30" [hidden]="loading">
+          <thead>
+            <tr>            
+              <th style="width: 12%">
+                <mfDefaultSorter by="id">ID</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="height_or_weight">身高/体重</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="gender">性别</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="age">年龄</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="sdm2">-2SD</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="sdm1">-1SD</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="avg">0SD</mfDefaultSorter>
+              </th>
+              <th style="width: 11%">
+                <mfDefaultSorter by="sd1">1SD</mfDefaultSorter>
+              </th>            
+              <th style="width: 11%">
+                <mfDefaultSorter by="sd2">2SD</mfDefaultSorter>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data">
+              <td>{{item.id}}</td>
+              <td>{{item.hw}}</td>
+              <td>{{item.gender}}</td>
+              <td>{{item.age}}</td>
+              <td>{{item.sdm2}}</td>
+              <td>{{item.sdm1}}</td>
+              <td>{{item.avg}}</td>
+              <td>{{item.sd1}}</td>
+              <td>{{item.sd2}}</td>              
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="9">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <toaster-container [toasterconfig]="toasterconfig"></toaster-container>  

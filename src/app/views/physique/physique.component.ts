@@ -24,8 +24,8 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'physiques', '体格检查', null, this.errcallback);
-    this.initfileuploader(this.fileUploader2, 'physiques', '体格检查', null, this.errcallback);
+    this.initfileuploader(this.fileUploader1, 'physiques', '体格发育', null, this.errcallback);
+    this.initfileuploader(this.fileUploader2, 'physiques', '体格发育', null, this.errcallback);
     this.getphysiques();
 
     this.template = [
@@ -89,7 +89,7 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
             });
           }
         },
-        e => this.LogError(e, '获取体格检查信息失败,请重试'),
+        e => this.LogError(e, '获取体格发育信息失败,请重试'),
         () => this.LogComplete('physique component physiques loading completed')
       );
   }
@@ -113,9 +113,9 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
         },
         e => {
           if (e.error.custom_code == ErrorCode.InvalidPupil) {
-            this.LogError(e, '体格检查信息更新失败,请检查班级名和园儿姓名');
+            this.LogError(e, '体格发育信息更新失败,请检查班级名和园儿姓名');
           } else {
-            this.LogError(e, '体格检查信息更新失败,请重试');
+            this.LogError(e, '体格发育信息更新失败,请重试');
           }
           this.loading = false;
           // revert
@@ -130,9 +130,9 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   errcallback(res: string, me: any) {
     let resjson = JSON.parse(res);
     if (resjson.custom_code == ErrorCode.InvalidPupil) {
-      me.LogError(res, '体格检查信息更新失败,请检查班级名和园儿姓名');
+      me.LogError(res, '体格发育信息更新失败,请检查班级名和园儿姓名');
     } else {
-      me.LogError(res, '体格检查信息更新失败,请重试');
+      me.LogError(res, '体格发育信息更新失败,请重试');
     }
   }
 }

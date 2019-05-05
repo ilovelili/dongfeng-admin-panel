@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!physiques || physiques.empty()">
-    <div class="card-header">{{currentClass}} 体格检查信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(false, filename('体格检查信息'), $event)"
+    <div class="card-header">{{currentClass}} 体格发育信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+      <csv (Download)="DownloadCsv(false, filename('体格发育信息'), $event)"
         [headers]="['ID','班级','姓名','性别','出生日期','体检日期','身高','体重','年龄','身高评价','体重评价','身测体评价','BMI','肥胖指数','总评价']"
         [columns]="['id','class','name','gender','birth_date','exam_date','height','weight','age','height_p','weight_p','height_weight_p','bmi','fat_cofficient','conclusion']">
       </csv>
@@ -87,7 +87,7 @@
             <td>{{item.fat_cofficient}}</td>
             <td>{{item.conclusion}}</td>
             <td>
-              <app-edit-btn [title]="'编辑 '+item.name+' 体格检查信息'" [item]="item" [fields]="['gender','birth_date','exam_date','height','weight']"
+              <app-edit-btn [title]="'编辑 '+item.name+' 体格发育信息'" [item]="item" [fields]="['gender','birth_date','exam_date','height','weight']"
                 (onSubmit)="updatephysique($event)"></app-edit-btn>
             </td>
           </tr>
@@ -111,7 +111,7 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">没有体格检查信息,请上传</h4>
+        <h4 class="modal-title">没有体格发育信息,请上传</h4>
         <button type="button" class="close" (click)="infoModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -119,7 +119,7 @@
       <div class="modal-body">
         <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
-          请将体格检查信息csv格式文件拖至此处上传
+          请将体格发育信息csv格式文件拖至此处上传
         </div>
         <div>
           或直接打开文件上传
@@ -128,7 +128,7 @@
       </div>
 
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '体格检查信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名','性别','出生日期','体检日期','身高','体重']"
+        下载csv模板 <csv (Download)="DownloadCsv(true, '体格发育信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名','性别','出生日期','体检日期','身高','体重']"
           [columns]="['id','year','class','name','gender','birth_date','exam_date','height','weight']"></csv>
       </div>
     </div><!-- /.modal-content -->
@@ -195,12 +195,16 @@
       </div>
       <div class="modal-body">
           <ul>
-            <li>测量出身高体重后，按照男女性别及年龄，分别比对《0-6岁男、女童体格发育五项指标评价参考值》。</li>
+            <li>测量出身高体重后，按照男女性别及年龄，分别比对《0-6岁体格发育五项指标评价参考值》。</li>
             <li>身高小于P3,怀疑是生长迟缓，根据性别及年龄比对《5岁以下儿童低体重/生长迟缓标准表》。身高小于-2SD，为生长迟缓。</li>
             <li>五项指标评价参考值核对出来后体重小于P10，按照性别及年龄比对《0-6岁按身高测体重》。如身高测体重也小于P10，为营养不良。（年龄测身高和身高测体重两项都小于P3的为重度营养不良；一项小于P10，一项小于P3的或者两项都小于P10的为轻度营养不良。）</li>
             <li>五项指标评价参考值核对出来后体重较重的幼儿: 五岁以下，按照性别及年龄，核对《5岁以下男/女童身高别体重标准》表，根据身高，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。大于5岁的幼儿，计算BMI指数【体重/身高(米)的平方】，然后比对《5-19岁BMI指数》表，按照性别与年龄比对BMI指数，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。</li>
             <li>5岁以下超重或肥胖的幼儿在计算肥胖度时，根据《5岁以下男/女童身高别体重标准》表，对应相应的身高后，计算公式为实测体重（kg）-中位数/中位数。</li>
           </ul>
+      </div>
+      <div class="modal-footer">
+        0-6岁体格发育五项指标评价参考值 <csv (Download)="DownloadCsv(false, '0-6岁体格发育五项指标评价参考值.csv', $event)" [headers]="['ID','学年','班级','姓名','性别','出生日期','体检日期','身高','体重']"
+          [columns]="['id','year','class','name','gender','birth_date','exam_date','height','weight']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

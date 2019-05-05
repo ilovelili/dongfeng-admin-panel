@@ -5,10 +5,25 @@ import { AttendanceComponent } from './attendance.component';
 const routes: Routes = [
   {
     path: '',
-    component: AttendanceComponent,
     data: {
       title: '出勤信息'
-    }
+    },
+    children: [
+      {
+        path: '',
+        component: AttendanceComponent,
+        data: {
+          title: '出勤信息'
+        },
+      },
+      {
+        path: ':class/:name',
+        component: AttendanceComponent,
+        data: {
+          title: '出勤信息'
+        },
+      }
+    ]
   }
 ];
 

@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule, TooltipModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { DataFilterPipe } from './datafilterpipeline';
+import { AgeHeightWeightPMasterComponent, AgeHeightWeightSDMasterComponent, BMIMasterComponent, HeightToWeightPMasterComponent, HeightToWeightSDMasterComponent } from './master.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,11 @@ import { DataFilterPipe } from './datafilterpipeline';
   ],
   declarations: [
     PhysiqueComponent,
+    AgeHeightWeightPMasterComponent,
+    AgeHeightWeightSDMasterComponent,
+    BMIMasterComponent,
+    HeightToWeightPMasterComponent,
+    HeightToWeightSDMasterComponent,
     DataFilterPipe
   ],
 })

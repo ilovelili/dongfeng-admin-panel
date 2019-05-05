@@ -1,0 +1,74 @@
+<div class="animated fadeIn">
+    <div class="card">
+      <div class="card-header">体格发育五项指标对照表
+        <csv (Download)="DownloadCsv(false, filename('体格发育五项指标对照表'), $event)"
+          [headers]="['ID','身高/体重','性别','年龄范围','P3','P10','P20','P50','P80','P97']"
+          [columns]="['id','hw','gender','age_range','p3','p10','p20','p50','p80','p97']">
+        </csv>        
+      </div>
+      <div class="card-body">
+        <app-loading [loading]="loading"></app-loading>
+  
+        <table class="table table-striped" [mfData]="items" #mf="mfDataTable"
+          [mfRowsOnPage]="30" [hidden]="loading">
+          <thead>
+            <tr>            
+              <th style="width: 10%">
+                <mfDefaultSorter by="id">ID</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="height_or_weight">身高/体重</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="gender">性别</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="age_min">年龄范围</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="p3">p3</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="p10">p10</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="p20">p20</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="p50">p50</mfDefaultSorter>
+              </th>            
+              <th style="width: 10%">
+                <mfDefaultSorter by="p80">p80</mfDefaultSorter>
+              </th>
+              <th style="width: 10%">
+                <mfDefaultSorter by="p97">p97</mfDefaultSorter>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data">
+              <td>{{item.id}}</td>
+              <td>{{item.hw}}</td>
+              <td>{{item.gender}}</td>
+              <td>{{item.age_range}}</td>
+              <td>{{item.p3}}</td>
+              <td>{{item.p10}}</td>
+              <td>{{item.p20}}</td>
+              <td>{{item.p50}}</td>
+              <td>{{item.p80}}</td>
+              <td>{{item.p97}}</td>              
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="10">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <toaster-container [toasterconfig]="toasterconfig"></toaster-container>  
