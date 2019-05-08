@@ -38,23 +38,6 @@ export const navigation = [
         name: '本周食谱',
         url: '/膳食管理/本周食谱',
         icon: 'icon-cup',
-        children: [
-          {
-            name: '小班',
-            url: '/膳食管理/本周食谱/小班',
-            icon: 'icon-cup',
-          },
-          {
-            name: '中班',
-            url: '/膳食管理/本周食谱/中班',
-            icon: 'icon-cup',
-          },
-          {
-            name: '大班',
-            url: '/膳食管理/本周食谱/大班',
-            icon: 'icon-cup',
-          },
-        ]
       },
     ],
   },

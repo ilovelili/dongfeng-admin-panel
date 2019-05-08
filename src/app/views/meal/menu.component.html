@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!menus || menus.empty()">
-    <div class="card-header">本周菜谱 ({{dateFrom}} ~ {{dateTo}})
-      <csv (Download)="DownloadCsv(false, filename('本周菜谱'), $event)" [headers]="['日期','班级','早/中/点','菜谱']"
+    <div class="card-header">本周食谱 ({{dateFrom}} ~ {{dateTo}})
+      <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','菜谱']"
         [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
       </csv>
 

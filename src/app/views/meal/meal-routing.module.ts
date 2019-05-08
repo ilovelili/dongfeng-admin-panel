@@ -10,19 +10,11 @@ const routes: Routes = [
     },
     children: [
       {
-        path: '本周食谱',        
+        path: '本周食谱',
+        component: MenuComponent,
         data: {
           title: '本周食谱',
         },
-        children: [          
-          {
-            path: ':class',
-            component: MenuComponent,
-            data: {
-              title: '本周食谱',
-            },
-          },
-        ],
       },
     ],
   }
