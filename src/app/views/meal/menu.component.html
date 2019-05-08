@@ -1,0 +1,144 @@
+<div class="animated fadeIn">
+  <div class="card" [hidden]="!menus || menus.empty()">
+    <div class="card-header">本周菜谱 ({{dateFrom}} ~ {{dateTo}})
+      <csv (Download)="DownloadCsv(false, filename('本周菜谱'), $event)" [headers]="['日期','班级','早/中/点','菜谱']"
+        [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
+      </csv>
+
+      <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
+      <button type="button" (click)="showexplain()" class="btn btn-sm btn-success float-right">说明</button>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+          </div>
+        </div>
+      </div>
+
+      <app-loading [loading]="loading"></app-loading>
+
+      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="10" [hidden]="loading">
+        <thead>
+          <tr>
+            <th style="width: 15%">
+              <mfDefaultSorter by="date">日期</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="junior_or_senior_str">班级</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="breakfast_or_lunch_str">早/中/点</mfDefaultSorter>
+            </th>
+            <th style="width: 55%">
+              <mfDefaultSorter by="recipe">菜谱</mfDefaultSorter>
+            </th>            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data" [ngClass]="{'weekend':item.holiday== 1,'holiday':item.holiday==2}">
+            <td>{{item.date}}</td>
+            <td>{{item.junior_or_senior_str}}</td>
+            <td>{{item.breakfast_or_lunch_str}}</td>
+            <td>{{item.recipe}}</td>            
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+<div bsModal #conditionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">条件检索</h6>
+        <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{meal}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setmeal('全部')">全部</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setmeal('早餐')">早餐</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setmeal('午餐')">午餐</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setmeal('早点')">早点</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group" dropdown>
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+            {{searchcriteria.class}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu class="dropdown-menu" role="menu">
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setclass('全部')">全部</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setclass('小班')">小班</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setclass('中班')">中班</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" (click)="setclass('大班')">大班</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <input id="searchpanel" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker
+            [(ngModel)]="dateRange" [bsConfig]="datepickerconfig">
+        </div>
+
+        <div class="btn-group float-right">
+          <button type="button" class="btn btn-success" (click)="getmenus(false)">检索</button>
+        </div>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #explainModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">菜谱信息说明</h6>
+        <button type="button" class="close" (click)="explainModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          每周菜谱信息在周一上午4时根据阳光午餐系统定时更新。
+      </div>      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

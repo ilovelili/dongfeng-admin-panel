@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Teachers, Teacher } from 'app/models/teacher';
+import { Teachers, Teacher, ErrorCode } from 'app/models';
 import { ClassClient } from 'app/clients/class.client';
 import { ToasterService } from 'angular2-toaster';
-import { ErrorCode } from 'app/models/errorcode';
 
 @Component({  
   templateUrl: './teacher.component.html',

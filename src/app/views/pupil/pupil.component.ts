@@ -2,9 +2,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients/class.client';
-import { Pupils, Pupil } from 'app/models';
+import { Pupils, Pupil,ErrorCode } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
-import { ErrorCode } from 'app/models/errorcode';
 
 @Component({
   templateUrl: './pupil.component.html',

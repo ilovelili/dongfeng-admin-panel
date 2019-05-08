@@ -49,7 +49,11 @@ export const routes: Routes = [
       {
         path: '体格发育',
         loadChildren: './views/physique/physique.module#PhysiqueModule',
-      },            
+      },
+      {
+        path: '膳食管理',
+        loadChildren: './views/meal/meal.module#MealModule',
+      },
     ]
   },
   {

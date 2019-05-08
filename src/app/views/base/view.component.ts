@@ -30,7 +30,7 @@ export abstract class ViewComponent {
   protected classes = [];
   protected currentYear = '';
   protected currentClass = '';
-  protected currentName = '';
+  protected currentName = '';  
   protected dateFrom = '';
   protected dateTo = '';
   protected dateRange: Date[];
@@ -106,7 +106,8 @@ export abstract class ViewComponent {
 
       this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
-      this.currentName = this.params["name"];
+      this.currentName = this.params["name"];      
+
       this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPrevMonth());
       this.dateTo = this.params["to"] || this.formatDate(new Date());
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
@@ -228,7 +229,7 @@ export abstract class ViewComponent {
     if (to != this.dateTo) {
       this.dateTo = to;
     };
-  }
+  } 
 
   protected filename(prefix: string): string {
     return `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
@@ -245,10 +246,23 @@ export abstract class ViewComponent {
     return [year, month, day].join('-');
   }
 
-  private firstDayInPrevMonth(): Date {
+  protected firstDayInPrevMonth(): Date {
     let d = new Date();
     d.setDate(1);
     d.setMonth(d.getMonth() - 1);
     return d;
+  }
+
+  protected monday(): Date {
+    let d = new Date();
+    let day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6 : 1);
+    return new Date(d.setDate(diff));
+  }
+
+  protected friday(): Date {
+    let monday = this.monday(),
+      diff = monday.getDate() + 4;
+    return new Date(monday.setDate(diff));
   }
 }

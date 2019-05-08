@@ -75,6 +75,7 @@ import { FormsModule } from '@angular/forms';
 import { ClassClient } from './clients/class.client';
 import { AttendanceClient } from './clients/attendance.client';
 import { PhysiqueClient } from './clients/physique.client';
+import { MealClient } from './clients/meal.client';
 
 defineLocale(zhCn.abbr, zhCn);
 
@@ -84,6 +85,7 @@ const APP_CLIENTS = [
   ClassClient,
   AttendanceClient,
   PhysiqueClient,
+  MealClient,
 ]
 
 @NgModule({

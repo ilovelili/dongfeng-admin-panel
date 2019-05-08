@@ -7,3 +7,6 @@ export * from './date_range';
 export * from './pupil';
 export * from './teacher';
 export * from './holiday';
+export * from './errorcode';
+export * from './physique';
+export * from './meal';

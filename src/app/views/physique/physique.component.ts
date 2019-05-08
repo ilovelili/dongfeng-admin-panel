@@ -1,11 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { BsLocaleService } from 'ngx-bootstrap';
 import { ToasterService } from 'angular2-toaster';
 import { PhysiqueClient } from 'app/clients/physique.client';
-import { Physiques, Physique } from 'app/models/physique';
-import { ErrorCode } from 'app/models/errorcode';
+import { Physiques, Physique, ErrorCode } from 'app/models';
 
 @Component({
   templateUrl: './physique.component.html',
