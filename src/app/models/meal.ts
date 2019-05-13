@@ -17,6 +17,38 @@ export class Menus {
       result.push(m);
     })
 
+    result.sort((r1, r2): number => {
+      if (r1.date > r2.date) {
+        return 1;
+      }
+
+      if (r1.date < r2.date) {
+        return -1;
+      }
+
+      if (r1.date == r2.date) {
+        if (r1.breakfast_or_lunch > r2.breakfast_or_lunch) {
+          return 1;
+        }
+
+        if (r1.breakfast_or_lunch < r2.breakfast_or_lunch) {
+          return -1;
+        }
+
+        if (r1.breakfast_or_lunch == r2.breakfast_or_lunch) {
+          if (r1.junior_or_senior > r2.junior_or_senior) {
+            return 1;
+          }
+
+          if (r1.junior_or_senior < r2.junior_or_senior) {
+            return -1;
+          }
+
+          return 0;
+        }
+      }
+    })
+
     return new Menus(result);
   }
 
