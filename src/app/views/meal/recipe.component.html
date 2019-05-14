@@ -1,0 +1,74 @@
+<div class="animated fadeIn">
+  <div class="card" [hidden]="!recipes || recipes.empty()">
+    <div class="card-header">
+      食谱信息
+      <csv (Download)="DownloadCsv(false, filename('食谱信息'), $event)" [headers]="['食谱名','原料','碳水化合物','膳食纤维','蛋白质','脂肪','热量']"
+        [columns]="['recipe','ingredients','carbohydrate','dietaryfiber','protein','fat','heat']">
+      </csv>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+          </div>
+        </div>
+      </div>
+
+      <app-loading [loading]="loading"></app-loading>
+
+      <table class="table table-striped" [mfData]="items | recipeFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="10" [hidden]="loading">
+        <thead>
+          <tr>
+            <th style="width: 22%">
+              <mfDefaultSorter by="recipe">食谱名</mfDefaultSorter>
+            </th>
+            <th style="width: 35%">
+              <mfDefaultSorter by="ingredients">原料</mfDefaultSorter>
+            </th>
+            <th style="width: 7%">
+              <mfDefaultSorter by="carbohydrate">碳水化合物</mfDefaultSorter>
+            </th>
+            <th style="width: 7%">
+              <mfDefaultSorter by="dietaryfiber">膳食纤维</mfDefaultSorter>
+            </th>
+            <th style="width: 7%">
+              <mfDefaultSorter by="protein">蛋白质</mfDefaultSorter>
+            </th>
+            <th style="width: 7%">
+              <mfDefaultSorter by="fat">脂肪</mfDefaultSorter>
+            </th>
+            <th style="width: 7%">
+              <mfDefaultSorter by="heat">热量</mfDefaultSorter>
+            </th>
+            <th style="width: 8%">原料信息</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{item.recipe}}</td>
+            <td>{{item.ingredients}}</td>
+            <td>{{item.carbohydrate}}</td>
+            <td>{{item.dietaryfiber}}</td>
+            <td>{{item.protein}}</td>
+            <td>{{item.fat}}</td>
+            <td>{{item.heat}}</td>
+            <td><a class="text-center" [routerLink]="['/原料信息', item.recipe]"><i class="fa fa-link fa-sm"></i></a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="8">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>

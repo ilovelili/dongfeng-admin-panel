@@ -39,6 +39,16 @@ export const navigation = [
         url: '/膳食管理/本周食谱',
         icon: 'icon-cup',
       },
+      {
+        name: '食谱信息',
+        url: '/膳食管理/食谱信息',
+        icon: 'icon-cup',
+      },
+      {
+        name: '原料信息',
+        url: '/膳食管理/原料信息',
+        icon: 'icon-cup',
+      },
     ],
   },
   {

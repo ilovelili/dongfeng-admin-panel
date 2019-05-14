@@ -16,6 +16,8 @@ import { Physique_AgeHeightWeightPMaster, Physique_AgeHeightWeightSDMaster, Phys
 export class AgeHeightWeightPMasterComponent extends ViewComponent implements OnInit {
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {
@@ -47,6 +49,8 @@ export class AgeHeightWeightPMasterComponent extends ViewComponent implements On
 export class AgeHeightWeightSDMasterComponent extends ViewComponent implements OnInit {
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {
@@ -78,6 +82,8 @@ export class AgeHeightWeightSDMasterComponent extends ViewComponent implements O
 export class BMIMasterComponent extends ViewComponent implements OnInit {
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {
@@ -109,6 +115,8 @@ export class BMIMasterComponent extends ViewComponent implements OnInit {
 export class HeightToWeightPMasterComponent extends ViewComponent implements OnInit {
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {
@@ -140,6 +148,8 @@ export class HeightToWeightPMasterComponent extends ViewComponent implements OnI
 export class HeightToWeightSDMasterComponent extends ViewComponent implements OnInit {
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {

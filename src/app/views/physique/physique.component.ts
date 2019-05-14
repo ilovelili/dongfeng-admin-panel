@@ -18,7 +18,9 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   private physiques: Physiques;
 
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+    super(router, activatedRoute, toasterService);    
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {

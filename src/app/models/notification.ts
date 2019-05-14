@@ -112,7 +112,7 @@ class DetailPlaceHolder {
   static ClasslistUpdated: string = "{{time}} 班级信息更新";
   static TeacherlistUpdated: string = "{{time}} 教师信息更新";
   static PhysiqueUpdated: string = "{{time}} 体格信息表更新";
-  static RecipeUpdated: string = "{{time}} 菜谱信息更新";
+  static RecipeUpdated: string = "{{time}} 食谱信息更新";
   static MenuUpdated: string = "{{time}} 菜单信息更新";
   static IngredientUpdated: string = "{{time}} 配菜信息更新";
   static AttendanceUpdated: string = "{{time}} 出勤信息更新";

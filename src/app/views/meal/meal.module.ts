@@ -8,9 +8,11 @@ import { MenuComponent } from './menu.component';
 import { AppCsvModule, AppLoadingModule, AppEditButtonModule } from '../../components';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
-import { ModalModule, BsDropdownModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { ModalModule, BsDropdownModule, BsDatepickerModule, TooltipModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { DataFilterPipe } from './datafilterpipeline';
+import { IngredientFilterPipe, MenuFilterPipe, RecipeFilterPipe } from './datafilterpipeline';
+import { IngredientComponent } from './ingredient.component';
+import { RecipeComponent } from './recipe.component';
 
 @NgModule({
   imports: [
@@ -23,13 +25,18 @@ import { DataFilterPipe } from './datafilterpipeline';
     FormsModule,
     AppLoadingModule,
     AppEditButtonModule,
+    TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],  
   declarations: [
     MenuComponent,
-    DataFilterPipe
+    IngredientComponent,
+    RecipeComponent,
+    IngredientFilterPipe,
+    RecipeFilterPipe,
+    MenuFilterPipe,    
   ]
 })
 export class MealModule { }

@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!menus || menus.empty()">
     <div class="card-header">本周食谱 ({{dateFrom}} ~ {{dateTo}})
-      <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','菜谱']"
+      <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','食谱']"
         [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
       </csv>
 
@@ -20,7 +20,7 @@
 
       <app-loading [loading]="loading"></app-loading>
 
-      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+      <table class="table table-striped" [mfData]="items | menuFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
           <tr>
@@ -33,9 +33,10 @@
             <th style="width: 15%">
               <mfDefaultSorter by="breakfast_or_lunch_str">早/中/点</mfDefaultSorter>
             </th>
-            <th style="width: 55%">
-              <mfDefaultSorter by="recipe">菜谱</mfDefaultSorter>
-            </th>            
+            <th style="width: 45%">
+              <mfDefaultSorter by="recipe">食谱</mfDefaultSorter>
+            </th>
+            <th style="width: 10%">食谱信息</th>
           </tr>
         </thead>
         <tbody>
@@ -43,12 +44,13 @@
             <td>{{item.date}}</td>
             <td>{{item.junior_or_senior_str}}</td>
             <td>{{item.breakfast_or_lunch_str}}</td>
-            <td>{{item.recipe}}</td>            
+            <td>{{item.recipe}}</td>
+            <td><a [routerLink]="['../食谱信息', item.recipe]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -131,13 +133,13 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">菜谱信息说明</h6>
+        <h6 class="modal-title">食谱信息说明</h6>
         <button type="button" class="close" (click)="explainModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-          每周菜谱信息在周一上午4时根据阳光午餐系统定时更新。
+          每周食谱信息在周一上午4时根据阳光午餐系统定时更新。
       </div>      
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

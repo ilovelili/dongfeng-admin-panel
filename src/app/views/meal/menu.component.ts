@@ -50,7 +50,7 @@ export class MenuComponent extends ViewComponent implements OnInit {
           this.menus = new Menus(d.menus).format();
           this.items = this.menus.menus;
         },
-        e => this.LogError(e, '获取菜谱信息失败，请重试'),
+        e => this.LogError(e, '获取食谱信息失败，请重试'),
         () => this.LogComplete('menu component menus loading completed')
       );
   }  

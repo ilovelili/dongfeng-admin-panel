@@ -18,6 +18,8 @@ export class PupilComponent extends ViewComponent implements OnInit {
   pupils: Pupils;
   constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
+    this.dateFrom = '';
+    this.dateTo = '';
   }
 
   ngOnInit(): void {

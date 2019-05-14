@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Menus } from 'app/models/meal';
+import { Menus, Recipes } from 'app/models';
 
 @Injectable()
 export class MealClient extends BaseClient {
@@ -37,5 +37,15 @@ export class MealClient extends BaseClient {
     }
 
     return this.http.get<Menus>(environment.api.baseURI + '/menus', { headers: this.defaultHeaders, params: params });
-  };
+  }
+
+  getRecipes(recipes: string): Observable<Recipes> {
+    let params = new HttpParams();
+
+    if (recipes && recipes != "") {
+      params = params.set("recipes", recipes);
+    }
+
+    return this.http.get<Recipes>(environment.api.baseURI + '/recipes', { headers: this.defaultHeaders, params: params });
+  }
 }

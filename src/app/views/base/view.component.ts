@@ -232,7 +232,13 @@ export abstract class ViewComponent {
   } 
 
   protected filename(prefix: string): string {
-    return `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}.csv`;
+    let filename = `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}`;
+    
+    if (filename.endsWith('_')) {
+      filename = filename.substring(0, filename.length - 1);
+    }
+
+    return `${filename}.csv`;
   }
 
   protected formatDate(d: Date): string {
