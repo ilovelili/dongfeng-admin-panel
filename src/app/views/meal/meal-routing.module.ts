@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MenuComponent } from './menu.component';
 import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
+import { IngredientNutritionComponent } from './ingredient-nutrition.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,13 @@ const routes: Routes = [
         component: IngredientComponent,
         data: {
           title: '原料信息',
+        },
+      },
+      {
+        path: '食物营养成分表',
+        component: IngredientNutritionComponent,
+        data: {
+          title: '食物营养成分表',
         },
       },
     ],

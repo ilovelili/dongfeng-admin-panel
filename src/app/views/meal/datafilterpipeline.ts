@@ -25,7 +25,8 @@ export class IngredientFilterPipe implements PipeTransform {
     if (query) {
       return _.filter(array, row =>        
         row.ingredient.indexOf(query) > -1 ||
-        row.category.indexOf(query) > -1
+        row.category.indexOf(query) > -1 || 
+        row.alias.indexOf(query) > -1
       );
     }
     return array;

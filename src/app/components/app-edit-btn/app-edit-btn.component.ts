@@ -27,6 +27,7 @@ export class AppEditButtonComponent {
     exam_date: '体检日期',
     height: '身高',
     weight: '体重',
+    alias: '匹配名',
   }
 
   @Output()

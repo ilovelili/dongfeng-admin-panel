@@ -94,7 +94,8 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     this.classClient.updateTeacher(item).
       subscribe(
         _ => {
-          this.loading = false;
+          this.LogSuccess('教师信息更新');
+          this.loading = false;          
         },
         e => {
           if (e.error.custom_code == ErrorCode.InvalidClass) {

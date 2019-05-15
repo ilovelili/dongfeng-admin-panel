@@ -181,6 +181,11 @@ export abstract class ViewComponent {
     this.toasterService.pop('error', '', msg);
   };
 
+  protected LogSuccess = (msg: string) => {
+    console.log(msg);
+    this.toasterService.pop('success', '', msg);
+  };
+
   protected setyear(year: string) {
     if (year != this.currentYear) {
       this.currentYear = year;

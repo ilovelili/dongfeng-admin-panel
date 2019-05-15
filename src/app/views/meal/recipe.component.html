@@ -20,7 +20,7 @@
       <app-loading [loading]="loading"></app-loading>
 
       <table class="table table-striped" [mfData]="items | recipeFilter : filterQuery" #mf="mfDataTable"
-        [mfRowsOnPage]="10" [hidden]="loading">
+        [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
           <tr>
             <th style="width: 22%">

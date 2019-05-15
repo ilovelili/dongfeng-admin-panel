@@ -108,6 +108,7 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
     this.physiqueClient.updatePhysique(i).
       subscribe(
         _ => {
+          this.LogSuccess('体格发育信息更新');
           // get updated physique
           this.getphysiques();
         },

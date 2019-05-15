@@ -49,6 +49,11 @@ export const navigation = [
         url: '/膳食管理/原料信息',
         icon: 'icon-cup',
       },
+      {
+        name: '食物营养成分表',
+        url: '/膳食管理/食物营养成分表',
+        icon: 'icon-cup',
+      },
     ],
   },
   {

@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { IngredientFilterPipe, MenuFilterPipe, RecipeFilterPipe } from './datafilterpipeline';
 import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
+import { IngredientNutritionComponent } from './ingredient-nutrition.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { RecipeComponent } from './recipe.component';
     DataTableModule,
     FormsModule,
     AppLoadingModule,
-    AppEditButtonModule,
+    AppEditButtonModule,    
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -33,7 +34,8 @@ import { RecipeComponent } from './recipe.component';
   declarations: [
     MenuComponent,
     IngredientComponent,
-    RecipeComponent,
+    IngredientNutritionComponent,
+    RecipeComponent,    
     IngredientFilterPipe,
     RecipeFilterPipe,
     MenuFilterPipe,    

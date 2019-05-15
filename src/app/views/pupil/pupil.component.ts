@@ -89,6 +89,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
     this.classClient.updatePupil(item).
       subscribe(
         _ => {
+          this.LogSuccess('园儿信息更新');
           this.loading = false;
         },
         e => {

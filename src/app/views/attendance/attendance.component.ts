@@ -120,6 +120,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.attendanceClient.updateAttendance(item).
       subscribe(
         _ => {
+          this.LogSuccess('出勤信息更新');
           this.loading = false;
         },
         e => {

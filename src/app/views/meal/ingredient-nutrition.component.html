@@ -1,9 +1,9 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!recipes || recipes.empty()">
+  <div class="card" [hidden]="!ingredients || ingredients.empty()">
     <div class="card-header">
-      原料信息 <csv (Download)="DownloadCsv(false, filename('原料信息'), $event)"
-        [headers]="['原料','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
-        [columns]="['ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
+        食物营养成分表 <csv (Download)="DownloadCsv(false, filename('食物营养成分表'), $event)"
+        [headers]="['原料','类别','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
+        [columns]="['ingredient','category','alias','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
     </div>
 
@@ -23,11 +23,14 @@
         [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
           <tr>
-            <th style="width: 13%">
+            <th style="width: 15%">
               <mfDefaultSorter by="ingredient">原料</mfDefaultSorter>
             </th>
-            <th style="width: 13%">
+            <th style="width: 10%">
               <mfDefaultSorter by="category">类别</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="alias">匹配名</mfDefaultSorter>
             </th>
             <th style="width: 5%">
               <mfDefaultSorter by="protein_100g" tooltip="每100克含量">蛋白质</mfDefaultSorter>
@@ -62,15 +65,14 @@
             <th style="width: 5%">
               <mfDefaultSorter by="vc_100g" tooltip="每100克含量">VC</mfDefaultSorter>
             </th>
-            <th style="width: 5%"><span tooltip="当原料与食品累计表中不匹配时,系统将无法计算营养信息和采购信息,此时需要手动讲两者匹配或者在食品累计表中添加相应原料信息。不匹配的信息用粉红色背景表示">匹配</span></th>
-            <th style="width: 7%"><span tooltip="使用该原料的食谱一览">食谱一览</span></th>
-            <th style="width: 7%">食谱信息</th>
+            <th style="width: 5%">匹配</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data" [ngClass]="{'mismatch':!item.category}">
+          <tr *ngFor="let item of mf.data">
             <td>{{item.ingredient}}</td>
             <td>{{item.category}}</td>
+            <td>{{item.alias}}</td>
             <td>{{item.protein_100g}}</td>
             <td>{{item.fat_100g}}</td>
             <td>{{item.carbohydrate_100g}}</td>
@@ -82,14 +84,13 @@
             <td>{{item.vb1_100g}}</td>
             <td>{{item.vb2_100g}}</td>
             <td>{{item.vc_100g}}</td>
-            <td>-</td>
-            <td class="text-center"><a (click)="showrecipes(item,$event)"><i class="fa fa-edit"></i></a></td>
-            <td class="text-center"><a [routerLink]="['../../食谱信息', item.recipes]"><i class="fa fa-link"></i></a></td>            
+            <td><app-edit-btn [title]="'匹配 '+item.ingredient" [item]="item" [fields]="['alias']"
+                (onSubmit)="updateingredient($event)"></app-edit-btn></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="16">
+            <td colspan="14">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -100,33 +101,3 @@
 </div>
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
-
-<div bsModal #recipeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-  <div class="modal-dialog modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">食谱一览</h6>
-        <button type="button" class="close" (click)="recipeModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="card">
-          <div class="card-header">
-            原料 <strong>{{_ingredient}}</strong> 用于以下食谱
-          </div>
-          <div class="card-body">
-            <ul>
-              <li *ngFor="let recipe of _recipes">
-                <a [routerLink]="['../食谱信息', recipe]">{{recipe}}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

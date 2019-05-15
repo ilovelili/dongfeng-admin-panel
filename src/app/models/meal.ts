@@ -165,7 +165,7 @@ export class Recipes {
             i.vc_100g,
             i.vc_daily,
             i.category,
-            recipemap[i.ingredient].join(","));        
+            recipemap[i.ingredient].join(","));
 
           let found = false;
           result.forEach(r => {
@@ -174,7 +174,7 @@ export class Recipes {
               return;
             }
           });
-          
+
           if (!found) {
             result.push(formattedingredient);
           }
@@ -240,9 +240,19 @@ export class FormattedIngredient {
   ) { }
 }
 
+export class Ingredients {
+  constructor(public ingredients: Ingredient[]) { }
+
+  empty(): boolean {
+    return !this || !this.ingredients || !this.ingredients.length;
+  }
+}
+
 export class Ingredient {
   constructor(
     public ingredient: string,
+    public category: string,
+    public alias: string,
     public protein_100g: number,
     public protein_daily: number,
     public fat_100g: number,
@@ -265,6 +275,5 @@ export class Ingredient {
     public vb2_daily: number,
     public vc_100g: number,
     public vc_daily: number,
-    public category: string
   ) { }
 }
