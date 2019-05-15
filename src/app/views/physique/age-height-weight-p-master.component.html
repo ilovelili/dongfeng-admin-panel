@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <div class="card">
-      <div class="card-header">体格发育五项指标对照表
-        <csv (Download)="DownloadCsv(false, filename('体格发育五项指标对照表'), $event)"
+      <div class="card-header">五项指标对照表
+        <csv (Download)="DownloadCsv(false, filename('五项指标对照表'), $event)"
           [headers]="['ID','身高/体重','性别','年龄范围','P3','P10','P20','P50','P80','P97']"
           [columns]="['id','hw','gender','age_range','p3','p10','p20','p50','p80','p97']">
         </csv>        

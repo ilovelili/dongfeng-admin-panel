@@ -58,7 +58,7 @@ export const navigation = [
     children: [
       {
         name: '体格发育五项指标',
-        url: '/体格发育/体格发育五项指标对照表',
+        url: '/体格发育/五项指标对照表',
         icon: 'icon-printer'
       },
       {

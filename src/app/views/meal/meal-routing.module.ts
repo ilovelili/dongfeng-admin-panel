@@ -7,10 +7,11 @@ import { RecipeComponent } from './recipe.component';
 const routes: Routes = [
   {
     path: '',
+    component: MenuComponent,
     data: {
       title: '膳食管理',
-    },
-    children: [
+    },    
+    children: [      
       {
         path: '本周食谱',
         component: MenuComponent,

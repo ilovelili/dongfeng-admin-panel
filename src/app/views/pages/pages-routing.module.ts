@@ -16,21 +16,21 @@ const routes: Routes = [
         path: '404',
         component: P404Component,
         data: {
-          title: 'Page 404'
+          title: '404'
         }
       },
       {
         path: '500',
         component: P500Component,
         data: {
-          title: 'Page 500'
+          title: '500'
         }
       },
       {
         path: '登录',
         component: LoginComponent,
         data: {
-          title: '东风幼儿园登录页面'
+          title: '登录'
         }
       },      
     ]

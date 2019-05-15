@@ -15,21 +15,21 @@ const routes: Routes = [
         path: '',
         component: PhysiqueComponent,
         data: {
-          title: '体格发育',
+          title: '',
         }
       },
       {
         path: ':class/:name',
         component: PhysiqueComponent,
         data: {
-          title: '体格发育',
+          title: '',
         }
       },
       {
-        path: '体格发育五项指标对照表',
+        path: '五项指标对照表',
         component: AgeHeightWeightPMasterComponent,
         data: {
-          title: '体格发育五项指标对照表',
+          title: '五项指标对照表',
         }
       },
       {
