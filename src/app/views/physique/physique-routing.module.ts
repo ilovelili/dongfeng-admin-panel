@@ -5,8 +5,7 @@ import { AgeHeightWeightPMasterComponent, AgeHeightWeightSDMasterComponent, BMIM
 
 const routes: Routes = [
   {
-    path: '',
-    // component: PhysiqueComponent,
+    path: '',    
     data: {
       title: '体格发育'
     },

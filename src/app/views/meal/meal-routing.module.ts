@@ -6,12 +6,15 @@ import { RecipeComponent } from './recipe.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: MenuComponent,
+    path: '',    
     data: {
       title: '膳食管理',
-    },    
-    children: [      
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: '本周食谱',
+      },
       {
         path: '本周食谱',
         component: MenuComponent,
