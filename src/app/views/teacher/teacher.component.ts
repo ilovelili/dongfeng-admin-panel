@@ -53,7 +53,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         email: "12345@qq.com",
         role: "管理员",
       }
-    ];    
+    ];
   }  
 
   getteachers(showinfomodal: boolean = true) {
