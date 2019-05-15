@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '本周食谱',
+        redirectTo: '本周食谱'
       },
       {
         path: '本周食谱',
@@ -24,10 +24,7 @@ const routes: Routes = [
       },
       {
         path: '食谱信息',
-        component: RecipeComponent,
-        data: {
-          title: '食谱信息',
-        },
+        redirectTo: '食谱信息/',
       },
       {
         path: '食谱信息/:recipes',
@@ -38,10 +35,7 @@ const routes: Routes = [
       },
       {
         path: '原料信息',
-        component: IngredientComponent,
-        data: {
-          title: '原料信息',
-        },
+        redirectTo: '原料信息/',
       },
       {
         path: '原料信息/:recipes',

@@ -23,7 +23,7 @@ export class IngredientComponent extends ViewComponent implements OnInit {
 
   constructor(private mealClient: MealClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, activatedRoute, toasterService);
-    this.recipe_names = this.params["recipes"];    
+    this.recipe_names = this.params["recipes"];
     this.dateFrom = '';
     this.dateTo = '';
   }

@@ -2,8 +2,8 @@
   <div class="card" [hidden]="!recipes || recipes.empty()">
     <div class="card-header">
       原料信息 <csv (Download)="DownloadCsv(false, filename('原料信息'), $event)"
-        [headers]="['食谱名','原料','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
-        [columns]="['recipe','ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
+        [headers]="['原料','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
+        [columns]="['ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
     </div>
 
@@ -62,9 +62,9 @@
             <th style="width: 5%">
               <mfDefaultSorter by="vc_100g" tooltip="每100克含量">VC</mfDefaultSorter>
             </th>
+            <th style="width: 5%"><span tooltip="当原料与食品累计表中不匹配时,系统将无法计算营养信息和采购信息,此时需要手动讲两者匹配或者在食品累计表中添加相应原料信息。不匹配的信息用粉红色背景表示">匹配</span></th>
             <th style="width: 7%"><span tooltip="使用该原料的食谱一览">食谱一览</span></th>
-            <th style="width: 7%"><span tooltip="食谱信息页面">食谱信息</span></th>
-            <th style="width: 5%"><span tooltip="当原料与食品累计表中不匹配时,系统将无法计算营养信息和采购信息,此时需要手动讲两者匹配或者在食品累计表中添加添加相应原料信息。不匹配的信息用粉红色背景表示">匹配</span></th>
+            <th style="width: 7%">食谱信息</th>
           </tr>
         </thead>
         <tbody>
@@ -82,9 +82,9 @@
             <td>{{item.vb1_100g}}</td>
             <td>{{item.vb2_100g}}</td>
             <td>{{item.vc_100g}}</td>
-            <td class="text-center"><a (click)="showrecipes(item,$event)"><i class="fa fa-binoculars fa-sm"></i></a></td>
-            <td class="text-center"><a [routerLink]="['/食谱信息', item.recipes]"><i class="fa fa-link fa-sm"></i></a></td>
             <td>-</td>
+            <td class="text-center"><a (click)="showrecipes(item,$event)"><i class="fa fa-binoculars fa-sm"></i></a></td>
+            <td class="text-center"><a [routerLink]="['../../食谱信息', item.recipes]"><i class="fa fa-link fa-sm"></i></a></td>            
           </tr>
         </tbody>
         <tfoot>
