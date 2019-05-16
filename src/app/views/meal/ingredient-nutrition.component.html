@@ -2,7 +2,7 @@
   <div class="card" [hidden]="!ingredients || ingredients.empty()">
     <div class="card-header">
         食物营养成分表 <csv (Download)="DownloadCsv(false, filename('食物营养成分表'), $event)"
-        [headers]="['原料','类别','匹配名','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
+        [headers]="['食材','类别','匹配名','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
         [columns]="['ingredient','category','alias','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
@@ -25,9 +25,9 @@
         <thead>
           <tr>
             <th style="width: 15%">
-              <mfDefaultSorter by="ingredient">原料</mfDefaultSorter>
+              <mfDefaultSorter by="ingredient">食材</mfDefaultSorter>
             </th>
-            <th style="width: 10%">
+            <th style="width: 15%">
               <mfDefaultSorter by="category">类别</mfDefaultSorter>
             </th>
             <th style="width: 15%">
@@ -66,7 +66,6 @@
             <th style="width: 5%">
               <mfDefaultSorter by="vc_100g" tooltip="每100克含量">VC</mfDefaultSorter>
             </th>
-            <th style="width: 5%">匹配</th>
           </tr>
         </thead>
         <tbody>
@@ -85,13 +84,11 @@
             <td>{{item.vb1_100g}}</td>
             <td>{{item.vb2_100g}}</td>
             <td>{{item.vc_100g}}</td>
-            <td><app-edit-btn [title]="'匹配 '+item.ingredient" [item]="item" [fields]="['alias']"
-                (onSubmit)="updateingredient($event)"></app-edit-btn></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="14">
+            <td colspan="13">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -124,7 +121,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '食物营养成分表.csv', $event)" [headers]="['ID','原料','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
+        下载csv模板 <csv (Download)="DownloadCsv(true, '食物营养成分表.csv', $event)" [headers]="['ID','食材','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
           [columns]="['id','ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']"></csv>
       </div>
     </div><!-- /.modal-content -->

@@ -60,7 +60,7 @@ export abstract class ViewComponent {
 
   protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
     fileUploader.setOptions({
-      url: environment.api.baseURI + `/${endpoint}`,
+      url: `${environment.api.baseURI}/${endpoint}`,
       allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,

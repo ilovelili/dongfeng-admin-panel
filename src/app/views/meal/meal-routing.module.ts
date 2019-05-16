@@ -35,14 +35,14 @@ const routes: Routes = [
         },
       },
       {
-        path: '原料信息',
-        redirectTo: '原料信息/',
+        path: '食材信息',
+        redirectTo: '食材信息/',
       },
       {
-        path: '原料信息/:recipes',
+        path: '食材信息/:recipes',
         component: IngredientComponent,
         data: {
-          title: '原料信息',
+          title: '食材信息',
         },
       },
       {

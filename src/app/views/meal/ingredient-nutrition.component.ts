@@ -78,38 +78,8 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
           this.ingredients = new Ingredients(d.ingredients);
           this.items = this.ingredients.ingredients;
         },
-        e => this.LogError(e, '获取原料信息失败，请重试'),
+        e => this.LogError(e, '获取食材信息失败，请重试'),
         () => this.LogComplete('ingredient nutrition component ingredient nutritions loading completed')
-      );
-  }
-
-  updateingredient(item: Ingredient) {
-    this.loading = true;
-
-    // keep original fields
-    let i = (<any>item).original;
-    i.alias = item.alias;
-
-    this.mealClient.updateIngredient(i).
-      subscribe(
-        _ => {
-          this.LogSuccess('匹配成功');
-          // get updated ingredients
-          this.getingredients();
-        },
-        e => {
-          if (e.error.custom_code == ErrorCode.InvalidIngredientCategory) {
-            this.LogError(e, '匹配失败,无效的配料类别');
-          } else {
-            this.LogError(e, '匹配失败,请重试');
-          }
-
-          this.loading = false;
-          // revert
-          let idx = this.items.findIndex(i => i.ingredient == item.ingredient);
-          this.items[idx] = (<any>item).original;
-        },
-        () => this.LogComplete('ingredient nutrition component nutrition upload completed')
       );
   }
 
@@ -117,7 +87,7 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
   errcallback(res: string, me: any) {
     let resjson = JSON.parse(res);
     if (resjson.custom_code == ErrorCode.InvalidPupil) {
-      me.LogError(res, '匹配失败,无效的配料类别');
+      me.LogError(res, '匹配失败,无效的食材类别');
     } else {
       me.LogError(res, '匹配失败,请重试');
     }

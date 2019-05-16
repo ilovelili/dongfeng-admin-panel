@@ -45,8 +45,8 @@ export const navigation = [
         icon: 'icon-cup',
       },
       {
-        name: '原料信息',
-        url: '/膳食管理/原料信息',
+        name: '食材信息',
+        url: '/膳食管理/食材信息',
         icon: 'icon-cup',
       },
       {

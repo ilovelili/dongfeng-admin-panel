@@ -14,18 +14,20 @@ import { IngredientFilterPipe, MenuFilterPipe, RecipeFilterPipe } from './datafi
 import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
 import { IngredientNutritionComponent } from './ingredient-nutrition.component';
+import { NgxTypeaheadModule } from 'ngx-typeahead';
 
 @NgModule({
   imports: [
     MealRoutingModule,
-    CommonModule,    
+    CommonModule,
     ToasterModule,
-    AppCsvModule,    
+    AppCsvModule,
     FileUploadModule,
     DataTableModule,
     FormsModule,
     AppLoadingModule,
-    AppEditButtonModule,    
+    AppEditButtonModule,
+    NgxTypeaheadModule,
     TooltipModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
@@ -35,10 +37,10 @@ import { IngredientNutritionComponent } from './ingredient-nutrition.component';
     MenuComponent,
     IngredientComponent,
     IngredientNutritionComponent,
-    RecipeComponent,    
+    RecipeComponent,
     IngredientFilterPipe,
     RecipeFilterPipe,
-    MenuFilterPipe,    
+    MenuFilterPipe,
   ]
 })
 export class MealModule { }

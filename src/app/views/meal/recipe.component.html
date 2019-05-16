@@ -2,7 +2,7 @@
   <div class="card" [hidden]="!recipes || recipes.empty()">
     <div class="card-header">
       食谱信息
-      <csv (Download)="DownloadCsv(false, filename('食谱信息'), $event)" [headers]="['食谱名','原料','碳水化合物','膳食纤维','蛋白质','脂肪','热量']"
+      <csv (Download)="DownloadCsv(false, filename('食谱信息'), $event)" [headers]="['食谱名','食材','碳水化合物','膳食纤维','蛋白质','脂肪','热量']"
         [columns]="['recipe','ingredients','carbohydrate','dietaryfiber','protein','fat','heat']">
       </csv>
     </div>
@@ -27,7 +27,7 @@
               <mfDefaultSorter by="recipe">食谱名</mfDefaultSorter>
             </th>
             <th style="width: 35%">
-              <mfDefaultSorter by="ingredients">原料</mfDefaultSorter>
+              <mfDefaultSorter by="ingredients">食材</mfDefaultSorter>
             </th>
             <th style="width: 7%">
               <mfDefaultSorter by="carbohydrate">碳水化合物</mfDefaultSorter>
@@ -44,7 +44,7 @@
             <th style="width: 7%">
               <mfDefaultSorter by="heat">热量</mfDefaultSorter>
             </th>
-            <th style="width: 8%">原料信息</th>
+            <th style="width: 8%">食材信息</th>
           </tr>
         </thead>
         <tbody>
@@ -56,7 +56,7 @@
             <td>{{item.protein}}</td>
             <td>{{item.fat}}</td>
             <td>{{item.heat}}</td>
-            <td><a class="text-center" [routerLink]="['../../原料信息', item.recipe]"><i class="fa fa-link fa-sm"></i></a></td>
+            <td><a class="text-center" [routerLink]="['../../食材信息', item.recipe]"><i class="fa fa-link fa-sm"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
