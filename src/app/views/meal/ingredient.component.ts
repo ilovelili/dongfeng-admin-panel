@@ -56,15 +56,20 @@ export class IngredientComponent extends ViewComponent implements OnInit {
 
   showrecipes(item: FormattedIngredient, e: Event) {
     e.preventDefault();
+    this.loading = true;
     this.currentItem = item;
     this.mealClient.getRecipes("").
       subscribe(
         d => {
+          this.loading = false;
           let r = new Recipes(d.recipes).format_ingredient().find(i => i.ingredient == this.currentItem.ingredient);
           this._recipes = r.recipes.split(',');
           this.recipeModal.show();
         },
-        e => this.LogError(e, '获取食材信息失败，请重试'),
+        e => {
+          this.loading = false;
+          this.LogError(e, '获取食材信息失败，请重试');
+        },
         () => this.LogComplete('ingredient component ingredients loading completed')
       );
   }
