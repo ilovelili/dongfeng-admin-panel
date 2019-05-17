@@ -77,7 +77,9 @@ export class IngredientComponent extends ViewComponent implements OnInit {
   }
 
   updatematch(result: string) {
-    let i = this.currentItem;
+    this.query = result;
+    let i = this.currentItem;    
+
     this.mealClient.updateIngredient(new Ingredient(
       result,
       i.category,
