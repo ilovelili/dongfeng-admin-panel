@@ -19,9 +19,9 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     cmdBtnTabletLabel: '平板电脑',
     cmdBtnMobileLabel: '手机',
     modalTitleImport: '导入模板',
-    modalTitleExport: '导出模板',
+    modalTitleExport: '查看代码',
     modalLabelImport: '导入模板',
-    modalLabelExport: '导出模板',
+    modalLabelExport: '查看代码',
     modalBtnImport: '导入',
     codeViewerTheme: 'hopscotch',
     openBlocksBtnTitle: c.openBlocksBtnTitle || '选择模块',
@@ -269,7 +269,7 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     expTplBtn.set('attributes', {
       title: defaults.expTplBtnTitle
     });
-    var fullScrBtn = editor.Panels.getButton('options', '全屏');
+    var fullScrBtn = editor.Panels.getButton('options', 'fullscreen');
     fullScrBtn.set('attributes', {
       title: defaults.fullScrBtnTitle
     });

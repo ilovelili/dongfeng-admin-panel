@@ -85,7 +85,7 @@ define(function() {
       attributes: {class:'gjs-fonts gjs-f-text'},
       content: {
        type: 'text',
-       content: 'Insert your text here',
+       content: '输入文本',
        style: { padding: '10px' },
        activeOnRender: 1
       },
@@ -93,7 +93,7 @@ define(function() {
     bm.add('text-sect', {
       label: opt.textSectionBlkLabel,
       category: opt.categoryLabel,
-      content: '<h1 class="heading">Insert title here</h1><p class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>',
+      content: '<h1 class="heading">输入标题</h1><p class="paragraph">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</p>',
       attributes: {class:'gjs-fonts gjs-f-h1p'}
     });
     bm.add('image', {
@@ -109,7 +109,7 @@ define(function() {
     bm.add('quote', {
       label: opt.quoteBlkLabel,
       category: opt.categoryLabel,
-      content: '<blockquote class="quote">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore ipsum dolor sit</blockquote>',
+      content: '<blockquote class="quote">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</blockquote>',
       attributes: {class:'fa fa-quote-right'}
     });
     bm.add('link', {
@@ -146,8 +146,8 @@ define(function() {
             <table class="grid-item-card-body">
               <tr>
                 <td class="grid-item-card-content">
-                  <h1 class="card-title">Title here</h1>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                  <h1 class="card-title">标题</h1>
+                  <p class="card-text">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</p>
                 </td>
               </tr>
             </table>
@@ -175,8 +175,8 @@ define(function() {
                   <img class="list-item-image" src="http://placehold.it/150x150/78c5d6/fff/" alt="Image"/>
                 </td>
                 <td class="list-cell-right">
-                  <h1 class="card-title">Title here</h1>
-                  <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                  <h1 class="card-title">标题</h1>
+                  <p class="card-text">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</p>
                 </td>
               </tr>
             </table>
