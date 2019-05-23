@@ -37,5 +37,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     //     title: 'Afure'
     //   }
     // })
+
+    this.loading = false;
   }
 }

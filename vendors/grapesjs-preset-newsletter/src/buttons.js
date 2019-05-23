@@ -24,36 +24,35 @@ define(function() {
       command: opt.cmdTglImages,
       attributes: {[tltAttr]: opt.cmtTglImagesLabel},
     });
-    if(optPanel){
-      // Fix tooltip position
-      var cmdBtns = optPanel.get('buttons');
-      cmdBtns.each((btn) => {
-        var attrs = btn.get('attributes');
-        attrs[tltPosAttr] = 'bottom';
-        btn.set('attributes', attrs);
-      });
-      // Remove preview
-      let prvBtn = pnm.addButton('options', 'preview');
-      prvBtn && cmdBtns.remove(prvBtn);
-    }
-    // Clean commands panel
+    // if(optPanel){
+    //   // Fix tooltip position
+    //   var cmdBtns = optPanel.get('buttons');
+    //   cmdBtns.each((btn) => {
+    //     var attrs = btn.get('attributes');
+    //     attrs[tltPosAttr] = 'bottom';
+    //     btn.set('attributes', attrs);
+    //   });
+    //   // Remove preview
+    //   let prvBtn = pnm.addButton('options', 'preview');
+    //   prvBtn && cmdBtns.remove(prvBtn);
+    // }
+    
     let cmdPanel = pnm.getPanel('commands');
-    if(cmdPanel){
-      let cmdBtns = cmdPanel.get('buttons');
-      cmdBtns.reset();
-      cmdBtns.add([{
-        id: 'undo',
-        className: 'fa fa-undo',
-        command: 'undo',
-        attributes: {[tltAttr]: opt.cmdBtnUndoLabel}
-      }, {
-        id: 'redo',
-        className: 'fa fa-repeat',
-        command: 'redo',
-        attributes: {[tltAttr]: opt.cmdBtnRedoLabel}
-      }]);
-      updateTooltip(cmdBtns);
-    }
+    let cmdBtns = cmdPanel.get('buttons');
+    cmdPanel.get('buttons').add([{
+      id: 'undo',
+      className: 'fa fa-undo',
+      command: 'undo',
+      attributes: {[tltAttr]: opt.cmdBtnUndoLabel},
+    }, 
+    {
+      id: 'redo',
+      className: 'fa fa-repeat',
+      command: 'redo',
+      attributes: {[tltAttr]: opt.cmdBtnRedoLabel},      
+    }]);
+    updateTooltip(cmdBtns);    
+
     // Turn off default devices select and create new one
     editor.getConfig().showDevices = 0;
     let devicePanel = pnm.addPanel({

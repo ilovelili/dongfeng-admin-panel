@@ -262,7 +262,6 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     modal.setTitle(defaults.assetsModalTitle);
   })
 
-
   // Do stuff on load
   editor.on('load', function() {
     var expTplBtn = editor.Panels.getButton('options', 'export-template');
@@ -288,7 +287,7 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     var openLayersBtn = editor.Panels.getButton('views', 'open-layers');
     openLayersBtn.set('attributes', {
       title: defaults.openLayersBtnTitle
-    });
+    });    
     // Open block manager
     var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
       openBlocksBtn.set('attributes', {
