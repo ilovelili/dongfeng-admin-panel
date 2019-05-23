@@ -20,13 +20,15 @@
         "../node_modules/flag-icon-css/css/flag-icon.css",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/simple-line-icons/css/simple-line-icons.css",
-        "../node_modules/grapesjs/dist/css/grapes.min.css",
+        "../vendors/grapesjs-preset-newsletter/style/grapes.min.css",
+        "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.css",
         "scss/style.scss"
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.bundle.min.js",
-        "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/grapesjs/dist/grapes.min.js"
+        "../node_modules/chart.js/dist/Chart.min.js",        
+        "../vendors/grapesjs-preset-newsletter/js/grapes.min.js",
+        "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
