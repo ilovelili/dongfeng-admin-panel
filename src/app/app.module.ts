@@ -70,15 +70,10 @@ import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationClient } from './clients/notification.client';
+import { NotificationClient,AttendanceClient,PhysiqueClient,MealClient,ProfileClient,ClassClient } from './clients';
 import { FormsModule } from '@angular/forms';
-import { ClassClient } from './clients/class.client';
-import { AttendanceClient } from './clients/attendance.client';
-import { PhysiqueClient } from './clients/physique.client';
-import { MealClient } from './clients/meal.client';
 
 defineLocale(zhCn.abbr, zhCn);
-
 const APP_CLIENTS = [
   UserClient,  
   NotificationClient,
@@ -86,6 +81,7 @@ const APP_CLIENTS = [
   AttendanceClient,
   PhysiqueClient,
   MealClient,
+  ProfileClient,
 ]
 
 @NgModule({

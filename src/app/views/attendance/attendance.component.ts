@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { AttendanceClient } from 'app/clients/attendance.client';
+import { AttendanceClient } from 'app/clients';
 import { Attendances, FormattedAttendance, Holidays } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { ToasterService } from 'angular2-toaster';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './attendance.component.html',
@@ -19,8 +20,8 @@ import { ToasterService } from 'angular2-toaster';
 export class AttendanceComponent extends ViewComponent implements OnInit {
   attendances: FormattedAttendance[];
 
-  constructor(private attendanceClient: AttendanceClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
-    super(router, activatedRoute, toasterService, localeService);
+  constructor(private attendanceClient: AttendanceClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
+    super(router, authService, activatedRoute, toasterService, localeService);
   }
 
   ngOnInit(): void {

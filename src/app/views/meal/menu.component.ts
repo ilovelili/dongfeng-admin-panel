@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { Menus } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
-import { MealClient } from 'app/clients/meal.client';
+import { MealClient } from 'app/clients';
 import { DateRange } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './menu.component.html',
@@ -20,8 +21,8 @@ export class MenuComponent extends ViewComponent implements OnInit {
   private menus: Menus;
   private meal: string = '全部';
 
-  constructor(private mealClient: MealClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
-    super(router, activatedRoute, toasterService, localeService);
+  constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
+    super(router, authService, activatedRoute, toasterService, localeService);
     // overwrite datefrom / dateto
     this.dateFrom = this.formatDate(this.monday())
     this.dateTo = this.formatDate(this.friday())

@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Recipes, FormattedIngredient, Ingredients, Ingredient } from 'app/models/meal';
+import { Ingredients } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
-import { MealClient } from 'app/clients/meal.client';
+import { MealClient } from 'app/clients';
 import { ErrorCode } from 'app/models';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './ingredient-nutrition.component.html',
@@ -19,8 +20,8 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
   private ingredients: Ingredients;
   private _ingredients: string;
 
-  constructor(private mealClient: MealClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
     this._ingredients = this.params["ingredients"];

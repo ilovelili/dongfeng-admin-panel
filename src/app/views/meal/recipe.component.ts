@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { Recipes, FormattedRecipe } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
-import { MealClient } from 'app/clients/meal.client';
+import { MealClient } from 'app/clients';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './recipe.component.html',
@@ -21,8 +22,8 @@ export class RecipeComponent extends ViewComponent implements OnInit {
   private _recipe: string;
   private _ingredients: string[];
 
-  constructor(private mealClient: MealClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.recipe_names = this.params["recipes"];
     // overwrite date otherwise csv filename will append date automatically
     this.dateFrom = '';

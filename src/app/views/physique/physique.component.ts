@@ -2,8 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
-import { PhysiqueClient } from 'app/clients/physique.client';
+import { PhysiqueClient } from 'app/clients';
 import { Physiques, Physique, ErrorCode } from 'app/models';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './physique.component.html',
@@ -17,8 +18,8 @@ import { Physiques, Physique, ErrorCode } from 'app/models';
 export class PhysiqueComponent extends ViewComponent implements OnInit {
   private physiques: Physiques;
 
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);    
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);    
     this.dateFrom = '';
     this.dateTo = '';
   }

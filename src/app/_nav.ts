@@ -14,11 +14,11 @@ export const navigation = [
     url: '/教师信息',
     icon: 'icon-star'
   },
-  // {
-  //   name: '成长档案',
-  //   url: '/theme/typography',
-  //   icon: 'icon-pencil'
-  // },
+  {
+    name: '成长档案',
+    url: '/成长档案',
+    icon: 'icon-pencil'
+  },
   {
     name: '出勤信息',
     url: '/出勤信息',

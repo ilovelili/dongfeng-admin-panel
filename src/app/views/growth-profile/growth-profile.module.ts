@@ -6,10 +6,16 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { GrowthProfileComponent } from './growth-profile.component';
 import { GrowthProfileRoutingModule } from './growth-profile-routing.module';
+import { CommonModule } from '@angular/common';
+import { ToasterModule } from 'angular2-toaster';
+import { AppLoadingModule } from 'app/components';
 
 @NgModule({
   imports: [
     FormsModule,
+    CommonModule,
+    ToasterModule,
+    AppLoadingModule,
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,

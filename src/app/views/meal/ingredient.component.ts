@@ -3,9 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { Recipes, FormattedIngredient, Ingredients, Ingredient } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
-import { MealClient } from 'app/clients/meal.client';
+import { MealClient } from 'app/clients';
 import { environment } from 'environments/environment';
 import { ErrorCode } from 'app/models';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './ingredient.component.html',
@@ -27,8 +28,8 @@ export class IngredientComponent extends ViewComponent implements OnInit {
   private query: string = '';
   private matchurl: string = '';
 
-  constructor(private mealClient: MealClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.recipe_names = this.params["recipes"];
     this.dateFrom = '';
     this.dateTo = '';

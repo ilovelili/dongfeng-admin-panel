@@ -2,8 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
-import { PhysiqueClient } from 'app/clients/physique.client';
+import { PhysiqueClient } from 'app/clients';
 import { Physique_AgeHeightWeightPMaster, Physique_AgeHeightWeightSDMaster, Physique_BMIMaster, Physique_HeightToWeightPMaster, Physique_HeightToWeightSDMaster } from 'app/models/physique';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './age-height-weight-p-master.component.html',
@@ -14,8 +15,8 @@ import { Physique_AgeHeightWeightPMaster, Physique_AgeHeightWeightSDMaster, Phys
   encapsulation: ViewEncapsulation.None,
 })
 export class AgeHeightWeightPMasterComponent extends ViewComponent implements OnInit {
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }
@@ -47,8 +48,8 @@ export class AgeHeightWeightPMasterComponent extends ViewComponent implements On
   encapsulation: ViewEncapsulation.None,
 })
 export class AgeHeightWeightSDMasterComponent extends ViewComponent implements OnInit {
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }
@@ -80,8 +81,8 @@ export class AgeHeightWeightSDMasterComponent extends ViewComponent implements O
   encapsulation: ViewEncapsulation.None,
 })
 export class BMIMasterComponent extends ViewComponent implements OnInit {
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }
@@ -113,8 +114,8 @@ export class BMIMasterComponent extends ViewComponent implements OnInit {
   encapsulation: ViewEncapsulation.None,
 })
 export class HeightToWeightPMasterComponent extends ViewComponent implements OnInit {
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }
@@ -146,8 +147,8 @@ export class HeightToWeightPMasterComponent extends ViewComponent implements OnI
   encapsulation: ViewEncapsulation.None,
 })
 export class HeightToWeightSDMasterComponent extends ViewComponent implements OnInit {
-  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }

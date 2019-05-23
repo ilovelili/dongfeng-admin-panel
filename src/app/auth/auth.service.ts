@@ -14,7 +14,6 @@ const KEY_AUTHED: string = 'authed';
 
 @Injectable()
 export class AuthService {
-
   private namespace: string = 'dongfeng';
   private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
 

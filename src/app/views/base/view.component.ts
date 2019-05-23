@@ -8,8 +8,10 @@ import { FileUploader } from 'ng2-file-upload';
 import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
+import { BaseComponent } from 'app/base.component';
+import { AuthService } from 'app/auth/auth.service';
 
-export abstract class ViewComponent {
+export abstract class ViewComponent extends BaseComponent {
   // user viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
@@ -98,7 +100,9 @@ export abstract class ViewComponent {
     };
   }
 
-  constructor(protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
+  constructor(protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
+    super(router,authService);
+    
     this.loading = true;
 
     this.activatedRoute.params.subscribe((params) => {

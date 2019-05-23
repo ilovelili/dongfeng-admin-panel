@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { ClassClient } from 'app/clients/class.client';
+import { ClassClient } from 'app/clients';
 import { Classes } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   templateUrl: './class.component.html',
@@ -17,8 +18,8 @@ import { ToasterService } from 'angular2-toaster';
 export class ClassComponent extends ViewComponent implements OnInit {
   classinfos: Classes;
 
-  constructor(private classClient: ClassClient, protected router: Router, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, activatedRoute, toasterService);
+  constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
   }
