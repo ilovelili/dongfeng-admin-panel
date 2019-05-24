@@ -21,7 +21,14 @@ export abstract class BaseClient {
     return {
       headers: this.defaultHeaders,
     };
-  }  
+  }
+
+  get rawHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+    };
+  }
 
   get multipartFormDataHttpOptions() {
     return {
