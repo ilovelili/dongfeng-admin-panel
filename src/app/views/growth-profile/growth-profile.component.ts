@@ -34,22 +34,12 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         type: 'remote',
         autosave: true,
         autoload: true,
-        stepsBeforeSave: 3,
+        stepsBeforeSave: 1,
         urlStore: `${environment.api.baseURI}/profile?name='test_n'&class='test_c'&year='test_y'`,
         urlLoad: `${environment.api.baseURI}/profile?name='test_n'&class='test_c'&year='test_y'`,
         headers: this.profileClient.rawHeaders,
         contentTypeJson: true,
         credentials: 'include',
-
-        //Callback before request
-        beforeSend(jqXHR, settings) {
-          console.log(jqXHR);
-          console.log(settings);
-        },
-        //Callback after request
-        onComplete(jqXHR, status) {
-          console.log('after');
-        },
       }
     });
 
