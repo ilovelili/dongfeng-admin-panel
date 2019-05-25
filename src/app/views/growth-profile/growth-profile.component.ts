@@ -40,17 +40,33 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         headers: this.profileClient.rawHeaders,
         contentTypeJson: true,
         credentials: 'include',
-      }
+      },
+      domComponents: { storeWrapper: 1 },
     });
 
-    // const blockManager = editor.BlockManager;
+    // Asset Manager config
+    const am = editor.AssetManager;
+    const imageDir = 'assets/img/';
+    const background_count = 3;
+    const stamp_count = 5;
 
-    // blockManager.get('sect100').set({
-    //   label: 'One Section',
-    //   attributes: {
-    //     title: 'Afure'
-    //   }
-    // })
+    let assets = [];
+    for(let i = 1; i <= background_count; i++) {
+      assets.push({
+        category: 'background',
+        src: `${imageDir}background_${i}.png`,
+      });
+    }
+
+    for (let i = 1; i <= stamp_count; i++) {
+      assets.push({
+        category: 'stamp',
+        src: `${imageDir}stamp_${i}.png`,
+      });
+    }
+
+    am.add(assets);
+    am.render();
 
     this.loading = false;
   }

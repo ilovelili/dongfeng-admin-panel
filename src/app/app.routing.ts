@@ -72,7 +72,7 @@ export const routes: Routes = [
   },  
   {
     path: '**',
-    redirectTo: 'pages/404',
+    redirectTo: '页面/404',
     pathMatch: 'full',
   },
 ];
