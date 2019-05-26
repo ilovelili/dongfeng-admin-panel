@@ -1,0 +1,81 @@
+{
+  "_from": "grapesjs-plugin-export",
+  "_id": "grapesjs-plugin-export@1.0.7",
+  "_inBundle": false,
+  "_integrity": "sha512-tOI/tAYZZndrHDZFN3uRzweVu6cwKrjUe1daOt8lzGDIXHez44Y+5BWlNWxR7i4cLheyn7DJJuarYrUQX+yD5g==",
+  "_location": "/grapesjs-plugin-export",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "grapesjs-plugin-export",
+    "name": "grapesjs-plugin-export",
+    "escapedName": "grapesjs-plugin-export",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/grapesjs-plugin-export/-/grapesjs-plugin-export-1.0.7.tgz",
+  "_shasum": "186728253474d051578a8a5aaf016d8bfac52448",
+  "_spec": "grapesjs-plugin-export",
+  "_where": "/home/min/Projects/dongfeng-admin-panel",
+  "author": {
+    "name": "Artur Arseniev"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ],
+    "plugins": [
+      "transform-object-rest-spread",
+      "transform-runtime"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/artf/grapesjs-plugin-export/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "file-saver": "^1.3.8",
+    "jszip": "^3.0.0"
+  },
+  "deprecated": false,
+  "description": "Export GrapesJS templates to ZIP",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.5.0",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.18.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
+  },
+  "homepage": "https://github.com/artf/grapesjs-plugin-export#readme",
+  "keywords": [
+    "grapesjs",
+    "template",
+    "export",
+    "zip"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "dist/grapesjs-plugin-export.min.js",
+  "name": "grapesjs-plugin-export",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artf/grapesjs-plugin-export.git"
+  },
+  "scripts": {
+    "build": "npm run v:patch && webpack --env.production",
+    "lint": "eslint src",
+    "start": "webpack-dev-server --open --progress --colors",
+    "v:patch": "npm version --no-git-tag-version patch"
+  },
+  "version": "1.0.7"
+}

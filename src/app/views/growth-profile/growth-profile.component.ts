@@ -22,11 +22,24 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    this.loadProfileEditor();
+    this.loading = false;
+  }
+
+  loadProfileEditor() {
     const editor = grapesjs.init({
       container: '#gjs',
-      plugins: ['gjs-preset-newsletter'],
+      plugins: [
+        'gjs-preset-newsletter',
+        'grapesjs-plugin-export'
+      ],
       pluginsOpts: {
         'gjs-preset-newsletter': {},
+        'grapesjs-plugin-export': {
+          btnLabel: '导出为zip格式',
+          filenamePfx: '成长档案',
+        },
       },
       // https://github.com/artf/grapesjs/blob/dev/src/storage_manager/config/config.js
       storageManager: {
@@ -67,7 +80,5 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
     am.add(assets);
     am.render();
-
-    this.loading = false;
   }
 }

@@ -1,3 +1,59 @@
-<div class="animated fadeIn">    
+<div class="animated fadeIn">
     <div id="gjs" class="card"></div>
 </div>
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
+<!--
+
+    <div bsModal #profileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">选择成长档案对象</h4>
+                <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.year}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="setyear('')">全部</a>
+                        </li>
+                        <li *ngFor="let year of years" role="menuitem">
+                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.class}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="setclass('')">全部</a>
+                        </li>
+                        <li *ngFor="let class of classes" role="menuitem">
+                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <input type="text" [value]="query" ngxTypeahead [taUrl]="matchurl" [taParams]="matchparams"
+                    [taApi]="'http'" [taDisplayOnFocus]="true" (taSelected)="updatematch($event)" />
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" (click)="getattendances(false)">检索</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+-->

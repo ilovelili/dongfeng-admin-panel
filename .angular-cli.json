@@ -28,7 +28,8 @@
         "../node_modules/chart.js/dist/Chart.bundle.min.js",
         "../node_modules/chart.js/dist/Chart.min.js",        
         "../vendors/grapesjs-preset-newsletter/js/grapes.min.js",
-        "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js"
+        "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js",
+        "../vendors/grapesjs-plugin-export/dist/grapesjs-plugin-export.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
