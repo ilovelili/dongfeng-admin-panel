@@ -17,7 +17,19 @@ export const navigation = [
   {
     name: '成长档案',
     url: '/成长档案',
-    icon: 'icon-pencil'
+    icon: 'icon-pencil',
+    children: [
+      {
+        name: '编辑成长档案',
+        url: '/成长档案',
+        icon: 'icon-pencil',
+      },
+      {
+        name: '电子书',
+        url: '/成长档案/电子书',
+        icon: 'icon-pencil',
+      }
+    ],
   },
   {
     name: '出勤信息',

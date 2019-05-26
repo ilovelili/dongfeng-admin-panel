@@ -9,6 +9,7 @@ import { GrowthProfileRoutingModule } from './growth-profile-routing.module';
 import { CommonModule } from '@angular/common';
 import { ToasterModule } from 'angular2-toaster';
 import { AppLoadingModule } from 'app/components';
+import { EBookComponent } from './ebook.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,10 @@ import { AppLoadingModule } from 'app/components';
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ GrowthProfileComponent ]
+  declarations: [ 
+    GrowthProfileComponent,
+    EBookComponent,
+  ]
 })
 
 export class GrowthProfileModule {}
