@@ -20,22 +20,22 @@ const isIE = /*@cc_on!@*/false || !!document.documentMode;
 // Edge 20+
 const isEdge = !isIE && !!window.StyleMedia;
 // Chrome 1 - 71
-const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+const isChrome = !!window.chrome;
 // Blink engine detection
 const isBlink = (isChrome || isOpera) && !!window.CSS;
 
 if (isChrome || isFirefox || isBlink) {
   // good
 } else if (isOpera) {
-  window.alert('Opera浏览器有可能不支持该系统，您肯呢个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+  window.alert('Opera浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
 } else if (isSafari) {
-  window.alert('Safati浏览器有可能不支持该系统，您肯呢个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+  window.alert('Safati浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
 } else if (isIE) {
-  window.alert('IE浏览器有可能不支持该系统，您肯呢个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+  window.alert('IE浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
 } else if (isEdge) {
-  window.alert('Edge浏览器有可能不支持该系统，您肯呢个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+  window.alert('Edge浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
 } else {
-  window.alert('您的浏览器有可能不支持该系统，您肯呢个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+  window.alert('您的浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
