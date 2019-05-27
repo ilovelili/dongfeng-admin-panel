@@ -51,6 +51,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         },
       },
       // https://github.com/artf/grapesjs/blob/dev/src/storage_manager/config/config.js
+      /*
       storageManager: {
         id: 'gjs-',
         type: 'remote',
@@ -63,6 +64,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         contentTypeJson: true,
         credentials: 'include',
       },
+      */
       domComponents: { storeWrapper: 1 },
     });
 
