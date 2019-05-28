@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ToasterModule } from 'angular2-toaster';
 import { AppLoadingModule } from 'app/components';
 import { EBookComponent } from './ebook.component';
+import { ModalModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { EBookComponent } from './ebook.component';
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,
+    ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],
   declarations: [ 

@@ -4,14 +4,12 @@
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
 
-<!--
-
-    <div bsModal #profileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #profileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
     <div class="modal-dialog modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">选择成长档案对象</h4>
+                <h4 class="modal-title">选择成长档案</h4>
                 <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -45,15 +43,38 @@
                     </ul>
                 </div>
 
-                <input type="text" [value]="query" ngxTypeahead [taUrl]="matchurl" [taParams]="matchparams"
-                    [taApi]="'http'" [taDisplayOnFocus]="true" (taSelected)="updatematch($event)" />
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.name}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="setname('')">全部</a>
+                        </li>
+                        <li *ngFor="let name of getnames(this.currentYear,this.currentClass)" role="menuitem">
+                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.date}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="setdate('')">全部</a>
+                        </li>
+                        <li *ngFor="let date of getdates(this.currentYear,this.currentClass,this.currentName)" role="menuitem">
+                            <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="getattendances(false)">检索</button>
+                <button type="button" class="btn btn-success" (click)="loadProfileEditor()">检索</button>
             </div>
         </div>
     </div>
 </div>
-
--->

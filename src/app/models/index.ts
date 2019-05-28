@@ -10,3 +10,4 @@ export * from './holiday';
 export * from './errorcode';
 export * from './physique';
 export * from './meal';
+export * from './profile';

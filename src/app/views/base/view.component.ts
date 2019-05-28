@@ -32,7 +32,8 @@ export abstract class ViewComponent extends BaseComponent {
   protected classes = [];
   protected currentYear = '';
   protected currentClass = '';
-  protected currentName = '';  
+  protected currentName = '';
+  protected currentDate = '';
   protected dateFrom = '';
   protected dateTo = '';
   protected dateRange: Date[];
@@ -41,6 +42,7 @@ export abstract class ViewComponent extends BaseComponent {
     year: '学年',
     class: '班级',
     name: '姓名',
+    date: '日期',
   };
 
   protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
@@ -225,6 +227,18 @@ export abstract class ViewComponent extends BaseComponent {
       this.searchcriteria.name = '姓名';
     } else {
       this.searchcriteria.name = name;
+    }
+  }
+
+  setdate(date: string) {
+    if (date != this.currentDate) {
+      this.currentDate = date;
+    };
+
+    if (date == '') {
+      this.searchcriteria.date = '日期';
+    } else {
+      this.searchcriteria.date = date;
     }
   }
 
