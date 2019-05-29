@@ -19,12 +19,9 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.year}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li role="menuitem">
-                            <a class="dropdown-item" (click)="setyear('')">全部</a>
-                        </li>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let year of years" role="menuitem">
-                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+                            <a class="dropdown-item" (click)="setprofileyear(year)">{{year}}</a>
                         </li>
                     </ul>
                 </div>
@@ -33,47 +30,27 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.class}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li role="menuitem">
-                            <a class="dropdown-item" (click)="setclass('')">全部</a>
-                        </li>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let class of classes" role="menuitem">
-                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+                            <a class="dropdown-item" (click)="setprofileclass(class)">{{class}}</a>
                         </li>
                     </ul>
                 </div>
 
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.name}} <span class="caret"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li role="menuitem">
-                            <a class="dropdown-item" (click)="setname('')">全部</a>
-                        </li>
-                        <li *ngFor="let name of getnames(this.currentYear,this.currentClass)" role="menuitem">
-                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
-                        </li>
-                    </ul>
+                <div class="btn-group">                    
+                    <input type="text" [value]="namequery" [placeholder]="searchcriteria.name" ngxTypeahead [taUrl]="nameurl" [taParams]="nameparams" [taApi]="'http'"
+                    [taAllowEmpty]="true" [taDisplayOnFocus]="true" (taSelected)="setprofilename($event)" />
                 </div>
 
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.date}} <span class="caret"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li role="menuitem">
-                            <a class="dropdown-item" (click)="setdate('')">全部</a>
-                        </li>
-                        <li *ngFor="let date of getdates(this.currentYear,this.currentClass,this.currentName)" role="menuitem">
-                            <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
-                        </li>
-                    </ul>
+                <div class="btn-group">                                    
+                    <input type="text" [value]="datequery" [placeholder]="searchcriteria.date+'(yyyy-mm-dd)'" ngxTypeahead [taUrl]="dateurl" [taParams]="dateparams" [taApi]="'http'"
+                    [taAllowEmpty]="true" [taDisplayOnFocus]="true" (taSelected)="setprofiledate($event)" />
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" (click)="loadProfileEditor()">检索</button>
+                <button type="button" class="btn btn-primary" (click)="newProfileEditor()">新建</button>
             </div>
         </div>
     </div>

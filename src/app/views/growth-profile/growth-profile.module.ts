@@ -11,6 +11,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { AppLoadingModule } from 'app/components';
 import { EBookComponent } from './ebook.component';
 import { ModalModule } from 'ngx-bootstrap';
+import { NgxTypeaheadModule } from 'ngx-typeahead';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap';
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,
+    NgxTypeaheadModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],

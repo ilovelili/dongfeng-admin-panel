@@ -33,7 +33,7 @@ export class IngredientComponent extends ViewComponent implements OnInit {
     this.recipe_names = this.params["recipes"];
     this.dateFrom = '';
     this.dateTo = '';
-    this.matchurl = `${environment.api.baseURI}/ingredientnames`;
+    this.matchurl = `${environment.api.baseURI}/ingredient/names`;
   }
 
   ngOnInit(): void {

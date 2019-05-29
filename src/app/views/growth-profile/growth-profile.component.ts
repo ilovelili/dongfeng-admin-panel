@@ -21,11 +21,22 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   private profiles: FormattedProfile[];
 
+  private namequery: string = '';
+  private nameurl: string = '';
+  private nameparams: Object = {};
+
+  private datequery: string = '';
+  private dateurl: string = '';
+  private dateparams: Object = {};
+
   constructor(private zone: NgZone, private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
+    this.nameurl = `${environment.api.baseURI}/profile/names`;
+    this.dateurl = `${environment.api.baseURI}/profile/dates`;
   }
 
   ngOnInit(): void {
+    this.updateparams();
     this.getprofiles();
   }
 
@@ -58,20 +69,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   showProfileModal() {
     this.profileModal.show();
   }
-
-  getnames(year?: string, cls?: string) {
-    return this.profiles.filter(p => {
-      let result = true;
-      if (year) {
-        result = result && p.year == year;
-      }
-      if (cls) {
-        result = result && p.class == cls;
-      }
-      return result;
-    }).map(p => p.name);
-  }
-
+  
   getdates(year?: string, cls?: string, name?: string) {
     return this.profiles.find(p => {
       let result = true;
@@ -86,6 +84,42 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       }
       return result;
     }).dates;
+  }
+
+  setprofileyear(year: string) {    
+    this.setyear(year);
+    this.updateparams();
+  }
+
+  setprofileclass(cls: string) {    
+    this.setclass(cls);
+    this.updateparams();
+  }
+
+  setprofilename(name: string) {
+    this.namequery = name;
+    this.setname(name);
+    this.updateparams();
+  }
+
+  setprofiledate(date: string) {
+    this.datequery = date;
+    this.setdate(date);
+    this.updateparams();
+  }
+
+  updateparams() {
+    this.nameparams = {
+      year: this.currentYear || '',
+      class: this.currentClass || '',
+      date: this.currentDate || '',
+    };
+
+    this.dateparams = {
+      year: this.currentYear || '',
+      class: this.currentClass || '',
+      name: this.currentName || '',
+    };
   }
 
   get endpoint(): string {
@@ -109,6 +143,11 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   loadProfileEditor() {
+    if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
+      this.LogError('empty search params', '请设置正确的检索条件');
+      return;
+    }
+
     this.zone.runOutsideAngular(() => {
       const editor = grapesjs.init({
         container: '#gjs',
@@ -144,7 +183,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
           urlLoad: this.endpoint,
           headers: this.profileClient.rawHeaders,
           contentTypeJson: true,
-          credentials: 'include',
+          credentials: 'include',          
         },
         domComponents: { storeWrapper: 1 },
       });

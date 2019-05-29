@@ -149,7 +149,7 @@
             食材 <strong>{{currentItem ? currentItem.ingredient : ''}}</strong> 匹配
           </div>
           <div class="card-body">
-            <input type="text" [value]="query" ngxTypeahead [taUrl]="matchurl" [taParams]="matchparams" [taApi]="'http'"
+            <input type="text" [value]="query" ngxTypeahead [taUrl]="matchurl" [taApi]="'http'"
               [taDisplayOnFocus]="true" (taSelected)="updatematch($event)" />
           </div>
         </div>
