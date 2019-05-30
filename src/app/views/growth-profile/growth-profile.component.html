@@ -4,6 +4,7 @@
             成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
             <button type="button" (click)="showNewProfileModal()" class="btn btn-sm btn-success pull-right">新建</button>
+            <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-info pull-right">说明</button>
         </div>
         <div class="card-body" id="gjs"></div>        
     </div>
@@ -16,10 +17,7 @@
     <div class="modal-dialog modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">选择成长档案</h4>
-                <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h4 class="modal-title">选择成长档案</h4>                
             </div>
             <div class="modal-body">
                 <div class="btn-group" dropdown>
@@ -148,3 +146,24 @@
         </div>
     </div>
 </div>
+
+<div bsModal #explainModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">成长档案编辑器说明</h6>
+        <button type="button" class="close" (click)="explainModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <ul>
+            <li>您可以通过拖/拉组件来实现各种效果，编辑效果会被自动保存。</li>
+            <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
+            <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
+          </ul>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

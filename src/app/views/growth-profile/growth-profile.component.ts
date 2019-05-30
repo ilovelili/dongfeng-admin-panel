@@ -20,7 +20,8 @@ declare var grapesjs: any;
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   @ViewChild('newprofileModal') newprofileModal
-  @ViewChild('confirmModal') confirmModal  
+  @ViewChild('confirmModal') confirmModal
+  @ViewChild('explainModal') explainModal  
 
   private profileloaded = false;
   private pupils: Pupil[];
@@ -66,18 +67,28 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   showConfirmModal() {
     this.newprofileModal.hide();
     this.profileModal.hide();
-    this.confirmModal.show();    
+    this.explainModal.hide();
+    this.confirmModal.show();
   }
 
   showProfileModal() {
     this.newprofileModal.hide();
     this.confirmModal.hide();
-    this.profileModal.show();    
+    this.explainModal.hide();
+    this.profileModal.show();
+  }
+
+  showExplainModal() {
+    this.newprofileModal.hide();
+    this.confirmModal.hide();
+    this.profileModal.hide();    
+    this.explainModal.show();    
   }
 
   showNewProfileModal() {
     this.confirmModal.hide();
     this.profileModal.hide();
+    this.explainModal.hide();
     this.loading = true;
 
     this.classClient.getPupils().
