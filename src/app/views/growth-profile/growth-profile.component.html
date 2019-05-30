@@ -21,7 +21,7 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let year of years" role="menuitem">
-                            <a class="dropdown-item" (click)="setprofileyear(year)">{{year}}</a>
+                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
                         </li>
                     </ul>
                 </div>
@@ -32,25 +32,89 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let class of classes" role="menuitem">
-                            <a class="dropdown-item" (click)="setprofileclass(class)">{{class}}</a>
+                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
                         </li>
                     </ul>
                 </div>
 
-                <div class="btn-group">                    
-                    <input type="text" [value]="namequery" [placeholder]="searchcriteria.name" ngxTypeahead [taUrl]="nameurl" [taParams]="nameparams" [taApi]="'http'"
-                    [taAllowEmpty]="true" [taDisplayOnFocus]="true" (taSelected)="setprofilename($event)" />
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.name}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                        <li *ngFor="let name of profilenames" role="menuitem">
+                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="btn-group">                                    
-                    <input type="text" [value]="datequery" [placeholder]="searchcriteria.date+'(yyyy-mm-dd)'" ngxTypeahead [taUrl]="dateurl" [taParams]="dateparams" [taApi]="'http'"
-                    [taAllowEmpty]="true" [taDisplayOnFocus]="true" (taSelected)="setprofiledate($event)" />
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.date}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                        <li *ngFor="let date of profiledates" role="menuitem">
+                            <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" (click)="loadProfileEditor()">检索</button>
-                <button type="button" class="btn btn-primary" (click)="newProfileEditor()">新建</button>
+                <button type="button" class="btn btn-primary" (click)="showNewProfileModal()">新建</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #newprofileModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">新建成长档案</h4>
+                <button type="button" class="close" (click)="showProfileModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.year}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                        <li *ngFor="let year of pupilyears" role="menuitem">
+                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.class}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                        <li *ngFor="let class of pupilclasses" role="menuitem">
+                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{searchcriteria.name}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                        <li *ngFor="let name of pupilnames" role="menuitem">
+                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-primary" (click)="createProfile()">确定</button>
             </div>
         </div>
     </div>

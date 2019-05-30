@@ -2,10 +2,10 @@ import { Component, OnInit, ViewEncapsulation, NgZone, ViewChild } from '@angula
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { ProfileClient } from 'app/clients';
+import { ProfileClient, ClassClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { Profiles, FormattedProfile } from 'app/models';
+import { Profiles, FormattedProfile, Pupils, Pupil } from 'app/models';
 
 declare var grapesjs: any;
 
@@ -19,24 +19,19 @@ declare var grapesjs: any;
 })
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
+  @ViewChild('newprofileModal') newprofileModal
+
+  private pupils: Pupil[];
   private profiles: FormattedProfile[];
-
-  private namequery: string = '';
-  private nameurl: string = '';
-  private nameparams: Object = {};
-
-  private datequery: string = '';
-  private dateurl: string = '';
-  private dateparams: Object = {};
-
-  constructor(private zone: NgZone, private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  
+  private pupilyears: string[] = [];
+  private pupilclasses: string[] = [];  
+  
+  constructor(private zone: NgZone, private profileClient: ProfileClient, private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
-    this.nameurl = `${environment.api.baseURI}/profile/names`;
-    this.dateurl = `${environment.api.baseURI}/profile/dates`;
   }
 
-  ngOnInit(): void {
-    this.updateparams();
+  ngOnInit(): void {    
     this.getprofiles();
   }
 
@@ -67,7 +62,36 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   showProfileModal() {
-    this.profileModal.show();
+    this.newprofileModal.hide();
+    this.profileModal.show();    
+  }
+
+  showNewProfileModal() {
+    this.profileModal.hide();
+    this.loading = true;
+
+    this.classClient.getPupils().
+      subscribe(
+        d => {
+          this.loading = false;
+          let p = new Pupils(d.pupils);
+          if (!p.empty()) {
+            this.pupils = p.pupils;
+            this.pupils.forEach(p => {
+              if (!this.pupilyears.includes(p.year)) {
+                this.pupilyears.push(p.year);
+              }
+              if (!this.pupilclasses.includes(p.class)) {
+                this.pupilclasses.push(p.class);
+              }
+            });
+
+            this.newprofileModal.show();            
+          }
+        },
+        e => this.LogError(e, '获取成长档案信息失败，请重试'),
+        () => this.LogComplete('profile component pupils loading completed')
+      );
   }
   
   getdates(year?: string, cls?: string, name?: string) {
@@ -86,40 +110,17 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     }).dates;
   }
 
-  setprofileyear(year: string) {    
-    this.setyear(year);
-    this.updateparams();
+  get profilenames() {
+    return this.profiles.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
   }
 
-  setprofileclass(cls: string) {    
-    this.setclass(cls);
-    this.updateparams();
+  get profiledates() {
+    let profile = this.profiles.find(p => p.year == this.currentYear && p.class == this.currentClass && p.name == this.currentName);
+    return profile ? profile.dates : [];
   }
 
-  setprofilename(name: string) {
-    this.namequery = name;
-    this.setname(name);
-    this.updateparams();
-  }
-
-  setprofiledate(date: string) {
-    this.datequery = date;
-    this.setdate(date);
-    this.updateparams();
-  }
-
-  updateparams() {
-    this.nameparams = {
-      year: this.currentYear || '',
-      class: this.currentClass || '',
-      date: this.currentDate || '',
-    };
-
-    this.dateparams = {
-      year: this.currentYear || '',
-      class: this.currentClass || '',
-      name: this.currentName || '',
-    };
+  get pupilnames() {
+    return this.pupils.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
   }
 
   get endpoint(): string {
@@ -142,9 +143,38 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     return url + query.join('&');
   }
 
+  createProfile() {
+    if (!this.currentYear || !this.currentClass || !this.currentName) {
+      this.toasterService.pop('error', '', '请设置正确的条件');
+      return;
+    }
+
+    // always set date to today when create
+    this.currentDate = this.formatDate(new Date());
+    this.loading = true;
+    let profile = {
+      id: 0,
+      year: this.currentYear,
+      class: this.currentClass,
+      name: this.currentName,
+      date: this.currentDate,
+    };
+
+    this.profileClient.createProfile(profile).subscribe(
+      d => {
+        this.loading = false;
+        this.LogSuccess("成长档案创建成功");
+        this.newprofileModal.hide();
+        this.loadProfileEditor();
+      },
+      e => this.LogError(e, '成长档案创建失败，请重试'),
+      () => this.LogComplete('profile component profile creation completed')
+    );
+  }
+
   loadProfileEditor() {
     if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
-      this.LogError('empty search params', '请设置正确的检索条件');
+      this.toasterService.pop('error', '', '请设置正确的检索条件');
       return;
     }
 

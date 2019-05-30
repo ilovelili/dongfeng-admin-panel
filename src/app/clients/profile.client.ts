@@ -3,7 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Profiles } from 'app/models/profile';
+import { Profiles, Profile } from 'app/models/profile';
+import { Empty } from 'app/models';
 
 @Injectable()
 export class ProfileClient extends BaseClient {
@@ -28,5 +29,37 @@ export class ProfileClient extends BaseClient {
     }
 
     return this.http.get<Profiles>(environment.api.baseURI + '/profiles', { headers: this.defaultHeaders, params: params });
+  }
+
+  createProfile(profile: Profile): Observable<Empty> {
+    return this.updateProfile(profile, true)
+  };
+
+  deleteProfile(profile: Profile): Observable<Empty> {
+    return this.updateProfile(profile, false)
+  };
+
+  updateProfile(profile: Profile, enabled: boolean): Observable<Empty> {
+    let params = new HttpParams();
+
+    if (profile.year != "") {
+      params = params.set("year", profile.year);
+    }
+    if (profile.class != "") {
+      params = params.set("class", profile.class);
+    }
+    if (profile.name != "") {
+      params = params.set("name", profile.name);
+    }
+    if (profile.date != "") {
+      params = params.set("date", profile.date);
+    }
+    
+    params = params.set("enabled", enabled+'');
+
+    return this.http.post<Empty>(environment.api.baseURI + '/profile', {}, {
+      headers: this.defaultHeaders,
+      params: params,
+    });
   }
 }

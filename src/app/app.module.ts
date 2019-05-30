@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
-import { zhCn } from 'ngx-bootstrap/locale'
+import { zhCnLocale } from 'ngx-bootstrap/locale'
 
 // Import containers
 import {
@@ -73,7 +73,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotificationClient,AttendanceClient,PhysiqueClient,MealClient,ProfileClient,ClassClient } from './clients';
 import { FormsModule } from '@angular/forms';
 
-defineLocale(zhCn.abbr, zhCn);
+defineLocale(zhCnLocale.abbr, zhCnLocale);
 const APP_CLIENTS = [
   UserClient,  
   NotificationClient,

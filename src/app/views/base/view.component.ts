@@ -3,7 +3,7 @@ import { AppCsvDownloadService } from 'app/components';
 import { CsvFormat } from 'app/components/app-csv/app-csv-model';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
-import { BsDatepickerConfig, zhCn, BsLocaleService } from 'ngx-bootstrap';
+import { BsDatepickerConfig, zhCnLocale, BsLocaleService } from 'ngx-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
@@ -120,7 +120,7 @@ export abstract class ViewComponent extends BaseComponent {
 
       if (this.localeService) {
         // https://github.com/valor-software/ngx-bootstrap/issues/4054    
-        this.localeService.use(zhCn.abbr);
+        this.localeService.use(zhCnLocale.abbr);
         this.datepickerconfig = {
           containerClass: 'theme-dark-blue',
           value: this.dateRange,
