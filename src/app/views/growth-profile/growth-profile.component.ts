@@ -20,7 +20,9 @@ declare var grapesjs: any;
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   @ViewChild('newprofileModal') newprofileModal
+  @ViewChild('confirmModal') confirmModal  
 
+  private profileloaded = false;
   private pupils: Pupil[];
   private profiles: FormattedProfile[];
   
@@ -61,12 +63,20 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       );
   }
 
+  showConfirmModal() {
+    this.newprofileModal.hide();
+    this.profileModal.hide();
+    this.confirmModal.show();    
+  }
+
   showProfileModal() {
     this.newprofileModal.hide();
+    this.confirmModal.hide();
     this.profileModal.show();    
   }
 
   showNewProfileModal() {
+    this.confirmModal.hide();
     this.profileModal.hide();
     this.loading = true;
 
@@ -172,11 +182,40 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     );
   }
 
+  deleteProfile() {
+    if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
+      this.toasterService.pop('error', '', '无法删除，请重试');
+      return;
+    }
+
+    // always set date to today when create    
+    this.loading = true;
+    let profile = {
+      id: 0,
+      year: this.currentYear,
+      class: this.currentClass,
+      name: this.currentName,
+      date: this.currentDate,
+    };
+
+    this.profileClient.deleteProfile(profile).subscribe(
+      d => {
+        this.loading = false;
+        this.LogSuccess("成长档案删除成功");
+        this.profileloaded = false;
+
+        window.location.reload();
+      },
+      e => this.LogError(e, '成长档案删除失败，请重试'),
+      () => this.LogComplete('profile component profile delete completed')
+    );
+  }
+
   loadProfileEditor() {
     if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
       this.toasterService.pop('error', '', '请设置正确的检索条件');
       return;
-    }
+    }    
 
     this.zone.runOutsideAngular(() => {
       const editor = grapesjs.init({
@@ -244,6 +283,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     });
 
     this.profileModal.hide();
+    this.profileloaded = true;
   }
 
 

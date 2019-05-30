@@ -1,5 +1,12 @@
 <div class="animated fadeIn">
-    <div id="gjs" class="card"></div>
+    <div class="card" [hidden]="!profileloaded">
+        <div class="card-header">
+            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}
+            <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
+            <button type="button" (click)="showNewProfileModal()" class="btn btn-sm btn-success pull-right">新建</button>
+        </div>
+        <div class="card-body" id="gjs"></div>        
+    </div>
 </div>
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
@@ -114,7 +121,29 @@
 
             </div>
             <div class="modal-footer">                
-                <button type="button" class="btn btn-primary" (click)="createProfile()">确定</button>
+                <button type="button" class="btn btn-success" (click)="createProfile()">确定</button>
+                <button type="button" class="btn btn-primary" (click)="showProfileModal()">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #confirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">删除成长档案</h4>
+                <button type="button" class="close" (click)="confirmModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="btn-group">确定删除该成长档案?</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="deleteProfile()">删除</button>
+                <button type="button" class="btn btn-primary" (click)="confirmModal.hide()">取消</button>
             </div>
         </div>
     </div>
