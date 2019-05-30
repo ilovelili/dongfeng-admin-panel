@@ -32,34 +32,20 @@ export class ProfileClient extends BaseClient {
   }
 
   createProfile(profile: Profile): Observable<Empty> {
-    return this.updateProfile(profile, true)
+    return this.http.post<Empty>(environment.api.baseURI + '/profile/create', {
+      year: profile.year,
+      class: profile.class,
+      name: profile.name,
+      date: profile.date,
+    }, this.defaultHttpOptions);
   };
 
   deleteProfile(profile: Profile): Observable<Empty> {
-    return this.updateProfile(profile, false)
+    return this.http.post<Empty>(environment.api.baseURI + '/profile/delete', {
+      year: profile.year,
+      class: profile.class,
+      name: profile.name,
+      date: profile.date,
+    }, this.defaultHttpOptions);
   };
-
-  updateProfile(profile: Profile, enabled: boolean): Observable<Empty> {
-    let params = new HttpParams();
-
-    if (profile.year != "") {
-      params = params.set("year", profile.year);
-    }
-    if (profile.class != "") {
-      params = params.set("class", profile.class);
-    }
-    if (profile.name != "") {
-      params = params.set("name", profile.name);
-    }
-    if (profile.date != "") {
-      params = params.set("date", profile.date);
-    }
-    
-    params = params.set("enabled", enabled+'');
-
-    return this.http.post<Empty>(environment.api.baseURI + '/profile', {}, {
-      headers: this.defaultHeaders,
-      params: params,
-    });
-  }
 }

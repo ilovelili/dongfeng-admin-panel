@@ -177,7 +177,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         this.newprofileModal.hide();
         this.loadProfileEditor();
       },
-      e => this.LogError(e, '成长档案创建失败，请重试'),
+      e => this.LogError(e, '相同成长档案已经存在，无法创建'),
       () => this.LogComplete('profile component profile creation completed')
     );
   }
