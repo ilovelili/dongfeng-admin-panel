@@ -48,4 +48,42 @@ export class ProfileClient extends BaseClient {
       date: profile.date,
     }, this.defaultHttpOptions);
   };
+
+  getPrevProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
+    let params = new HttpParams();
+
+    if (year && year != "") {
+      params = params.set("year", year);
+    }
+    if (cls && cls != "") {
+      params = params.set("class", cls);
+    }
+    if (name && name != "") {
+      params = params.set("name", name);
+    }
+    if (date && date != "") {
+      params = params.set("date", date);
+    }
+
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', { headers: this.defaultHeaders, params: params });
+  }
+
+  getNextProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
+    let params = new HttpParams();
+
+    if (year && year != "") {
+      params = params.set("year", year);
+    }
+    if (cls && cls != "") {
+      params = params.set("class", cls);
+    }
+    if (name && name != "") {
+      params = params.set("name", name);
+    }
+    if (date && date != "") {
+      params = params.set("date", date);
+    }
+
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/next', { headers: this.defaultHeaders, params: params });
+  }  
 }

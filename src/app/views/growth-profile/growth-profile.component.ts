@@ -64,6 +64,48 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       );
   }
 
+  getPrev() {
+    this.loading = true;
+    this.profileClient.getPrevProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
+      subscribe(
+        d => {
+          this.loading = false;
+          if (d && d.date) {
+            this.currentDate = d.date;
+            this.loadProfileEditor();
+          } else {
+            this.LogSuccess('没有上页了');
+          }
+        },
+        e => {
+          this.LogError(e, '获取成长档案信息失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('profile component prev profile loading completed')
+      );
+  }
+
+  getNext() {
+    this.loading = true;
+    this.profileClient.getNextProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
+      subscribe(
+        d => {
+          this.loading = false;
+          if (d && d.date) {
+            this.currentDate = d.date;
+            this.loadProfileEditor();
+          } else {
+            this.LogSuccess('没有下页了');
+          }
+        },
+        e => {
+          this.LogError(e, '获取成长档案信息失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('profile component next profile loading completed')
+      );
+  }
+
   showConfirmModal() {
     this.newprofileModal.hide();
     this.profileModal.hide();
