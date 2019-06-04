@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
@@ -21,20 +21,22 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   @ViewChild('newprofileModal') newprofileModal
   @ViewChild('confirmModal') confirmModal
-  @ViewChild('explainModal') explainModal  
+  @ViewChild('explainModal') explainModal
 
   private profileloaded = false;
   private pupils: Pupil[];
   private profiles: FormattedProfile[];
-  
+
   private pupilyears: string[] = [];
-  private pupilclasses: string[] = [];  
-  
-  constructor(private zone: NgZone, private profileClient: ProfileClient, private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  private pupilclasses: string[] = [];
+
+  private editor: any;
+
+  constructor(private profileClient: ProfileClient, private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getprofiles();
   }
 
@@ -123,8 +125,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   showExplainModal() {
     this.newprofileModal.hide();
     this.confirmModal.hide();
-    this.profileModal.hide();    
-    this.explainModal.show();    
+    this.profileModal.hide();
+    this.explainModal.show();
   }
 
   showNewProfileModal() {
@@ -149,14 +151,14 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
               }
             });
 
-            this.newprofileModal.show();            
+            this.newprofileModal.show();
           }
         },
         e => this.LogError(e, '获取成长档案信息失败，请重试'),
         () => this.LogComplete('profile component pupils loading completed')
       );
   }
-  
+
   getdates(year?: string, cls?: string, name?: string) {
     return this.profiles.find(p => {
       let result = true;
@@ -268,77 +270,90 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
       this.toasterService.pop('error', '', '请设置正确的检索条件');
       return;
-    }    
+    }
 
-    this.zone.runOutsideAngular(() => {
-      const editor = grapesjs.init({
-        container: '#gjs',
-        plugins: [
-          'gjs-preset-newsletter',
-          'grapesjs-plugin-export'
-        ],
-        pluginsOpts: {
-          'gjs-preset-newsletter': {},
-          'grapesjs-plugin-export': {
-            btnLabel: '导出为zip格式',            
-            filename: editor => `成长档案_${this.currentYear}_${this.currentClass}_${this.currentName}_${this.currentDate}.zip`,
-            root: {
-              css: {
-                'style.css': editor => editor.getCss().replace(/assets\/img/g, '../img')+this.chromePrintCSS(),
-              },
-              img: async editor => {
-                const images = await this.readImgs(editor);
-                return images;
-              },
-              'index.html': editor => `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${editor.getConfig().title}"></head><body>${editor.getHtml()}</body></html>`.replace(/assets\/img/g, './img'), // img path is different from css
+    this.editor = grapesjs.init({
+      container: '#gjs',
+      plugins: [
+        'gjs-preset-newsletter',
+        'grapesjs-plugin-export'
+      ],
+      pluginsOpts: {
+        'gjs-preset-newsletter': {},
+        'grapesjs-plugin-export': {
+          btnLabel: '导出为zip格式',
+          filename: editor => `成长档案_${this.currentYear}_${this.currentClass}_${this.currentName}_${this.currentDate}.zip`,
+          root: {
+            css: {
+              'style.css': editor => editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS(),
             },
+            img: async editor => {
+              const images = await this.readImgs(editor);
+              return images;
+            },
+            'index.html': editor => `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${editor.getConfig().title}"></head><body>${editor.getHtml()}</body></html>`.replace(/assets\/img/g, './img'), // img path is different from css
           },
         },
-        // https://github.com/artf/grapesjs/blob/dev/src/storage_manager/config/config.js      
-        storageManager: {
-          id: 'gjs-',
-          type: 'remote',
-          autosave: true,
-          autoload: true,
-          stepsBeforeSave: 1,
-          urlStore: this.endpoint,
-          urlLoad: this.endpoint,
-          headers: this.profileClient.rawHeaders,
-          contentTypeJson: true,
-          credentials: 'include',          
-        },
-        domComponents: { storeWrapper: 1 },
-      });
-
-      // Asset Manager config
-      const am = editor.AssetManager;
-      const imageDir = 'assets/img/';
-      const background_count = 3;
-      const stamp_count = 5;
-
-      let assets = [];
-      for (let i = 1; i <= background_count; i++) {
-        assets.push({
-          category: 'background',
-          src: `${imageDir}background_${i}.png`,
-        });
-      }
-
-      for (let i = 1; i <= stamp_count; i++) {
-        assets.push({
-          category: 'stamp',
-          src: `${imageDir}stamp_${i}.png`,
-        });
-      }
-
-      am.add(assets);
-      am.render();
+      },
+      // https://github.com/artf/grapesjs/blob/dev/src/storage_manager/config/config.js      
+      storageManager: {
+        id: 'gjs-',
+        type: 'remote',
+        autosave: true,
+        autoload: true,
+        stepsBeforeSave: 1,
+        urlStore: this.endpoint,
+        urlLoad: this.endpoint,
+        headers: this.profileClient.rawHeaders,
+        contentTypeJson: true,
+        credentials: 'include',
+        onComplete: () => {
+          // wait for image rendered. We can set an interval to make it more accurate
+          window.setTimeout(() => {
+            let images = this.readImgUrls(this.editor),
+                html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.editor.getConfig().title}"></head><body>${this.editor.getHtml()}</body></html>`.replace(/assets\/img/g, './img'),
+                css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
+              this.uploadEbookContent(images, html, css);            
+          }, 3000)
+        }
+      },
+      domComponents: { storeWrapper: 1 },
     });
+
+    // Asset Manager config
+    const am = this.editor.AssetManager;
+    const imageDir = 'assets/img/';
+    const background_count = 3;
+    const stamp_count = 5;
+
+    let assets = [];
+    for (let i = 1; i <= background_count; i++) {
+      assets.push({
+        category: 'background',
+        src: `${imageDir}background_${i}.png`,
+      });
+    }
+
+    for (let i = 1; i <= stamp_count; i++) {
+      assets.push({
+        category: 'stamp',
+        src: `${imageDir}stamp_${i}.png`,
+      });
+    }
+
+    am.add(assets);
+    am.render();
+
+
+    // this.uploadEbookContent();
 
     this.profileModal.hide();
     this.profileloaded = true;
   }
 
+  uploadEbookContent(images: any[], html: string, css: string) {
+
+  }
 
   /***
   image export related
@@ -412,6 +427,19 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       catch (e) {
         console.log("error " + e.message);
       }
+    };
+
+    return content
+  }
+
+  readImgUrls(ed: any) {
+    let listaImgs = [], content = [];
+    let htmlimages = this.imgHTML(),
+      cssimages = this.imgCSS(ed);
+
+    listaImgs = htmlimages.concat(cssimages);
+    for (let i = 0; i < listaImgs.length; i++) {      
+      content.push(listaImgs[i].replace(/assets\/img/g, './img'))
     };
 
     return content

@@ -197,7 +197,7 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
             { name: '高度', property: 'border-color'},
           ],
         },{
-          property: '背景风格',
+          name: '背景风格',
           property: 'background',
           properties: [
             { name: '背景图', property: 'background-image'},
