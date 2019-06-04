@@ -280,11 +280,11 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         pluginsOpts: {
           'gjs-preset-newsletter': {},
           'grapesjs-plugin-export': {
-            btnLabel: '导出为zip格式',
-            filenamePfx: '成长档案',
+            btnLabel: '导出为zip格式',            
+            filename: editor => `成长档案_${this.currentYear}_${this.currentClass}_${this.currentName}_${this.currentDate}.zip`,
             root: {
               css: {
-                'style.css': editor => editor.getCss().replace(/assets\/img/g, '../img'),
+                'style.css': editor => editor.getCss().replace(/assets\/img/g, '../img')+this.chromePrintCSS(),
               },
               img: async editor => {
                 const images = await this.readImgs(editor);
@@ -360,6 +360,15 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       imags = [];
 
     return imags;
+  }
+
+  // this is for chrome headless print-to-pdf option
+  chromePrintCSS(): string {
+    return `
+@media print {
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+}`;
   }
 
   // get image src from HTML file

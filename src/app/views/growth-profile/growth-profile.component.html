@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
-            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}
+            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}            
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
             <button type="button" (click)="showNewProfileModal()" class="btn btn-sm btn-success pull-right">新建</button>
             <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
