@@ -85,5 +85,17 @@ export class ProfileClient extends BaseClient {
     }
 
     return this.http.get<Profile>(environment.api.baseURI + '/profile/next', { headers: this.defaultHeaders, params: params });
-  }  
+  }
+
+  updateEBook(profile: Profile, images: string[], html: string, css: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/ebook', {
+      year: profile.year,
+      class: profile.class,
+      name: profile.name,
+      date: profile.date,
+      images: images,
+      html: html,
+      css: css,
+    }, this.defaultHttpOptions);
+  }
 }

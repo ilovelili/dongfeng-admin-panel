@@ -266,6 +266,22 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     );
   }
 
+  updateEBookContent(images: string[], html: string, css: string) {
+    let profile = {
+      id: 0,
+      year: this.currentYear,
+      class: this.currentClass,
+      name: this.currentName,
+      date: this.currentDate,
+    };
+
+    this.profileClient.updateEBook(profile, images, html, css).subscribe(
+      () => {},
+      e => console.error(e),
+      () => this.LogComplete('profile component update ebook completed')
+    );
+  }
+
   loadProfileEditor() {
     if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
       this.toasterService.pop('error', '', '请设置正确的检索条件');
@@ -307,14 +323,13 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         headers: this.profileClient.rawHeaders,
         contentTypeJson: true,
         credentials: 'include',
-        onComplete: () => {
-          // wait for image rendered. We can set an interval to make it more accurate
+        onComplete: () => {          
           window.setTimeout(() => {
             let images = this.readImgUrls(this.editor),
                 html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.editor.getConfig().title}"></head><body>${this.editor.getHtml()}</body></html>`.replace(/assets\/img/g, './img'),
                 css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
-              this.uploadEbookContent(images, html, css);            
-          }, 3000)
+              this.updateEBookContent(images, html, css);            
+          }, 5000)
         }
       },
       domComponents: { storeWrapper: 1 },
@@ -345,14 +360,10 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     am.render();
 
 
-    // this.uploadEbookContent();
+    // this.updateEBookContent();
 
     this.profileModal.hide();
     this.profileloaded = true;
-  }
-
-  uploadEbookContent(images: any[], html: string, css: string) {
-
   }
 
   /***
