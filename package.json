@@ -1,11 +1,9 @@
 {
-  "name": "@coreuipro/angular",
-  "version": "1.0.8",
-  "description": "Bootstrap 4 Admin Template",
-  "author": "Łukasz Holeczek",
-  "homepage": "http://coreui.io/pro/",
-  "copyright": "Copyright 2017 creativeLabs Łukasz Holeczek",
-  "license": "http://coreui.io/pro/license/",
+  "name": "dongfeng-admin-panel",
+  "version": "1.0.0",
+  "description": "DongFeng admin panel",
+  "author": "Min Ju<route666@live.cn>",
+  "copyright": "Copyright 2019 LX Technologies",  
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
