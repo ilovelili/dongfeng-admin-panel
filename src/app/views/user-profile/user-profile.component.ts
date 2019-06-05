@@ -12,8 +12,9 @@ import { environment } from 'environments/environment';
   // https://stackoverflow.com/questions/37689673/angular2-styling-issues-caused-by-dom-attributes-ngcontent-vs-nghost
   encapsulation: ViewEncapsulation.None,
 })
-export class UserProfileComponent implements OnInit {
-  private toggled: boolean = false;
+export class UserProfileComponent implements OnInit {  
+  private showavatar: boolean = true;  
+  private allowedit: boolean = false;
 
   toasterconfig: ToasterConfig =
     new ToasterConfig({
@@ -41,8 +42,9 @@ export class UserProfileComponent implements OnInit {
       );
   }
 
-  toggle() {
-    this.toggled = !this.toggled;
+  edit() {
+    this.allowedit = true;
+    this.showavatar = false;
   }
 
   home() {
@@ -61,16 +63,17 @@ export class UserProfileComponent implements OnInit {
 
   setUser(uri: string) {
     this.user.avatar = uri;
+    this.showavatar = true;
+    this.allowedit = true;    
   }
 
   update(form: User) {
     this.user.name = form.name;
     this.userClient.updateUser(this.user).
       subscribe(
-        _ => {
-          this.toggle();
+        _ => {          
           this.toasterService.pop('primary', '', '用户信息更新');
-          window.location.replace(`${environment.host}/class`);
+          window.location.replace(`${environment.host}/班级信息`);
         },
         e => {
           console.error(e);

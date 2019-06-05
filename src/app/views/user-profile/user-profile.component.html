@@ -7,15 +7,15 @@
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="avatar">头像</label>
           <div class="avatar col-md-9 avatar-lg">
-            <img [src]="user.avatar" [hidden]="toggled" class="img-avatar" alt="{{user.email}}">
-            <app-image-upload [hidden]="!toggled" (onImageUploaded)="setUser($event)"></app-image-upload>
+            <img [src]="user.avatar" [hidden]="!showavatar" class="img-avatar" alt="{{user.email}}">
+            <app-image-upload [hidden]="showavatar" (onImageUploaded)="setUser($event)"></app-image-upload>
           </div>
         </div>
 
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="name">用户名</label>
           <div class="col-md-9">
-            <input type="text" id="name" name="name" ngControl="name" class="form-control" [disabled]="!toggled"
+            <input type="text" id="name" name="name" ngControl="name" class="form-control" [disabled]="!allowedit"
               [(ngModel)]="user.name" #name="ngModel" required>
           </div>
         </div>
@@ -35,8 +35,8 @@
         </div>
 
         <div class="card-footer">
-          <button type="button" (click)="toggle()" [hidden]="toggled" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</button>
-          <button type="submit" [hidden]="!toggled" [disabled]="!f.form.valid" class="btn btn-sm btn-danger"><i class="fa fa-dot-circle-o"></i> 确定</button>
+          <button type="button" (click)="edit()" [hidden]="allowedit" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i> 编辑</button>
+          <button type="submit" [hidden]="!allowedit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger"><i class="fa fa-dot-circle-o"></i> 确定</button>
           <button type="button" (click)="home()" class="btn btn-sm btn-success"><i class="fa fa-dot-circle-o"></i> 返回</button>
         </div>
       </form>
