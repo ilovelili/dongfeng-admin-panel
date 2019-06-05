@@ -399,6 +399,10 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
   // get image src from HTML file
   imgHTML(): string[] {
+    if (!document.querySelector('.gjs-frame')) {
+      return [];
+    }
+
     let imags: string[] = [],
       src: string,
       code = (<any>document.querySelector('.gjs-frame')).contentDocument.getElementsByTagName('img');
