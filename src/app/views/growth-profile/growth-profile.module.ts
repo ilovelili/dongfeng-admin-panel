@@ -12,6 +12,7 @@ import { AppLoadingModule } from 'app/components';
 import { EBookComponent } from './ebook.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
+import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { NgxTypeaheadModule } from 'ngx-typeahead';
   declarations: [ 
     GrowthProfileComponent,
     EBookComponent,
+    DataFilterPipe,
   ]
 })
 

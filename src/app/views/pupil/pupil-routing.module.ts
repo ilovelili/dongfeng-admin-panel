@@ -4,12 +4,18 @@ import { PupilComponent } from './pupil.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: PupilComponent,
+    path: '',    
     data: {
       title: '园儿信息'
     },
     children: [
+      {
+        path: '',
+        component: PupilComponent,
+        data: {
+          title: '',
+        }
+      },
       {
         path: ':class',
         component: PupilComponent,

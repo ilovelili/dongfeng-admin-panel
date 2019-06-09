@@ -1,3 +1,117 @@
-<div class="animated fadeIn">
-    <div class="card">开发未完成，请耐心等待</div>
-</div>
+<div class="animated fadeIn">  
+    <!-- <div class="card" [hidden]="!ebooks || ebooks.empty()">
+      <div class="card-header">{{currentClass}} 电子书 {{currentYear ? '(' + currentYear + '学年)' : ''}}        
+        <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-4 offset-md-8">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+              <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+            </div>
+          </div>
+        </div>
+  
+        <app-loading [loading]="loading"></app-loading>
+  
+        <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+          [mfRowsOnPage]="10" [hidden]="loading">
+          <thead>
+            <tr>
+              <th style="width: 5%">
+                <mfDefaultSorter by="id">ID</mfDefaultSorter>
+              </th>              
+              <th style="width: 30%">
+                <mfDefaultSorter by="age">班级</mfDefaultSorter>
+              </th>
+              <th style="width: 30%">
+                <mfDefaultSorter by="name">姓名</mfDefaultSorter>
+              </th>
+              <th style="width: 35%" colspan="2">电子书</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data">
+              <td>{{item.id}}</td>
+              <td>{{item.class}}</td>
+              <td>{{item.name}}</td>              
+              <td><a (click)="showebook(currentYear)"><i class="fa fa-edit"></i></a></td>
+              <td><a (click)="showebook()"><i class="fa fa-edit"></i></a></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+  
+  <div bsModal #conditionModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">按条件检索</h6>
+          <button type="button" class="close" (click)="conditionModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">        
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+              {{searchcriteria.year}} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="setyear('')">全部</a>
+              </li>
+              <li *ngFor="let year of years" role="menuitem">
+                <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+              </li>
+            </ul>
+          </div>
+  
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+              {{searchcriteria.class}} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="setclass('')">全部</a>
+              </li>
+              <li *ngFor="let class of classes" role="menuitem">
+                <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="btn-group" dropdown>
+            <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+              {{searchcriteria.class}} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+              <li role="menuitem">
+                <a class="dropdown-item" (click)="setname('')">全部</a>
+              </li>
+              <li *ngFor="let name of names" role="menuitem">
+                <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="btn-group float-right">
+            <button type="button" class="btn btn-success" (click)="getebooks()">检索</button>
+          </div>
+  
+        </div>
+      </div>
+    </div> -->
+  </div>

@@ -5,11 +5,17 @@ import { TeacherComponent } from './teacher.component';
 const routes: Routes = [
   {
     path: '',
-    component: TeacherComponent,
     data: {
       title: '教师信息'
     },
-    children: [      
+    children: [
+      {
+        path: '',
+        component: TeacherComponent,
+        data: {
+          title: ''
+        },
+      },
       {
         path: ':class',
         component: TeacherComponent,
