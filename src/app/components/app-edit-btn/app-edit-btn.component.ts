@@ -19,6 +19,7 @@ export class AppEditButtonComponent {
   public fields: string[];
 
   editcriteria = {    
+    year: "学年",
     name: "姓名",
     class: "班级",
     email: "邮件",

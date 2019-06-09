@@ -49,6 +49,7 @@ export class ClassClient extends BaseClient {
       id: pupil.id, 
       name: pupil.name,
       class: pupil.class,
+      year: pupil.year,
     }, this.defaultHttpOptions);
   };
 
