@@ -19,12 +19,15 @@
     <div class="modal-dialog modal-info" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">选择成长档案</h4>                
+                <h4 class="modal-title">选择成长档案</h4>
+                <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>              
             </div>
             <div class="modal-body">
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.year}} <span class="caret"></span>
+                        {{params["year"] || searchcriteria.year}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let year of years" role="menuitem">
@@ -35,7 +38,7 @@
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.class}} <span class="caret"></span>
+                        {{params["class"] || searchcriteria.class}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let class of classes" role="menuitem">
@@ -46,7 +49,7 @@
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.name}} <span class="caret"></span>
+                        {{params["name"] || searchcriteria.name}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let name of profilenames" role="menuitem">
@@ -62,6 +65,9 @@
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let date of profiledates" role="menuitem">
                             <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
+                        </li>
+                        <li [hidden]="profiledates.length" role="menuitem">
+                            <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
                 </div>
@@ -88,7 +94,7 @@
             <div class="modal-body">
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.year}} <span class="caret"></span>
+                        {{params["year"] || searchcriteria.year}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let year of pupilyears" role="menuitem">
@@ -99,7 +105,7 @@
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.class}} <span class="caret"></span>
+                        {{params["class"] || searchcriteria.class}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let class of pupilclasses" role="menuitem">
@@ -110,7 +116,7 @@
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{searchcriteria.name}} <span class="caret"></span>
+                        {{params["name"] || searchcriteria.name}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let name of pupilnames" role="menuitem">

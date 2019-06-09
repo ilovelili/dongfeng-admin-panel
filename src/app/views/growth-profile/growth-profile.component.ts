@@ -45,6 +45,13 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.profileClient.getProfiles(this.currentYear, this.currentClass, this.currentName, this.currentDate).
       subscribe(
         d => {
+          if (this.currentYear) {
+            this.years.push(this.currentYear);
+          }
+          if (this.currentClass) {
+            this.classes.push(this.currentClass);
+          }          
+
           this.loading = false;
           this.profiles = new Profiles(d.profiles).format();
           this.profiles.forEach(p => {

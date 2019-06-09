@@ -19,6 +19,13 @@ const routes: Routes = [
         },
       },
       {
+        path: ':year/:class/:name',
+        component: GrowthProfileComponent,
+        data: {
+          title: '编辑成长档案'
+        },
+      },
+      {
         path: '电子书',
         component: EBookComponent,
         data: {
