@@ -84,6 +84,8 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
         d => {
           this.loading = false;
           this.attendances = new Attendances(d.attendances, new Holidays(d.holidays)).format();
+          this.conditionModal.hide();
+
           if (this.attendances.length == 0) {
             if (showinfomodal) {
               this.infoModal.show();

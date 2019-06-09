@@ -48,6 +48,8 @@ export class MenuComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
+          this.conditionModal.hide();
+
           this.menus = new Menus(d.menus).format();
           this.items = this.menus.menus;
         },

@@ -63,6 +63,8 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     subscribe(
       d => {
         this.loading = false;
+        this.conditionModal.hide();
+
         this.teachers = new Teachers(d.teachers).format();
         if (this.teachers.empty()) {
           if (showinfomodal) {

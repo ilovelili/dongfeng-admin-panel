@@ -73,6 +73,8 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
         d => {
           this.loading = false;
           this.physiques = new Physiques(d.physiques);
+          this.conditionModal.hide();
+
           if (this.physiques.empty()) {
             if (showinfomodal) {
               this.infoModal.show();

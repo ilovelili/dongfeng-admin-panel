@@ -62,6 +62,8 @@ export class PupilComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
+          this.conditionModal.hide();
+          
           this.pupils = new Pupils(d.pupils);
           if (this.pupils.empty()) {
             if (showinfomodal) {
