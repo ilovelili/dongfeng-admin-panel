@@ -22,7 +22,7 @@ export class AppEditButtonComponent {
     year: "学年",
     name: "姓名",
     class: "班级",
-    email: "邮件",
+    email: "邮箱",
     gender: '性别',
     birth_date: '出生日期',
     exam_date: '体检日期',

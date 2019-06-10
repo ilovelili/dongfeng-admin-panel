@@ -93,12 +93,12 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
             }            
           } else {
             this.items = this.attendances;
-            this.items.forEach(n => {
-              if (!this.years.includes(n.year)) {
-                this.years.push(n.year);
+            this.items.forEach(a => {
+              if (a.year && !this.years.includes(a.year)) {                
+                this.years.push(a.year);
               }
-              if (!this.classes.includes(n.class)) {
-                this.classes.push(n.class);
+              if (a.class && !this.classes.includes(a.class)) {
+                this.classes.push(a.class);
               }
             });
           }
@@ -110,7 +110,7 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   updateattendance(item: FormattedAttendance, e: Event) {
     e.preventDefault();
-    this.loading = true;
+    // this.loading = true;
     let original = item.attendance;
 
     // toggle attendence
@@ -124,14 +124,35 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
       subscribe(
         _ => {
           this.LogSuccess('出勤信息更新');
-          this.loading = false;
+          // this.loading = false;
         },
         e => {
           this.LogError(e, '出勤信息更新失败，请重试');
-          this.loading = false;
+          // this.loading = false;
           item.attendance = original;
         },
         () => this.LogComplete('attendance component attendence upload completed')
       );
+  }
+
+  get names() {
+    let result = [];
+
+    this.items.filter(i => {
+      let filterres = true;
+      if (this.currentYear) {
+        filterres = filterres && i.year == this.currentYear;
+      }
+      if (this.currentClass) {
+        filterres = filterres && i.class == this.currentClass;
+      }
+      return filterres;
+    }).map(i => i.name).forEach(n => {
+      if (n && !result.includes(n)) {
+        result.push(n);
+      }
+    });
+
+    return result;
   }
 }

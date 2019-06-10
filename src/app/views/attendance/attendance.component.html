@@ -144,8 +144,8 @@
             <li role="menuitem">
               <a class="dropdown-item" (click)="setname('')">全部</a>
             </li>
-            <li role="menuitem">
-              <a class="dropdown-item" (click)="setname(params['name'])">{{params['name']}}</a>
+            <li *ngFor="let name of names" role="menuitem">
+              <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
             </li>
           </ul>
         </div>
