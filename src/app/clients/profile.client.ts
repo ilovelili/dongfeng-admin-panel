@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
 import { Profiles, Profile } from 'app/models/profile';
-import { Empty } from 'app/models';
+import { Empty, Ebooks } from 'app/models';
 
 @Injectable()
 export class ProfileClient extends BaseClient {
@@ -97,5 +97,27 @@ export class ProfileClient extends BaseClient {
       html: html,
       css: css,
     }, this.defaultHttpOptions);
+  }
+
+  getEbooks(year?: string, cls?: string, name?: string, from?: string, to?: string): Observable<Ebooks> {
+    let params = new HttpParams();
+
+    if (year && year != "") {
+      params = params.set("year", year);
+    }
+    if (cls && cls != "") {
+      params = params.set("class", cls);
+    }
+    if (name && name != "") {
+      params = params.set("name", name);
+    }
+    if (from && from != "") {
+      params = params.set("from", from);
+    }
+    if (to && to != "") {
+      params = params.set("to", to);
+    }
+
+    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { headers: this.defaultHeaders, params: params });
   }
 }

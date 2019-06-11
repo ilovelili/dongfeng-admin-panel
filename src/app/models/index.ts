@@ -11,3 +11,4 @@ export * from './errorcode';
 export * from './physique';
 export * from './meal';
 export * from './profile';
+export * from './ebook';

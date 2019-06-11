@@ -90,7 +90,9 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
             if (showinfomodal) {
               this.infoModal.show();
               this.items = this.template;
-            }            
+            } else {
+              this.LogWarning('没有出勤信息');
+            }
           } else {
             this.items = this.attendances;
             this.items.forEach(a => {

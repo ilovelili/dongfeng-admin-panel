@@ -79,6 +79,8 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
             if (showinfomodal) {
               this.infoModal.show();
               this.items = this.template;
+            } else {
+              this.LogWarning('没有体格发育信息');
             }
           } else {
             this.items = d.physiques;

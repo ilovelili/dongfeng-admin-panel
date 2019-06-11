@@ -70,7 +70,9 @@ export class TeacherComponent extends ViewComponent implements OnInit {
           if (showinfomodal) {
             this.infoModal.show();
             this.items = this.template;
-          }          
+          } else {
+            this.LogWarning('没有教师信息');
+          }
         } else {
           this.items = this.teachers.teachers;
           this.items.forEach(n => {

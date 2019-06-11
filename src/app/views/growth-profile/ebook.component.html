@@ -1,5 +1,5 @@
 <div class="animated fadeIn">  
-    <!-- <div class="card" [hidden]="!ebooks || ebooks.empty()">
+    <div class="card" [hidden]="!ebooks || ebooks.empty()">
       <div class="card-header">{{currentClass}} 电子书 {{currentYear ? '(' + currentYear + '学年)' : ''}}        
         <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
       </div>
@@ -22,13 +22,14 @@
               <th style="width: 5%">
                 <mfDefaultSorter by="id">ID</mfDefaultSorter>
               </th>              
-              <th style="width: 30%">
+              <th style="width: 25%">
                 <mfDefaultSorter by="age">班级</mfDefaultSorter>
               </th>
               <th style="width: 30%">
                 <mfDefaultSorter by="name">姓名</mfDefaultSorter>
               </th>
-              <th style="width: 35%" colspan="2">电子书</th>
+              <th style="width: 20%">电子书 (本学年)</th>
+              <th style="width: 20%">电子书 (全)</th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +38,7 @@
               <td>{{item.class}}</td>
               <td>{{item.name}}</td>              
               <td><a (click)="showebook(currentYear)"><i class="fa fa-edit"></i></a></td>
-              <td><a (click)="showebook()"><i class="fa fa-edit"></i></a></td>
+              <td><a (click)="showebook()"><i class="fas fa-edit"></i></a></td>
             </tr>
           </tbody>
           <tfoot>
@@ -95,7 +96,7 @@
 
           <div class="btn-group" dropdown>
             <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-              {{searchcriteria.class}} <span class="caret"></span>
+              {{searchcriteria.name}} <span class="caret"></span>
             </button>
             <ul *dropdownMenu class="dropdown-menu" role="menu">
               <li role="menuitem">
@@ -113,5 +114,5 @@
   
         </div>
       </div>
-    </div> -->
+    </div>
   </div>

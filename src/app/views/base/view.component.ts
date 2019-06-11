@@ -187,6 +187,11 @@ export abstract class ViewComponent extends BaseComponent {
     this.toasterService.pop('error', '', msg);
   };
 
+  protected LogWarning = (msg: string) => {
+    console.log(msg);
+    this.toasterService.pop('warning', '', msg);
+  };
+
   protected LogSuccess = (msg: string) => {
     console.log(msg);
     this.toasterService.pop('success', '', msg);

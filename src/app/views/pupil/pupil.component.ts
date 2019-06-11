@@ -69,7 +69,9 @@ export class PupilComponent extends ViewComponent implements OnInit {
             if (showinfomodal) {
               this.infoModal.show();
               this.items = this.template;
-            }            
+            } else {
+              this.LogWarning('没有园儿信息');
+            }           
           } else {
             this.items = this.pupils.pupils;
             this.items.forEach(n => {
