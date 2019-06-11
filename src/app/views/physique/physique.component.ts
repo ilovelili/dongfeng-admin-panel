@@ -130,6 +130,27 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
       );
   }
 
+  get names() {
+    let result = [];
+
+    this.items.filter(i => {
+      let filterres = true;
+      if (this.currentYear) {
+        filterres = filterres && i.year == this.currentYear;
+      }
+      if (this.currentClass) {
+        filterres = filterres && i.class == this.currentClass;
+      }
+      return filterres;
+    }).map(i => i.name).forEach(n => {
+      if (n && !result.includes(n)) {
+        result.push(n);
+      }
+    });
+
+    return result;
+  }
+
   // this must be passed from parent
   errcallback(res: string, me: any) {
     let resjson = JSON.parse(res);
@@ -138,5 +159,5 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
     } else {
       me.LogError(res, '体格发育信息更新失败,请重试');
     }
-  }
+  }  
 }
