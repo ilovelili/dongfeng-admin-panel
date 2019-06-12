@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, NgZone } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
 import { ProfileClient } from 'app/clients';
-import { Ebook, Ebooks } from 'app/models';
+import { Ebooks, Ebook } from 'app/models';
+import { environment } from 'environments/environment';
 
 @Component({
   templateUrl: './ebook.component.html',
@@ -16,16 +17,20 @@ import { Ebook, Ebooks } from 'app/models';
 })
 export class EBookComponent extends ViewComponent implements OnInit {
   private ebooks: Ebooks;
+  private oneyear = true; // show only one year
+
+  @ViewChild('ebookModal') ebookModal
 
   constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
   }
 
-  ngOnInit(): void {    
-    this.getprofiles();
+  ngOnInit(): void {
+    this.ebookModal.hide();
+    this.getebooks();
   }
 
-  getprofiles() {
+  getebooks() {
     this.loading = true;
     this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
       subscribe(
@@ -81,5 +86,66 @@ export class EBookComponent extends ViewComponent implements OnInit {
     });
 
     return result;
+  }
+
+  showebook(ebook: Ebook, oneyear: boolean) {    
+    this.oneyear = oneyear;    
+    if (oneyear) {
+      this.currentYear = ebook.year;      
+    }
+    
+    this.currentName = ebook.name;
+    this.currentClass = ebook.class;    
+
+    this.conditionModal.hide();
+    this.ebookModal.show();
+  }
+
+  get images(): string[] {
+    let result = [];
+    this.items.filter(i => {
+      let filterres = true;
+      if (this.currentYear) {
+        filterres = filterres && i.year == this.currentYear;
+      }
+      if (this.currentClass) {
+        filterres = filterres && i.class == this.currentClass;
+      }
+      if (this.currentName) {
+        filterres = filterres && i.name == this.currentName;
+      }
+      return filterres;
+    }).map((i): Ebook => {      
+      if (!i.dates) {
+        return;
+      }
+        
+      i.dates.forEach(d => {
+        if (this.oneyear) {
+          if (this.currentYear) {
+            result.push({
+              url: `${environment.api.imageServer}/${this.currentYear}/${this.currentClass}/${this.currentName}/${d}.jpg`,
+              date: d,
+            });
+          }          
+        } else {
+          this.years.forEach(y => {
+            result.push({
+              url: `${environment.api.imageServer}/${y}/${this.currentClass}/${this.currentName}/${d}.jpg`,
+              date: d,
+            });
+          });
+        }
+      });
+
+      return;
+    });
+
+    return result.sort((r1, r2) => {
+      let d = new Date(r1.date).getTime() - new Date(r2.date).getTime();
+      if (d > 0) return 1;
+      if (d < 0) return -1;
+      return 0;
+    }).map(r => r.url);
   }
 }

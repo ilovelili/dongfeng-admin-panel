@@ -14,6 +14,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
 import { DataTableModule } from 'angular2-datatable';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 @NgModule({
   imports: [
@@ -21,11 +22,12 @@ import { DataTableModule } from 'angular2-datatable';
     CommonModule,
     ToasterModule,
     AppLoadingModule,
-    DataTableModule,
+    DataTableModule,    
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,
     NgxTypeaheadModule,
+    CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ButtonsModule.forRoot()
   ],

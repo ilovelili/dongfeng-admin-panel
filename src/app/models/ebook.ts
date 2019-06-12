@@ -10,5 +10,6 @@ export class Ebooks {
     year: string;
     class: string;
     name: string;
+    dates: string[];
   }
   

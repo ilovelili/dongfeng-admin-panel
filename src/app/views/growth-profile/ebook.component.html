@@ -37,8 +37,8 @@
               <td>{{item.year}}</td>
               <td>{{item.class}}</td>
               <td>{{item.name}}</td>              
-              <td><a (click)="showebook(currentYear)"><i class="fa fa-address-book"></i></a></td>
-              <td><a (click)="showebook()"><i class="fa fa-address-book-o"></i></a></td>
+              <td><a (click)="showebook(item, true)"><i class="fa fa-address-book"></i></a></td>
+              <td><a (click)="showebook(item, false)"><i class="fa fa-address-book-o"></i></a></td>
             </tr>
           </tbody>
           <tfoot>
@@ -111,8 +111,38 @@
           <div class="btn-group float-right">
             <button type="button" class="btn btn-success" (click)="getebooks()">检索</button>
           </div>
-  
+
         </div>
       </div>
     </div>
   </div>
+
+  <div bsModal #ebookModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">电子书预览</h6>
+          <button type="button" class="close" (click)="ebookModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+              <div class="card-header">
+                {{currentName}}
+                <small> {{currentClass}}</small>
+              </div>
+              <div class="card-body">
+                <carousel [interval]="4500">
+                  <slide *ngFor="let image of images; let i = index">
+                    <img [src]="image" [alt]="'slide'+i" style="display: block; width: 100%;">                    
+                  </slide>                  
+                </carousel>
+              </div>
+            </div>            
+        </div>
+      </div>
+    </div>
+  </div>
+  

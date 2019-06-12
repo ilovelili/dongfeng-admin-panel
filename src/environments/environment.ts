@@ -16,6 +16,8 @@ export const environment = {
     scope: 'openid profile email'
   },
   api: {
-    baseURI: 'http://localhost:8080/api'
+    baseURI: 'http://localhost:8080/api',
+    imageServer: 'http://47.110.143.96:81/images',
+    ebookServer: 'http://47.110.143.96:81/ebooks',
   }
 };
