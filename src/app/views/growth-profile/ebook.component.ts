@@ -15,34 +15,32 @@ import { Ebook, Ebooks } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class EBookComponent extends ViewComponent implements OnInit {
-  private ebooks: Ebook[];
+  private ebooks: Ebooks;
 
   constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.getprofiles();
   }
 
   getprofiles() {
     this.loading = true;
-    this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName, this.currentDate).
+    this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
       subscribe(
-        d => {
+        d => {          
           if (this.currentYear) {
             this.years.push(this.currentYear);
           }
           if (this.currentClass) {
             this.classes.push(this.currentClass);
-          }          
+          }
 
-          this.loading = false;
-          let e = new Ebooks(d.ebooks);
-          if (!e.empty()) {
-            this.ebooks = e.ebooks;
-
-            this.ebooks.forEach(e => {
+          this.ebooks = new Ebooks(d.ebooks);
+          if (!this.ebooks.empty()) {
+            this.items = this.ebooks.ebooks;
+            this.items.forEach(e => {
               if (!this.years.includes(e.year)) {
                 this.years.push(e.year);
               }
@@ -53,6 +51,8 @@ export class EBookComponent extends ViewComponent implements OnInit {
           } else {
             this.LogWarning('没有电子书数据');
           }
+
+          this.loading = false;
         },
         e => {
           this.LogError(e, '获取电子书数据失败，请重试');

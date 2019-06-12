@@ -99,7 +99,7 @@ export class ProfileClient extends BaseClient {
     }, this.defaultHttpOptions);
   }
 
-  getEbooks(year?: string, cls?: string, name?: string, from?: string, to?: string): Observable<Ebooks> {
+  getEbooks(year?: string, cls?: string, name?: string): Observable<Ebooks> {
     let params = new HttpParams();
 
     if (year && year != "") {
@@ -110,12 +110,6 @@ export class ProfileClient extends BaseClient {
     }
     if (name && name != "") {
       params = params.set("name", name);
-    }
-    if (from && from != "") {
-      params = params.set("from", from);
-    }
-    if (to && to != "") {
-      params = params.set("to", to);
     }
 
     return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { headers: this.defaultHeaders, params: params });

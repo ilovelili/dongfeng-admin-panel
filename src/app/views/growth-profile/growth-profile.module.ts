@@ -13,6 +13,7 @@ import { EBookComponent } from './ebook.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
+import { DataTableModule } from 'angular2-datatable';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
     CommonModule,
     ToasterModule,
     AppLoadingModule,
+    DataTableModule,
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,

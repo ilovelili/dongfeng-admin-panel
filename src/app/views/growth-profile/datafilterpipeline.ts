@@ -10,8 +10,7 @@ export class DataFilterPipe implements PipeTransform {
       return _.filter(array, row =>        
         row.year.indexOf(query) > -1 ||
         row.class.indexOf(query) > -1 ||
-        row.name.indexOf(query) > -1 ||
-        row.date.indexOf(query) > -1
+        row.name.indexOf(query) > -1        
       );
     }
     return array;

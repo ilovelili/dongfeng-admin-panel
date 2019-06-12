@@ -6,11 +6,9 @@ export class Ebooks {
     }
   }  
   
-  export class Ebook {
-    id: number;
+  export class Ebook {    
     year: string;
     class: string;
-    name: string;    
-    date: string;
+    name: string;
   }
   
