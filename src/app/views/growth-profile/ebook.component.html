@@ -1,6 +1,6 @@
 <div class="animated fadeIn">  
     <div class="card" [hidden]="!ebooks || ebooks.empty()">
-      <div class="card-header">{{currentClass}} 电子书 {{currentYear ? '(' + currentYear + '学年)' : ''}}        
+      <div class="card-header">{{currentClass}} {{currentName}} 电子书 {{currentYear ? '(' + currentYear + '学年)' : ''}}
         <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
       </div>
       <div class="card-body">
@@ -121,18 +121,22 @@
     aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
     <div class="modal-dialog modal-info" role="document">
       <div class="modal-content">
+
         <div class="modal-header">
           <h6 class="modal-title">电子书预览</h6>
           <button type="button" class="close" (click)="ebookModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+
         <div class="modal-body">
             <div class="card">
+
               <div class="card-header">
                 {{currentName}}
                 <small> {{currentClass}}</small>
               </div>
+
               <div class="card-body">
                 <carousel [interval]="4500">
                   <slide *ngFor="let image of images; let i = index">
@@ -140,7 +144,12 @@
                   </slide>                  
                 </carousel>
               </div>
-            </div>            
+
+              <div class="card-footer">
+                  <button type="button" class="btn btn-sm btn-success float-right" (click)="downloadebooks()">下载电子书</button>
+              </div>
+
+            </div>
         </div>
       </div>
     </div>

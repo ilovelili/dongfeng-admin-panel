@@ -34,14 +34,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
     this.loading = true;
     this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
       subscribe(
-        d => {          
-          if (this.currentYear) {
-            this.years.push(this.currentYear);
-          }
-          if (this.currentClass) {
-            this.classes.push(this.currentClass);
-          }
-
+        d => {
           this.ebooks = new Ebooks(d.ebooks);
           if (!this.ebooks.empty()) {
             this.items = this.ebooks.ebooks;
@@ -65,6 +58,46 @@ export class EBookComponent extends ViewComponent implements OnInit {
         },
         () => this.LogComplete('ebook component ebook loading completed')
       );
+  }  
+
+  showebook(ebook: Ebook, oneyear: boolean) {    
+    this.oneyear = oneyear;    
+    if (oneyear) {
+      this.currentYear = ebook.year;      
+    } else {
+      this.currentYear = '';
+    }
+    
+    this.currentName = ebook.name;
+    this.currentClass = ebook.class;    
+
+    this.conditionModal.hide();
+    this.ebookModal.show();
+  }
+
+  // we can rename file on download as well
+  // https://stackoverflow.com/questions/7428831/javascript-rename-file-on-download
+  downloadebooks() {
+    this.loading = true;
+    this.profileClient.createEbook(this.currentClass, this.currentName).
+      subscribe(
+        d => {
+          let url = '';
+          if (this.oneyear) {
+            url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_${this.currentYear}学年.pdf`;
+          } else {
+            url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_全期间.pdf`;
+          }
+          
+          console.log(url);
+          window.open(url);
+        },
+        e => {
+          this.LogError(e, '下载电子书失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('ebook component ebook create completed')
+      );
   }
 
   get names() {
@@ -87,20 +120,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
 
     return result;
   }
-
-  showebook(ebook: Ebook, oneyear: boolean) {    
-    this.oneyear = oneyear;    
-    if (oneyear) {
-      this.currentYear = ebook.year;      
-    }
-    
-    this.currentName = ebook.name;
-    this.currentClass = ebook.class;    
-
-    this.conditionModal.hide();
-    this.ebookModal.show();
-  }
-
+  
   get images(): string[] {
     let result = [];
     this.items.filter(i => {
@@ -116,27 +136,31 @@ export class EBookComponent extends ViewComponent implements OnInit {
       }
       return filterres;
     }).map((i): Ebook => {      
+      if (!this.currentClass || !this.currentName) {
+        return;
+      }
+
       if (!i.dates) {
         return;
       }
-        
-      i.dates.forEach(d => {
-        if (this.oneyear) {
-          if (this.currentYear) {
+
+      if (this.oneyear) {
+        if (i.year == this.currentYear) {
+          i.dates.forEach(d => {
             result.push({
-              url: `${environment.api.imageServer}/${this.currentYear}/${this.currentClass}/${this.currentName}/${d}.jpg`,
-              date: d,
-            });
-          }          
-        } else {
-          this.years.forEach(y => {
-            result.push({
-              url: `${environment.api.imageServer}/${y}/${this.currentClass}/${this.currentName}/${d}.jpg`,
+              url: `${environment.api.imageServer}/${i.year}/${i.class}/${i.name}/${d}.jpg`,
               date: d,
             });
           });
         }
-      });
+      } else {
+        i.dates.forEach(d => {
+          result.push({
+            url: `${environment.api.imageServer}/${i.year}/${i.class}/${i.name}/${d}.jpg`,
+            date: d,
+          });
+        });
+      }
 
       return;
     });
