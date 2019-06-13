@@ -332,10 +332,14 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         credentials: 'include',
         onComplete: () => {          
           window.setTimeout(() => {
+            let body = this.editor.getHtml();
+            if (!body) {
+              return;
+            }
             let images = this.readImgUrls(this.editor),
-                html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.editor.getConfig().title}"></head><body>${this.editor.getHtml()}</body></html>`.replace(/assets\/img/g, './img'),
+                html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.editor.getConfig().title}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
                 css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
-              this.updateEBookContent(images, html, css);            
+            this.updateEBookContent(images, html, css);            
           }, 5000)
         }
       },
