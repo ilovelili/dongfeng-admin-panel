@@ -114,20 +114,4 @@ export class ProfileClient extends BaseClient {
 
     return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { headers: this.defaultHeaders, params: params });
   }
-
-  createEbook(cls: string, name: string): Observable<Ebooks> {
-    let params = new HttpParams();
-
-    if (cls && cls != "") {
-      params = params.set("class", cls);
-    }
-    if (name && name != "") {
-      params = params.set("name", name);
-    }
-
-    return this.http.post<Ebooks>(environment.api.baseURI + '/ebook/create', {
-      class: cls,
-      name: name,
-    }, this.defaultHttpOptions);
-  }
 }

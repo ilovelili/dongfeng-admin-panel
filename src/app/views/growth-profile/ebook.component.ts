@@ -78,26 +78,14 @@ export class EBookComponent extends ViewComponent implements OnInit {
   // we can rename file on download as well
   // https://stackoverflow.com/questions/7428831/javascript-rename-file-on-download
   downloadebooks() {
-    this.loading = true;
-    this.profileClient.createEbook(this.currentClass, this.currentName).
-      subscribe(
-        d => {
-          let url = '';
-          if (this.oneyear) {
-            url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_${this.currentYear}学年.pdf`;
-          } else {
-            url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_全期间.pdf`;
-          }
-          
-          console.log(url);
-          window.open(url);
-        },
-        e => {
-          this.LogError(e, '下载电子书失败，请重试');
-          this.loading = false;
-        },
-        () => this.LogComplete('ebook component ebook create completed')
-      );
+    let url = '';
+    if (this.oneyear) {
+      url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_${this.currentYear}学年.pdf`;
+    } else {
+      url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_全期间.pdf`;
+    }
+    
+    window.open(url);
   }
 
   get names() {
