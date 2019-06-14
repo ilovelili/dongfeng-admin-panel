@@ -20,13 +20,13 @@ export class EBookComponent extends ViewComponent implements OnInit {
   private oneyear = true; // show only one year
 
   @ViewChild('ebookModal') ebookModal
+  @ViewChild('explainModal') explainModal
 
   constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
   }
 
-  ngOnInit(): void {
-    this.ebookModal.hide();
+  ngOnInit(): void {    
     this.getebooks();
   }
 
@@ -72,7 +72,14 @@ export class EBookComponent extends ViewComponent implements OnInit {
     this.currentClass = ebook.class;    
 
     this.conditionModal.hide();
+    this.explainModal.hide();
     this.ebookModal.show();
+  }
+
+  showexplain() {
+    this.conditionModal.hide();
+    this.ebookModal.hide();
+    this.explainModal.show();
   }
 
   // we can rename file on download as well
