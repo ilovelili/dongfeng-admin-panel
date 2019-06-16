@@ -5,9 +5,13 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 
 import { PagesRoutingModule } from './pages-routing.module';
+import { TooltipModule } from 'ngx-bootstrap';
 
 @NgModule({
-  imports: [ PagesRoutingModule ],
+  imports: [ 
+    PagesRoutingModule,
+    TooltipModule.forRoot(),
+   ],
   declarations: [
     P404Component,
     P500Component,
