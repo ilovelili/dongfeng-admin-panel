@@ -493,15 +493,15 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       if (isChrome || isFirefox || isBlink) {
         // good
       } else if (isOpera) {
-        window.alert('Opera浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+        window.alert('Opera浏览器有可能不支持该系统。如果您无法正常编辑成长档案，请使用谷歌或者火狐浏览器。');
       } else if (isSafari) {
-        window.alert('Safati浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+        window.alert('Safati浏览器有可能不支持该系统。如果您无法正常编辑成长档案，请使用谷歌或者火狐浏览器。');
       } else if (isIE) {
-        window.alert('IE浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+        window.alert('IE浏览器有可能不支持该系统。如果您无法正常编辑成长档案，请使用谷歌或者火狐浏览器。');
       } else if (isEdge) {
-        window.alert('Edge浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+        window.alert('Edge浏览器有可能不支持该系统。如果您无法正常编辑成长档案，请使用谷歌或者火狐浏览器。');
       } else {
-        window.alert('您的浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+        window.alert('您的浏览器有可能不支持该系统。如果您无法正常编辑成长档案，请使用谷歌或者火狐浏览器。');
       }
 
       document.cookie = "showalert=true";
