@@ -73,22 +73,22 @@ export class AppHeaderComponent implements OnInit {
       subscribe(
         _ => {
           if (agentsmith) {
-            this.broadcasts = this.broadcasts.filter(b => {
-              for (let id of ids) {
-                return id != b.id;
-              }
-            });
+            this.broadcasts = this.broadcasts.filter(b => !ids.includes(b.id));
           } else {
-            this.notifications = this.notifications.filter(n => {
-              for (let id of ids) {
-                return id != n.id;
-              }
-            });
+            this.notifications = this.notifications.filter(n => !ids.includes(n.id));
           }
         },
         e => console.error(e),
         () => console.log("app header component notification updating completed")
       );
+  }
+
+  get notificationids(): number[] {
+    return this.notifications.map(n => n.id);
+  }
+
+  get broadcastids(): number[] {
+    return this.broadcasts.map(b => b.id);
   }
 
   stopPropagation(e: Event) {

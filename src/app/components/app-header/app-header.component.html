@@ -18,6 +18,21 @@
           <strong>{{broadcasts.length}} 条系统通知</strong>
         </div>
 
+        <a (click)="stopPropagation($event)" [hidden]="broadcasts.length==0" class="dropdown-item">
+          <div class="message">
+            <div class="card">
+              <div class="card-header small">
+                标记全部已读
+                <label class="switch switch-icon switch-pill switch-primary-outline-alt float-right">
+                  <input type="checkbox" class="switch-input" (change)="updateNotification(broadcastids, true)">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </a>
+
         <a (click)="stopPropagation($event)" *ngFor="let broadcast of broadcasts" class="dropdown-item">
           <div class="message">
             <div class="card">
@@ -52,6 +67,21 @@
         <div class="dropdown-header text-center">
           <strong>您有 {{notifications.length}} 条信息</strong>
         </div>
+
+        <a (click)="stopPropagation($event)" [hidden]="notifications.length==0" class="dropdown-item">
+          <div class="message">
+            <div class="card">
+              <div class="card-header small">
+                标记全部已读
+                <label class="switch switch-icon switch-pill switch-primary-outline-alt float-right">
+                  <input type="checkbox" class="switch-input" (change)="updateNotification(notificationids)">
+                  <span class="switch-label" data-on="&#xf00c;" data-off="&#xf00d;"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>              
+            </div>
+          </div>
+        </a>
 
         <a (click)="stopPropagation($event)" *ngFor="let notification of notifications" class="dropdown-item">
           <div class="message">
