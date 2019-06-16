@@ -24,18 +24,23 @@ const isChrome = !!window.chrome;
 // Blink engine detection
 const isBlink = (isChrome || isOpera) && !!window.CSS;
 
-if (isChrome || isFirefox || isBlink) {
-  // good
-} else if (isOpera) {
-  window.alert('Opera浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
-} else if (isSafari) {
-  window.alert('Safati浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
-} else if (isIE) {
-  window.alert('IE浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
-} else if (isEdge) {
-  window.alert('Edge浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
-} else {
-  window.alert('您的浏览器有可能不支持该系统，您可能个会看到空白页面。推荐使用谷歌或者火狐浏览器。')
+// do not alert multiple times by setting a flag in cookie
+if (document.cookie.indexOf("showalert") == -1) {
+  if (isChrome || isFirefox || isBlink) {
+    // good
+  } else if (isOpera) {
+    window.alert('Opera浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+  } else if (isSafari) {
+    window.alert('Safati浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');    
+  } else if (isIE) {
+    window.alert('IE浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+  } else if (isEdge) {
+    window.alert('Edge浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+  } else {
+    window.alert('您的浏览器有可能不支持该系统。如果您看到空白页面，请使用谷歌或者火狐浏览器。');
+  }
+  
+  document.cookie = "showalert=true";
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule);
