@@ -62,6 +62,11 @@ export const navigation = [
         icon: 'icon-cup',
       },
       {
+        name: '采购信息',
+        url: '/膳食管理/采购信息',
+        icon: 'icon-cup',
+      },
+      {
         name: '食物营养成分表',
         url: '/膳食管理/食物营养成分表',
         icon: 'icon-cup',

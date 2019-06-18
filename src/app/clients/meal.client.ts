@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Menus, Recipes, Ingredients, Ingredient, Empty } from 'app/models';
+import { Menus, Recipes, Ingredients, Ingredient, Empty, Procurements, FormattedProcurement } from 'app/models';
 
 @Injectable()
 export class MealClient extends BaseClient {
@@ -61,5 +61,22 @@ export class MealClient extends BaseClient {
 
   updateIngredient(ingredient: Ingredient): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + '/ingredient', ingredient, this.defaultHttpOptions);
+  };
+
+  getProcurements(from?: string, to?: string): Observable<Procurements> {
+    let params = new HttpParams();
+
+    if (from && from != "") {
+      params = params.set("from", from);
+    }
+    if (to && to != "") {
+      params = params.set("to", to);
+    }
+
+    return this.http.get<Procurements>(environment.api.baseURI + '/procurements', { headers: this.defaultHeaders, params: params });
+  }
+
+  updateProcurement(procurement: FormattedProcurement): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/procurement', procurement, this.defaultHttpOptions);
   };
 }

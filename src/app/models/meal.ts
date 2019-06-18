@@ -277,3 +277,56 @@ export class Ingredient {
     public vc_daily: number,
   ) { }
 }
+
+export class Procurements {
+  constructor(public procurements: Procurement[]) { }
+
+  empty(): boolean {
+    return !this || !this.procurements || !this.procurements.length;
+  }
+
+  format(): FormattedProcurement[] {
+    let result: FormattedProcurement[] = [];
+    if (this.empty()) {
+      return result;
+    }
+
+    this.procurements.forEach(p => {
+      p.procurements.forEach(i => {
+        result.push(new FormattedProcurement(p.date, p.attendance, i.id, i.recipe, i.ingredient, i.amount));
+      });
+    });
+
+    return result;
+  }
+}
+
+export class Procurement {
+  constructor(
+    public date: string,
+    public attendance: number,
+    public procurements: ProcurementItem[],
+  ) { }
+}
+
+export class ProcurementItem {
+  constructor(
+    public id: number,
+    public recipe: string,
+    public ingredient: string,
+    public amount: number,    
+  ) { }
+}
+
+export class FormattedProcurement {
+  constructor(
+    public date: string,
+    public attendance: number,
+    public id: number,
+    public recipe: string,
+    public ingredient: string,
+    public amount: number,    
+  ) { this.total =  Math.round(this.attendance * this.amount); }
+
+  public total: number;
+}

@@ -46,3 +46,19 @@ export class RecipeFilterPipe implements PipeTransform {
     return array;
   }
 }
+
+@Pipe({
+  name: 'procurementFilter'
+})
+export class ProcurementFilterPipe implements PipeTransform {
+  transform(array: any[], query: string): any {
+    if (query) {
+      return _.filter(array, row =>        
+        row.date.indexOf(query) > -1 ||
+        row.ingredient.indexOf(query) > -1 ||
+        row.recipe.indexOf(query) > -1
+      );
+    }
+    return array;
+  }
+}

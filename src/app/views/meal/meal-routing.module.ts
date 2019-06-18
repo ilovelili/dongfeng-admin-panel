@@ -4,6 +4,7 @@ import { MenuComponent } from './menu.component';
 import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
 import { IngredientNutritionComponent } from './ingredient-nutrition.component';
+import { ProcurementComponent } from './procurement.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,13 @@ const routes: Routes = [
         component: IngredientComponent,
         data: {
           title: '食材信息',
+        },
+      },
+      {
+        path: '采购信息',
+        component: ProcurementComponent,
+        data: {
+          title: '采购信息',
         },
       },
       {

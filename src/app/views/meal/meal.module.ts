@@ -10,11 +10,12 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { CommonModule } from '@angular/common';
 import { ModalModule, BsDropdownModule, BsDatepickerModule, TooltipModule } from 'ngx-bootstrap';
 import { FormsModule } from '@angular/forms';
-import { IngredientFilterPipe, MenuFilterPipe, RecipeFilterPipe } from './datafilterpipeline';
+import { IngredientFilterPipe, MenuFilterPipe, RecipeFilterPipe, ProcurementFilterPipe } from './datafilterpipeline';
 import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
 import { IngredientNutritionComponent } from './ingredient-nutrition.component';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
+import { ProcurementComponent } from './procurement.component';
 
 @NgModule({
   imports: [
@@ -37,10 +38,12 @@ import { NgxTypeaheadModule } from 'ngx-typeahead';
     MenuComponent,
     IngredientComponent,
     IngredientNutritionComponent,
+    ProcurementComponent,
     RecipeComponent,
     IngredientFilterPipe,
     RecipeFilterPipe,
     MenuFilterPipe,
+    ProcurementFilterPipe,
   ]
 })
 export class MealModule { }
