@@ -114,6 +114,13 @@
               </div>
 
               <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="date">出勤人数</label>
+                <div class="col-md-9">
+                  <input type="text" name="attendance" class="form-control" [(ngModel)]="edititem.attendance" disabled>
+                </div>
+              </div>
+
+              <div class="form-group row">
                 <label class="col-md-3 col-form-label" for="ingredient">食材</label>
                 <div class="col-md-9">
                   <input type="text" name="ingredient" class="form-control" [(ngModel)]="edititem.ingredient" disabled>
