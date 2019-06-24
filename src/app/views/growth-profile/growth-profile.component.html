@@ -35,6 +35,9 @@
                         <li *ngFor="let year of years" role="menuitem">
                             <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
                         </li>
+                        <li [hidden]="years.length" role="menuitem">
+                            <a class="dropdown-item">没有数据，请新建成长档案</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -46,6 +49,9 @@
                         <li *ngFor="let class of classes" role="menuitem">
                             <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
                         </li>
+                        <li [hidden]="classes.length" role="menuitem">
+                            <a class="dropdown-item">没有数据，请新建成长档案</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -56,6 +62,9 @@
                     <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let name of profilenames" role="menuitem">
                             <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                        </li>
+                        <li [hidden]="profilenames.length" role="menuitem">
+                            <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
                 </div>

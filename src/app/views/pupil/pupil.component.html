@@ -19,13 +19,10 @@
       <app-loading [loading]="loading"></app-loading>
 
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
-        [mfRowsOnPage]="10" [hidden]="loading">
+        [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
-          <tr>
-            <th style="width: 5%">
-              <mfDefaultSorter by="id">ID</mfDefaultSorter>
-            </th>
-            <th style="width: 20%">
+          <tr>            
+            <th style="width: 25%">
               <mfDefaultSorter by="age">班级</mfDefaultSorter>
             </th>
             <th style="width: 35%">
@@ -38,8 +35,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data">
-            <td>{{item.id}}</td>
+          <tr *ngFor="let item of mf.data">            
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
             <td><a [routerLink]="['/出勤信息', item.class, item.name]"><i class="fa fa-link"></i></a></td>
@@ -50,7 +46,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="7">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
