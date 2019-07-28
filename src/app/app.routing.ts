@@ -6,8 +6,6 @@ import {
   FullLayoutComponent,
   SimpleLayoutComponent,
 } from './containers';
-import { AuthGuard } from './auth/auth.guard';
-import { CallbackComponent } from './components';
 
 export const routes: Routes = [
   {
@@ -67,10 +65,6 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'callback',
-    component: CallbackComponent,
-  },  
-  {
     path: '**',
     redirectTo: '页面/404',
     pathMatch: 'full',
@@ -80,6 +74,5 @@ export const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard],
 })
 export class AppRoutingModule { }

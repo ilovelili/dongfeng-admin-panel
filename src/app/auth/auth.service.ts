@@ -1,9 +1,10 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
-import * as auth0 from 'auth0-js';
 import { Router } from '@angular/router';
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { environment } from 'environments/environment';
+import { Auth } from 'app/models';
+import { Guard } from '@authing/guard';
 
 (window as any).global = window;
 
@@ -11,67 +12,55 @@ const KEY_TOKEN: string = 'token';
 const KEY_EXP: string = 'exp';
 const KEY_PROFILE: string = 'profile';
 const KEY_AUTHED: string = 'authed';
+const CLIENT_ID: string = '5d3d48476692ea2c7cf68ff7';
 
 @Injectable()
 export class AuthService {
   private namespace: string = 'dongfeng';
   private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+  private authing: any;
 
-  // Create Auth0 web auth instance
-  auth0 = new auth0.WebAuth({
-    clientID: environment.auth.clientID,
-    domain: environment.auth.domain,
-    responseType: 'id_token',
-    redirectUri: environment.auth.redirect,
-    // audience: environment.auth.audience,
-    scope: environment.auth.scope
-  });
-
-  constructor(private router: Router) {
-    this.saveAuthInfo();
-  }  
+  constructor(private router: Router) {}
 
   login() {
     this._clearSession();
-    // Auth0 authorize request
-    this.auth0.authorize({
-      language: environment.language,      
+    let me = this;
+    const form = new Guard(CLIENT_ID, {
+      timestamp: Math.round((new Date()).getTime() / 1000),
+      nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
     });
-  }
 
-  handleLoginCallback() {
-    // When Auth0 hash parsed, get profile
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.idToken) {
-        window.location.hash = '';
-        this._setSession(authResult);
-      } else if (err) {
-        console.error(`Error: ${err.error}`);
-      }
-      window.location.replace(`${environment.host}/班级信息`);
-      // this.router.navigate(['班级信息']);
-    });
-  }
+    form.on('error', function(err) {
+      console.log(err);
+    })
 
-  saveAuthInfo() {
-    this.auth0.checkSession({}, (err, authResult) => {
-      if (authResult && authResult.idToken) {
-        this._setSession(authResult);
-      }
-    });
-  }
+    // form.on('login', function (auth: Auth) {      
+    //   if (auth && auth.token) {
+    //     window.location.hash = '';
+    //     me._setSession(auth);
+    //   }
+    //   window.location.replace(`${environment.host}/班级信息`);
+    // });
 
-  private _setSession(authResult) {
-    // Save authentication data and update login status subject    
-    this.sessionFactory.set(KEY_TOKEN, authResult.idToken);
+    // form.on('authing-load', async function(authing) {
+    //   const result = await authing.checkLoginStatus();
+    //   if (result.status) {
+    //       form.hide();
+    //   }
+    //   me.authing = authing;
+    // })
+  }
+  
+  private _setSession(auth: Auth) {
+    this.sessionFactory.set(KEY_TOKEN, auth.token);
     this.sessionFactory.set(KEY_PROFILE, {
-      email: authResult.idTokenPayload.email,
-      roles: authResult.idTokenPayload.roles,
-      name: authResult.idTokenPayload.name,
-      nickname: authResult.idTokenPayload.nickname,
-      picture: authResult.idTokenPayload.picture,
+      id: auth._id,
+      email: auth.email,
+      name: auth.username,
+      nickname: auth.nickname,
+      picture: auth.photo,
     });
-    this.sessionFactory.set(KEY_EXP, authResult.idTokenPayload.exp * 1000);
+    this.sessionFactory.set(KEY_EXP, new Date(auth.tokenExpiredAt).getTime());
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
@@ -82,15 +71,9 @@ export class AuthService {
     this.sessionFactory.remove(KEY_AUTHED);
   }
 
-  logout() {
+  logout() {    
+    this.authing.logout(this.sessionFactory.get(KEY_PROFILE).id);
     this._clearSession();
-    // Log out of Auth0 session
-    // Ensure that returnTo URL is specified in Auth0
-    // Application settings for Allowed Logout URLs
-    this.auth0.logout({
-      returnTo: environment.host,
-      clientID: environment.auth.clientID
-    });
   }
 
   get isLoggedIn(): boolean {

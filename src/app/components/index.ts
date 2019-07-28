@@ -11,4 +11,3 @@ export * from './app-image-upload';
 export * from './app-csv';
 export * from './app-loading';
 export * from './app-edit-btn';
-export * from './callback';

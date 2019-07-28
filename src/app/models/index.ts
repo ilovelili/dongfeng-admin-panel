@@ -12,3 +12,4 @@ export * from './physique';
 export * from './meal';
 export * from './profile';
 export * from './ebook';
+export * from './auth';

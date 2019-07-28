@@ -29,7 +29,6 @@ import {
   AppSidebarMinimizerComponent,
   APP_SIDEBAR_NAV,
   AppCsvDownloadService,
-  CallbackComponent,
 
 } from './components';
 
@@ -98,7 +97,6 @@ const APP_CLIENTS = [
   ],
   declarations: [
     AppComponent,
-    CallbackComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
