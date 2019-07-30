@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { environment } from 'environments/environment';
 import { Auth } from 'app/models';
-import { Guard } from '@authing/guard';
 
+declare var Authing: any
 (window as any).global = window;
 
 const KEY_TOKEN: string = 'token';
@@ -20,20 +20,44 @@ export class AuthService {
   private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
   private authing: any;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   login() {
     this._clearSession();
-    let me = this;
-    const form = new Guard(CLIENT_ID, {
-      timestamp: Math.round((new Date()).getTime() / 1000),
-      nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
-    });
+    
+    // todo: use custom UI since Guard doesn't work...
+    // https://docs.authing.cn/authing/sdk/authing-sdk-for-web#fa-song-shou-ji-yan-zheng-ma
+    (async function() {
+      var auth = await new Authing({
+        clientId: CLIENT_ID,
+        timestamp: Math.round((new Date()).getTime() / 1000),
+        nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
+        enableFetchPhone: true // 启用获取手机号
+      });
+      
+      
+        await auth.register({
+          email: 'ade@bde.com',
+          password: 'whoisade'
+        }).then((userInfo) => {
+          console.log(userInfo);
+        }).catch((err) => {
+          console.error(err);
+        });
+    
+        await auth.login({
+          email: 'ade@bde.com',
+          password: 'whoisade'
+        }).then((userInfo) => {
+          console.log(userInfo);
+        }).catch(
+          err => console.log(err)
+        )
 
-    form.on('error', function(err) {
-      console.log(err);
-    })
+    })();
 
+    
     // form.on('login', function (auth: Auth) {      
     //   if (auth && auth.token) {
     //     window.location.hash = '';
@@ -50,7 +74,7 @@ export class AuthService {
     //   me.authing = authing;
     // })
   }
-  
+
   private _setSession(auth: Auth) {
     this.sessionFactory.set(KEY_TOKEN, auth.token);
     this.sessionFactory.set(KEY_PROFILE, {
@@ -71,7 +95,7 @@ export class AuthService {
     this.sessionFactory.remove(KEY_AUTHED);
   }
 
-  logout() {    
+  logout() {
     this.authing.logout(this.sessionFactory.get(KEY_PROFILE).id);
     this._clearSession();
   }

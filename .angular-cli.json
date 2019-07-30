@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "1.0.8",
     "name": "dongfeng"
   },
   "apps": [
@@ -26,7 +25,8 @@
       ],
       "scripts": [
         "../node_modules/chart.js/dist/Chart.bundle.min.js",
-        "../node_modules/chart.js/dist/Chart.min.js",        
+        "../node_modules/chart.js/dist/Chart.min.js",
+        "../node_modules/authing-js-sdk/dist/authing-js-sdk-browser.min.js",
         "../vendors/grapesjs-preset-newsletter/js/grapes.min.js",
         "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js",
         "../vendors/grapesjs-plugin-export/dist/grapesjs-plugin-export.min.js",
