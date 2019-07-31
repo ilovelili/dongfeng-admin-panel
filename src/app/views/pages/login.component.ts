@@ -37,7 +37,13 @@ export class LoginComponent {
       }).then((user: Auth) => {
         me.authService.setSession(user);
         me.router.navigate(['班级信息']);
-      }).catch(err => me.errormsg = err);
+      }).catch(err => {
+        if (err.message && err.message.message) {
+          me.errormsg = err.message.message
+        } else {
+          me.errormsg = '登录失败,请重试';
+        }
+      });
     })();
   }
 }
