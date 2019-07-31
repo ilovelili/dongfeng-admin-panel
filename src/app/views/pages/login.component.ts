@@ -36,6 +36,7 @@ export class LoginComponent {
         password: password,
       }).then((user: Auth) => {
         me.authService.setSession(user);
+        me.router.navigate(['班级信息']);
       }).catch(err => me.errormsg = err);
     })();
   }
