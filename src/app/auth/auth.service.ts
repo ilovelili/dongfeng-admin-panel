@@ -12,7 +12,7 @@ const KEY_TOKEN: string = 'token';
 const KEY_EXP: string = 'exp';
 const KEY_PROFILE: string = 'profile';
 const KEY_AUTHED: string = 'authed';
-const CLIENT_ID: string = '5d3d48476692ea2c7cf68ff7';
+
 
 @Injectable()
 export class AuthService {
@@ -23,59 +23,7 @@ export class AuthService {
   constructor(private router: Router) {
   }
 
-  login() {
-    this._clearSession();
-    
-    // todo: use custom UI since Guard doesn't work...
-    // https://docs.authing.cn/authing/sdk/authing-sdk-for-web#fa-song-shou-ji-yan-zheng-ma
-    (async function() {
-      var auth = await new Authing({
-        clientId: CLIENT_ID,
-        timestamp: Math.round((new Date()).getTime() / 1000),
-        nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
-        enableFetchPhone: true // 启用获取手机号
-      });
-      
-      
-        await auth.register({
-          email: 'ade@bde.com',
-          password: 'whoisade'
-        }).then((userInfo) => {
-          console.log(userInfo);
-        }).catch((err) => {
-          console.error(err);
-        });
-    
-        await auth.login({
-          email: 'ade@bde.com',
-          password: 'whoisade'
-        }).then((userInfo) => {
-          console.log(userInfo);
-        }).catch(
-          err => console.log(err)
-        )
-
-    })();
-
-    
-    // form.on('login', function (auth: Auth) {      
-    //   if (auth && auth.token) {
-    //     window.location.hash = '';
-    //     me._setSession(auth);
-    //   }
-    //   window.location.replace(`${environment.host}/班级信息`);
-    // });
-
-    // form.on('authing-load', async function(authing) {
-    //   const result = await authing.checkLoginStatus();
-    //   if (result.status) {
-    //       form.hide();
-    //   }
-    //   me.authing = authing;
-    // })
-  }
-
-  private _setSession(auth: Auth) {
+  setSession(auth: Auth) {
     this.sessionFactory.set(KEY_TOKEN, auth.token);
     this.sessionFactory.set(KEY_PROFILE, {
       id: auth._id,
@@ -88,7 +36,7 @@ export class AuthService {
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
-  private _clearSession() {
+  clearSession() {
     this.sessionFactory.remove(KEY_TOKEN);
     this.sessionFactory.remove(KEY_PROFILE);
     this.sessionFactory.remove(KEY_EXP);
@@ -97,7 +45,7 @@ export class AuthService {
 
   logout() {
     this.authing.logout(this.sessionFactory.get(KEY_PROFILE).id);
-    this._clearSession();
+    this.clearSession();
   }
 
   get isLoggedIn(): boolean {
