@@ -22,7 +22,7 @@ export class LoginComponent {
   }
 
   login(email: string, password: string) {
-    if (email == "" || name == "" || password == "") {
+    if (email == "" || password == "") {
       this.setMessage('登录信息不能为空白');
       return;
     }

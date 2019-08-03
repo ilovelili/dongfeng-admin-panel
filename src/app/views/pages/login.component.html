@@ -23,7 +23,7 @@
               </div>
               <div class="col-10 text-right">
                 <button type="button" class="btn btn-success px-4" (click)="login(email, password)">登录</button>
-                <button type="button" class="btn btn-link" (click)="forgetPassword()">忘记密码?</button>
+                <a [routerLink]="['../重置密码']" class="btn btn-link px-4" role="button">忘记密码?</a>
               </div>
 
             </div>

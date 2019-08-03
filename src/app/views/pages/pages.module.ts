@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { ToasterModule } from 'angular2-toaster';
+import { PasswordComponent } from './password.component';
 
 @NgModule({
   imports: [ 
@@ -24,6 +25,7 @@ import { ToasterModule } from 'angular2-toaster';
     P500Component,
     LoginComponent,
     RegisterComponent,
+    PasswordComponent,
   ]
 })
 export class PagesModule { }
