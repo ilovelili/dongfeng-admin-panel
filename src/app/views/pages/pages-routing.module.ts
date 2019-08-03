@@ -51,7 +51,7 @@ const routes: Routes = [
         }
       },
       {
-        path: '钉钉',
+        path: 'dingtalk',
         component: OpenIdDingTalkComponent,
         data: {
           title: '第三方登录-钉钉'
@@ -65,4 +65,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }
