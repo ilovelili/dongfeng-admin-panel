@@ -1,6 +1,4 @@
 declare const sessionStorage, localStorage;
-
-import { Injectable, Optional } from '@angular/core';
 import { SessionDriver } from './sessiondriver';
 import { MemoryStorage } from './memorystorage';
 import { CookieStorage } from './cookiestorage';
@@ -12,29 +10,25 @@ export const DRIVERS = {
   COOKIE: new SessionDriver(new CookieStorage())
 }
 
-@Injectable()
 export abstract class AbstractSessionConfig {
   public driverNamespace: string
   public defaultDriverType: SessionDriver
 }
 
-@Injectable()
 export class SessionConfig {
   constructor(
-    @Optional() public driverNamespace: string = '',
-    @Optional() public defaultDriverType: SessionDriver = DRIVERS.SESSION
+    public driverNamespace: string = '',
+    public defaultDriverType: SessionDriver = DRIVERS.SESSION
   ) { }
 }
 
-
-@Injectable()
 export class SessionFactory {
   public static DRIVERS = DRIVERS;
 
   private driver: SessionDriver;
   private namespace: string;
 
-  constructor(@Optional() { driverNamespace, defaultDriverType }: SessionConfig) {
+  constructor({ driverNamespace, defaultDriverType }: SessionConfig) {
     this.setNamespace(driverNamespace);
 
     if (defaultDriverType.isSupported())
