@@ -9,7 +9,14 @@ export const environment = {
   language: 'zh',
   host: host,
   auth: {
-    clientID: '5d3d48476692ea2c7cf68ff7',
+    clientId: '5d3d48476692ea2c7cf68ff7',
+    openId: {
+      dingTalk: {
+        appId: 'dingoaisewv330wuy27gvj',
+        appSecret: 'kxnoiOkGjcyudMtwP6SLwuH7-IRKaP_oGIIbkQ3cHESWB-ZwA84-HwlVjHWZ1ZPI',
+        redirect: 'https://oauth.authing.cn/oauth/dingtalk/redirect'
+      }
+    }
   },
   api: {
     baseURI: 'http://localhost:8080/api',

@@ -43,6 +43,11 @@ export class AuthService {
     this.sessionFactory.remove(KEY_AUTHED);
   }
 
+  get openIdDingTalk(): string {
+    const dingTalk = environment.auth.openId.dingTalk;
+    return `https://oapi.dingtalk.com/connect/qrconnect?appid=${dingTalk.appId}&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=${dingTalk.redirect}`;
+  }
+
   getQueryString(name: string): string {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
     var r = window.location.search.substr(1).match(reg);

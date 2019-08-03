@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { ToasterModule } from 'angular2-toaster';
 import { PasswordComponent } from './password.component';
+import { OpenIdDingTalkComponent } from './openid-dingtalk.component';
 
 @NgModule({
   imports: [ 
@@ -26,6 +27,7 @@ import { PasswordComponent } from './password.component';
     LoginComponent,
     RegisterComponent,
     PasswordComponent,
+    OpenIdDingTalkComponent,
   ]
 })
 export class PagesModule { }

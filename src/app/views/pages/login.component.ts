@@ -31,7 +31,7 @@ export class LoginComponent {
     let me = this;
     (async function () {
       var auth = await new Authing({
-        clientId: environment.auth.clientID,
+        clientId: environment.auth.clientId,
         timestamp: Math.round((new Date()).getTime() / 1000),
         nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
         enableFetchPhone: true // 启用获取手机号

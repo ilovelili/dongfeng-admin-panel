@@ -6,6 +6,7 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
+import { OpenIdDingTalkComponent } from './openid-dingtalk.component';
 
 const routes: Routes = [
   {
@@ -48,7 +49,14 @@ const routes: Routes = [
         data: {
           title: '重置密码'
         }
-      },      
+      },
+      {
+        path: '钉钉',
+        component: OpenIdDingTalkComponent,
+        data: {
+          title: '第三方登录-钉钉'
+        }
+      },
     ]
   }
 ];
