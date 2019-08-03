@@ -4,29 +4,34 @@
       <div class="col-md-6">
         <div class="card mx-4">
           <div class="card-body p-4">
-            <h1>东风幼儿园欢迎您</h1>
-            <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
-              {{errormsg}}
+            <h1>注册新用户</h1>
+            <div class="input-group mb-3">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" placeholder="用户名" [(ngModel)]="name">
             </div>
-            <p class="text-muted" [hidden]="errormsg">您还没有登录</p>
+
             <div class="input-group mb-3">
               <span class="input-group-addon">@</span>
               <input type="text" class="form-control" placeholder="邮箱" [(ngModel)]="email">
             </div>
-            <div class="input-group mb-4">
+
+            <div class="input-group mb-3">
               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
               <input type="password" class="form-control" placeholder="密码" [(ngModel)]="password">
             </div>
-            <div class="row">
-              <div class="col-2">
-                <a [routerLink]="['../注册']" class="btn btn-link px-4" role="button">注册新用户</a>
-              </div>
-              <div class="col-10 text-right">
-                <button type="button" class="btn btn-success px-4" (click)="login(email, password)">登录</button>
-                <button type="button" class="btn btn-link" (click)="forgetPassword()">忘记密码?</button>
-              </div>
 
+            <div class="input-group mb-4">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" placeholder="重复密码" [(ngModel)]="repeatPassword"
+                (change)="checkPassword()">
             </div>
+
+            <div class="input-group mb-4 text-danger" [hidden]="!errormsg">
+              {{errormsg}}
+            </div>
+
+            <button type="button" class="btn btn-block btn-success" [disabled]="errormsg">注册</button>
+            <a [routerLink]="['../登录']" class="btn btn-link px-4 float-right" role="button">返回登录页面</a>
           </div>
 
           <div class="card-footer p-4 bg-darkslategrey">
@@ -45,6 +50,7 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

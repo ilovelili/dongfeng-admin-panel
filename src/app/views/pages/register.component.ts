@@ -4,15 +4,17 @@ import { Router } from '@angular/router';
 import { Auth } from 'app/models';
 import { environment } from 'environments/environment';
 
-declare var Authing: any;
+declare var Authing: any
 
 @Component({
-  templateUrl: 'login.component.html',
+  templateUrl: 'register.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class RegisterComponent {
   private email: string = "";
   private password: string = "";
+  private repeatPassword: string = "";
+  private name: string = "";
   private errormsg: string = "";
 
   constructor(private router: Router, private authService: AuthService) {
@@ -21,9 +23,9 @@ export class LoginComponent {
     }
   }
 
-  login(email: string, password: string) {
+  register(email: string, name: string, password: string) {
     if (email == "" || name == "" || password == "") {
-      this.setMessage('登录信息不能为空白');
+      this.setMessage('注册信息不能为空白');
       return;
     }
 
@@ -37,9 +39,10 @@ export class LoginComponent {
         enableFetchPhone: true // 启用获取手机号
       });
 
-      await auth.login({
+      await auth.register({
         email: email,
         password: password,
+        name: name,
       }).then((user: Auth) => {
         me.authService.setSession(user);
         me.router.navigate(['班级信息']);
@@ -47,13 +50,20 @@ export class LoginComponent {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
         } else {
-          me.setMessage('登录失败,请重试');
+          me.setMessage('注册失败,请重试');
         }
       });
     })();
   }
 
-  // toaster service is wierd on login page
+  checkPassword() {
+    if (this.repeatPassword !== this.password) {
+      this.errormsg = '密码不一致,请确认';
+    } else {
+      this.errormsg = '';
+    }
+  }
+
   setMessage(msg: string) {
     this.errormsg = msg;
     window.setTimeout(()=> {
@@ -61,3 +71,4 @@ export class LoginComponent {
     }, 5000);
   }
 }
+

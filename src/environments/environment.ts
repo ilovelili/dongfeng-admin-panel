@@ -9,11 +9,7 @@ export const environment = {
   language: 'zh',
   host: host,
   auth: {
-    clientID: 'o9qQfEpDggK3Osq9GUFYC7XFg42GQ734',
-    domain: 'mju.auth0.com',
-    // audience: 'http://localhost:8080',
-    redirect: `${host}/callback`,
-    scope: 'openid profile email'
+    clientID: '5d3d48476692ea2c7cf68ff7',
   },
   api: {
     baseURI: 'http://localhost:8080/api',
