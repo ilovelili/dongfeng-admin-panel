@@ -7,4 +7,5 @@ export class Auth {
     photo: string;
     token: string;
     tokenExpiredAt: string;
+    unionid:  string;
 }

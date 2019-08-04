@@ -21,9 +21,14 @@ export class LoginComponent {
     }
   }
 
-  login(email: string, password: string) {
-    if (email == "" || password == "") {
-      this.setMessage('登录信息不能为空白');
+  login() {
+    if (this.email == "") {
+      this.setMessage('邮件不能为空白');
+      return;
+    }
+    
+    if (this.password == "") {
+      this.setMessage('密码不能为空白');
       return;
     }
 
@@ -38,8 +43,8 @@ export class LoginComponent {
       });
 
       await auth.login({
-        email: email,
-        password: password,
+        email: me.email,
+        password: me.password,
       }).then((user: Auth) => {
         me.authService.setSession(user);
         me.router.navigate(['班级信息']);

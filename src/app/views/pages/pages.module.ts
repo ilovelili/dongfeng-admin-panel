@@ -9,16 +9,14 @@ import { TooltipModule } from 'ngx-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
-import { ToasterModule } from 'angular2-toaster';
 import { PasswordComponent } from './password.component';
-import { OpenIdDingTalkComponent } from './openid-dingtalk.component';
+import { OpenIdDingTalkComponent } from './openid.component';
 
 @NgModule({
   imports: [ 
     CommonModule,
     FormsModule,
     PagesRoutingModule,
-    ToasterModule,
     TooltipModule.forRoot(),
    ],
   declarations: [
