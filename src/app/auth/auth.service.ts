@@ -9,7 +9,7 @@ import { Auth } from 'app/models';
 
 const KEY_TOKEN: string = 'token';
 const KEY_EXP: string = 'exp';
-const KEY_PROFILE: string = 'profile';
+const KEY_PID: string = 'profile';
 const KEY_AUTHED: string = 'authed';
 
 
@@ -23,20 +23,14 @@ export class AuthService {
 
   setSession(auth: Auth) {
     this.sessionFactory.set(KEY_TOKEN, auth.token);
-    this.sessionFactory.set(KEY_PROFILE, {
-      id: auth._id,
-      email: auth.email,
-      name: auth.username,
-      nickname: auth.nickname,
-      picture: auth.photo,
-    });
+    this.sessionFactory.set(KEY_PID, auth._id);
     this.sessionFactory.set(KEY_EXP, new Date(auth.tokenExpiredAt).getTime());
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
   clearSession() {
     this.sessionFactory.remove(KEY_TOKEN);
-    this.sessionFactory.remove(KEY_PROFILE);
+    this.sessionFactory.remove(KEY_PID);
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
   }
