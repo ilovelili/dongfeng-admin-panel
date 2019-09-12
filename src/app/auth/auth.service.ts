@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { Auth } from 'app/models';
 
 (window as any).global = window;
+declare var Authing: any;
 
 const KEY_TOKEN: string = 'token';
 const KEY_EXP: string = 'exp';
@@ -40,9 +41,10 @@ export class AuthService {
     return `https://oapi.dingtalk.com/connect/qrconnect?appid=${dingTalk.appId}&response_type=code&scope=snsapi_login&state=${environment.auth.clientId}&redirect_uri=${dingTalk.redirect}`;
   }
 
+  // authing logout returns unknown error ...
   logout() {
-    // this.authing.logout(this.sessionFactory.get(KEY_PROFILE).id);
     this.clearSession();
+    this.router.navigate(["/页面/登录"]);
   }
 
   get isLoggedIn(): boolean {
