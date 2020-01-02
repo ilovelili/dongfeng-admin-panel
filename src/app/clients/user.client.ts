@@ -25,8 +25,4 @@ export class UserClient extends BaseClient {
     formData.append('image', image);
     return this.http.post<ImageUpload>(environment.api.baseURI + '/user/upload', formData, this.multipartFormDataHttpOptions);
   }
-
-  logout(): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/logout', {}, this.defaultHttpOptions);
-  };
 }

@@ -41,7 +41,6 @@ export class AuthService {
     return `https://oapi.dingtalk.com/connect/qrconnect?appid=${dingTalk.appId}&response_type=code&scope=snsapi_login&state=${environment.auth.clientId}&redirect_uri=${dingTalk.redirect}`;
   }
 
-  // authing logout returns unknown error ...
   logout() {
     this.clearSession();
     this.router.navigate(["/页面/登录"]);

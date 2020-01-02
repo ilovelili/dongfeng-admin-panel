@@ -60,12 +60,7 @@ export class AppHeaderComponent implements OnInit {
 
   logout(e: Event) {
     e.preventDefault();    
-    this.userClient.logout().
-      subscribe(
-        _ => this.authService.logout(),
-        e => console.error(e),
-        () => console.log("app header component logout completed")
-      );
+    this.authService.logout();
   }
 
   updateNotification(ids: number[], agentsmith: boolean = false) {

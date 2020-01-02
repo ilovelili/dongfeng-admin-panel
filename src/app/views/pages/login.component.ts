@@ -21,12 +21,12 @@ export class LoginComponent {
     }
   }
 
-  login() {
+  login(departmant: number) {
     if (this.email == "") {
       this.setMessage('邮件不能为空白');
       return;
     }
-    
+
     if (this.password == "") {
       this.setMessage('密码不能为空白');
       return;
@@ -46,7 +46,7 @@ export class LoginComponent {
         password: me.password,
       }).then((user: Auth) => {
         me.authService.setSession(user);
-        me.router.navigate(['班级信息']);
+        window.location.replace(`${this.resolveBaseUrl(departmant)}/班级信息`);
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
@@ -60,8 +60,21 @@ export class LoginComponent {
   // toaster service is wierd on login page
   setMessage(msg: string) {
     this.errormsg = msg;
-    window.setTimeout(()=> {
+    window.setTimeout(() => {
       this.errormsg = '';
     }, 5000);
+  }
+
+  resolveBaseUrl(departmant: number): string {
+    let localhost = window.location.host.indexOf('localhost') > 0;
+    if (localhost) {
+      return window.location.host;
+    }
+
+    if (departmant == 1) {
+      return environment.zhouglou;
+    }
+
+    return environment.lincang;
   }
 }

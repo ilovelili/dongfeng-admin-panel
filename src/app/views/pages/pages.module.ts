@@ -17,7 +17,7 @@ import { OpenIdDingTalkComponent } from './openid.component';
     CommonModule,
     FormsModule,
     PagesRoutingModule,
-    TooltipModule.forRoot(),
+    TooltipModule.forRoot(),    
    ],
   declarations: [
     P404Component,
