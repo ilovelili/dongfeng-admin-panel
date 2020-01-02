@@ -3,6 +3,14 @@ import { AuthService } from '../../auth/auth.service';
 import { User, Notification, Notifications } from '../../models';
 import { UserClient } from '../../clients/user.client';
 import { NotificationClient } from '../../clients/notification.client';
+import { environment } from 'environments/environment';
+
+interface DepartmentInfo {
+  name: string,
+  link: string,
+  branch_name: string,
+  branch_link: string,
+}
 
 @Component({
   selector: 'app-header',
@@ -14,6 +22,11 @@ export class AppHeaderComponent implements OnInit {
   private notifications: Notification[];
   private user: User
 
+  private current_department_name = "";
+  private branch_department_name = "";
+  private current_department_link = "";
+  private branch_department_link = "";
+
   constructor(
     private authService: AuthService,
     private userClient: UserClient,
@@ -22,6 +35,11 @@ export class AppHeaderComponent implements OnInit {
     this.user = new User();
     this.notifications = [];
     this.broadcasts = [];
+    let department = this.resolveDepartmentInfo();
+    this.current_department_name = department.name;
+    this.current_department_link = department.link;
+    this.branch_department_name = department.branch_name;
+    this.branch_department_link = department.branch_link;
   }
 
   ngOnInit() {
@@ -59,7 +77,7 @@ export class AppHeaderComponent implements OnInit {
   }
 
   logout(e: Event) {
-    e.preventDefault();    
+    e.preventDefault();
     this.authService.logout();
   }
 
@@ -88,5 +106,24 @@ export class AppHeaderComponent implements OnInit {
 
   stopPropagation(e: Event) {
     e.stopPropagation();
+  }
+
+  resolveDepartmentInfo(): DepartmentInfo {
+    let host = window.location.host
+    if (host.indexOf(environment.lincang) > 0) {
+      return {
+        name: '临仓部',
+        link: environment.lincang,
+        branch_name: '钟楼部',
+        branch_link: environment.zhouglou,
+      }
+    }
+
+    return {
+      name: '钟楼部',
+      link: environment.zhouglou,
+      branch_name: '临仓部',
+      branch_link: environment.lincang,
+    }
   }
 }
