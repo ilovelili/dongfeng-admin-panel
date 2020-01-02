@@ -57,7 +57,6 @@ export class LoginComponent {
     })();
   }
 
-  // toaster service is wierd on login page
   setMessage(msg: string) {
     this.errormsg = msg;
     window.setTimeout(() => {

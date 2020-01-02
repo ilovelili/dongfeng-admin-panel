@@ -7,6 +7,15 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <ul class="nav navbar-nav ml-auto">
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link text-primary" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false" dropdownToggle (click)="false">{{current_department_name}}</a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" href="{{branch_department_link}}">{{branch_department_name}}</a>
+        <a class="dropdown-item" href="{{current_department_link}}">{{current_department_name}}</a>
+      </div>
+    </li>
+
     <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
@@ -114,15 +123,6 @@
         <div class="dropdown-header text-center"><strong>您好, {{user.name}}</strong></div>
         <a class="dropdown-item" [routerLink]="['/用户信息']"><i class="icon-user"></i> 用户信息</a>
         <a class="dropdown-item" href="#" (click)="logout($event)"><i class="icon-logout"></i> 登出系统</a>
-      </div>
-    </li>
-
-    <li class="nav-item dropdown" dropdown placement="bottom right">
-      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-        dropdownToggle (click)="false">{{current_department_name}}</a>
-      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <a class="dropdown-item" href="{{branch_department_link}}">{{branch_department_name}}</a>
-        <a class="dropdown-item" href="{{current_department_link}}">{{current_department_name}}</a>
       </div>
     </li>
   </ul>
