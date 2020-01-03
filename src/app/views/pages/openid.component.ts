@@ -16,12 +16,12 @@ export abstract class OpenIdComponent {
 
     const userInfo: Auth = JSON.parse(this.getQueryString('data'));
     if (!userInfo.email) {
-      window.alert(`您的${this.openId}帐号没有绑定邮箱,系统将生成临时邮箱以完成登录，请稍候在用户信息中修改邮箱地址`);
+      window.alert(`您的${this.openId}帐号没有绑定邮箱,系统将生成临时邮箱以完成登录，您可以在用户信息中修改邮箱地址`);
       // userInfo.email = `${userInfo.unionid}@dongfeng.cn`; // do it on backend
     }
 
     this.authService.setSession(userInfo);
-    this.router.navigate(["班级信息"]);
+    this.router.navigate(["/页面/选择分部"]);
   }
 
   constructor(protected router: Router, protected authService: AuthService) {

@@ -7,6 +7,7 @@ import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
 import { OpenIdDingTalkComponent } from './openid.component';
+import { BranchComponent } from './branch.component';
 
 const routes: Routes = [
   {
@@ -55,6 +56,13 @@ const routes: Routes = [
         component: OpenIdDingTalkComponent,
         data: {
           title: '第三方登录-钉钉'
+        }
+      },      
+      {
+        path: '选择分部',
+        component: BranchComponent,
+        data: {
+          title: '选择分部'
         }
       },
     ]

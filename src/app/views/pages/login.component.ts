@@ -21,7 +21,7 @@ export class LoginComponent {
     }
   }
 
-  login(departmant: number) {
+  login(branch: number) {
     if (this.email == "") {
       this.setMessage('邮件不能为空白');
       return;
@@ -46,7 +46,7 @@ export class LoginComponent {
         password: me.password,
       }).then((user: Auth) => {
         me.authService.setSession(user);
-        window.location.replace(`${this.resolveBaseUrl(departmant)}/班级信息`);
+        window.location.replace(`${this.resolveBaseUrl(branch)}/班级信息`);
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
@@ -64,13 +64,13 @@ export class LoginComponent {
     }, 5000);
   }
 
-  resolveBaseUrl(departmant: number): string {
+  resolveBaseUrl(branch: number): string {
     let localhost = window.location.host.indexOf('localhost') > 0;
     if (localhost) {
       return window.location.host;
     }
 
-    if (departmant == 1) {
+    if (branch == 1) {
       return environment.zhouglou;
     }
 

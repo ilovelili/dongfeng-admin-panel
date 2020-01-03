@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
 import { OpenIdDingTalkComponent } from './openid.component';
+import { BranchComponent } from './branch.component';
 
 @NgModule({
   imports: [ 
@@ -26,6 +27,7 @@ import { OpenIdDingTalkComponent } from './openid.component';
     RegisterComponent,
     PasswordComponent,
     OpenIdDingTalkComponent,
+    BranchComponent,
   ]
 })
 export class PagesModule { }
