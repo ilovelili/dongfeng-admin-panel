@@ -45,13 +45,14 @@ export class LoginComponent {
         email: me.email,
         password: me.password,
       }).then((user: Auth) => {
-        me.authService.setSession(user);
-        window.location.replace(`${this.resolveBaseUrl(branch)}/班级信息`);
+        me.authService.setSession(user);        
+        window.location.replace(`${me.resolveBaseUrl(branch)}/班级信息`);
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
         } else {
           me.setMessage('登录失败,请重试');
+          console.log(err);
         }
       });
     })();

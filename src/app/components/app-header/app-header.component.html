@@ -9,10 +9,10 @@
   <ul class="nav navbar-nav ml-auto">
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link text-primary" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-        aria-expanded="false" dropdownToggle (click)="false">{{current_department_name}}</a>
+        aria-expanded="false" dropdownToggle (click)="false">{{current_name}}</a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <a class="dropdown-item" href="{{branch_department_link}}">{{branch_department_name}}</a>
-        <a class="dropdown-item" href="{{current_department_link}}">{{current_department_name}}</a>
+        <a class="dropdown-item" href="{{branch_link}}">{{branch_name}}</a>
+        <a class="dropdown-item" href="{{current_link}}">{{current_name}}</a>
       </div>
     </li>
 

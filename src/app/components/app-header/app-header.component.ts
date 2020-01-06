@@ -5,7 +5,7 @@ import { UserClient } from '../../clients/user.client';
 import { NotificationClient } from '../../clients/notification.client';
 import { environment } from 'environments/environment';
 
-interface DepartmentInfo {
+interface BranchInfo {
   name: string,
   link: string,
   branch_name: string,
@@ -22,10 +22,10 @@ export class AppHeaderComponent implements OnInit {
   private notifications: Notification[];
   private user: User
 
-  private current_department_name = "";
-  private branch_department_name = "";
-  private current_department_link = "";
-  private branch_department_link = "";
+  private current_name = "";
+  private branch_name = "";
+  private current_link = "";
+  private branch_link = "";
 
   constructor(
     private authService: AuthService,
@@ -35,11 +35,11 @@ export class AppHeaderComponent implements OnInit {
     this.user = new User();
     this.notifications = [];
     this.broadcasts = [];
-    let department = this.resolveDepartmentInfo();
-    this.current_department_name = department.name;
-    this.current_department_link = department.link;
-    this.branch_department_name = department.branch_name;
-    this.branch_department_link = department.branch_link;
+    let branch = this.resolveBranchInfo();
+    this.current_name = branch.name;
+    this.current_link = branch.link;
+    this.branch_name = branch.branch_name;
+    this.branch_link = branch.branch_link;
   }
 
   ngOnInit() {
@@ -108,9 +108,9 @@ export class AppHeaderComponent implements OnInit {
     e.stopPropagation();
   }
 
-  resolveDepartmentInfo(): DepartmentInfo {
+  resolveBranchInfo(): BranchInfo {
     let host = window.location.host
-    if (host.indexOf(environment.lincang) > 0) {
+    if (environment.lincang.indexOf(host) > 0) {
       return {
         name: '临仓部',
         link: environment.lincang,

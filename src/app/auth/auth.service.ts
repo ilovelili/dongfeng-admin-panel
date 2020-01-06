@@ -10,6 +10,7 @@ import { RoleClient } from 'app/clients/role.client';
 declare var Authing: any;
 
 const KEY_TOKEN: string = 'token';
+const AUTHING_TOKEN: string = '_authing_token';
 const KEY_EXP: string = 'exp';
 const KEY_PID: string = 'profile';
 const KEY_AUTHED: string = 'authed';
@@ -46,6 +47,7 @@ export class AuthService {
   }
 
   clearSession() {
+    this.sessionFactory.remove(AUTHING_TOKEN);
     this.sessionFactory.remove(KEY_TOKEN);
     this.sessionFactory.remove(KEY_PID);
     this.sessionFactory.remove(KEY_EXP);
