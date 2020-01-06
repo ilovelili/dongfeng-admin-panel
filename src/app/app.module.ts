@@ -69,14 +69,15 @@ import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { UserClient } from './clients/user.client';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationClient,AttendanceClient,PhysiqueClient,MealClient,ProfileClient,ClassClient } from './clients';
+import { NotificationClient, AttendanceClient, PhysiqueClient, MealClient, ProfileClient, ClassClient, RoleClient } from './clients';
 import { FormsModule } from '@angular/forms';
 
 defineLocale(zhCnLocale.abbr, zhCnLocale);
 const APP_CLIENTS = [
-  UserClient,  
+  UserClient,
   NotificationClient,
   ClassClient,
+  RoleClient,
   AttendanceClient,
   PhysiqueClient,
   MealClient,

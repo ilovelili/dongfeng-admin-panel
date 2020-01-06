@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { environment } from 'environments/environment';
 import { Auth } from 'app/models';
+import { RoleClient } from 'app/clients/role.client';
 
 (window as any).global = window;
 declare var Authing: any;
@@ -19,7 +20,22 @@ export class AuthService {
   private namespace: string = 'dongfeng';
   private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private roleClient: RoleClient) {
+  }
+
+  getRole() {
+    return this.roleClient.getRole();
+  }
+
+  validateAccessible() {
+    this.getRole().
+      subscribe(
+        d => {
+          if (!this.validateRole(d.role, this.router.url)) {
+            this.router.navigate(["班级信息"]);
+          }
+        },
+      );
   }
 
   setSession(auth: Auth) {
@@ -58,5 +74,36 @@ export class AuthService {
     }
 
     return Date.now() < exp && authed;
+  }
+
+  accessibleUrls(role: string): string[] {
+    if (role == "admin") return [
+      "/班级信息",
+      "/园儿信息",
+      "/教师信息",
+      "/成长档案",
+      "/出勤信息",
+      "/体格发育",
+      "/膳食管理",
+      "/标准数据",
+    ];
+
+    if (role == "baojian") return [
+      "/膳食管理",      
+      "/体格发育",
+      "/标准数据",
+    ];
+
+    return [
+      "/班级信息",
+      "/园儿信息",
+      "/教师信息",
+      "/成长档案",
+      "/出勤信息",
+    ];
+  }
+
+  private validateRole(role: string, url: string): boolean {
+    return this.accessibleUrls(role).indexOf(decodeURIComponent(url)) > -1;
   }
 }

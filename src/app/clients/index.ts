@@ -5,3 +5,4 @@ export * from './notification.client';
 export * from './physique.client';
 export * from './profile.client';
 export * from './user.client';
+export * from './role.client';

@@ -12,7 +12,7 @@ import { BaseComponent } from 'app/base.component';
 import { AuthService } from 'app/auth/auth.service';
 
 export abstract class ViewComponent extends BaseComponent {
-  // user viewchild to get dom element by ref (#infoModal)
+  // use viewchild to get dom element by ref (#infoModal)
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
   @ViewChild('explainModal') explainModal
@@ -76,7 +76,7 @@ export abstract class ViewComponent extends BaseComponent {
       this.toasterService.pop('info', '', '上传中');
     };
 
-    fileUploader.onSuccessItem = () => {      
+    fileUploader.onSuccessItem = () => {
       if (!callback) {
         this.toasterService.pop('success', '', `上传${msg}信息成功`);
         window.location.reload();
@@ -85,10 +85,10 @@ export abstract class ViewComponent extends BaseComponent {
       }
     };
 
-    fileUploader.onErrorItem = (_, res) => {      
+    fileUploader.onErrorItem = (_, res) => {
       if (!errcallback) {
         console.error(res);
-        this.toasterService.pop('error', '', `上传${msg}信息失败，请重试`);        
+        this.toasterService.pop('error', '', `上传${msg}信息失败，请重试`);
       } else {
         errcallback(res, this);
       }
@@ -103,8 +103,8 @@ export abstract class ViewComponent extends BaseComponent {
   }
 
   constructor(protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService?: BsLocaleService) {
-    super(router,authService);
-    
+    super(router, authService);
+
     this.loading = true;
 
     this.activatedRoute.params.subscribe((params) => {
@@ -112,7 +112,7 @@ export abstract class ViewComponent extends BaseComponent {
 
       this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
-      this.currentName = this.params["name"];      
+      this.currentName = this.params["name"];
 
       this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPrevMonth());
       this.dateTo = this.params["to"] || this.formatDate(new Date());
@@ -257,11 +257,11 @@ export abstract class ViewComponent extends BaseComponent {
     if (to != this.dateTo) {
       this.dateTo = to;
     };
-  } 
+  }
 
   protected filename(prefix: string): string {
     let filename = `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}`;
-    
+
     if (filename.endsWith('_')) {
       filename = filename.substring(0, filename.length - 1);
     }
