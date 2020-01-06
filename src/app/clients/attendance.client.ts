@@ -30,7 +30,11 @@ export class AttendanceClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', { headers: this.defaultHeaders, params: params });
+    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   };
 
   updateAttendance(attendance: FormattedAttendance): Observable<Empty> {

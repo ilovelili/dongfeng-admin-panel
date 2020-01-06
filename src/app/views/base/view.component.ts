@@ -69,7 +69,7 @@ export abstract class ViewComponent extends BaseComponent {
       method: 'POST',
       autoUpload: true,
       authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
-      authTokenHeader: `Authorization`,
+      authTokenHeader: `Authorization`,      
     });
 
     fileUploader.onProgressItem = () => {

@@ -12,6 +12,6 @@ export class RoleClient extends BaseClient {
   }
 
   getRole(): Observable<Role> {
-    return this.http.get<Role>(environment.api.baseURI + '/role', { headers: this.defaultHeaders });
+    return this.http.get<Role>(environment.api.baseURI + '/role', this.defaultHttpOptions);
   };
 }

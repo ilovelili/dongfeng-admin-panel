@@ -28,7 +28,11 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profiles>(environment.api.baseURI + '/profiles', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profiles>(environment.api.baseURI + '/profiles', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   }
 
   createProfile(profile: Profile): Observable<Empty> {
@@ -65,7 +69,11 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   }
 
   getNextProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
@@ -84,7 +92,11 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profile>(environment.api.baseURI + '/profile/next', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/next', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   }
 
   updateEBook(profile: Profile, images: string[], html: string, css: string): Observable<Empty> {
@@ -112,6 +124,10 @@ export class ProfileClient extends BaseClient {
       params = params.set("name", name);
     }
 
-    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   }
 }

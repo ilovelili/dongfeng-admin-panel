@@ -36,7 +36,11 @@ export class MealClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<Menus>(environment.api.baseURI + '/menus', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Menus>(environment.api.baseURI + '/menus', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   getRecipes(recipes: string): Observable<Recipes> {
@@ -46,7 +50,11 @@ export class MealClient extends BaseClient {
       params = params.set("recipes", recipes);
     }
 
-    return this.http.get<Recipes>(environment.api.baseURI + '/recipes', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Recipes>(environment.api.baseURI + '/recipes', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   getIngredients(ingredients: string): Observable<Ingredients> {
@@ -56,7 +64,11 @@ export class MealClient extends BaseClient {
       params = params.set("ingredients", ingredients);
     }
 
-    return this.http.get<Ingredients>(environment.api.baseURI + '/ingredients', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Ingredients>(environment.api.baseURI + '/ingredients', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   updateIngredient(ingredient: Ingredient): Observable<Empty> {
@@ -73,7 +85,11 @@ export class MealClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<Procurements>(environment.api.baseURI + '/procurements', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Procurements>(environment.api.baseURI + '/procurements', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   updateProcurement(procurement: FormattedProcurement): Observable<Empty> {

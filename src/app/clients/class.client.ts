@@ -15,7 +15,10 @@ export class ClassClient extends BaseClient {
   }
 
   getClasses(): Observable<Classes> {
-    return this.http.get<Classes>(environment.api.baseURI + '/classes', { headers: this.defaultHeaders });
+    return this.http.get<Classes>(environment.api.baseURI + '/classes', { 
+      headers: this.defaultHeaders,
+      withCredentials: false,
+    });
   };
 
   getPupils(year?: string, cls?: string): Observable<Pupils> {
@@ -28,7 +31,11 @@ export class ClassClient extends BaseClient {
       params = params.set("class", cls);
     }
 
-    return this.http.get<Pupils>(environment.api.baseURI + '/pupils', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Pupils>(environment.api.baseURI + '/pupils', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   };
 
   getTeachers(year?: string, cls?: string): Observable<Teachers> {
@@ -41,7 +48,11 @@ export class ClassClient extends BaseClient {
       params = params.set("class", cls);
     }
 
-    return this.http.get<Teachers>(environment.api.baseURI + '/teachers', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Teachers>(environment.api.baseURI + '/teachers', { 
+      headers: this.defaultHeaders, 
+      params: params,
+      withCredentials: false,
+    });
   };
 
   updatePupil(pupil: Pupil): Observable<Empty> {

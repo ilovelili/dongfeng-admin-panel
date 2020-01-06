@@ -15,13 +15,14 @@ export abstract class BaseClient {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      'X-PID': this.sessionFactory.get(this.KEY_PID)
+      'X-PID': this.sessionFactory.get(this.KEY_PID),
     });
   }
 
   get defaultHttpOptions() {
     return {
       headers: this.defaultHeaders,
+      withCredentials: false,
     };
   }
 

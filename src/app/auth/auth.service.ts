@@ -91,7 +91,7 @@ export class AuthService {
     ];
 
     if (role == "baojian") return [
-      "/膳食管理",      
+      "/膳食管理",
       "/体格发育",
       "/标准数据",
     ];
@@ -106,6 +106,9 @@ export class AuthService {
   }
 
   private validateRole(role: string, url: string): boolean {
-    return this.accessibleUrls(role).indexOf(decodeURIComponent(url)) > -1;
+    for (let u of this.accessibleUrls(role)) {
+      if (decodeURIComponent(url).indexOf(u) > -1) return true;
+    }
+    return false;
   }
 }
