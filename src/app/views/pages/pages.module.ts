@@ -5,7 +5,7 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { TooltipModule } from 'ngx-bootstrap';
+import { TooltipModule, ModalModule } from 'ngx-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
@@ -18,7 +18,8 @@ import { BranchComponent } from './branch.component';
     CommonModule,
     FormsModule,
     PagesRoutingModule,
-    TooltipModule.forRoot(),    
+    TooltipModule.forRoot(),
+    ModalModule.forRoot(),  
    ],
   declarations: [
     P404Component,

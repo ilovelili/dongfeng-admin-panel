@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { Auth } from 'app/models';
@@ -14,6 +14,7 @@ export class LoginComponent {
   private email: string = "";
   private password: string = "";
   private errormsg: string = "";
+  @ViewChild('loginModal') loginModal
 
   constructor(private router: Router, private authService: AuthService) {
     if (this.authService.isLoggedIn) {
@@ -76,5 +77,13 @@ export class LoginComponent {
     }
 
     return environment.lincang;
+  }
+
+  open() {
+    this.loginModal.show();
+  }
+
+  close() {
+    this.loginModal.hide();
   }
 }
