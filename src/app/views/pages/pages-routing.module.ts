@@ -6,6 +6,8 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
+import { OpenIdDingTalkComponent } from './openid.component';
+import { BranchComponent } from './branch.component';
 
 const routes: Routes = [
   {
@@ -48,7 +50,21 @@ const routes: Routes = [
         data: {
           title: '重置密码'
         }
+      },
+      {
+        path: 'dingtalk',
+        component: OpenIdDingTalkComponent,
+        data: {
+          title: '第三方登录-钉钉'
+        }
       },      
+      {
+        path: '选择分部',
+        component: BranchComponent,
+        data: {
+          title: '选择分部'
+        }
+      },
     ]
   }
 ];
@@ -57,4 +73,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

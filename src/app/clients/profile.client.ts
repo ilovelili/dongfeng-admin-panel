@@ -5,6 +5,7 @@ import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
 import { Profiles, Profile } from 'app/models/profile';
 import { Empty, Ebooks } from 'app/models';
+import { ProfileTemplates } from 'app/models/profile_template';
 
 @Injectable()
 export class ProfileClient extends BaseClient {
@@ -28,7 +29,39 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profiles>(environment.api.baseURI + '/profiles', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profiles>(environment.api.baseURI + '/profiles', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
+  }
+
+  getProfileTemplates(id?: number): Observable<ProfileTemplates> {
+    let params = new HttpParams();
+
+    if (id && id != 0) {
+      params = params.set("id", id.toString());
+    }
+
+    return this.http.get<ProfileTemplates>(environment.api.baseURI + '/profiletemplates', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
+  }
+
+  createProfileTemplate(name: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/profiletempalte', {
+      name: name,
+      enabled: true,
+    }, this.defaultHttpOptions);
+  }
+
+  deleteProfileTemplate(name: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/profiletempalte', {
+      name: name,
+      enabled: false,
+    }, this.defaultHttpOptions);
   }
 
   createProfile(profile: Profile): Observable<Empty> {
@@ -65,7 +98,11 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   getNextProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
@@ -84,7 +121,11 @@ export class ProfileClient extends BaseClient {
       params = params.set("date", date);
     }
 
-    return this.http.get<Profile>(environment.api.baseURI + '/profile/next', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Profile>(environment.api.baseURI + '/profile/next', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 
   updateEBook(profile: Profile, images: string[], html: string, css: string): Observable<Empty> {
@@ -112,6 +153,10 @@ export class ProfileClient extends BaseClient {
       params = params.set("name", name);
     }
 
-    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', {
+      headers: this.defaultHeaders,
+      params: params,
+      withCredentials: false,
+    });
   }
 }

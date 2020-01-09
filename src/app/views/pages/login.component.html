@@ -17,15 +17,16 @@
               <span class="input-group-addon"><i class="fa fa-lock"></i></span>
               <input type="password" class="form-control" placeholder="密码" [(ngModel)]="password">
             </div>
+
             <div class="row">
               <div class="col-2">
                 <a [routerLink]="['../注册']" class="btn btn-link px-4" role="button">注册新用户</a>
               </div>
               <div class="col-10 text-right">
-                <button type="button" class="btn btn-success px-4" (click)="login(email, password)">登录</button>
+                <button type="button" class="btn btn-success px-4" (click)="login(1)">钟楼部</button>
+                <button type="button" class="btn btn-primary px-4" (click)="login(2)">临仓部</button>
                 <a [routerLink]="['../重置密码']" class="btn btn-link px-4" role="button">忘记密码?</a>
               </div>
-
             </div>
           </div>
 
@@ -34,14 +35,14 @@
               <div class="col-6">
                 <button class="btn btn-block btn-success" type="button" [disabled]>
                   <span tooltip="微信接口申请中，暂时无法使用">
-                    <i class="fa fa-wechat"></i>微信
+                    <i class="fa fa-wechat"></i> 微信登录
                   </span>
                 </button>
               </div>
               <div class="col-6">
-                <button class="btn btn-block btn-primary" type="button">
-                  <span class="icon-dingding"> 钉钉</span>
-                </button>
+                <a class="btn btn-block btn-primary" [href]="authService.openIdDingTalk" role="button">
+                  <span class="icon-dingding"> 钉钉登录</span>
+                </a>
               </div>
             </div>
           </div>

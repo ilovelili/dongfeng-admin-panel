@@ -18,10 +18,15 @@ export const navigation = [
     name: '成长档案',
     url: '/成长档案',
     icon: 'icon-pencil',
-    children: [
+    children: [      
       {
         name: '编辑成长档案',
         url: '/成长档案',
+        icon: 'icon-pencil',
+      },
+      {
+        name: '成长档案模板',
+        url: '/成长档案/模板',
         icon: 'icon-pencil',
       },
       {

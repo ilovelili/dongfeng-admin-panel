@@ -23,9 +23,19 @@ export class RegisterComponent {
     }
   }
 
-  register(email: string, name: string, password: string) {
-    if (email == "" || name == "" || password == "") {
-      this.setMessage('注册信息不能为空白');
+  register() {
+    if (this.name == "") {
+      this.setMessage('用户名不能为空白');
+      return;
+    }
+
+    if (this.email == "") {
+      this.setMessage('邮件不能为空白');
+      return;
+    }
+
+    if (this.password == "") {
+      this.setMessage('密码不能为空白');
       return;
     }
 
@@ -33,15 +43,15 @@ export class RegisterComponent {
     let me = this;
     (async function () {
       var auth = await new Authing({
-        clientId: environment.auth.clientID,
+        clientId: environment.auth.clientId,
         timestamp: Math.round((new Date()).getTime() / 1000),
         nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
       });
 
       await auth.register({
-        email: email,
-        password: password,
-        name: name,
+        email: me.email,
+        password: me.password,
+        name: me.name,
       }).then((user: Auth) => {
         me.authService.setSession(user);
         me.router.navigate(['班级信息']);
@@ -70,4 +80,3 @@ export class RegisterComponent {
     }, 5000);
   }
 }
-

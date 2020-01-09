@@ -65,6 +65,16 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'openid',
+    component: SimpleLayoutComponent,    
+    children: [
+      {
+        path: '',
+        loadChildren: './views/pages/pages.module#PagesModule',
+      },
+    ]
+  },
+  {
     path: '**',
     redirectTo: '页面/404',
     pathMatch: 'full',

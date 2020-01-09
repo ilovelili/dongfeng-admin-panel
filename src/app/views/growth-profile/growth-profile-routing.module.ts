@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { GrowthProfileComponent } from './growth-profile.component';
 import { EBookComponent } from './ebook.component';
+import { GrowthProfileTemplateComponent } from './growth-profile-template.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
         component: EBookComponent,
         data: {
           title: '电子书',
+        },
+      },
+      {
+        path: '模板',
+        component: GrowthProfileTemplateComponent,
+        data: {
+          title: '成长档案模板',
         },
       },
     ]

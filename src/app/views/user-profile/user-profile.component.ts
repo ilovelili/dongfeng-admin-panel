@@ -49,17 +49,7 @@ export class UserProfileComponent implements OnInit {
 
   home() {
     this.router.navigate(['班级信息']);
-  }
-
-  resolveRole(role: string) {
-    if (role == 'sudo') {
-      return '超级管理员';
-    }
-    if (role == 'admin') {
-      return '管理员';
-    }
-    return '一般用户';
-  }
+  }  
 
   setUser(uri: string) {
     this.user.avatar = uri;

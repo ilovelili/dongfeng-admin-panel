@@ -21,9 +21,14 @@ export class LoginComponent {
     }
   }
 
-  login(email: string, password: string) {
-    if (email == "" || password == "") {
-      this.setMessage('登录信息不能为空白');
+  login(branch: number) {
+    if (this.email == "") {
+      this.setMessage('邮件不能为空白');
+      return;
+    }
+
+    if (this.password == "") {
+      this.setMessage('密码不能为空白');
       return;
     }
 
@@ -31,33 +36,45 @@ export class LoginComponent {
     let me = this;
     (async function () {
       var auth = await new Authing({
-        clientId: environment.auth.clientID,
+        clientId: environment.auth.clientId,
         timestamp: Math.round((new Date()).getTime() / 1000),
         nonce: Math.ceil(Math.random() * Math.pow(10, 6)),
-        enableFetchPhone: true // 启用获取手机号
       });
 
       await auth.login({
-        email: email,
-        password: password,
+        email: me.email,
+        password: me.password,
       }).then((user: Auth) => {
-        me.authService.setSession(user);
-        me.router.navigate(['班级信息']);
+        me.authService.setSession(user);        
+        window.location.replace(`${me.resolveBaseUrl(branch)}/班级信息`);
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
         } else {
           me.setMessage('登录失败,请重试');
+          console.log(err);
         }
       });
     })();
   }
 
-  // toaster service is wierd on login page
   setMessage(msg: string) {
     this.errormsg = msg;
-    window.setTimeout(()=> {
+    window.setTimeout(() => {
       this.errormsg = '';
     }, 5000);
+  }
+
+  resolveBaseUrl(branch: number): string {
+    let localhost = window.location.host.indexOf('localhost') > 0;
+    if (localhost) {
+      return window.location.host;
+    }
+
+    if (branch == 1) {
+      return environment.zhonglou;
+    }
+
+    return environment.lincang;
   }
 }

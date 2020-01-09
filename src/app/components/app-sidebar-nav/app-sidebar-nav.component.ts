@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 // Import navigation elements
 import { navigation } from './../../_nav';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar-nav',
@@ -20,9 +21,8 @@ import { navigation } from './../../_nav';
       </ul>
     </nav>`
 })
-export class AppSidebarNavComponent {
-
-  public navigation = navigation;
+export class AppSidebarNavComponent implements OnInit {
+  public navigation;
 
   public isDivider(item) {
     return item.divider ? true : false
@@ -32,7 +32,15 @@ export class AppSidebarNavComponent {
     return item.title ? true : false
   }
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
+
+  ngOnInit(): void {
+    this.authService.getRole().subscribe(
+      d => {
+        let accessibleUrls = this.authService.accessibleUrls(d.role);
+        this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
+      });
+  }
 }
 
 import { Router } from '@angular/router';
@@ -72,7 +80,7 @@ export class AppSidebarNavItemComponent {
     return this.router.isActive(this.thisUrl(), false)
   }
 
-  constructor( private router: Router )  { }
+  constructor(private router: Router) { }
 
 }
 
@@ -170,12 +178,12 @@ export class AppSidebarNavTitleComponent implements OnInit {
 
     this.renderer.addClass(li, 'nav-title');
 
-    if ( this.title.class ) {
+    if (this.title.class) {
       const classes = this.title.class;
       this.renderer.addClass(li, classes);
     }
 
-    if ( this.title.wrapper ) {
+    if (this.title.wrapper) {
       const wrapper = this.renderer.createElement(this.title.wrapper.element);
 
       this.renderer.appendChild(wrapper, name);

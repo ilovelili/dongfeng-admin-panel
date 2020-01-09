@@ -7,10 +7,10 @@
             <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
             <button type="button" (click)="showNewProfileModal()" class="btn btn-sm btn-success pull-right">新建</button>
-            <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>            
+            <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
             <button type="button" (click)="showProfileModal()" class="btn btn-sm btn-primary pull-right">检索</button>
         </div>
-        <div class="card-body" id="gjs"></div>        
+        <div class="card-body" id="gjs"></div>
     </div>
 </div>
 
@@ -24,14 +24,14 @@
                 <h4 class="modal-title">选择成长档案</h4>
                 <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>              
+                </button>
             </div>
             <div class="modal-body">
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["year"] || searchcriteria.year}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let year of years" role="menuitem">
                             <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
                         </li>
@@ -45,7 +45,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["class"] || searchcriteria.class}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let class of classes" role="menuitem">
                             <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
                         </li>
@@ -59,7 +59,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["name"] || searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let name of profilenames" role="menuitem">
                             <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
                         </li>
@@ -73,7 +73,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.date}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let date of profiledates" role="menuitem">
                             <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
                         </li>
@@ -107,7 +107,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["year"] || searchcriteria.year}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let year of pupilyears" role="menuitem">
                             <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
                         </li>
@@ -118,7 +118,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["class"] || searchcriteria.class}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let class of pupilclasses" role="menuitem">
                             <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
                         </li>
@@ -129,7 +129,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{params["name"] || searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let name of pupilnames" role="menuitem">
                             <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
                         </li>
@@ -137,7 +137,7 @@
                 </div>
 
             </div>
-            <div class="modal-footer">                
+            <div class="modal-footer">
                 <button type="button" class="btn btn-success" (click)="createProfile()">确定</button>
                 <button type="button" class="btn btn-primary" (click)="showProfileModal()">返回</button>
             </div>

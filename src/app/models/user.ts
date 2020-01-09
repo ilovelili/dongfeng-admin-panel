@@ -1,6 +1,5 @@
 export class User {
-  newuser: boolean;
-  role: string;
+  newuser: boolean;  
   id: string;
   email: string;
   name: string;

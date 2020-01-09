@@ -330,7 +330,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         urlLoad: this.endpoint,
         headers: this.profileClient.rawHeaders,
         contentTypeJson: true,
-        credentials: 'include',
+        credentials: 'omit',
         onComplete: () => {
           window.setTimeout(() => {
             let body = this.editor.getHtml();

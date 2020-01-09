@@ -3,6 +3,14 @@ import { AuthService } from '../../auth/auth.service';
 import { User, Notification, Notifications } from '../../models';
 import { UserClient } from '../../clients/user.client';
 import { NotificationClient } from '../../clients/notification.client';
+import { environment } from 'environments/environment';
+
+interface BranchInfo {
+  name: string,
+  link: string,
+  branch_name: string,
+  branch_link: string,
+}
 
 @Component({
   selector: 'app-header',
@@ -14,6 +22,11 @@ export class AppHeaderComponent implements OnInit {
   private notifications: Notification[];
   private user: User
 
+  private current_name = "";
+  private branch_name = "";
+  private current_link = "";
+  private branch_link = "";
+
   constructor(
     private authService: AuthService,
     private userClient: UserClient,
@@ -22,6 +35,11 @@ export class AppHeaderComponent implements OnInit {
     this.user = new User();
     this.notifications = [];
     this.broadcasts = [];
+    let branch = this.resolveBranchInfo();
+    this.current_name = branch.name;
+    this.current_link = branch.link;
+    this.branch_name = branch.branch_name;
+    this.branch_link = branch.branch_link;
   }
 
   ngOnInit() {
@@ -59,13 +77,8 @@ export class AppHeaderComponent implements OnInit {
   }
 
   logout(e: Event) {
-    e.preventDefault();    
-    this.userClient.logout().
-      subscribe(
-        _ => this.authService.logout(),
-        e => console.error(e),
-        () => console.log("app header component logout completed")
-      );
+    e.preventDefault();
+    this.authService.logout();
   }
 
   updateNotification(ids: number[], agentsmith: boolean = false) {
@@ -93,5 +106,24 @@ export class AppHeaderComponent implements OnInit {
 
   stopPropagation(e: Event) {
     e.stopPropagation();
+  }
+
+  resolveBranchInfo(): BranchInfo {
+    let host = window.location.host
+    if (environment.lincang.indexOf(host) > 0) {
+      return {
+        name: '临仓部',
+        link: environment.lincang,
+        branch_name: '钟楼部',
+        branch_link: environment.zhonglou,
+      }
+    }
+
+    return {
+      name: '钟楼部',
+      link: environment.zhonglou,
+      branch_name: '临仓部',
+      branch_link: environment.lincang,
+    }
   }
 }
