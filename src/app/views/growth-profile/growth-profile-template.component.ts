@@ -48,36 +48,29 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
   }
 
   createProfileTemplate() {
-    if (!this.checkname()) {
+    if (this.names.indexOf(this.name) > -1) {
+      this.errormsg = '已存在相同模板名';
       return;
     }
 
     this.profileClient.createProfileTemplate(this.name).
-    subscribe(
-      d => {
-        this.router.navigate(['/成长档案/模板', this.items.find(i => i.name == this.name).id])
-      },
-      e => {
-        this.LogError(e, '保存成长档案模板失败，请重试');
-        this.loading = false;
-      },
-      () => this.LogComplete('profile template component profile saving completed')
-    );
+      subscribe(
+        d => {
+          this.router.navigate(['/成长档案/模板', this.items.find(i => i.name == this.name).id])
+        },
+        e => {
+          this.LogError(e, '保存成长档案模板失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('profile template component profile saving completed')
+      );
   }
 
-  show(e: Event) {    
+  show(e: Event) {
     this.newProfileTemplateModal.show();
   }
 
-  close(e: Event) {    
+  close(e: Event) {
     this.newProfileTemplateModal.hide();
-  }
-
-  checkname(): boolean {
-    if (this.names.indexOf(this.name) > -1) {
-      this.errormsg = '已存在相同模板名';
-      return false;
-    }
-    return true;
   }
 }

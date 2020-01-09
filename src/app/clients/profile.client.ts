@@ -51,8 +51,16 @@ export class ProfileClient extends BaseClient {
   }
 
   createProfileTemplate(name: string): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profiletempalte/create', {
+    return this.http.post<Empty>(environment.api.baseURI + '/profiletempalte', {
       name: name,
+      enabled: true,
+    }, this.defaultHttpOptions);
+  }
+
+  deleteProfileTemplate(name: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/profiletempalte', {
+      name: name,
+      enabled: false,
     }, this.defaultHttpOptions);
   }
 
