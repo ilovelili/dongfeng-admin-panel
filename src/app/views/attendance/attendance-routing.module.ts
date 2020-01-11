@@ -11,17 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AttendanceComponent,
-        data: {
-          title: ''
-        }
+        component: AttendanceComponent,        
       },
       {
         path: ':class/:name',
-        component: AttendanceComponent,
-        data: {
-          title: ''
-        },
+        component: AttendanceComponent,        
       }
     ]
   }

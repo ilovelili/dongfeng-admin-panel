@@ -20,8 +20,7 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   @ViewChild('newprofileModal') newprofileModal
-  @ViewChild('confirmModal') confirmModal
-  @ViewChild('explainModal') explainModal
+  @ViewChild('confirmModal') confirmModal  
 
   private profileloaded = false;
   private pupils: Pupil[];

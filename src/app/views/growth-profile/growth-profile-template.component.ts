@@ -25,18 +25,20 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.getprofiletemplates();
+    this.getProfileTemplates();
   }
 
-  getprofiletemplates() {
+  getProfileTemplates() {
     this.loading = true;
     this.profileClient.getProfileTemplates().
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.profiletemplates;
+          this.items = d.templates;
           if (this.items) {
             this.names = this.items.map(i => i.name);
+          } else {
+            this.names = [];
           }
         },
         e => {
@@ -53,16 +55,33 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
       return;
     }
 
+    this.loading = true;
     this.profileClient.createProfileTemplate(this.name).
       subscribe(
         d => {
-          this.router.navigate(['/成长档案/模板', this.items.find(i => i.name == this.name).id])
+          this.router.navigate(['/成长档案/模板', this.name]);
         },
         e => {
           this.LogError(e, '保存成长档案模板失败，请重试');
           this.loading = false;
         },
         () => this.LogComplete('profile template component profile saving completed')
+      );
+  }
+
+  deleteProfileTemplate(e: Event, name: string) {
+    e.preventDefault();
+    this.loading = true;
+    this.profileClient.deleteProfileTemplate(name).
+      subscribe(
+        _ => {           
+          this.getProfileTemplates();
+        },
+        e => {
+          this.LogError(e, '删除成长档案模板失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('profile template component profile delete completed')
       );
   }
 

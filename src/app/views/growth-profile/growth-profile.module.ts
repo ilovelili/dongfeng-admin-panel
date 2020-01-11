@@ -11,6 +11,7 @@ import { ToasterModule } from 'angular2-toaster';
 import { AppLoadingModule } from 'app/components';
 import { EBookComponent } from './ebook.component';
 import { GrowthProfileTemplateComponent } from './growth-profile-template.component';
+import { GrowthProfileTemplateDetailComponent } from './growth-profile-template-detail.component';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
@@ -35,6 +36,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
   declarations: [ 
     GrowthProfileComponent,
     GrowthProfileTemplateComponent,
+    GrowthProfileTemplateDetailComponent,
     EBookComponent,
     DataFilterPipe,
   ]

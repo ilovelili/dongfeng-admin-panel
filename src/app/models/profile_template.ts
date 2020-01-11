@@ -1,12 +1,11 @@
 export class ProfileTemplates {
-    constructor(public profiletemplates: ProfileTemplate[]) { }
+    constructor(public templates: ProfileTemplate[]) { }
     empty(): boolean {
-        return !this || !this.profiletemplates || !this.profiletemplates.length;
+        return !this || !this.templates || !this.templates.length;
     }
 }
 
-export class ProfileTemplate {
-    id: number;
+export class ProfileTemplate {    
     name: string;
     created_by: string;
 }
