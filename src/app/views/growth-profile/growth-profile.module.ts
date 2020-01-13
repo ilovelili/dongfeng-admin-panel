@@ -12,7 +12,7 @@ import { AppLoadingModule } from 'app/components';
 import { EBookComponent } from './ebook.component';
 import { GrowthProfileTemplateComponent } from './growth-profile-template.component';
 import { GrowthProfileTemplateDetailComponent } from './growth-profile-template-detail.component';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
 import { DataTableModule } from 'angular2-datatable';
@@ -31,7 +31,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     NgxTypeaheadModule,
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   declarations: [ 
     GrowthProfileComponent,

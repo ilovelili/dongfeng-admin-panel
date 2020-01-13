@@ -6,6 +6,7 @@ import { ProfileClient, ClassClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
 import { Profiles, FormattedProfile, Pupils, Pupil } from 'app/models';
+import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -13,6 +14,7 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
   templateUrl: './growth-profile.component.html',
   styleUrls: [
     '../../../scss/vendors/toastr/toastr.scss',
+    '../../../scss/vendors/bs-datepicker/bs-datepicker.scss',
     './growth-profile.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
@@ -20,7 +22,7 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal') profileModal
   @ViewChild('newprofileModal') newprofileModal
-  @ViewChild('confirmModal') confirmModal  
+  @ViewChild('confirmModal') confirmModal
 
   private profileloaded = false;
   private pupils: Pupil[];
@@ -30,9 +32,20 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   private pupilclasses: string[] = [];
 
   private editor: any;
+  private profilecreatedate = new Date();
 
-  constructor(private profileClient: ProfileClient, private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
-    super(router, authService, activatedRoute, toasterService);
+  protected datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  constructor(private profileClient: ProfileClient, private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
+    super(router, authService, activatedRoute, toasterService, localeService);
+
+    if (this.localeService) {
+      // https://github.com/valor-software/ngx-bootstrap/issues/4054    
+      this.localeService.use(zhCnLocale.abbr);
+      this.datepickerconfig = {
+        containerClass: 'theme-dark-blue',
+        dateInputFormat: 'YYYY-MM-DD',
+      };
+    }
   }
 
   ngOnInit(): void {
@@ -183,7 +196,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   get profilenames() {
-    return this.profiles.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
+    return this.profiles.filter(p => p.year == this.currentYear && p.class == this.currentClass && p.name != p.class).map(p => p.name);
   }
 
   get profiledates() {
@@ -191,7 +204,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     return profile ? profile.dates : [];
   }
 
-  get pupilnames() {
+  get pupilnames() {    
     return this.pupils.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
   }
 
@@ -216,7 +229,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   createProfile() {
-    if (!this.currentYear || !this.currentClass || !this.currentName) {
+    if (!this.currentYear || !this.currentClass || !this.profilecreatedate) {
       this.toasterService.pop('error', '', '请设置正确的条件');
       return;
     }
@@ -229,15 +242,43 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       year: this.currentYear,
       class: this.currentClass,
       name: this.currentName,
-      date: this.currentDate,
+      date: this.formatDate(this.profilecreatedate),
     };
 
     this.profileClient.createProfile(profile).subscribe(
       d => {
-        this.loading = false;
         this.LogSuccess("成长档案创建成功");
-        this.newprofileModal.hide();
-        this.loadProfileEditor();
+
+        this.profileClient.getProfiles().
+          subscribe(
+            d => {
+              if (this.currentYear) {
+                this.years.push(this.currentYear);
+              }
+              if (this.currentClass) {
+                this.classes.push(this.currentClass);
+              }
+
+              this.loading = false;
+              this.profiles = new Profiles(d.profiles).format();
+              this.profiles.forEach(p => {
+                if (!this.years.includes(p.year)) {
+                  this.years.push(p.year);
+                }
+                if (!this.classes.includes(p.class)) {
+                  this.classes.push(p.class);
+                }
+              });
+
+              this.newprofileModal.hide();
+              this.loadProfileEditor();
+            },
+            e => {
+              this.LogError(e, '获取成长档案信息失败，请重试');
+              this.loading = false;
+            },
+            () => this.LogComplete('profile component profile loading completed')
+          );
       },
       e => this.LogError(e, '相同成长档案已经存在，无法创建'),
       () => this.LogComplete('profile component profile creation completed')

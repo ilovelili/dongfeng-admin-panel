@@ -3,7 +3,7 @@ import { AppCsvDownloadService } from 'app/components';
 import { CsvFormat } from 'app/components/app-csv/app-csv-model';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
-import { BsDatepickerConfig, zhCnLocale, BsLocaleService } from 'ngx-bootstrap';
+import { zhCnLocale, BsLocaleService, BsDatepickerConfig } from 'ngx-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
@@ -37,7 +37,7 @@ export abstract class ViewComponent extends BaseComponent {
   protected dateFrom = '';
   protected dateTo = '';
   protected dateRange: Date[];
-  protected datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  protected daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();  
   protected searchcriteria = {
     year: '学年',
     class: '班级',
@@ -121,11 +121,11 @@ export abstract class ViewComponent extends BaseComponent {
       if (this.localeService) {
         // https://github.com/valor-software/ngx-bootstrap/issues/4054    
         this.localeService.use(zhCnLocale.abbr);
-        this.datepickerconfig = {
+        this.daterangepickerconfig = {
           containerClass: 'theme-dark-blue',
           value: this.dateRange,
           dateInputFormat: 'yyyy-MM-dd',
-        };
+        };        
       }
     });
   }
