@@ -27,6 +27,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   private profileloaded = false;
   private pupils: Pupil[];
   private profiles: FormattedProfile[];
+  private templates: string[];
+  private currentTemplate: string = '';
 
   private pupilyears: string[] = [];
   private pupilclasses: string[] = [];
@@ -50,10 +52,25 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.browsercheck();
-    this.getprofiles();
+    this.loadtemplates();
+    this.loadprofiles();
   }
 
-  getprofiles() {
+  loadtemplates() {
+    this.loading = true;
+    this.profileClient.getProfileTemplates().subscribe(
+      d => {
+        this.templates = d.templates.map(t => t.name);
+      },
+      e => {
+        this.LogError(e, '获取成长档案模板失败，请重试');
+        this.loading = false;
+      },
+      () => this.LogComplete('profile component template loading completed')
+    );
+  }
+
+  loadprofiles() {
     this.loading = true;
     this.profileClient.getProfiles(this.currentYear, this.currentClass, this.currentName, this.currentDate).
       subscribe(
@@ -126,6 +143,10 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         },
         () => this.LogComplete('profile component next profile loading completed')
       );
+  }
+
+  settemplate(template: string) {
+    this.currentTemplate = template;
   }
 
   showConfirmModal() {
@@ -204,7 +225,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     return profile ? profile.dates : [];
   }
 
-  get pupilnames() {    
+  get pupilnames() {
     return this.pupils.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
   }
 
@@ -234,15 +255,17 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       return;
     }
 
+    this.currentDate = this.dateToString(this.profilecreatedate);
     // always set date to today when create
-    this.currentDate = this.formatDate(new Date());
+    this.currentDate = this.dateToString(new Date());
     this.loading = true;
     let profile = {
       id: 0,
       year: this.currentYear,
       class: this.currentClass,
       name: this.currentName,
-      date: this.formatDate(this.profilecreatedate),
+      date: this.currentDate,
+      template: this.currentTemplate,
     };
 
     this.profileClient.createProfile(profile).subscribe(
@@ -291,7 +314,6 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       return;
     }
 
-    // always set date to today when create    
     this.loading = true;
     let profile = {
       id: 0,

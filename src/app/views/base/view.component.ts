@@ -114,8 +114,8 @@ export abstract class ViewComponent extends BaseComponent {
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
 
-      this.dateFrom = this.params["from"] || this.formatDate(this.firstDayInPrevMonth());
-      this.dateTo = this.params["to"] || this.formatDate(new Date());
+      this.dateFrom = this.params["from"] || this.dateToString(this.firstDayInPrevMonth());
+      this.dateTo = this.params["to"] || this.dateToString(new Date());
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
 
       if (this.localeService) {
@@ -269,7 +269,7 @@ export abstract class ViewComponent extends BaseComponent {
     return `${filename}.csv`;
   }
 
-  protected formatDate(d: Date): string {
+  protected dateToString(d: Date): string {
     let month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear();
@@ -278,6 +278,17 @@ export abstract class ViewComponent extends BaseComponent {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
+  }
+  
+  private stringToDate(d: string): Date {
+    // yyyy/mm/dd or yyyy-mm-dd
+    let segments = d.replace("/", "-").split("-");
+    if (segments.length != 3) {
+      throw 'invalid date';
+    }
+
+    let year = parseInt(segments[0]), month = parseInt(segments[1]) - 1 /* since month starts with 0 */, day = parseInt(segments[2]);
+    return new Date(year, month, day);
   }
 
   protected firstDayInPrevMonth(): Date {

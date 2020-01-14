@@ -24,8 +24,8 @@ export class ProcurementComponent extends ViewComponent implements OnInit {
 
   constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, authService, activatedRoute, toasterService, localeService);
-    this.dateFrom = this.params["from"] || this.formatDate(this.monday());
-    this.dateTo = this.params["to"] || this.formatDate(this.friday());
+    this.dateFrom = this.params["from"] || this.dateToString(this.monday());
+    this.dateTo = this.params["to"] || this.dateToString(this.friday());
     this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
   }
 
@@ -35,8 +35,8 @@ export class ProcurementComponent extends ViewComponent implements OnInit {
 
   getprocurements() {
     this.loading = true;
-    this.dateFrom = this.formatDate(this.dateRange[0]);
-    this.dateTo = this.formatDate(this.dateRange[1]);
+    this.dateFrom = this.dateToString(this.dateRange[0]);
+    this.dateTo = this.dateToString(this.dateRange[1]);
 
     this.mealClient.getProcurements(this.dateFrom, this.dateTo).
       subscribe(

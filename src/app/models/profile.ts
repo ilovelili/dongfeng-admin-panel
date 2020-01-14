@@ -21,7 +21,7 @@ export class Profiles {
       }
     });
 
-    map.forEach(item => {      
+    map.forEach(item => {
       let seg = item.key.split('_');
       if (seg.length == 3) {
         let year = seg[0], cls = seg[1], name = seg[2];
@@ -53,6 +53,7 @@ export class Profile {
   name: string;
   class: string;
   date: string;
+  template?: string;
 }
 
 export class FormattedProfile {

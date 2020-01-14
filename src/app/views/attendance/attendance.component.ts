@@ -77,8 +77,8 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   getattendances(showinfomodal: boolean = true) {
     this.loading = true;
-    this.dateFrom = this.formatDate(this.dateRange[0]);
-    this.dateTo = this.formatDate(this.dateRange[1]);
+    this.dateFrom = this.dateToString(this.dateRange[0]);
+    this.dateTo = this.dateToString(this.dateRange[1]);
     this.attendanceClient.getAttendances(this.currentYear, this.currentClass, this.currentName, this.dateFrom, this.dateTo).
       subscribe(
         d => {

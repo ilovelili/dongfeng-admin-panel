@@ -24,8 +24,8 @@ export class MenuComponent extends ViewComponent implements OnInit {
   constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, authService, activatedRoute, toasterService, localeService);
     // overwrite datefrom / dateto
-    this.dateFrom = this.formatDate(this.monday())
-    this.dateTo = this.formatDate(this.friday())
+    this.dateFrom = this.dateToString(this.monday())
+    this.dateTo = this.dateToString(this.friday())
     this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
   }
 
@@ -41,8 +41,8 @@ export class MenuComponent extends ViewComponent implements OnInit {
 
   getmenus() {
     this.loading = true;
-    this.dateFrom = this.formatDate(this.dateRange[0]);
-    this.dateTo = this.formatDate(this.dateRange[1]);
+    this.dateFrom = this.dateToString(this.dateRange[0]);
+    this.dateTo = this.dateToString(this.dateRange[1]);
 
     this.mealClient.getMenus(this.currentClass, this.meal, this.dateFrom, this.dateTo).
       subscribe(

@@ -1,8 +1,8 @@
 <div class="animated fadeIn">
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
-            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}            
-            
+            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}
+
             <button type="button" (click)="getNext()" class="btn btn-sm btn-info pull-right">下一页</button>
             <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
@@ -60,10 +60,10 @@
                         {{params["name"] || searchcriteria.name}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngIf="currentClass" role="menuitem">                            
+                        <li *ngIf="currentClass" role="menuitem">
                             <a class="dropdown-item" (click)="setname(currentClass)">{{currentClass}}全员</a>
                         </li>
-                        <li *ngFor="let name of profilenames" role="menuitem">                            
+                        <li *ngFor="let name of profilenames" role="menuitem">
                             <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
                         </li>
                         <li [hidden]="profilenames.length" role="menuitem">
@@ -147,9 +147,28 @@
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["date"] || searchcriteria.date}} <span class="caret"></span>
+                        {{currentTemplate ? currentTemplate : '模板'}} <span class="caret"></span>
                     </button>
-                    <input *dropdownMenu class="dropdown-menu" role="menu" class="form-control" #drp="bsDatepicker" [(ngModel)]="profilecreatedate" bsDatepicker [bsConfig]="datepickerconfig">
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="settemplate('')">不使用模板</a>
+                        </li>
+                        <li *ngFor="let template of templates" role="menuitem">
+                            <a class="dropdown-item" (click)="settemplate(template)">{{template}}</a>
+                        </li>
+                        <li [hidden]="templates" role="menuitem">
+                            <a class="dropdown-item">没有可用模板</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{dateToString(profilecreatedate) || params["date"] || searchcriteria.date}} <span
+                            class="caret"></span>
+                    </button>
+                    <input *dropdownMenu class="dropdown-menu" role="menu" class="form-control" #drp="bsDatepicker"
+                        [(ngModel)]="profilecreatedate" bsDatepicker [bsConfig]="datepickerconfig">
                 </div>
             </div>
             <div class="modal-footer">
@@ -182,22 +201,22 @@
 </div>
 
 <div bsModal #explainModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-  <div class="modal-dialog modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">成长档案编辑器说明</h6>
-        <button type="button" class="close" (click)="explainModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <ul>
-            <li>您可以通过拖/拉组件来实现各种效果，编辑效果会被自动保存。</li>
-            <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
-            <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
-          </ul>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
+    aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">成长档案编辑器说明</h6>
+                <button type="button" class="close" (click)="explainModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li>您可以通过拖/拉组件来实现各种效果，编辑效果会被自动保存。</li>
+                    <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
+                    <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
+                </ul>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -31,7 +31,7 @@ export class ProfileClient extends BaseClient {
 
     return this.http.get<Profiles>(environment.api.baseURI + '/profiles', {
       headers: this.defaultHeaders,
-      params: params,      
+      params: params,
     });
   }
 
@@ -40,11 +40,11 @@ export class ProfileClient extends BaseClient {
     params = params.set("name", name);
     return this.http.get<ProfileTemplate>(environment.api.baseURI + '/profiletemplate', {
       headers: this.defaultHeaders,
-      params: params,      
+      params: params,
     });
   }
 
-  getProfileTemplates(id?: number): Observable<ProfileTemplates> {
+  getProfileTemplates(): Observable<ProfileTemplates> {
     return this.http.get<ProfileTemplates>(environment.api.baseURI + '/profiletemplates', {
       headers: this.defaultHeaders,
     });
@@ -70,6 +70,7 @@ export class ProfileClient extends BaseClient {
       class: profile.class,
       name: profile.name,
       date: profile.date,
+      template: profile.template,
     }, this.defaultHttpOptions);
   };
 
@@ -100,7 +101,7 @@ export class ProfileClient extends BaseClient {
 
     return this.http.get<Profile>(environment.api.baseURI + '/profile/prev', {
       headers: this.defaultHeaders,
-      params: params,      
+      params: params,
     });
   }
 
@@ -122,7 +123,7 @@ export class ProfileClient extends BaseClient {
 
     return this.http.get<Profile>(environment.api.baseURI + '/profile/next', {
       headers: this.defaultHeaders,
-      params: params,      
+      params: params,
     });
   }
 
@@ -153,7 +154,7 @@ export class ProfileClient extends BaseClient {
 
     return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', {
       headers: this.defaultHeaders,
-      params: params,      
+      params: params,
     });
   }
 }
