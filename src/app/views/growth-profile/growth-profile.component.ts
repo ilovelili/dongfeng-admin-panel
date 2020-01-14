@@ -255,9 +255,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       return;
     }
 
-    this.currentDate = this.dateToString(this.profilecreatedate);
-    // always set date to today when create
-    this.currentDate = this.dateToString(new Date());
+    this.currentDate = this.dateToString(this.profilecreatedate);    
     this.loading = true;
     let profile = {
       id: 0,

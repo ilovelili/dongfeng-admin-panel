@@ -90,12 +90,13 @@ define(function() {
        activeOnRender: 1
       },
     });
-    bm.add('text-sect', {
-      label: opt.textSectionBlkLabel,
-      category: opt.categoryLabel,
-      content: '<h1 class="heading">输入标题</h1><p class="paragraph">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</p>',
-      attributes: {class:'gjs-fonts gjs-f-h1p'}
-    });
+    // bm.add('text-sect', {
+    //   label: opt.textSectionBlkLabel,
+    //   category: opt.categoryLabel,
+    //   content: {
+    //     '<h1 class="heading">输入标题</h1><p class="paragraph">小白兔白又白，两只耳朵竖起来，爱吃萝卜爱吃菜，蹦蹦跳跳真可爱</p>'},
+    //   attributes: {class:'gjs-fonts gjs-f-h1p'}
+    // });
     bm.add('image', {
       label: opt.imageBlkLabel,
       category: opt.categoryLabel,
