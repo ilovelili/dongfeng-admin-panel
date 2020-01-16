@@ -4,10 +4,7 @@
       <div class="col-md-6">
         <div class="card mx-4">
           <div class="card-body p-4">
-            <h1>东风幼儿园欢迎您</h1>
-            <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
-              {{errormsg}}
-            </div>
+            <h1>东风幼儿园欢迎您</h1>            
             <p class="text-muted" [hidden]="errormsg">您还没有登录</p>
             <div class="input-group mb-3">
               <span class="input-group-addon">@</span>
@@ -65,6 +62,9 @@
       <div class="modal-body">
         <div class="card">
           <div class="card-body">
+            <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
+              {{errormsg}}
+            </div>
             <button type="button" class="btn btn-success px-4" (click)="login(1)">钟楼部</button>
             <button type="button" class="btn btn-primary px-4" (click)="login(2)">临仓部</button>
           </div>
