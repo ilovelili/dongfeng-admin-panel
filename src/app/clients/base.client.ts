@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export abstract class BaseClient {
   private namespace: string = 'dongfeng';
   private KEY_TOKEN: string = 'token';
+  private KEY_PID: string = 'profile';
+  private KEY_EMAIL: string = 'email';
   private sessionFactory: SessionFactory;
 
   constructor(protected http: HttpClient) {
@@ -14,6 +16,8 @@ export abstract class BaseClient {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+      "X-PID": this.sessionFactory.get(this.KEY_PID),
+      "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
     });
   }
 
@@ -27,6 +31,8 @@ export abstract class BaseClient {
     return {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+      "X-PID": this.sessionFactory.get(this.KEY_PID),
+      "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
     };
   }
 
@@ -36,6 +42,8 @@ export abstract class BaseClient {
         // Setting the Content-Type header manually means it's missing the boundary parameter. Remove that header
         // 'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
+        "X-PID": this.sessionFactory.get(this.KEY_PID),
+        "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
       })
     };
   }

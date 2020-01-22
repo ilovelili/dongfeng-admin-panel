@@ -30,7 +30,7 @@ export abstract class OpenIdComponent {
 
         if (!userInfo.email) {
             window.alert(`您的${this.openId}帐号没有绑定邮箱,系统将生成临时邮箱以完成登录`);
-            // userInfo.email = `${userInfo.unionid}@dongfeng.cn`; // do it on backend
+            userInfo.email = `${userInfo._id}@dongfeng.cn`;
         }
 
         this.authService.setSession(userInfo);

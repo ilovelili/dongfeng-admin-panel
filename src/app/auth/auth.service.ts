@@ -13,8 +13,8 @@ const KEY_TOKEN: string = 'token';
 const AUTHING_TOKEN: string = '_authing_token';
 const KEY_EXP: string = 'exp';
 const KEY_PID: string = 'profile';
+const KEY_EMAIL: string = 'email';
 const KEY_AUTHED: string = 'authed';
-
 
 @Injectable()
 export class AuthService {
@@ -42,6 +42,7 @@ export class AuthService {
   setSession(auth: Auth) {
     this.sessionFactory.set(KEY_TOKEN, auth.token);
     this.sessionFactory.set(KEY_PID, auth._id);
+    this.sessionFactory.set(KEY_EMAIL, auth.email);
     this.sessionFactory.set(KEY_EXP, new Date(auth.tokenExpiredAt).getTime());
     this.sessionFactory.set(KEY_AUTHED, true);
   }

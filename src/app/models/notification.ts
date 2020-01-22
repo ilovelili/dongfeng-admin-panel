@@ -34,8 +34,15 @@ export class Notification {
         result = DetailPlaceHolder.AttendanceUpdated;
         break;
       case "N1006":
-        result = DetailPlaceHolder.PhysiqueUpdated;
+        result = DetailPlaceHolder.EbookUpdated;
         break;
+      case "N1007":
+        result = DetailPlaceHolder.GrowthProfileUpdated;
+        break;
+      case "N1008":
+        result = DetailPlaceHolder.GrowthProfileTemplateUpdated;
+        break;
+
       case "N5001":
         result = DetailPlaceHolder.RecipeUpdated;
         break;
@@ -44,6 +51,9 @@ export class Notification {
         break;
       case "N5003":
         result = DetailPlaceHolder.IngredientUpdated;
+        break;
+      case "N5004":
+        result = DetailPlaceHolder.ProcurementUpdated;
         break;
       case "N6001":
         result = DetailPlaceHolder.AttendanceUpdated;
@@ -111,10 +121,16 @@ class DetailPlaceHolder {
   static NamelistUpdated: string = "{{time}} 班级名单更新";
   static ClasslistUpdated: string = "{{time}} 班级信息更新";
   static TeacherlistUpdated: string = "{{time}} 教师信息更新";
+  static AttendanceUpdated: string = "{{time}} 出勤信息更新";
+  static EbookUpdated: string = "{{time}} 电子书更新";
+  static GrowthProfileUpdated: string = "{{time}} 成长手册更新";;
+  static GrowthProfileTemplateUpdated: string = "{{time}} 成长手册模板更新";;
+
   static PhysiqueUpdated: string = "{{time}} 体格信息表更新";
   static RecipeUpdated: string = "{{time}} 膳食信息更新";
   static MenuUpdated: string = "{{time}} 菜单信息更新";
   static IngredientUpdated: string = "{{time}} 食材信息更新";
-  static AttendanceUpdated: string = "{{time}} 出勤信息更新";
+  static ProcurementUpdated: string = "{{time}} 采购信息更新";
+
   static AgentSmith: string = "{{time}} {{title}}{{details}}";
 }
