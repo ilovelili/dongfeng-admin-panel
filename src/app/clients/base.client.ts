@@ -16,8 +16,8 @@ export abstract class BaseClient {
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      "X-PID": this.sessionFactory.get(this.KEY_PID),
-      "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
+      "x-pid": this.sessionFactory.get(this.KEY_PID),
+      "x-email": this.sessionFactory.get(this.KEY_EMAIL),
     });
   }
 
@@ -31,8 +31,8 @@ export abstract class BaseClient {
     return {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      "X-PID": this.sessionFactory.get(this.KEY_PID),
-      "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
+      "x-pid": this.sessionFactory.get(this.KEY_PID),
+      "x-email": this.sessionFactory.get(this.KEY_EMAIL),
     };
   }
 
@@ -42,8 +42,8 @@ export abstract class BaseClient {
         // Setting the Content-Type header manually means it's missing the boundary parameter. Remove that header
         // 'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-        "X-PID": this.sessionFactory.get(this.KEY_PID),
-        "X-EMAIL": this.sessionFactory.get(this.KEY_EMAIL),
+        "x-pid": this.sessionFactory.get(this.KEY_PID),
+        "x-email": this.sessionFactory.get(this.KEY_EMAIL),
       })
     };
   }
