@@ -60,7 +60,9 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.loading = true;
     this.profileClient.getProfileTemplates().subscribe(
       d => {
-        this.templates = d.templates.map(t => t.name);
+        if (!d.empty()) {
+          this.templates = d.templates.map(t => t.name);
+        }
       },
       e => {
         this.LogError(e, '获取成长档案模板失败，请重试');
