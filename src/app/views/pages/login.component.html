@@ -4,7 +4,10 @@
       <div class="col-md-6">
         <div class="card mx-4">
           <div class="card-body p-4">
-            <h1>东风幼儿园欢迎您</h1>            
+            <h1>东风幼儿园欢迎您</h1>
+            <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
+              {{errormsg}}
+            </div>         
             <p class="text-muted" [hidden]="errormsg">您还没有登录</p>
             <div class="input-group mb-3">
               <span class="input-group-addon">@</span>
@@ -20,7 +23,7 @@
                 <a [routerLink]="['../注册']" class="btn btn-link px-4" role="button">注册新用户</a>
               </div>
               <div class="col-10 text-right">
-                <button type="button" class="btn btn-success px-4" (click)="open()">登录</button>
+                <button type="button" class="btn btn-success px-4" (click)="login()">登录</button>
                 <a [routerLink]="['../重置密码']" class="btn btn-link px-4" role="button">忘记密码?</a>
               </div>
             </div>
@@ -48,28 +51,3 @@
   </div>
 </div>
 
-<div bsModal #loginModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-  <div class="modal-dialog modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">选择分部</h6>
-        <button type="button" class="close" (click)="close()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="card">
-          <div class="card-body">
-            <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
-              {{errormsg}}
-            </div>
-            <button type="button" class="btn btn-success px-4" (click)="login(1)">钟楼部</button>
-            <button type="button" class="btn btn-primary px-4" (click)="login(2)">临仓部</button>
-          </div>
-        </div>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->

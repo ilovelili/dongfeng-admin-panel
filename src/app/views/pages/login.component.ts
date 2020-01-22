@@ -14,7 +14,6 @@ export class LoginComponent {
   private email: string = "";
   private password: string = "";
   private errormsg: string = "";
-  @ViewChild('loginModal') loginModal
 
   constructor(private router: Router, private authService: AuthService) {
     if (this.authService.isLoggedIn) {
@@ -22,7 +21,7 @@ export class LoginComponent {
     }
   }
 
-  login(branch: number) {
+  login() {
     if (this.email == "") {
       this.setMessage('邮件不能为空白');
       return;
@@ -46,8 +45,8 @@ export class LoginComponent {
         email: me.email,
         password: me.password,
       }).then((user: Auth) => {
-        me.authService.setSession(user);        
-        window.location.replace(`${me.resolveBaseUrl(branch)}/班级信息`);
+        me.authService.setSession(user);
+        window.location.replace(`${environment.host}/班级信息`);
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
@@ -64,26 +63,5 @@ export class LoginComponent {
     window.setTimeout(() => {
       this.errormsg = '';
     }, 5000);
-  }
-
-  resolveBaseUrl(branch: number): string {
-    let localhost = window.location.host.indexOf('localhost') > 0;
-    if (localhost) {
-      return window.location.host;
-    }
-
-    if (branch == 1) {
-      return environment.zhonglou;
-    }
-
-    return environment.lincang;
-  }
-
-  open() {
-    this.loginModal.show();
-  }
-
-  close() {
-    this.loginModal.hide();
   }
 }
