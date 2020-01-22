@@ -1,10 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { Auth } from 'app/models';
+import { UserClient } from 'app/clients';
 
 export abstract class OpenIdComponent {
     protected openId: string;
+
+    constructor(protected router: Router, protected authService: AuthService, protected userClient: UserClient) {
+        if (this.authService.isLoggedIn) {
+            this.router.navigate(["班级信息"]);
+        }
+    }
+
     protected openIdCallback() {
         const code = parseInt(this.getQueryString('code'));
         if (code !== 200) {
@@ -16,22 +24,24 @@ export abstract class OpenIdComponent {
 
         const userInfo: Auth = JSON.parse(this.getQueryString('data'));
         if (!userInfo.token) {
-            window.alert(`对不起登录失败,请重试`);
+            window.alert(`登录失败,请重试`);
             this.router.navigate(["/页面/登录"]);
         }
 
-        this.authService.setSession(userInfo);
         if (!userInfo.email) {
             window.alert(`您的${this.openId}帐号没有绑定邮箱,系统将生成临时邮箱以完成登录`);
             // userInfo.email = `${userInfo.unionid}@dongfeng.cn`; // do it on backend
         }
-        this.router.navigate(["/班级信息"]);
-    }
 
-    constructor(protected router: Router, protected authService: AuthService) {
-        if (this.authService.isLoggedIn) {
-            this.router.navigate(["班级信息"]);
-        }
+        this.authService.setSession(userInfo);
+        this.userClient.getUser().
+            subscribe(
+                _ => {
+                    this.router.navigate(["/班级信息"]);
+                },
+                e => console.error(e),
+                () => console.log("login succeeded")
+            );
     }
 
     getQueryString(name: string): string {
@@ -48,8 +58,8 @@ export abstract class OpenIdComponent {
     templateUrl: 'openid.component.html',
 })
 export class OpenIdDingTalkComponent extends OpenIdComponent {
-    constructor(protected router: Router, protected authService: AuthService) {
-        super(router, authService);
+    constructor(protected router: Router, protected authService: AuthService, protected userClient: UserClient) {
+        super(router, authService, userClient);
         this.openIdCallback();
     }
 

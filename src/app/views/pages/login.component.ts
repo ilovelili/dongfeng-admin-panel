@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { Auth } from 'app/models';
 import { environment } from 'environments/environment';
+import { UserClient } from 'app/clients';
 
 declare var Authing: any;
 
@@ -15,7 +16,7 @@ export class LoginComponent {
   private password: string = "";
   private errormsg: string = "";
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService, private userClient: UserClient) {
     if (this.authService.isLoggedIn) {
       this.router.navigate(["班级信息"]);
     }
@@ -46,7 +47,14 @@ export class LoginComponent {
         password: me.password,
       }).then((user: Auth) => {
         me.authService.setSession(user);
-        window.location.replace(`${environment.host}/班级信息`);
+        me.userClient.getUser().
+          subscribe(
+            d => {              
+              me.router.navigate(["班级信息"]);
+            },
+            e => console.error(e),
+            () => console.log("login succeeded")
+          );
       }).catch(err => {
         if (err.message && err.message.message) {
           me.setMessage(err.message.message);
