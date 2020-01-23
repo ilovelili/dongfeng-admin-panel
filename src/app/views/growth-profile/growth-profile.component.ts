@@ -7,6 +7,7 @@ import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
 import { Profiles, FormattedProfile, Pupils, Pupil } from 'app/models';
 import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
+import { ProfileTemplates } from 'app/models/profile_template';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -60,8 +61,9 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.loading = true;
     this.profileClient.getProfileTemplates().subscribe(
       d => {
-        if (!d.empty()) {
-          this.templates = d.templates.map(t => t.name);
+        let _templates = new ProfileTemplates(d.templates);
+        if (!_templates.empty()) {
+          this.templates = _templates.templates.map(t => t.name);
         }
       },
       e => {
