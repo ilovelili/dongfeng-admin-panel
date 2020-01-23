@@ -13,12 +13,23 @@ export abstract class BaseClient {
   }
 
   get defaultHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      "x-pid": this.sessionFactory.get(this.KEY_PID),
-      "x-email": this.sessionFactory.get(this.KEY_EMAIL),
-    });
+    let headers = {
+      'Content-Type': 'application/json',      
+    };
+
+    if (this.sessionFactory.get(this.KEY_TOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
+    }
+
+    if (this.sessionFactory.get(this.KEY_PID)) {
+      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
+    }
+
+    if (this.sessionFactory.get(this.KEY_EMAIL)) {
+      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
+    }
+
+    return new HttpHeaders(headers);
   }
 
   get defaultHttpOptions() {
@@ -28,23 +39,42 @@ export abstract class BaseClient {
   }
 
   get rawHeaders() {
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-      "x-pid": this.sessionFactory.get(this.KEY_PID),
-      "x-email": this.sessionFactory.get(this.KEY_EMAIL),
+    let headers = {
+      'Content-Type': 'application/json',      
     };
+
+    if (this.sessionFactory.get(this.KEY_TOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
+    }
+
+    if (this.sessionFactory.get(this.KEY_PID)) {
+      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
+    }
+
+    if (this.sessionFactory.get(this.KEY_EMAIL)) {
+      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
+    }
+
+    return headers;
   }
 
   get multipartFormDataHttpOptions() {
+    let headers = {};
+
+    if (this.sessionFactory.get(this.KEY_TOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
+    }
+
+    if (this.sessionFactory.get(this.KEY_PID)) {
+      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
+    }
+
+    if (this.sessionFactory.get(this.KEY_EMAIL)) {
+      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
+    }
+
     return {
-      headers: new HttpHeaders({
-        // Setting the Content-Type header manually means it's missing the boundary parameter. Remove that header
-        // 'Content-Type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN),
-        "x-pid": this.sessionFactory.get(this.KEY_PID),
-        "x-email": this.sessionFactory.get(this.KEY_EMAIL),
-      })
+      headers: new HttpHeaders(headers),
     };
   }
 }
