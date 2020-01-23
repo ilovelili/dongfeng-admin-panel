@@ -52,7 +52,10 @@ export class LoginComponent {
             d => {              
               me.router.navigate(["班级信息"]);
             },
-            e => console.error(e),
+            e => {
+              console.error(e);
+              me.authService.logout();
+            },
             () => console.log("login succeeded")
           );
       }).catch(err => {

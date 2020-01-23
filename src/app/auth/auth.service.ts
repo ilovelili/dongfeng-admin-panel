@@ -36,6 +36,10 @@ export class AuthService {
             this.router.navigate(["班级信息"]);
           }
         },
+        e => {
+          console.error(e);
+          this.logout();          
+        }
       );
   }
 
@@ -51,6 +55,7 @@ export class AuthService {
     this.sessionFactory.remove(AUTHING_TOKEN);
     this.sessionFactory.remove(KEY_TOKEN);
     this.sessionFactory.remove(KEY_PID);
+    this.sessionFactory.remove(KEY_EMAIL);
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
   }

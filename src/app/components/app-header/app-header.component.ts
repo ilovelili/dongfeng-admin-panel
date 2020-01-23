@@ -48,7 +48,7 @@ export class AppHeaderComponent implements OnInit {
         d => this.user = d.user,
         e => {
           console.error(e);
-          // this.authService.logout();
+          this.authService.logout();
         },
         () => console.log("app header component user loading completed")
       );
@@ -70,7 +70,7 @@ export class AppHeaderComponent implements OnInit {
         },
         e => {
           console.error(e);
-          // this.authService.logout();
+          this.authService.logout();
         },
         () => console.log("app header component notification loading completed")
       );
