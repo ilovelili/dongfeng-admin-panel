@@ -6,6 +6,7 @@ export abstract class BaseComponent {
   constructor(protected router: Router, protected authService: AuthService, protected omitAuth: boolean = false) {
     if (!omitAuth && !authService.isLoggedIn) {
       this.router.navigate(["页面/登录"]);
+      return;
     }
 
     if (!omitAuth) {
