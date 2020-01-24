@@ -6,7 +6,7 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
-import { OpenIdDingTalkComponent } from './openid.component';
+import { OpenIdDingTalkComponent, OpenIdWechatComponent } from './openid.component';
 
 const routes: Routes = [
   {
@@ -55,6 +55,13 @@ const routes: Routes = [
         component: OpenIdDingTalkComponent,
         data: {
           title: '第三方登录-钉钉'
+        }
+      },
+      {
+        path: 'wechat',
+        component: OpenIdWechatComponent,
+        data: {
+          title: '第三方登录-微信'
         }
       },
     ]

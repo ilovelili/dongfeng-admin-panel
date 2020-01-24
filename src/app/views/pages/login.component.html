@@ -7,7 +7,7 @@
             <h1>东风幼儿园欢迎您</h1>
             <div class="input-group mb-3 text-danger" [hidden]="!errormsg">
               {{errormsg}}
-            </div>         
+            </div>
             <p class="text-muted" [hidden]="errormsg">您还没有登录</p>
             <div class="input-group mb-3">
               <span class="input-group-addon">@</span>
@@ -32,11 +32,9 @@
           <div class="card-footer p-4 bg-darkslategrey">
             <div class="row">
               <div class="col-6">
-                <button class="btn btn-block btn-success" type="button" [disabled]>
-                  <span tooltip="微信接口申请中，暂时无法使用">
-                    <i class="fa fa-wechat"></i> 微信登录
-                  </span>
-                </button>
+                <a class="btn btn-block btn-success" [href]="authService.openIdWechat" role="button">
+                  <span class="fa fa-wechat"> 微信登录</span>
+                </a>
               </div>
               <div class="col-6">
                 <a class="btn btn-block btn-primary" [href]="authService.openIdDingTalk" role="button">
@@ -50,4 +48,3 @@
     </div>
   </div>
 </div>
-

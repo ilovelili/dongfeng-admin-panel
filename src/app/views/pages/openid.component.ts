@@ -28,8 +28,7 @@ export abstract class OpenIdComponent {
             this.router.navigate(["/页面/登录"]);
         }
 
-        if (!userInfo.email) {
-            window.alert(`您的${this.openId}帐号没有绑定邮箱,系统将生成临时邮箱以完成登录`);
+        if (!userInfo.email) {            
             userInfo.email = `${userInfo._id}@dongfeng.cn`;
         }
 
@@ -64,4 +63,16 @@ export class OpenIdDingTalkComponent extends OpenIdComponent {
     }
 
     openId: string = "钉钉";
+}
+
+@Component({
+    templateUrl: 'openid.component.html',
+})
+export class OpenIdWechatComponent extends OpenIdComponent {
+    constructor(protected router: Router, protected authService: AuthService, protected userClient: UserClient) {
+        super(router, authService, userClient);
+        this.openIdCallback();
+    }
+
+    openId: string = "微信";
 }

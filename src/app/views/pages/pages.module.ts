@@ -10,15 +10,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
-import { OpenIdDingTalkComponent } from './openid.component';
+import { OpenIdDingTalkComponent, OpenIdWechatComponent } from './openid.component';
 
 @NgModule({
-  imports: [ 
+  imports: [
     CommonModule,
     FormsModule,
     PagesRoutingModule,
     TooltipModule.forRoot(),
-   ],
+  ],
   declarations: [
     P404Component,
     P500Component,
@@ -26,6 +26,7 @@ import { OpenIdDingTalkComponent } from './openid.component';
     RegisterComponent,
     PasswordComponent,
     OpenIdDingTalkComponent,
+    OpenIdWechatComponent,
   ]
 })
 export class PagesModule { }

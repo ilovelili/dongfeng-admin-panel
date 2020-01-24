@@ -62,7 +62,12 @@ export class AuthService {
 
   get openIdDingTalk(): string {
     const dingTalk = environment.auth.openId.dingTalk;
-    return `https://oapi.dingtalk.com/connect/qrconnect?appid=${dingTalk.appId}&response_type=code&scope=snsapi_login&state=${environment.auth.clientId}&redirect_uri=${dingTalk.redirect}`;
+    return `https://oapi.dingtalk.com/connect/qrconnect?appid=${dingTalk.appId}&response_type=code&scope=snsapi_login&state=${environment.auth.clientId}&redirect_uri=${encodeURIComponent(dingTalk.redirect)}`;
+  }
+
+  get openIdWechat(): string {
+    const wechat = environment.auth.openId.wechat;
+    return `https://open.weixin.qq.com/connect/qrconnect?appid=${wechat.appId}&redirect_uri=${encodeURIComponent(wechat.redirect)}&response_type=code&scope=snsapi_login&state=${environment.auth.clientId}#wechat_redirect`
   }
 
   logout() {
