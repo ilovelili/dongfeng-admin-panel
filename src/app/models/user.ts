@@ -1,15 +1,15 @@
 export class User {
-  newuser: boolean;  
   id: string;
   email: string;
   name: string;
-  avatar: string;
+  photo: string;
+  role: number;
 }
 
-export class Login {
-  user: User;
-}
-
-export class ImageUpload {
-  uri: string;
+export class Role {
+  static RoleUndefined = 0;
+  static RoleAgentSmith = 1;
+  static RoleAdmin = 2;
+  static RoleNormal = 3;
+  static RoleHealth = 4;
 }

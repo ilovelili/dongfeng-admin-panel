@@ -2,7 +2,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients';
-import { Classes } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
 import { AuthService } from 'app/auth/auth.service';
 
@@ -16,8 +15,6 @@ import { AuthService } from 'app/auth/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ClassComponent extends ViewComponent implements OnInit {
-  classinfos: Classes;
-
   constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
@@ -33,18 +30,22 @@ export class ClassComponent extends ViewComponent implements OnInit {
       {
         id: 1,
         class: "小一班",
+        year: 2019
       },
       {
         id: 2,
         class: "中二班",
+        year: 2019
       },
       {
         id: 3,
         class: "大一班",
+        year: 2019
       },
       {
         id: 4,
         class: "大二班",
+        year: 2019
       },
     ];
   }
@@ -55,12 +56,13 @@ export class ClassComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
-          this.classinfos = new Classes(d.classes);
-          if (this.classinfos.empty()) {
+
+          if (!d.length) {
+            this.found = false;
             this.infoModal.show();
             this.items = this.template;
-          } else {
-            this.items = this.classinfos.classes;
+          } else {            
+            this.items = d;
           }
         },
         e => this.LogError(e, '获取班级信息失败，请重试'),

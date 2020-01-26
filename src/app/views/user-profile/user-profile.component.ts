@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { User } from '../../models';
-import { UserClient } from '../../clients/user.client';
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import { UserClient } from 'app/clients/user.client';
 
 @Component({
   providers: [User],
@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userClient.getUser().
       subscribe(
-        d => this.user = d.user,
+        d => this.user = d,
         e => {
           console.error(e);
           this.toasterService.pop('error', '', '获取用户信息失败，请重试');
@@ -51,8 +51,8 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['班级信息']);
   }  
 
-  setUser(uri: string) {
-    this.user.avatar = uri;
+  setUser(uri: string[]) {
+    this.user.photo = uri[0];
     this.showavatar = true;
     this.allowedit = true;    
   }

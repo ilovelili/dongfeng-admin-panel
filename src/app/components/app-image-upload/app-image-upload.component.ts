@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, Output, EventEmitter } from "@angular/core";
-import { UserClient } from "../../clients/user.client";
+import { UserClient } from "app/clients";
 
 class ImageSnippet {
   pending: boolean = false;
@@ -15,12 +15,12 @@ class ImageSnippet {
 })
 export class AppImageUploadComponent {
   @Output()
-  onImageUploaded: EventEmitter<string> = new EventEmitter<string>();
+  onImageUploaded: EventEmitter<string[]> = new EventEmitter<string[]>();
 
   private selectedfile: ImageSnippet;
   private title = "请选择图像";
 
-  constructor(private userClient: UserClient) {    
+  constructor(private userClient: UserClient) {
   }
 
   processFile(imageInput: any) {
@@ -33,7 +33,7 @@ export class AppImageUploadComponent {
         d => {
           this.selectedfile.pending = false;
           this.selectedfile.status = 'ok';
-          this.onImageUploaded.emit(d.uri);
+          this.onImageUploaded.emit(d);
         },
         e => {
           console.error(e);

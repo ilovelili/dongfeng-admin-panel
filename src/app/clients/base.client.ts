@@ -3,9 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export abstract class BaseClient {
   private namespace: string = 'dongfeng';
-  private KEY_TOKEN: string = 'token';
-  private KEY_PID: string = 'profile';
-  private KEY_EMAIL: string = 'email';
+  private KEY_TOKEN: string = 'token';  
   private sessionFactory: SessionFactory;
 
   constructor(protected http: HttpClient) {
@@ -19,15 +17,7 @@ export abstract class BaseClient {
 
     if (this.sessionFactory.get(this.KEY_TOKEN)) {
       headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
-    }
-
-    if (this.sessionFactory.get(this.KEY_PID)) {
-      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
-    }
-
-    if (this.sessionFactory.get(this.KEY_EMAIL)) {
-      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
-    }
+    }    
 
     return new HttpHeaders(headers);
   }
@@ -47,14 +37,6 @@ export abstract class BaseClient {
       headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
     }
 
-    if (this.sessionFactory.get(this.KEY_PID)) {
-      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
-    }
-
-    if (this.sessionFactory.get(this.KEY_EMAIL)) {
-      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
-    }
-
     return headers;
   }
 
@@ -63,14 +45,6 @@ export abstract class BaseClient {
 
     if (this.sessionFactory.get(this.KEY_TOKEN)) {
       headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
-    }
-
-    if (this.sessionFactory.get(this.KEY_PID)) {
-      headers["x-pid"] = this.sessionFactory.get(this.KEY_PID);
-    }
-
-    if (this.sessionFactory.get(this.KEY_EMAIL)) {
-      headers["x-email"] = this.sessionFactory.get(this.KEY_EMAIL);
     }
 
     return {

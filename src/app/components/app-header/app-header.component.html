@@ -16,6 +16,14 @@
       </div>
     </li>
 
+    <li class="nav-item dropdown" dropdown placement="bottom right">
+      <a class="nav-link text-primary small" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+        aria-expanded="false" dropdownToggle (click)="false">{{current_year}}学年</a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
+        <a class="dropdown-item" (click)="setYear(year, $event)" *ngFor="let year of years">{{year}}学年</a>
+      </div>
+    </li>
+
     <li class="nav-item dropdown d-md-down-none" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
@@ -117,7 +125,7 @@
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
-        <img [src]="user.avatar" class="img-avatar" alt="加载中..." />
+        <img [src]="user.photo" class="img-avatar" alt="加载中..." />
       </a>
       <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <div class="dropdown-header text-center"><strong>您好, {{user.name}}</strong></div>

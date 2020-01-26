@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Classes } from 'app/models/class';
+import { Class } from 'app/models/class';
 import { Pupils, Pupil } from 'app/models/pupil';
 import { Teachers, Teacher } from 'app/models/teacher';
 import { Empty } from 'app/models';
@@ -14,8 +14,13 @@ export class ClassClient extends BaseClient {
     super(http);
   }
 
-  getClasses(): Observable<Classes> {
-    return this.http.get<Classes>(environment.api.baseURI + '/classes', { headers: this.defaultHeaders });
+  getClasses(year?: string): Observable<Class[]> {
+    let params = new HttpParams();
+    if (year && year != "") {
+      params = params.set("year", year);
+    }
+
+    return this.http.get<Class[]>(environment.api.baseURI + '/classes', { headers: this.defaultHeaders, params: params });
   };
 
   getPupils(year?: string, cls?: string): Observable<Pupils> {
@@ -45,8 +50,8 @@ export class ClassClient extends BaseClient {
   };
 
   updatePupil(pupil: Pupil): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/pupil', { 
-      id: pupil.id, 
+    return this.http.post<Empty>(environment.api.baseURI + '/pupil', {
+      id: pupil.id,
       name: pupil.name,
       class: pupil.class,
       year: pupil.year,
@@ -54,11 +59,11 @@ export class ClassClient extends BaseClient {
   };
 
   updateTeacher(teacher: Teacher): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/teacher', { 
-      id: teacher.id, 
+    return this.http.post<Empty>(environment.api.baseURI + '/teacher', {
+      id: teacher.id,
       name: teacher.name,
       class: teacher.class,
-      email: teacher.email,      
+      email: teacher.email,
     }, this.defaultHttpOptions);
   };
 }

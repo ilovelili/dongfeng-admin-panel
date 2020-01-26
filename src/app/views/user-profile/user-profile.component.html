@@ -7,7 +7,7 @@
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="avatar">头像</label>
           <div class="avatar col-md-9 avatar-lg">
-            <img [src]="user.avatar" [hidden]="!showavatar" class="img-avatar" alt="{{user.email}}">
+            <img [src]="user.photo" [hidden]="!showavatar" class="img-avatar" alt="{{user.email}}">
             <app-image-upload [hidden]="showavatar" (onImageUploaded)="setUser($event)"></app-image-upload>
           </div>
         </div>

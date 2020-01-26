@@ -38,7 +38,11 @@ export abstract class OpenIdComponent {
                 _ => {
                     this.router.navigate(["/班级信息"]);
                 },
-                e => console.error(e),
+                e => {
+                    console.error(e);
+                    window.alert(`登录失败,请重试`);
+                    this.router.navigate(["/页面/登录"]);
+                },
                 () => console.log("login succeeded")
             );
     }

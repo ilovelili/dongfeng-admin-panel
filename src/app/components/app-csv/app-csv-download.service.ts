@@ -42,9 +42,9 @@ export class AppCsvDownloadService {
 
   private static resolveCustomContent(entity: CsvEntity): string {
     let csvContent = "", title = entity.Headers;
-    csvContent += '"' + title.join('","') + '"' + '\n';
+    csvContent += title.join(',') + '\n';
     // body
-    for (var key in entity.Rows) csvContent += '"' + entity.Rows[key].Items.join('","') + '"' + '\n';
+    for (var key in entity.Rows) csvContent += entity.Rows[key].Items.join(',') + '\n';
     return csvContent;
   }
 

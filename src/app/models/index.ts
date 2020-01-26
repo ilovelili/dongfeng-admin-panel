@@ -13,4 +13,3 @@ export * from './meal';
 export * from './profile';
 export * from './ebook';
 export * from './auth';
-export * from './role';

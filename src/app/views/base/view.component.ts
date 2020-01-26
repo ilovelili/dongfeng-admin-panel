@@ -18,11 +18,13 @@ export abstract class ViewComponent extends BaseComponent {
   @ViewChild('explainModal') explainModal
 
   protected loading: boolean;
+  protected found: boolean = true;
 
   protected template: any[] = [];
   protected items: any[] = [];
 
   protected key_token: string = 'token';
+  protected key_year: string = 'year';
   protected namespace: string = 'dongfeng';
   protected sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
   protected params: Object
@@ -233,6 +235,10 @@ export abstract class ViewComponent extends BaseComponent {
     } else {
       this.searchcriteria.name = name;
     }
+  }
+
+protected get year(): string {
+    return this.sessionFactory.get(this.key_year);
   }
 
   setdate(date: string) {

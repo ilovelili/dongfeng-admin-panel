@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
-import { Notifications, Empty } from '../models';
+import { Notification, Empty } from '../models';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -11,8 +11,8 @@ export class NotificationClient extends BaseClient {
     super(http);
   }
 
-  getNotifications(): Observable<Notifications> {
-    return this.http.get<Notifications>(environment.api.baseURI + '/dashboard', this.defaultHttpOptions);
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(environment.api.baseURI + '/notifications', this.defaultHttpOptions);
   };
 
   updateNotifications(ids: number[]): Observable<Empty> {
