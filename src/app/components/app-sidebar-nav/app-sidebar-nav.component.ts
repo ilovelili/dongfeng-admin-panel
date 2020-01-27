@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 // Import navigation elements
 import { navigation } from './../../_nav';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-sidebar-nav',

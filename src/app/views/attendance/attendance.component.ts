@@ -5,7 +5,7 @@ import { AttendanceClient } from 'app/clients';
 import { Attendances, FormattedAttendance, Holidays } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { ToasterService } from 'angular2-toaster';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './attendance.component.html',

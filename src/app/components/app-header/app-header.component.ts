@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { User, Notification, Notifications } from '../../models';
+import { AuthService } from '../../services/auth.service';
+import { User, Notification } from '../../models';
 import { NotificationClient } from '../../clients/notification.client';
 import { environment } from 'environments/environment';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
@@ -15,8 +15,7 @@ interface BranchInfo {
 
 @Component({
     selector: 'app-header',
-    templateUrl: './app-header.component.html',
-    providers: [User, Notifications],
+    templateUrl: './app-header.component.html',    
 })
 export class AppHeaderComponent implements OnInit {
     private broadcasts: Notification[];
@@ -54,10 +53,7 @@ export class AppHeaderComponent implements OnInit {
         this.userClient.getUser().
             subscribe(
                 d => this.user = d,
-                e => {
-                    console.error(e);
-                    this.authService.logout();
-                },
+                e => console.error(e),
                 () => console.log("app header component user loading completed")
             );
 
@@ -67,17 +63,14 @@ export class AppHeaderComponent implements OnInit {
                 d => {
                     d.forEach(n => {
                         // agentsmith
-                        if (n.custom_code === 'N7001') {
-                            this.broadcasts.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
+                        if (n.custom_code === 'N5001') {
+                            this.broadcasts.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
                         } else {
-                            this.notifications.push(new Notification(n.id, n.user_id, n.custom_code, n.category, n.category_id, n.details, n.link, n.time));
+                            this.notifications.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
                         }
                     });
                 },
-                e => {
-                    console.error(e);
-                    this.authService.logout();
-                },
+                e => console.error(e),
                 () => console.log("app header component notification loading completed")
             );
 

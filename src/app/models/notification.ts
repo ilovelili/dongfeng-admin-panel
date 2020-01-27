@@ -1,69 +1,33 @@
-export class Notifications {
-  notifications: Notification[];
-}
+import { Constant } from "./const";
+import { SessionFactory, SessionConfig } from "app/sessionstorage/sessionfactory.service";
 
 export class Notification {
   constructor(
     public id: number,
-    public user_id: string,
+    public user: string,
     public custom_code: string,
     public category: string,
-    public category_id: number,
     public details: string,
     public link: string,
-    public time: string,
+    public created_at: string,
     public read: boolean = false) { }
+
+  get constant(): Constant {
+    let key_const: string = 'consts';
+    let namespace: string = 'dongfeng';
+    let sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(namespace, SessionFactory.DRIVERS.LOCAL));
+    return sessionFactory.get(key_const);
+  }
 
   // parse details by customcode and detail info
   get Detail(): string {
-    let result = "";
-    switch (this.custom_code) {
-      case "N1001":
-        result = DetailPlaceHolder.ProfileUpdated;
-        break;
-      case "N1002":
-        result = DetailPlaceHolder.NamelistUpdated;
-        break;
-      case "N1003":
-        result = DetailPlaceHolder.ClasslistUpdated;
-        break;
-      case "N1004":
-        result = DetailPlaceHolder.TeacherlistUpdated;
-        break;
-      case "N1005":
-        result = DetailPlaceHolder.AttendanceUpdated;
-        break;
-      case "N1006":
-        result = DetailPlaceHolder.EbookUpdated;
-        break;
-      case "N1007":
-        result = DetailPlaceHolder.GrowthProfileUpdated;
-        break;
-      case "N1008":
-        result = DetailPlaceHolder.GrowthProfileTemplateUpdated;
-        break;
-
-      case "N5001":
-        result = DetailPlaceHolder.RecipeUpdated;
-        break;
-      case "N5002":
-        result = DetailPlaceHolder.MenuUpdated;
-        break;
-      case "N5003":
-        result = DetailPlaceHolder.IngredientUpdated;
-        break;
-      case "N5004":
-        result = DetailPlaceHolder.ProcurementUpdated;
-        break;
-      case "N6001":
-        result = DetailPlaceHolder.AttendanceUpdated;
-        break;
-      default:
-        break;
+    for (let key in this.constant.notifications) {
+      if (key == this.custom_code) {
+        return this.constant.notifications[key].replace(/{{time}}/g, this.formatDate(this.created_at));
+      }
     }
 
-    return result.
-      replace(/{{time}}/g, this.formatDate(this.time));
+    return "";
   }
 
   get Link(): string {
@@ -72,7 +36,7 @@ export class Notification {
 
   get Title(): string {
     let title = this.category;
-    if (this.custom_code != "N7001") {
+    if (this.custom_code != "N5001") {
       return title;
     }
 
@@ -86,13 +50,13 @@ export class Notification {
 
   get Content(): string {
     let content = this.Detail;
-    if (this.custom_code != "N7001") {
+    if (this.custom_code != "N5001") {
       return content;
     }
 
     JSON.parse(this.details, (key, value) => {
       if (key == "content") {
-        content = `${this.formatDate(this.time)} ${value}`;
+        content = `${this.formatDate(this.created_at)} ${value}`;
       }
     });
     return content;
@@ -114,23 +78,4 @@ export class Notification {
     }
     return [year, month, day].join('-') + ' ' + [hour, minute].join(':');
   }
-}
-
-class DetailPlaceHolder {
-  static ProfileUpdated: string = "{{time}} 用户信息更新";
-  static NamelistUpdated: string = "{{time}} 班级名单更新";
-  static ClasslistUpdated: string = "{{time}} 班级信息更新";
-  static TeacherlistUpdated: string = "{{time}} 教师信息更新";
-  static AttendanceUpdated: string = "{{time}} 出勤信息更新";
-  static EbookUpdated: string = "{{time}} 电子书更新";
-  static GrowthProfileUpdated: string = "{{time}} 成长手册更新";;
-  static GrowthProfileTemplateUpdated: string = "{{time}} 成长手册模板更新";;
-
-  static PhysiqueUpdated: string = "{{time}} 体格信息表更新";
-  static RecipeUpdated: string = "{{time}} 膳食信息更新";
-  static MenuUpdated: string = "{{time}} 菜单信息更新";
-  static IngredientUpdated: string = "{{time}} 食材信息更新";
-  static ProcurementUpdated: string = "{{time}} 采购信息更新";
-
-  static AgentSmith: string = "{{time}} {{title}}{{details}}";
 }

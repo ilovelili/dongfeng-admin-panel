@@ -6,7 +6,7 @@ import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { environment } from 'environments/environment';
 import { ErrorCode } from 'app/models';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './ingredient.component.html',

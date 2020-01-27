@@ -4,7 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { Procurements, FormattedProcurement } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { DateRange } from 'app/models';
 

@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService, ConstService } from './services';
 import { zhCnLocale } from 'ngx-bootstrap/locale'
 
 // Import containers
@@ -68,12 +68,13 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationClient, AttendanceClient, PhysiqueClient, MealClient, ProfileClient, ClassClient, UserClient } from './clients';
+import { NotificationClient, AttendanceClient, PhysiqueClient, MealClient, ProfileClient, ClassClient, UserClient, ConstClient } from './clients';
 import { FormsModule } from '@angular/forms';
 
 defineLocale(zhCnLocale.abbr, zhCnLocale);
 const APP_CLIENTS = [
   UserClient,
+  ConstClient,
   NotificationClient,
   ClassClient,
   AttendanceClient,
@@ -102,6 +103,7 @@ const APP_CLIENTS = [
   ],
   providers: [
     AuthService,
+    ConstService,
     AppCsvDownloadService,
     ...APP_CLIENTS,
   ],

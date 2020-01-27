@@ -4,7 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
 import { PhysiqueClient } from 'app/clients';
 import { Physiques, Physique, ErrorCode } from 'app/models';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './physique.component.html',

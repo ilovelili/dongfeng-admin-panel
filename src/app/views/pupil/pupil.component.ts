@@ -4,7 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients';
 import { Pupils, Pupil,ErrorCode } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './pupil.component.html',

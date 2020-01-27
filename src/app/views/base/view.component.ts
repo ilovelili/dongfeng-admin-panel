@@ -9,7 +9,7 @@ import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BaseComponent } from 'app/base.component';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 export abstract class ViewComponent extends BaseComponent {
   // use viewchild to get dom element by ref (#infoModal)

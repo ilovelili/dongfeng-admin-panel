@@ -4,7 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { Teachers, Teacher, ErrorCode } from 'app/models';
 import { ClassClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({  
   templateUrl: './teacher.component.html',

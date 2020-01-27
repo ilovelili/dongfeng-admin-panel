@@ -6,7 +6,7 @@ import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { DateRange } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './menu.component.html',

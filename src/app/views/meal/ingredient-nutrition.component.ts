@@ -5,7 +5,7 @@ import { Ingredients } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { ErrorCode } from 'app/models';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './ingredient-nutrition.component.html',

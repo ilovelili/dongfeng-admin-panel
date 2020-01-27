@@ -4,7 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
 import { PhysiqueClient } from 'app/clients';
 import { Physique_AgeHeightWeightPMaster, Physique_AgeHeightWeightSDMaster, Physique_BMIMaster, Physique_HeightToWeightPMaster, Physique_HeightToWeightSDMaster } from 'app/models/physique';
-import { AuthService } from 'app/auth/auth.service';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   templateUrl: './age-height-weight-p-master.component.html',
