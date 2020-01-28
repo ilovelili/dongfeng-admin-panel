@@ -1,15 +1,17 @@
-export class Teachers {
-  constructor(public teachers: Teacher[]) { }
-  empty(): boolean {
-    return !this || !this.teachers || !this.teachers.length;
-  }
-}
+import { Constant, User, Class } from ".";
 
 export class Teacher {
   id: number;
-  year: string;
   name: string;
-  class: string;
-  email: string;
-  role: string;
+  email?: string;
+  class?: Class;
+  user?: User;
+  
+  get className(): string {
+    return this.class ? this.class.name : "-"
+  }
+
+  get role(): string {
+    return this.user ? Constant.Instance.roles[this.user.role] : "未设定";
+  }
 }

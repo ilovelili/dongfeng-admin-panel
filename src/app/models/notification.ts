@@ -11,30 +11,19 @@ export class Notification {
     public link: string,
     public created_at: string,
     public read: boolean = false) { }
-
-  get constant(): Constant {
-    let key_const: string = 'consts';
-    let namespace: string = 'dongfeng';
-    let sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(namespace, SessionFactory.DRIVERS.LOCAL));
-    return sessionFactory.get(key_const);
-  }
-
+  
   // parse details by customcode and detail info
-  get Detail(): string {
-    for (let key in this.constant.notifications) {
+  get detail(): string {
+    for (let key in Constant.Instance.notifications) {
       if (key == this.custom_code) {
-        return this.constant.notifications[key].replace(/{{time}}/g, this.formatDate(this.created_at));
+        return Constant.Instance.notifications[key].replace(/{{time}}/g, this.formatDate(this.created_at));
       }
     }
 
     return "";
   }
-
-  get Link(): string {
-    return this.link || "#";
-  }
-
-  get Title(): string {
+  
+  get title(): string {
     let title = this.category;
     if (this.custom_code != "N5001") {
       return title;
@@ -48,8 +37,8 @@ export class Notification {
     return title;
   }
 
-  get Content(): string {
-    let content = this.Detail;
+  get content(): string {
+    let content = this.detail;
     if (this.custom_code != "N5001") {
       return content;
     }

@@ -1,14 +1,15 @@
-export class Pupils {
-  constructor(public pupils: Pupil[]){}
-
-  empty(): boolean {
-    return !this || !this.pupils || !this.pupils.length;
-  }  
-}
+import { Class } from ".";
 
 export class Pupil {
   id: number;
-  year: string;
-  class: string;  
   name: string;
+  class: Class;
+
+  get className(): string {
+    return this.class.name
+  }
+
+  get classId(): number {
+    return this.class.id;
+  }  
 }

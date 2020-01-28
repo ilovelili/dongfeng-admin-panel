@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { AuthService, ConstService } from './services';
+import { AuthService } from './services';
 import { zhCnLocale } from 'ngx-bootstrap/locale'
 
 // Import containers
@@ -102,8 +102,7 @@ const APP_CLIENTS = [
     ...APP_DIRECTIVES,
   ],
   providers: [
-    AuthService,
-    ConstService,
+    AuthService,    
     AppCsvDownloadService,
     ...APP_CLIENTS,
   ],

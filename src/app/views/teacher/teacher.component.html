@@ -1,8 +1,8 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!teachers || teachers.empty()">
+  <div class="card" [hidden]="!teachers || !teachers.length">
     <div class="card-header">{{currentClass}} 教师信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(false, filename('教师信息'), $event)" [headers]="['ID','班级','姓名','指导班级','邮箱','权限']"
-        [columns]="['id','name','class','email','role']">
+      <csv (Download)="DownloadCsv(false, filename('教师信息'), $event)" [headers]="['ID','姓名','邮箱','班级','权限']"
+        [columns]="['id','name','email','className','role']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
@@ -18,20 +18,22 @@
       </div>
 
       <app-loading [loading]="loading"></app-loading>
-
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
-          <tr>            
-            <th style="width: 20%">
+          <tr> 
+            <th style="width: 10%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>           
+            <th style="width: 10%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
-            </th>
-            <th style="width: 25%">
-              <mfDefaultSorter by="class">指导班级</mfDefaultSorter>
             </th>
             <th style="width: 20%">
               <mfDefaultSorter by="email">邮箱</mfDefaultSorter>
             </th>
+            <th style="width: 25%">
+              <mfDefaultSorter by="className">班级</mfDefaultSorter>
+            </th>            
             <th style="width: 15%">
               <mfDefaultSorter by="role">权限</mfDefaultSorter>
             </th>
@@ -40,9 +42,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
+            <td>{{item.id}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.class}}</td>
             <td>{{item.email}}</td>
+            <td>{{item.className}}</td>            
             <td>{{item.role}}</td>
             <td>
               <app-edit-btn [title]="'编辑教师信息'" [item]="item" [fields]="['name','class','email']"
@@ -52,7 +55,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -85,8 +88,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '教师信息模板.csv', $event)" [headers]="['ID','学年','姓名','指导班级','邮箱','权限']"
-          [columns]="['id','year','name','class','email','role']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv(true, '教师信息模板.csv', $event)" [headers]="['ID','姓名','邮箱','班级ID']"
+          [columns]="['id','name','email','classId']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

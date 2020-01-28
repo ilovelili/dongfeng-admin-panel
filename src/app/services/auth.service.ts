@@ -13,6 +13,8 @@ const KEY_TOKEN: string = 'token';
 const AUTHING_TOKEN: string = '_authing_token';
 const KEY_EXP: string = 'exp';
 const KEY_AUTHED: string = 'authed';
+const KEY_CONSTS: string = 'consts';
+const KEY_YEAR: string = 'year';
 
 @Injectable()
 export class AuthService {
@@ -52,6 +54,8 @@ export class AuthService {
     this.sessionFactory.remove(KEY_TOKEN);    
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
+    this.sessionFactory.remove(KEY_CONSTS);
+    this.sessionFactory.remove(KEY_YEAR);
   }
 
   get openIdDingTalk(): string {

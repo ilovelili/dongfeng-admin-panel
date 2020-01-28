@@ -9,7 +9,7 @@ import { DateRange } from 'app/models';
 import { ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BaseComponent } from 'app/base.component';
-import { AuthService } from 'app/services/auth.service';
+import { AuthService } from 'app/services';
 
 export abstract class ViewComponent extends BaseComponent {
   // use viewchild to get dom element by ref (#infoModal)
@@ -109,10 +109,10 @@ export abstract class ViewComponent extends BaseComponent {
 
     this.loading = true;
 
+    this.currentYear = this.sessionFactory.get(this.key_year);
+
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
-
-      this.currentYear = this.params["year"];
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
 
@@ -199,20 +199,6 @@ export abstract class ViewComponent extends BaseComponent {
     this.toasterService.pop('success', '', msg);
   };
 
-  protected setyear(year: string) {
-    if (year != this.currentYear) {
-      this.currentYear = year;
-    }
-
-    if (year == '') {
-      this.searchcriteria.year = '学年';
-    } else {
-      {
-        this.searchcriteria.year = year;
-      }
-    }
-  }
-
   protected setclass(cls: string) {
     if (cls != this.currentClass) {
       this.currentClass = cls;
@@ -235,10 +221,6 @@ export abstract class ViewComponent extends BaseComponent {
     } else {
       this.searchcriteria.name = name;
     }
-  }
-
-protected get year(): string {
-    return this.sessionFactory.get(this.key_year);
   }
 
   setdate(date: string) {

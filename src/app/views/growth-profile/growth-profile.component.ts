@@ -5,7 +5,7 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient, ClassClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { Profiles, FormattedProfile, Pupils, Pupil } from 'app/models';
+import { Profiles, FormattedProfile, Pupil } from 'app/models';
 import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
 import { ProfileTemplates } from 'app/models/profile_template';
 
@@ -184,15 +184,12 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
-          let p = new Pupils(d.pupils);
-          if (!p.empty()) {
-            this.pupils = p.pupils;
-            this.pupils.forEach(p => {
-              if (!this.pupilyears.includes(p.year)) {
-                this.pupilyears.push(p.year);
-              }
-              if (!this.pupilclasses.includes(p.class)) {
-                this.pupilclasses.push(p.class);
+          this.pupils = d;
+
+          if (this.pupils.length) {
+            this.pupils.forEach(p => {              
+              if (!this.pupilclasses.includes(p.class.name)) {
+                this.pupilclasses.push(p.class.name);
               }
             });
 
@@ -230,7 +227,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   get pupilnames() {
-    return this.pupils.filter(p => p.year == this.currentYear && p.class == this.currentClass).map(p => p.name);
+    return this.pupils.filter(p => p.class.name == this.currentClass).map(p => p.name);
   }
 
   get endpoint(): string {

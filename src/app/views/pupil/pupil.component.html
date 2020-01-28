@@ -1,8 +1,7 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!pupils || pupils.empty()">
+  <div class="card" [hidden]="!pupils || !pupils.length">
     <div class="card-header">{{currentClass}} 园儿信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
-      <csv (Download)="DownloadCsv(false, filename('园儿信息'), $event)" [headers]="['ID','班级','姓名']" [columns]="['id','class','name']">
-      </csv>
+      <csv (Download)="DownloadCsv(false, filename('园儿信息'), $event)" [headers]="['ID','班级','姓名']" [columns]="['id','className','name']"></csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
     </div>
@@ -21,9 +20,15 @@
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
-          <tr>            
+          <tr>
+            <th style="width: 5%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="class.year">学年</mfDefaultSorter>
+            </th>
             <th style="width: 25%">
-              <mfDefaultSorter by="age">班级</mfDefaultSorter>
+              <mfDefaultSorter by="class.name">班级</mfDefaultSorter>
             </th>
             <th style="width: 35%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
@@ -31,22 +36,22 @@
             <th style="width: 10%">出勤信息</th>
             <th style="width: 10%">体格信息</th>
             <th style="width: 10%">成长档案</th>
-            <th style="width: 10%">编辑</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">            
-            <td>{{item.class}}</td>
+            <td>{{item.id}}</td>
+            <td>{{item.class.year}}</td>
+            <td>{{item.class.name}}</td>
             <td>{{item.name}}</td>
             <td><a [routerLink]="['/出勤信息', item.class, item.name]"><i class="fa fa-link"></i></a></td>
             <td><a [routerLink]="['/体格发育', item.class, item.name]"><i class="fa fa-link"></i></a></td>
-            <td><a [routerLink]="['/成长档案', item.year, item.class, item.name]"><i class="fa fa-link"></i></a></td>
-            <td><app-edit-btn [title]="'编辑园儿信息'" [item]="item" [fields]="['year','name','class']" (onSubmit)="updatepupil($event)"></app-edit-btn></td>
+            <td><a [routerLink]="['/成长档案', item.class, item.name]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="6">
+            <td colspan="7">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -79,8 +84,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '园儿信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名']"
-          [columns]="['id','year','class','name']"></csv>
+        下载csv模板 
+        <csv (Download)="DownloadCsv(true, '园儿信息模板.csv', $event)" [headers]="['ID','班级ID','姓名']" [columns]="['id','classId','name']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -96,21 +101,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">        
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{searchcriteria.year}} <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item" (click)="setyear('')">全部</a>
-            </li>
-            <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
-            </li>
-          </ul>
-        </div>
-
+      <div class="modal-body">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
             {{searchcriteria.class}} <span class="caret"></span>
