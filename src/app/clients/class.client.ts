@@ -51,9 +51,7 @@ export class ClassClient extends BaseClient {
   
   updateTeacher(teacher: Teacher): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + '/teacher', {
-      id: teacher.id,
-      name: teacher.name,
-      class: teacher.class,
+      id: teacher.id,      
       email: teacher.email,
     }, this.defaultHttpOptions);
   };

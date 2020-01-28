@@ -48,7 +48,7 @@
             <td>{{item.className}}</td>            
             <td>{{item.role}}</td>
             <td>
-              <app-edit-btn [title]="'编辑教师信息'" [item]="item" [fields]="['name','class','email']"
+              <app-edit-btn [title]="'编辑教师信息'" [item]="item" [fields]="['name','email']"
                 (onSubmit)="updateteacher($event)"></app-edit-btn>
             </td>
           </tr>
@@ -108,20 +108,6 @@
       <div class="modal-body">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{searchcriteria.year}} <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item" (click)="setyear('')">全部</a>
-            </li>
-            <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
             {{searchcriteria.class}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
@@ -135,7 +121,7 @@
         </div>
 
         <div class="btn-group float-right">
-          <button type="button" class="btn btn-success" (click)="getteachers(false)">检索</button>
+          <button type="button" class="btn btn-success" (click)="getteachers()">检索</button>
         </div>
       </div>
     </div><!-- /.modal-content -->

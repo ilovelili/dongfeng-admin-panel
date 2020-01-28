@@ -32,27 +32,14 @@ export class AppEditButtonComponent {
   }
 
   @Output()
-  onSubmit: EventEmitter<any> = new EventEmitter<any>();
-
-  private original: Object = {};  
+  onSubmit: EventEmitter<any> = new EventEmitter<any>();  
 
   edit(e: Event) {
     e.preventDefault();
-
-    // copy by value so that original will save the item before edited
-    for (let k in this.item) {
-      this.original[k] = this.item[k];
-    }
-    
     this.editModal.show();    
   }
 
   close(e: Event) {
-    // revert on close modal.
-    for (let k in this.original) {
-      this.item[k] = this.original[k];
-    }
-    
     this.editModal.hide();
   }
 
@@ -61,9 +48,6 @@ export class AppEditButtonComponent {
     if (this.item.id) {
       form.id = this.item.id;
     }
-
-    // add original for easy rollback when error happens
-    form.original = this.original;
 
     this.onSubmit.emit(form);
     this.editModal.hide();

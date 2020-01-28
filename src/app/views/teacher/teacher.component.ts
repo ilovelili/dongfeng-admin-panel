@@ -63,7 +63,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
     ];
   }
 
-  getteachers(showinfomodal: boolean = true) {
+  getteachers() {
     this.loading = true;
     this.classClient.getTeachers(this.currentYear, this.currentClass).
       subscribe(
@@ -72,12 +72,8 @@ export class TeacherComponent extends ViewComponent implements OnInit {
           this.conditionModal.hide();
 
           if (!d.length) {
-            if (showinfomodal) {
-              this.infoModal.show();
-              this.items = this.template;
-            } else {
-              this.LogWarning('没有教师信息');
-            }
+            this.infoModal.show();
+            this.items = this.template;
           } else {
             this.teachers = d.map(t => {
               let _teacher = new Teacher();
@@ -90,7 +86,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
             });
 
             this.items = this.teachers;
-            this.items.forEach(n => {              
+            this.items.forEach(n => {
               if (!this.classes.includes(n.className)) {
                 this.classes.push(n.className);
               }
@@ -108,18 +104,11 @@ export class TeacherComponent extends ViewComponent implements OnInit {
       subscribe(
         _ => {
           this.LogSuccess('教师信息更新');
-          this.loading = false;
+          this.getteachers();
         },
         e => {
-          if (e.error.custom_code == ErrorCode.InvalidClass) {
-            this.LogError(e, '教师信息更新失败，请检查班级名');
-          } else {
-            this.LogError(e, '教师信息更新失败，请重试');
-          }
-          this.loading = false;
-          // revert
-          let idx = this.items.findIndex(i => i.id == item.id);
-          this.items[idx] = (<any>item).original;
+          this.LogError(e, '教师信息更新失败，请重试');
+          this.loading = false;          
         },
         () => this.LogComplete('teacher component teacher updating completed')
       );
