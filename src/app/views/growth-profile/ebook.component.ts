@@ -31,33 +31,33 @@ export class EBookComponent extends ViewComponent implements OnInit {
   }
 
   getebooks() {
-    this.loading = true;
-    this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
-      subscribe(
-        d => {
-          this.ebooks = new Ebooks(d.ebooks);
-          if (!this.ebooks.empty()) {
-            this.items = this.ebooks.ebooks;
-            this.items.forEach(e => {
-              if (!this.years.includes(e.year)) {
-                this.years.push(e.year);
-              }
-              if (!this.classes.includes(e.class)) {
-                this.classes.push(e.class);
-              }
-            });
-          } else {
-            this.LogWarning('没有电子书数据');
-          }
+    // this.loading = true;
+    // this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
+    //   subscribe(
+    //     d => {
+    //       this.ebooks = new Ebooks(d.ebooks);
+    //       if (!this.ebooks.empty()) {
+    //         this.items = this.ebooks.ebooks;
+    //         this.items.forEach(e => {
+    //           if (!this.years.includes(e.year)) {
+    //             this.years.push(e.year);
+    //           }
+    //           if (!this.classes.includes(e.class)) {
+    //             this.classes.push(e.class);
+    //           }
+    //         });
+    //       } else {
+    //         this.LogWarning('没有电子书数据');
+    //       }
 
-          this.loading = false;
-        },
-        e => {
-          this.LogError(e, '获取电子书数据失败，请重试');
-          this.loading = false;
-        },
-        () => this.LogComplete('ebook component ebook loading completed')
-      );
+    //       this.loading = false;
+    //     },
+    //     e => {
+    //       this.LogError(e, '获取电子书数据失败，请重试');
+    //       this.loading = false;
+    //     },
+    //     () => this.LogComplete('ebook component ebook loading completed')
+    //   );
   }  
 
   showebook(ebook: Ebook, oneyear: boolean) {    
@@ -68,8 +68,9 @@ export class EBookComponent extends ViewComponent implements OnInit {
       this.currentYear = '';
     }
     
-    this.currentName = ebook.name;
-    this.currentClass = ebook.class;    
+    // todo fix type
+    // this.currentName = ebook.name;
+    // this.currentClass = ebook.class;    
 
     this.conditionModal.hide();
     this.explainModal.hide();

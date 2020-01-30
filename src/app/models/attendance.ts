@@ -1,95 +1,51 @@
-import { Holiday, Holidays } from "./holiday";
+import { Pupil } from "./pupil";
+import { Constant } from "./const";
 
-export class Attendances {
-  constructor(public attendances: Attendance[], public holidays: Holidays) { }
-  empty(): boolean {
-    return !this || !this.attendances || !this.attendances.length;
+export class Attendance {
+  date: string;
+  pupil: Pupil;
+  holiday: number;
+  absent: boolean;
+
+  format(): FormattedAttendance {
+    let formattedAttendance = new FormattedAttendance();
+    formattedAttendance.date = this.date;
+
+    // if not working days, set to -
+    if (Constant.Instance.holidays["weekends"] == this.holiday) {
+      formattedAttendance.class = "-";
+      formattedAttendance.name = "-";
+      formattedAttendance.attendance = "-";
+      formattedAttendance.pupilId = NaN;
+      formattedAttendance.classId = NaN;
+      formattedAttendance.isWorkingDay = false;
+      formattedAttendance.isWeekend = true;
+      formattedAttendance.isHoliday = false;
+    } else if (Constant.Instance.holidays["holidays"] == this.holiday) {
+      formattedAttendance.class = "-";
+      formattedAttendance.name = "-";
+      formattedAttendance.attendance = "-";
+      formattedAttendance.pupilId = NaN;
+      formattedAttendance.classId = NaN;
+      formattedAttendance.isWorkingDay = false;
+      formattedAttendance.isWeekend = false;
+      formattedAttendance.isHoliday = true;
+    } else {
+      formattedAttendance.class = this.pupil.class.name;
+      formattedAttendance.name = this.pupil.name;
+      formattedAttendance.attendance = this.absent ? 'x' : 'o';
+      formattedAttendance.pupilId = this.pupil.id;
+      formattedAttendance.classId = this.pupil.class.id;
+      formattedAttendance.isWorkingDay = true;
+      formattedAttendance.isWeekend = false;
+      formattedAttendance.isHoliday = false;
+    }
+
+    return formattedAttendance;
   }
 
-  format(): FormattedAttendance[] {
-    let result: FormattedAttendance[] = [];
-    if (this.empty()) {
-      return result;
-    }
-
-    this.attendances.forEach(a => {
-      if (a.attendances && a.attendances.length > 0) {
-        a.attendances.forEach(n => {
-          result.push({
-            id: a.id,
-            year: a.year,
-            date: a.date,
-            class: a.class,
-            name: n,
-            attendance: 'o',
-            holiday: 0,            
-            edititems: [
-              {
-                year: a.year,
-                date: a.date,
-                class: a.class,
-                name: n,
-                attendance: 'o',
-              },
-              {
-                year: a.year,
-                date: a.date,
-                class: a.class,
-                name: n,
-                attendance: 'x',
-              }
-            ],
-          });
-        });
-      }
-
-      if (a.absences && a.absences.length > 0) {
-        a.absences.forEach(n => {
-          result.push({
-            id: a.id,
-            year: a.year,
-            date: a.date,
-            class: a.class,
-            name: n,
-            attendance: 'x',
-            holiday: 0,            
-            edititems: [
-              {
-                year: a.year,
-                date: a.date,
-                class: a.class,
-                name: n,
-                attendance: 'o',
-              },
-              {
-                year: a.year,
-                date: a.date,
-                class: a.class,
-                name: n,
-                attendance: 'x',
-              }
-            ],
-          });
-        });
-      }
-    });
-
-    if (this.holidays.empty() == false) {
-      this.holidays.holidays.forEach(h => {
-        result.push({
-          id: -1,
-          year: '',
-          date: h.date,
-          class: '',
-          name: '',
-          attendance: '-',
-          holiday: h.type,
-          edititems: [],          
-        });
-      });
-    }
-
-    return result.sort((r1, r2): number => {
+  static sort(formattedAttendances: FormattedAttendance[]): FormattedAttendance[] {
+    return formattedAttendances.sort((r1, r2): number => {
       let d = new Date(r2.date).getTime() - new Date(r1.date).getTime();
       if (d > 0) return 1;
       if (d < 0) return -1;
@@ -101,27 +57,16 @@ export class Attendances {
   }
 }
 
-export class Attendance {
-  id: number;
-  year: string;
-  date: string;
-  class: string;
-  attendances: string[];
-  absences: string[];
-}
-
 export class FormattedAttendance {
-  id: number;
-  year: string;
   date: string;
   class: string;
+  classId: number;
   name: string;
+  pupilId: number;
   attendance: string;
   holiday: number;
+  isWorkingDay: boolean;
+  isWeekend: boolean;
+  isHoliday: boolean;
   edititems: Partial<FormattedAttendance>[];
-}
-
-export class AttendanceResponse {
-  attendances: Attendance[];
-  holidays: Holiday[];
 }

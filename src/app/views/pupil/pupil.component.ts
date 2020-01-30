@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { ClassClient } from 'app/clients';
+import { PupilClient } from 'app/clients';
 import { Pupil } from 'app/models';
 import { ToasterService } from 'angular2-toaster';
 import { AuthService } from 'app/services/auth.service';
@@ -17,7 +17,7 @@ import { AuthService } from 'app/services/auth.service';
 })
 export class PupilComponent extends ViewComponent implements OnInit {
   pupils: Pupil[];
-  constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  constructor(private pupilClient: PupilClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
@@ -59,9 +59,9 @@ export class PupilComponent extends ViewComponent implements OnInit {
     ];
   }
 
-  getpupils(showinfomodal: boolean = true) {
+  getpupils() {
     this.loading = true;
-    this.classClient.getPupils(this.currentYear, this.currentClass).
+    this.pupilClient.getPupils(this.currentYear, this.currentClass).
       subscribe(
         d => {
           this.loading = false;
@@ -76,17 +76,13 @@ export class PupilComponent extends ViewComponent implements OnInit {
           });
 
           if (!this.pupils.length) {
-            if (showinfomodal) {
-              this.infoModal.show();
-              this.items = this.template;
-            } else {
-              this.LogWarning('没有园儿信息');
-            }
+            this.infoModal.show();
+            this.items = this.template;
           } else {
             this.items = this.pupils;
-            this.items.forEach(p => {
-              if (!this.classes.includes(p.className)) {
-                this.classes.push(p.className);
+            this.items.forEach((p: Pupil) => {
+              if (!this.classMap.has(p.class.id)) {
+                this.classMap.set(p.class.id, p.class.name);
               }
             });
           }

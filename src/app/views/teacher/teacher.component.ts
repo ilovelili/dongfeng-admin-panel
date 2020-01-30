@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Teacher, ErrorCode } from 'app/models';
-import { ClassClient } from 'app/clients';
+import { Teacher } from 'app/models';
+import { TeacherClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { AuthService } from 'app/services/auth.service';
 
@@ -18,7 +18,7 @@ import { AuthService } from 'app/services/auth.service';
 export class TeacherComponent extends ViewComponent implements OnInit {
   teachers: Teacher[];
 
-  constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  constructor(private teacherClient: TeacherClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
     this.dateTo = '';
@@ -65,15 +65,14 @@ export class TeacherComponent extends ViewComponent implements OnInit {
 
   getteachers() {
     this.loading = true;
-    this.classClient.getTeachers(this.currentYear, this.currentClass).
+    this.teacherClient.getTeachers(this.currentYear, this.currentClass).
       subscribe(
         d => {
           this.loading = false;
           this.conditionModal.hide();
 
           if (!d.length) {
-            this.infoModal.show();
-            this.items = this.template;
+            this.infoModal.show();            
           } else {
             this.teachers = d.map(t => {
               let _teacher = new Teacher();
@@ -86,9 +85,11 @@ export class TeacherComponent extends ViewComponent implements OnInit {
             });
 
             this.items = this.teachers;
-            this.items.forEach(n => {
-              if (!this.classes.includes(n.className)) {
-                this.classes.push(n.className);
+            this.items.forEach((t: Teacher) => {
+              if (!t.class) {
+                // todo:
+              } else if (!this.classMap.has(t.class.id)) {
+                this.classMap.set(t.class.id, t.class.name);
               }
             });
           }
@@ -100,7 +101,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
 
   updateteacher(item: Teacher) {
     this.loading = true;
-    this.classClient.updateTeacher(item).
+    this.teacherClient.updateTeacher(item).
       subscribe(
         _ => {
           this.LogSuccess('教师信息更新');
@@ -108,7 +109,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
         },
         e => {
           this.LogError(e, '教师信息更新失败，请重试');
-          this.loading = false;          
+          this.loading = false;
         },
         () => this.LogComplete('teacher component teacher updating completed')
       );

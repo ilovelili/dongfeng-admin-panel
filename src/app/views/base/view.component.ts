@@ -30,16 +30,18 @@ export abstract class ViewComponent extends BaseComponent {
   protected params: Object
 
   protected filterQuery = '';
-  protected years = [];
-  protected classes = [];
-  protected currentYear = '';
-  protected currentClass = '';
-  protected currentName = '';
-  protected currentDate = '';
+  protected currentYear: string = '';
+  protected currentClass: number; // class ID
+  protected currentName: number; // pupil ID
+  protected currentDate = '';  
   protected dateFrom = '';
   protected dateTo = '';
   protected dateRange: Date[];
   protected daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();  
+  
+  protected classMap: Map<number, string> = new Map();
+  protected pupilMap: Map<number, string> = new Map();
+
   protected searchcriteria = {
     year: '学年',
     class: '班级',
@@ -108,11 +110,10 @@ export abstract class ViewComponent extends BaseComponent {
     super(router, authService);
 
     this.loading = true;
-
     this.currentYear = this.sessionFactory.get(this.key_year);
-
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
+
       this.currentClass = this.params["class"];
       this.currentName = this.params["name"];
 
@@ -199,27 +200,27 @@ export abstract class ViewComponent extends BaseComponent {
     this.toasterService.pop('success', '', msg);
   };
 
-  protected setclass(cls: string) {
-    if (cls != this.currentClass) {
-      this.currentClass = cls;
+  protected setclass(classId: number, className: string) {
+    if (classId != this.currentClass) {
+      this.currentClass = classId;
     };
 
-    if (cls == '') {
+    if (!classId) {
       this.searchcriteria.class = '班级';
     } else {
-      this.searchcriteria.class = cls;
+      this.searchcriteria.class = className;
     }
   }
 
-  protected setname(name: string) {
-    if (name != this.currentName) {
-      this.currentName = name;
+  protected setpupil(pupilId: number, pupilName: string) {    
+    if (pupilId != this.currentName) {
+      this.currentName = pupilId;
     };
 
-    if (name == '') {
+    if (!pupilId) {
       this.searchcriteria.name = '姓名';
     } else {
-      this.searchcriteria.name = name;
+      this.searchcriteria.name = pupilName;
     }
   }
 
@@ -228,7 +229,7 @@ export abstract class ViewComponent extends BaseComponent {
       this.currentDate = date;
     };
 
-    if (date == '') {
+    if (!date) {
       this.searchcriteria.date = '日期';
     } else {
       this.searchcriteria.date = date;
@@ -247,13 +248,7 @@ export abstract class ViewComponent extends BaseComponent {
     };
   }
 
-  protected filename(prefix: string): string {
-    let filename = `${prefix}_${this.currentClass ? '_' + this.currentClass : ''}${this.currentYear ? '_' + this.currentYear + '学年' : ''}${this.currentName ? '_' + this.currentName : ''}${this.dateFrom ? '_' + this.dateFrom : ''}${this.dateTo ? '_' + this.dateTo : ''}`;
-
-    if (filename.endsWith('_')) {
-      filename = filename.substring(0, filename.length - 1);
-    }
-
+  protected filename(filename: string): string {
     return `${filename}.csv`;
   }
 
@@ -297,5 +292,14 @@ export abstract class ViewComponent extends BaseComponent {
     let monday = this.monday(),
       diff = monday.getDate() + 4;
     return new Date(monday.setDate(diff));
+  }
+
+  // https://stackoverflow.com/questions/48187362/how-to-iterate-using-ngfor-loop-map-containing-key-as-string-and-values-as-map-i
+  protected getKeys(map: Map<number /** ID */, any>) {
+    return Array.from(map.keys());
+  }
+  
+  protected getValues(map: Map<number, any>) {
+    return Array.from(map.values());
   }
 }

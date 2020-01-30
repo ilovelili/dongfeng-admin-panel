@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!attendances || attendances.length == 0">
-    <div class="card-header">{{currentClass}} {{currentName}} 出勤信息 ({{dateFrom}} ~ {{dateTo}}) {{currentYear ? '(' + currentYear + '学年)' : ''}}
+  <div class="card" [hidden]="!attendances || !attendances.length">
+    <div class="card-header">出勤信息 ({{dateFrom}} ~ {{dateTo}})      
       <csv (Download)="DownloadCsv(false, filename('出勤信息'), $event)" [headers]="['日期','班级','姓名','出勤']"
         [columns]="['date','class','name','attendance']">
       </csv>
@@ -39,15 +39,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data" [ngClass]="{'weekend':item.holiday== 1,'holiday':item.holiday==2}">
+          <tr *ngFor="let item of mf.data" [ngClass]="{'weekend':item.isWeekend,'holiday':item.isHoliday}">
             <td>{{item.date}}</td>
             <td>{{item.class}}</td>
             <td>{{item.name}}</td>
             <td>{{item.attendance}}</td>
-            <td [hidden]="item.holiday!=0">
+            <td *ngIf="item.isWorkingDay">
               <a (click)="updateattendance(item, $event)"><i class="fa fa-edit"></i></a>
             </td>
-            <td [hidden]="item.holiday==0">-</td>
+            <td *ngIf="!item.isWorkingDay">-</td>
           </tr>
         </tbody>
         <tfoot>
@@ -104,22 +104,9 @@
       </div>
 
       <div class="modal-body">
-        <div class="btn-group">          
-          <input id="searchpanel" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRange" [bsConfig]="daterangepickerconfig">
-        </div>
-
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{searchcriteria.year}} <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item" (click)="setyear('')">全部</a>
-            </li>
-            <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
-            </li>
-          </ul>
+        <div class="btn-group">
+          <input id="searchpanel" class="form-control" #drp="bsDaterangepicker" bsDaterangepicker
+            [(ngModel)]="dateRange" [bsConfig]="daterangepickerconfig">
         </div>
 
         <div class="btn-group" dropdown>
@@ -128,24 +115,25 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('')">全部</a>
+              <a class="dropdown-item" (click)="setclass(0)">全部</a>
             </li>
-            <li *ngFor="let class of classes" role="menuitem">
-              <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+            <li *ngFor="let key of getKeys(classMap)" role="menuitem">
+              <a class="dropdown-item" (click)="setclass(key, classMap.get(key))">{{classMap.get(key)}}</a>
             </li>
           </ul>
         </div>
 
         <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle"
+            [disabled]="!currentClass">
             {{searchcriteria.name}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setname('')">全部</a>
+              <a class="dropdown-item" (click)="setpupil(0)">全部</a>
             </li>
-            <li *ngFor="let name of names" role="menuitem">
-              <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+            <li *ngFor="let pupil of filteredPupilMap" role="menuitem">
+              <a class="dropdown-item" (click)="setpupil(pupil.key, pupil.value)">{{pupil.value}}</a>
             </li>
           </ul>
         </div>

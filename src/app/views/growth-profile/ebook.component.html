@@ -101,10 +101,10 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setname('')">全部</a>
+              <a class="dropdown-item" (click)="setpupil('')">全部</a>
             </li>
             <li *ngFor="let name of names" role="menuitem">
-              <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+              <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
             </li>
           </ul>
         </div>

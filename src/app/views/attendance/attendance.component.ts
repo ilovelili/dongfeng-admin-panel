@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { AttendanceClient } from 'app/clients';
-import { Attendances, FormattedAttendance, Holidays } from 'app/models';
+import { FormattedAttendance, Attendance, Class } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { ToasterService } from 'angular2-toaster';
 import { AuthService } from 'app/services/auth.service';
@@ -18,6 +18,7 @@ import { AuthService } from 'app/services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AttendanceComponent extends ViewComponent implements OnInit {
+  classPupilMap: Map<number, Map<number, string>> = new Map(); // classID and pupil 1 => n map
   attendances: FormattedAttendance[];
 
   constructor(private attendanceClient: AttendanceClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
@@ -32,78 +33,57 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.template = [
       {
         id: 1,
-        year: "2019",
-        date: "2019-04-01 (注:日期为 年-月-日 或者 年/月/日 格式)",
-        class: "小一班",
-        name: "王子涵 (注:只需上传缺席园儿名单,出席园儿不必记录)",
+        date: "2020-04-11 (注:日期为 年-月-日 格式)",
+        pupilId: 1,
       },
       {
         id: 2,
-        year: "2019",
-        date: "2019-04-01",
-        class: "小一班",
-        name: "赵欣怡",
+        date: "2020-04-12",
+        pupilId: 2,
       },
       {
         id: 3,
-        year: "2019",
-        date: "2019-04-02",
-        class: "小一班",
-        name: "王子涵",
-      },
-      {
-        id: 4,
-        year: "2019",
-        date: "2019-04-02",
-        class: "大一班",
-        name: "李雨轩",
-      },
-      {
-        id: 5,
-        year: "2019",
-        date: "2019-04-03",
-        class: "小一班",
-        name: "赵欣怡",
-      },
-      {
-        id: 6,
-        year: "2019",
-        date: "2019-04-03",
-        class: "大一班",
-        name: "李雨轩",
+        date: "2020-09-02",
+        pupilId: 12
       },
     ];
   }
 
-  getattendances(showinfomodal: boolean = true) {
+  getattendances(showmodal: boolean = true) {
     this.loading = true;
     this.dateFrom = this.dateToString(this.dateRange[0]);
     this.dateTo = this.dateToString(this.dateRange[1]);
     this.attendanceClient.getAttendances(this.currentYear, this.currentClass, this.currentName, this.dateFrom, this.dateTo).
       subscribe(
         d => {
-          this.loading = false;
-          this.attendances = new Attendances(d.attendances, new Holidays(d.holidays)).format();
           this.conditionModal.hide();
-
-          if (this.attendances.length == 0) {
-            if (showinfomodal) {
+          if (!d.length) {
+            if (showmodal) {
               this.infoModal.show();
               this.items = this.template;
             } else {
-              this.LogWarning('没有出勤信息');
-            }
+              this.LogWarning("没有数据")
+            }            
           } else {
+            this.attendances = Attendance.sort(d.map((a: Attendance) => {
+              let _attendance = new Attendance();
+              _attendance.date = a.date;
+              _attendance.absent = a.absent;
+              _attendance.pupil = a.pupil;
+              _attendance.holiday = a.holiday;
+
+              return _attendance.format();
+            }));
+
             this.items = this.attendances;
-            this.items.forEach(a => {
-              if (a.year && !this.years.includes(a.year)) {                
-                this.years.push(a.year);
-              }
-              if (a.class && !this.classes.includes(a.class)) {
-                this.classes.push(a.class);
+            this.items.forEach((a: FormattedAttendance) => {
+              if (!isNaN(a.classId) && !this.classMap.has(a.classId)) {
+                this.classMap.set(a.classId, a.class);
               }
             });
           }
+
+          this.loading = false;
         },
         e => this.LogError(e, '获取出勤信息失败，请重试'),
         () => this.LogComplete('attendance component attendences loading completed')
@@ -112,7 +92,6 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
 
   updateattendance(item: FormattedAttendance, e: Event) {
     e.preventDefault();
-    // this.loading = true;
     let original = item.attendance;
 
     // toggle attendence
@@ -126,35 +105,33 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
       subscribe(
         _ => {
           this.LogSuccess('出勤信息更新');
-          // this.loading = false;
         },
         e => {
           this.LogError(e, '出勤信息更新失败，请重试');
-          // this.loading = false;
           item.attendance = original;
         },
         () => this.LogComplete('attendance component attendence upload completed')
       );
   }
 
-  get names() {
-    let result = [];
+  get filteredPupilMap() {
+    let pupils = this.items.
+      filter(a => a.classId == this.currentClass).
+      map(a => { return { key: a.pupilId, value: a.name } });
 
-    this.items.filter(i => {
-      let filterres = true;
-      if (this.currentYear) {
-        filterres = filterres && i.year == this.currentYear;
-      }
-      if (this.currentClass) {
-        filterres = filterres && i.class == this.currentClass;
-      }
-      return filterres;
-    }).map(i => i.name).forEach(n => {
-      if (n && !result.includes(n)) {
-        result.push(n);
-      }
-    });
+    // remove duplicates
+    let distincts = {};
+    pupils.forEach(p => {
+      distincts[p.key] = p.value;
+    })
 
-    return result;
+    let results = [];
+    for (var key in distincts) {
+      results.push({
+        key: key,
+        value: distincts[key],
+      });
+    }
+    return results;
   }
 }

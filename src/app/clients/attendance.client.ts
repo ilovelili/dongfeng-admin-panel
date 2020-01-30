@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { AttendanceResponse, Empty, FormattedAttendance } from 'app/models/';
+import { Empty, FormattedAttendance, Attendance } from 'app/models/';
 
 @Injectable()
 export class AttendanceClient extends BaseClient {
@@ -11,35 +11,31 @@ export class AttendanceClient extends BaseClient {
     super(http);
   }
 
-  getAttendances(year?: string, cls?: string, name?: string, from?: string, to?: string): Observable<AttendanceResponse> {
+  getAttendances(year?: string, classId?: number, pupilId?: number, from?: string, to?: string): Observable<Attendance[]> {
     let params = new HttpParams();
-
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
-    if (from && from != "") {
+    if (from) {
       params = params.set("from", from);
     }
-    if (to && to != "") {
+    if (to) {
       params = params.set("to", to);
-    }
-
-    return this.http.get<AttendanceResponse>(environment.api.baseURI + '/attendances', { headers: this.defaultHeaders, params: params });
+    }    
+    return this.http.get<Attendance[]>(environment.api.baseURI + '/attendances', { headers: this.defaultHeaders, params: params });
   };
 
   updateAttendance(attendance: FormattedAttendance): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/attendance', {
-      year: attendance.year,
-      class: attendance.class,
+    return this.http.put<Empty>(environment.api.baseURI + '/attendance', {
+      pupil: attendance.pupilId,
       date: attendance.date,
-      name: attendance.name,
-      attendance: attendance.attendance == 'o',
+      absent: attendance.attendance == 'x',
     }, this.defaultHttpOptions);
   };
 }

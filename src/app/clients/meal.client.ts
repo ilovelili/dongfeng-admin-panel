@@ -28,11 +28,11 @@ export class MealClient extends BaseClient {
       params = params.set("breakfast_or_lunch", "breakfast");
     }
 
-    if (from && from != "") {
+    if (from) {
       params = params.set("from", from);
     }
 
-    if (to && to != "") {
+    if (to) {
       params = params.set("to", to);
     }
 
@@ -66,10 +66,10 @@ export class MealClient extends BaseClient {
   getProcurements(from?: string, to?: string): Observable<Procurements> {
     let params = new HttpParams();
 
-    if (from && from != "") {
+    if (from) {
       params = params.set("from", from);
     }
-    if (to && to != "") {
+    if (to) {
       params = params.set("to", to);
     }
 

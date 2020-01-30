@@ -68,7 +68,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule, defineLocale } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { HttpClientModule } from '@angular/common/http';
-import { NotificationClient, AttendanceClient, PhysiqueClient, MealClient, ProfileClient, ClassClient, UserClient, ConstClient } from './clients';
+import { NotificationClient, AttendanceClient, PhysiqueClient, MealClient, ProfileClient, ClassClient, TeacherClient, PupilClient, UserClient, ConstClient } from './clients';
 import { FormsModule } from '@angular/forms';
 
 defineLocale(zhCnLocale.abbr, zhCnLocale);
@@ -77,6 +77,8 @@ const APP_CLIENTS = [
   ConstClient,
   NotificationClient,
   ClassClient,
+  TeacherClient,
+  PupilClient,
   AttendanceClient,
   PhysiqueClient,
   MealClient,

@@ -4,6 +4,7 @@ export class Constant {
     errors: Object;
     notifications: Object;
     roles: Object;
+    holidays: Object;
 
     static get Instance(): Constant {
         let key_const: string = 'consts';

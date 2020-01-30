@@ -12,17 +12,17 @@ export class PhysiqueClient extends BaseClient {
     super(http);
   }
 
-  getPhysiques(year?: string, cls?: string, name?: string): Observable<Physiques> {
+  getPhysiques(year?: string, classId?: number, pupilId?: number): Observable<Physiques> {
     let params = new HttpParams();
 
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
 
     return this.http.get<Physiques>(environment.api.baseURI + '/physiques', { headers: this.defaultHeaders, params: params });

@@ -17,7 +17,7 @@ export class UserClient extends BaseClient {
     };
 
     updateUser(user: User): Observable<Empty> {
-        return this.http.post<Empty>(environment.api.baseURI + '/user/update', { name: user.name, photo: user.photo, email: user.email }, this.defaultHttpOptions);
+        return this.http.put<Empty>(environment.api.baseURI + '/user/update', { name: user.name, photo: user.photo, email: user.email }, this.defaultHttpOptions);
     };
 
     uploadAvatar(image: File): Observable<string[]> {

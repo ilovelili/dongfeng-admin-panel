@@ -13,19 +13,19 @@ export class ProfileClient extends BaseClient {
     super(http);
   }
 
-  getProfiles(year?: string, cls?: string, name?: string, date?: string): Observable<Profiles> {
+  getProfiles(year?: string, classId?: number, pupilId?: number, date?: string): Observable<Profiles> {
     let params = new HttpParams();
 
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
-    if (date && date != "") {
+    if (date) {
       params = params.set("date", date);
     }
 
@@ -83,19 +83,19 @@ export class ProfileClient extends BaseClient {
     }, this.defaultHttpOptions);
   };
 
-  getPrevProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
+  getPrevProfile(year?: string, classId?: number, pupilId?: number, date?: string): Observable<Profile> {
     let params = new HttpParams();
 
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
-    if (date && date != "") {
+    if (date) {
       params = params.set("date", date);
     }
 
@@ -105,19 +105,19 @@ export class ProfileClient extends BaseClient {
     });
   }
 
-  getNextProfile(year?: string, cls?: string, name?: string, date?: string): Observable<Profile> {
+  getNextProfile(year?: string, classId?: number, pupilId?: number, date?: string): Observable<Profile> {
     let params = new HttpParams();
 
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
-    if (date && date != "") {
+    if (date) {
       params = params.set("date", date);
     }
 
@@ -139,17 +139,17 @@ export class ProfileClient extends BaseClient {
     }, this.defaultHttpOptions);
   }
 
-  getEbooks(year?: string, cls?: string, name?: string): Observable<Ebooks> {
+  getEbooks(year?: string, classId?: number, pupilId?: number): Observable<Ebooks> {
     let params = new HttpParams();
 
-    if (year && year != "") {
+    if (year) {
       params = params.set("year", year);
     }
-    if (cls && cls != "") {
-      params = params.set("class", cls);
+    if (classId) {
+      params = params.set("class", classId.toString());
     }
-    if (name && name != "") {
-      params = params.set("name", name);
+    if (pupilId) {
+      params = params.set("name", pupilId.toString());
     }
 
     return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', {

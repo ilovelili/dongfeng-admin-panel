@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!teachers || !teachers.length">
-    <div class="card-header">{{currentClass}} 教师信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+    <div class="card-header">教师信息
       <csv (Download)="DownloadCsv(false, filename('教师信息'), $event)" [headers]="['ID','姓名','邮箱','班级','权限']"
         [columns]="['id','name','email','className','role']">
       </csv>
@@ -112,10 +112,10 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('')">全部</a>
+              <a class="dropdown-item" (click)="setclass(0)">全部</a>
             </li>
-            <li *ngFor="let class of classes" role="menuitem">
-              <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+            <li *ngFor="let key of getKeys(classMap)" role="menuitem">
+              <a class="dropdown-item" (click)="setclass(key, classMap.get(key))">{{classMap.get(key)}}</a>
             </li>
           </ul>
         </div>

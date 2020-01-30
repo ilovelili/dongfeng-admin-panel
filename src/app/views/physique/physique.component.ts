@@ -67,36 +67,36 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   }
 
   getphysiques(showinfomodal: boolean = true) {
-    this.loading = true;
-    this.physiqueClient.getPhysiques(this.currentYear, this.currentClass, this.currentName).
-      subscribe(
-        d => {
-          this.loading = false;
-          this.physiques = new Physiques(d.physiques);
-          this.conditionModal.hide();
+    // this.loading = true;
+    // this.physiqueClient.getPhysiques(this.currentYear, this.currentClass, this.currentName).
+    //   subscribe(
+    //     d => {
+    //       this.loading = false;
+    //       this.physiques = new Physiques(d.physiques);
+    //       this.conditionModal.hide();
 
-          if (this.physiques.empty()) {
-            if (showinfomodal) {
-              this.infoModal.show();
-              this.items = this.template;
-            } else {
-              this.LogWarning('没有体格发育信息');
-            }
-          } else {
-            this.items = d.physiques;
-            this.items.forEach(n => {
-              if (!this.years.includes(n.year)) {
-                this.years.push(n.year);
-              }
-              if (!this.classes.includes(n.class)) {
-                this.classes.push(n.class);
-              }
-            });
-          }
-        },
-        e => this.LogError(e, '获取体格发育信息失败,请重试'),
-        () => this.LogComplete('physique component physiques loading completed')
-      );
+    //       if (this.physiques.empty()) {
+    //         if (showinfomodal) {
+    //           this.infoModal.show();
+    //           this.items = this.template;
+    //         } else {
+    //           this.LogWarning('没有体格发育信息');
+    //         }
+    //       } else {
+    //         this.items = d.physiques;
+    //         this.items.forEach(n => {
+    //           if (!this.years.includes(n.year)) {
+    //             this.years.push(n.year);
+    //           }
+    //           if (!this.classes.includes(n.class)) {
+    //             this.classes.push(n.class);
+    //           }
+    //         });
+    //       }
+    //     },
+    //     e => this.LogError(e, '获取体格发育信息失败,请重试'),
+    //     () => this.LogComplete('physique component physiques loading completed')
+    //   );
   }
 
   updatephysique(item: Physique) {

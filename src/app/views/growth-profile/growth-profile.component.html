@@ -61,10 +61,10 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngIf="currentClass" role="menuitem">
-                            <a class="dropdown-item" (click)="setname(currentClass)">{{currentClass}}全员</a>
+                            <a class="dropdown-item" (click)="setpupil(currentClass)">{{currentClass}}全员</a>
                         </li>
                         <li *ngFor="let name of profilenames" role="menuitem">
-                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                            <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
                         </li>
                         <li [hidden]="profilenames.length" role="menuitem">
                             <a class="dropdown-item">没有数据，请新建成长档案</a>
@@ -134,10 +134,10 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngIf="currentClass && currentYear" role="menuitem">
-                            <a class="dropdown-item" (click)="setname(currentClass)">{{currentClass}}全员</a>
+                            <a class="dropdown-item" (click)="setpupil(currentClass)">{{currentClass}}全员</a>
                         </li>
                         <li *ngFor="let name of pupilnames" role="menuitem">
-                            <a class="dropdown-item" (click)="setname(name)">{{name}}</a>
+                            <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
                         </li>
                         <li [hidden]="currentClass && currentYear" role="menuitem">
                             <a class="dropdown-item">没有数据,请选择学年和班级</a>
