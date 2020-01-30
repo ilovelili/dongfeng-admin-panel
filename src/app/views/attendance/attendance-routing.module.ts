@@ -14,8 +14,8 @@ const routes: Routes = [
         component: AttendanceComponent,        
       },
       {
-        path: ':class/:name',
-        component: AttendanceComponent,        
+        path: ':name',
+        component: AttendanceComponent,
       }
     ]
   }
