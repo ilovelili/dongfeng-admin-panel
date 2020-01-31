@@ -5,6 +5,7 @@ export class Constant {
     notifications: Object;
     roles: Object;
     holidays: Object;
+    masters: Object;
 
     static get Instance(): Constant {
         let key_const: string = 'consts';

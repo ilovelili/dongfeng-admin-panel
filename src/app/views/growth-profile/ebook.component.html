@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!ebooks || ebooks.empty()">
-    <div class="card-header">{{currentClass}} {{currentName}} 电子书 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+    <div class="card-header">{{currentClass}} {{currentName}} 电子书
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
       <button type="button" (click)="showexplain()" class="btn btn-sm btn-success pull-right">说明</button>
     </div>

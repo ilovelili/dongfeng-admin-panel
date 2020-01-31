@@ -4,7 +4,6 @@ import { ViewComponent } from '../base/view.component';
 import { Ingredients } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
-import { ErrorCode } from 'app/models';
 import { AuthService } from 'app/services/auth.service';
 
 @Component({
@@ -84,13 +83,14 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
       );
   }
 
+  // todo: fix
   // this must be passed from parent
   errcallback(res: string, me: any) {
-    let resjson = JSON.parse(res);
-    if (resjson.custom_code == ErrorCode.InvalidPupil) {
-      me.LogError(res, '匹配失败,无效的食材类别');
-    } else {
-      me.LogError(res, '匹配失败,请重试');
-    }
+    // let resjson = JSON.parse(res);
+    // if (resjson.custom_code == ErrorCode.InvalidPupil) {
+    //   me.LogError(res, '匹配失败,无效的食材类别');
+    // } else {
+    //   me.LogError(res, '匹配失败,请重试');
+    // }
   }
 }

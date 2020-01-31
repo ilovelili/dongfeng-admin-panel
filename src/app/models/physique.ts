@@ -1,36 +1,35 @@
-export class Physiques {
-  constructor(public physiques: Physique[]) { }
-
-  empty(): boolean {
-    return !this || !this.physiques || !this.physiques.length;
-  }
-}
+import { Pupil } from ".";
 
 export class Physique {
-  id: number;
-  year: string;
-  class: string;
-  name: string;
-  gender: string;
-  birth_date: string;
-  exam_date: string;
-  height: number;
-  weight: number;
-  age: string;
-  age_cmp: number;
-  height_p: string;
-  weight_p: string;
-  height_weight_p: string;
-  bmi: number;
-  fat_cofficient: number;
-  conclusion: string;
-}
+  constructor(
+    public id: number,
+    public pupil: Pupil,
+    public pupil_id: number,
+    public gender: string,
+    public birth_date: string,
+    public exam_date: string,
+    public height: number,
+    public weight: number,
+    public age: string,
+    public age_cmp: number,
+    public height_p: string,
+    public weight_p: string,
+    public height_weight_p: string,
+    public bmi: number,
+    public fat_cofficient: number,
+    public conclusion: string
+  ) { }
 
-export class Physique_AgeHeightWeightPMasters {
-  constructor(public masters: Physique_AgeHeightWeightPMaster[]) { }
+  get name(): string {
+    return this.pupil.name;
+  }
 
-  empty(): boolean {
-    return !this || !this.masters || !this.masters.length;
+  get className(): string {
+    return this.pupil.class.name;
+  }
+
+  get classId(): number {
+    return this.pupil.class.id;
   }
 }
 
@@ -63,14 +62,6 @@ export class Physique_AgeHeightWeightPMaster {
   }
 }
 
-export class Physique_AgeHeightWeightSDMasters {
-  constructor(public masters: Physique_AgeHeightWeightSDMaster[]) { }
-
-  empty(): boolean {
-    return !this || !this.masters || !this.masters.length;
-  }
-}
-
 export class Physique_AgeHeightWeightSDMaster {
   constructor(
     public id: number,
@@ -83,22 +74,14 @@ export class Physique_AgeHeightWeightSDMaster {
     public sd1: number,
     public sd2: number) { }
 
-    get hw(): string {
-      if (this.height_or_weight == 'w') {
-        return "体重";
-      } else if (this.height_or_weight == 'h') {
-        return "身高";
-      }
-  
-      return "NA"
+  get hw(): string {
+    if (this.height_or_weight == 'w') {
+      return "体重";
+    } else if (this.height_or_weight == 'h') {
+      return "身高";
     }
-}
 
-export class Physique_BMIMasters {
-  constructor(public masters: Physique_BMIMaster[]) { }
-
-  empty(): boolean {
-    return !this || !this.masters || !this.masters.length;
+    return "NA"
   }
 }
 
@@ -113,14 +96,6 @@ export class Physique_BMIMaster {
     public sd3: number) { }
 }
 
-export class Physique_HeightToWeightPMasters {
-  constructor(public masters: Physique_HeightToWeightPMaster[]) { }
-
-  empty(): boolean {
-    return !this || !this.masters || !this.masters.length;
-  }
-}
-
 export class Physique_HeightToWeightPMaster {
   constructor(
     public id: number,
@@ -132,14 +107,6 @@ export class Physique_HeightToWeightPMaster {
     public p50: number,
     public p80: number,
     public p97: number) { }
-}
-
-export class Physique_HeightToWeightSDMasters {
-  constructor(public masters: Physique_HeightToWeightSDMaster[]) { }
-
-  empty(): boolean {
-    return !this || !this.masters || !this.masters.length;
-  }
 }
 
 export class Physique_HeightToWeightSDMaster {

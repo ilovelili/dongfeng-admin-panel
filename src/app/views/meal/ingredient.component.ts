@@ -5,7 +5,6 @@ import { Recipes, FormattedIngredient, Ingredients, Ingredient } from 'app/model
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { environment } from 'environments/environment';
-import { ErrorCode } from 'app/models';
 import { AuthService } from 'app/services/auth.service';
 
 @Component({
@@ -121,11 +120,12 @@ export class IngredientComponent extends ViewComponent implements OnInit {
         this.getrecipes();
       },
       e => {
-        if (e.error.custom_code == ErrorCode.InvalidIngredientCategory) {
-          this.LogError(e, '匹配失败,无效的食材类别');
-        } else {
-          this.LogError(e, '匹配失败,请重试');
-        }
+        // todo: fix
+        // if (e.error.custom_code == ErrorCode.InvalidIngredientCategory) {
+        //   this.LogError(e, '匹配失败,无效的食材类别');
+        // } else {
+        //   this.LogError(e, '匹配失败,请重试');
+        // }
       },
       () => this.LogComplete('ingredient component ingredients matching completed')
     );

@@ -22,7 +22,7 @@
               <div class="form-group row" *ngFor="let field of fields">
                 <label class="col-md-3 col-form-label" [attr.for]="field">{{editcriteria[field]}}</label>
                 <div class="col-md-9">
-                  <input type="text" name="{{field}}" ngControl="field" class="form-control" [(ngModel)]="item[field]" required>
+                  <input type="text" [name]="field" class="form-control" [(ngModel)]="item[field]" required [hidden]="isHiddenField(field)">
                 </div>
               </div>
 

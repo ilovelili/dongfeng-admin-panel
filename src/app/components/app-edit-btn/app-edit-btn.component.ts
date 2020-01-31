@@ -18,6 +18,13 @@ export class AppEditButtonComponent {
   @Input("fields")
   public fields: string[];
 
+  @Input("hiddenFields")
+  public hiddenFields: string[] = [];
+
+  isHiddenField(field: string): boolean {
+    return this.hiddenFields.includes(field);
+  }
+
   editcriteria = {    
     year: "学年",
     name: "姓名",

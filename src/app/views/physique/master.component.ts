@@ -31,7 +31,7 @@ export class AgeHeightWeightPMasterComponent extends ViewComponent implements On
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.masters.map(m => new Physique_AgeHeightWeightPMaster(m.id, m.height_or_weight, m.gender, m.age_min, m.age_max, m.p3, m.p10, m.p20, m.p50, m.p80, m.p97));
+          this.items = d.map(m => new Physique_AgeHeightWeightPMaster(m.id, m.height_or_weight, m.gender, m.age_min, m.age_max, m.p3, m.p10, m.p20, m.p50, m.p80, m.p97));
         },
         e => this.LogError(e, '获取体格发育五项指标信息失败,请重试'),
         () => this.LogComplete('physique master component age height weight p master loading completed')
@@ -64,7 +64,7 @@ export class AgeHeightWeightSDMasterComponent extends ViewComponent implements O
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.masters.map(m => new Physique_AgeHeightWeightSDMaster(m.id, m.height_or_weight, m.gender, m.age, m.sdm2, m.sdm1, m.avg, m.sd1, m.sd2));
+          this.items = d.map(m => new Physique_AgeHeightWeightSDMaster(m.id, m.height_or_weight, m.gender, m.age, m.sdm2, m.sdm1, m.avg, m.sd1, m.sd2));
         },
         e => this.LogError(e, '获取生长迟缓标准表信息失败,请重试'),
         () => this.LogComplete('physique master component age height weight sd master loading completed')
@@ -97,7 +97,7 @@ export class BMIMasterComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.masters.map(m => new Physique_BMIMaster(m.id, m.gender, m.age, m.avg, m.sd1, m.sd2, m.sd3));
+          this.items = d.map(m => new Physique_BMIMaster(m.id, m.gender, m.age, m.avg, m.sd1, m.sd2, m.sd3));
         },
         e => this.LogError(e, '获取BMI指标标准表信息失败,请重试'),
         () => this.LogComplete('physique master component bmi master loading completed')
@@ -130,7 +130,7 @@ export class HeightToWeightPMasterComponent extends ViewComponent implements OnI
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.masters.map(m => new Physique_HeightToWeightPMaster(m.id, m.gender, m.height, m.p3, m.p10, m.p20, m.p50, m.p80, m.p97));
+          this.items = d.map(m => new Physique_HeightToWeightPMaster(m.id, m.gender, m.height, m.p3, m.p10, m.p20, m.p50, m.p80, m.p97));
         },
         e => this.LogError(e, '获取身高测体重对照表信息失败,请重试'),
         () => this.LogComplete('physique master component height to weight p master loading completed')
@@ -163,7 +163,7 @@ export class HeightToWeightSDMasterComponent extends ViewComponent implements On
       subscribe(
         d => {
           this.loading = false;
-          this.items = d.masters.map(m => new Physique_HeightToWeightSDMaster(m.id, m.gender, m.height, m.sdm3, m.sdm2, m.sdm1, m.sd0, m.sd1, m.sd2, m.sd3));
+          this.items = d.map(m => new Physique_HeightToWeightSDMaster(m.id, m.gender, m.height, m.sdm3, m.sdm2, m.sdm1, m.sd0, m.sd1, m.sd2, m.sd3));
         },
         e => this.LogError(e, '获取身高别体重标准表信息失败,请重试'),
         () => this.LogComplete('physique master component height to weight sd master loading completed')

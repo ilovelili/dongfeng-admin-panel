@@ -1,9 +1,9 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!physiques || physiques.empty()">
-    <div class="card-header">{{currentClass}} 体格发育信息 {{currentYear ? '(' + currentYear + '学年)' : ''}}
+  <div class="card" [hidden]="!physiques || !physiques.length">
+    <div class="card-header">体格发育信息
       <csv (Download)="DownloadCsv(false, filename('体格发育信息'), $event)"
-        [headers]="['ID','班级','姓名','性别','出生日期','体检日期','身高','体重','年龄','身高评价','体重评价','身测体评价','BMI','肥胖指数','总评价']"
-        [columns]="['id','class','name','gender','birth_date','exam_date','height','weight','age','height_p','weight_p','height_weight_p','bmi','fat_cofficient','conclusion']">
+        [headers]="['班级','姓名','性别','出生日期','体检日期','身高','体重','年龄','身高评价','体重评价','身测体评价','BMI','肥胖指数','总评价']"
+        [columns]="['className','name','gender','birth_date','exam_date','height','weight','age','height_p','weight_p','height_weight_p','bmi','fat_cofficient','conclusion']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger float-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary float-right">按条件检索</button>
@@ -24,11 +24,14 @@
       <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
-          <tr>            
-            <th style="width: 6%">
-              <mfDefaultSorter by="age">班级</mfDefaultSorter>
+          <tr>
+            <th style="width: 3%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
             </th>
-            <th style="width: 7%">
+            <th style="width: 6%">
+              <mfDefaultSorter by="className">班级</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
               <mfDefaultSorter by="name">姓名</mfDefaultSorter>
             </th>
             <th style="width: 3%">
@@ -46,9 +49,9 @@
             <th style="width: 5%">
               <mfDefaultSorter by="weight">体重</mfDefaultSorter>
             </th>
-            <th style="width: 8%">
+            <th style="width: 7%">
               <mfDefaultSorter by="age">年龄</mfDefaultSorter>
-            </th>            
+            </th>
             <th style="width: 5%">
               <mfDefaultSorter by="height_p">身高评价</mfDefaultSorter>
             </th>
@@ -64,15 +67,16 @@
             <th style="width: 5%">
               <mfDefaultSorter by="fat_cofficient" tooltip="肥胖指数适用于5岁以前">肥胖指数</mfDefaultSorter>
             </th>
-            <th style="width: 11%">
+            <th style="width: 14%">
               <mfDefaultSorter by="conclusion">总评价</mfDefaultSorter>
             </th>
             <th style="width: 5%">编辑</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data" [ngClass]="{'warning':item.conclusion!= '正常'}">            
-            <td>{{item.class}}</td>
+          <tr *ngFor="let item of mf.data" [ngClass]="{'warning':item.conclusion!= '正常'}">
+            <td>{{item.id}}</td>
+            <td>{{item.className}}</td>
             <td>{{item.name}}</td>
             <td>{{item.gender}}</td>
             <td>{{item.birth_date}}</td>
@@ -87,14 +91,15 @@
             <td>{{item.fat_cofficient}}</td>
             <td>{{item.conclusion}}</td>
             <td>
-              <app-edit-btn [title]="'编辑 '+item.name+' 体格发育信息'" [item]="item" [fields]="['gender','birth_date','exam_date','height','weight']"
+              <app-edit-btn [title]="'编辑 '+item.name+' 体格发育信息'" [item]="item"
+                [fields]="['gender','birth_date','exam_date','height','weight', 'pupil_id']" [hiddenFields]="'pupil_id'"
                 (onSubmit)="updatephysique($event)"></app-edit-btn>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="15">
+            <td colspan="16">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -128,8 +133,9 @@
       </div>
 
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '体格发育信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名','性别','出生日期','体检日期','身高','体重']"
-          [columns]="['id','year','class','name','gender','birth_date','exam_date','height','weight']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv(true, '体格发育信息模板.csv', $event)"
+          [headers]="['ID','园儿ID','性别','出生日期','体检日期','身高','体重']"
+          [columns]="['id','pupil_id','gender','birth_date','exam_date','height','weight']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -148,25 +154,11 @@
       <div class="modal-body">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{searchcriteria.year}} <span class="caret"></span>
-          </button>
-          <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem">
-              <a class="dropdown-item" (click)="setyear('')">全部</a>
-            </li>
-            <li *ngFor="let year of years" role="menuitem">
-              <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="btn-group" dropdown>
-          <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
             {{searchcriteria.class}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('')">全部</a>
+              <a class="dropdown-item" (click)="setclass(0)">全部</a>
             </li>
             <li *ngFor="let class of classes" role="menuitem">
               <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
@@ -180,7 +172,7 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setpupil('')">全部</a>
+              <a class="dropdown-item" (click)="setpupil(0)">全部</a>
             </li>
             <li *ngFor="let name of names" role="menuitem">
               <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
@@ -208,13 +200,17 @@
         </button>
       </div>
       <div class="modal-body">
-          <ul>
-            <li>测量出身高体重后，按照男女性别及年龄，分别比对《0-6岁体格发育五项指标评价参考值》。</li>
-            <li>身高小于P3,怀疑是生长迟缓，根据性别及年龄比对《5岁以下儿童低体重/生长迟缓标准表》。身高小于-2SD，为生长迟缓。</li>
-            <li>五项指标评价参考值核对出来后体重小于P10，按照性别及年龄比对《0-6岁按身高测体重》。如身高测体重也小于P10，为营养不良。（年龄测身高和身高测体重两项都小于P3的为重度营养不良；一项小于P10，一项小于P3的或者两项都小于P10的为轻度营养不良。）</li>
-            <li>五项指标评价参考值核对出来后体重较重的幼儿: 五岁以下，按照性别及年龄，核对《5岁以下男/女童身高别体重标准》表，根据身高，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。大于5岁的幼儿，计算BMI指数【体重/身高(米)的平方】，然后比对《5-19岁BMI指数》表，按照性别与年龄比对BMI指数，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。</li>
-            <li>5岁以下超重或肥胖的幼儿在计算肥胖度时，根据《5岁以下男/女童身高别体重标准》表，对应相应的身高后，计算公式为实测体重（kg）-中位数/中位数。</li>
-          </ul>
+        <ul>
+          <li>测量出身高体重后，按照男女性别及年龄，分别比对《0-6岁体格发育五项指标评价参考值》。</li>
+          <li>身高小于P3,怀疑是生长迟缓，根据性别及年龄比对《5岁以下儿童低体重/生长迟缓标准表》。身高小于-2SD，为生长迟缓。</li>
+          <li>
+            五项指标评价参考值核对出来后体重小于P10，按照性别及年龄比对《0-6岁按身高测体重》。如身高测体重也小于P10，为营养不良。（年龄测身高和身高测体重两项都小于P3的为重度营养不良；一项小于P10，一项小于P3的或者两项都小于P10的为轻度营养不良。）
+          </li>
+          <li>五项指标评价参考值核对出来后体重较重的幼儿:
+            五岁以下，按照性别及年龄，核对《5岁以下男/女童身高别体重标准》表，根据身高，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。大于5岁的幼儿，计算BMI指数【体重/身高(米)的平方】，然后比对《5-19岁BMI指数》表，按照性别与年龄比对BMI指数，大于+1SD为超重，大于+2SD为轻度肥胖，大于+3SD的为中重度肥胖。
+          </li>
+          <li>5岁以下超重或肥胖的幼儿在计算肥胖度时，根据《5岁以下男/女童身高别体重标准》表，对应相应的身高后，计算公式为实测体重（kg）-中位数/中位数。</li>
+        </ul>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

@@ -6,7 +6,6 @@ export * from './class';
 export * from './date_range';
 export * from './pupil';
 export * from './teacher';
-export * from './errorcode';
 export * from './physique';
 export * from './meal';
 export * from './profile';

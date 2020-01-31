@@ -8,8 +8,9 @@ export class DataFilterPipe implements PipeTransform {
   transform(array: any[], query: string): any {
     if (query) {
       return _.filter(array, row =>        
+        row.id == query ||
         row.name.indexOf(query) > -1 ||
-        row.class.indexOf(query) > -1 ||
+        row.className.indexOf(query) > -1 ||
         row.gender.indexOf(query) > -1 ||
         row.birth_date.indexOf(query) > -1 ||
         row.exam_date.indexOf(query) > -1 ||
