@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!menus || menus.empty()">
+  <div class="card" [hidden]="!menus || !menus.length">
     <div class="card-header">本周食谱 ({{dateFrom}} ~ {{dateTo}})
       <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','食谱']"
         [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
@@ -28,10 +28,10 @@
               <mfDefaultSorter by="date">日期</mfDefaultSorter>
             </th>
             <th style="width: 15%">
-              <mfDefaultSorter by="junior_or_senior_str">班级</mfDefaultSorter>
+              <mfDefaultSorter by="junior_or_senior">班级</mfDefaultSorter>
             </th>
             <th style="width: 15%">
-              <mfDefaultSorter by="breakfast_or_lunch_str">早/中/点</mfDefaultSorter>
+              <mfDefaultSorter by="breakfast_or_lunch">早/中/点</mfDefaultSorter>
             </th>
             <th style="width: 45%">
               <mfDefaultSorter by="recipe">食谱</mfDefaultSorter>
@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data" [ngClass]="{'weekend':item.holiday== 1,'holiday':item.holiday==2}">
+          <tr *ngFor="let item of mf.data">
             <td>{{item.date}}</td>
             <td>{{item.junior_or_senior_str}}</td>
             <td>{{item.breakfast_or_lunch_str}}</td>
@@ -80,16 +80,16 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setmeal('全部')">全部</a>
+              <a class="dropdown-item" (click)="set_breakfast_or_lunch(0)">全部</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setmeal('早餐')">早餐</a>
+              <a class="dropdown-item" (click)="set_breakfast_or_lunch(1)">早餐</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setmeal('午餐')">午餐</a>
+              <a class="dropdown-item" (click)="set_breakfast_or_lunch(2)">午餐</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setmeal('早点')">早点</a>
+              <a class="dropdown-item" (click)="set_breakfast_or_lunch(3)">早点</a>
             </li>
           </ul>
         </div>
@@ -100,16 +100,16 @@
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('全部')">全部</a>
+              <a class="dropdown-item" (click)="setclass('0')">全部</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('小班')">小班</a>
+              <a class="dropdown-item" (click)="setclass('1')">小班</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('中班')">中班</a>
+              <a class="dropdown-item" (click)="setclass('2')">中班</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('大班')">大班</a>
+              <a class="dropdown-item" (click)="setclass('2')">大班</a>
             </li>
           </ul>
         </div>

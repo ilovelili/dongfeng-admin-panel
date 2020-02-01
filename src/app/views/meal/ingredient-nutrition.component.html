@@ -1,11 +1,13 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!ingredients || ingredients.empty()">
+  <div class="card" [hidden]="!ingredients || !ingredients.length">
     <div class="card-header">
-        食物营养成分表 <csv (Download)="DownloadCsv(false, filename('食物营养成分表'), $event)"
+        <b>{{displayMode}}</b> 食物营养成分表<csv (Download)="DownloadCsv(false, filename('食物营养成分表'), $event)"
         [headers]="['食材','类别','匹配名','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
-        [columns]="['ingredient','category','alias','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
+        [columns]="['ingredient','categoryName','alias','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
+      <button type="button" (click)="displaydaily()" *ngIf="displayMode=='每100g'" class="btn btn-sm btn-info pull-right">显示每人日份</button>
+      <button type="button" (click)="display100g()" *ngIf="displayMode=='每人日'" class="btn btn-sm btn-warning pull-right">显示每100g份</button>      
     </div>
 
     <div class="card-body">
@@ -21,14 +23,17 @@
       <app-loading [loading]="loading"></app-loading>
 
       <table class="table table-striped" [mfData]="items | ingredientFilter : filterQuery" #mf="mfDataTable"
-        [mfRowsOnPage]="30" [hidden]="loading">
+        [mfRowsOnPage]="30" [hidden]="loading" *ngIf="displayMode=='每100g'">
         <thead>
           <tr>
+            <th style="width: 5%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
             <th style="width: 15%">
               <mfDefaultSorter by="ingredient">食材</mfDefaultSorter>
             </th>
-            <th style="width: 15%">
-              <mfDefaultSorter by="category">类别</mfDefaultSorter>
+            <th style="width: 10%">
+              <mfDefaultSorter by="categoryName">类别</mfDefaultSorter>
             </th>
             <th style="width: 15%">
               <mfDefaultSorter by="alias">匹配名</mfDefaultSorter>
@@ -70,8 +75,9 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
+            <td>{{item.id}}</td>
             <td>{{item.ingredient}}</td>
-            <td>{{item.category}}</td>
+            <td>{{item.categoryName}}</td>
             <td>{{item.alias}}</td>
             <td>{{item.protein_100g}}</td>
             <td>{{item.fat_100g}}</td>
@@ -88,12 +94,92 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="13">
+            <td colspan="15">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
         </tfoot>
       </table>
+
+      <table class="table table-striped" [mfData]="items | ingredientFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="30" [hidden]="loading" *ngIf="displayMode=='每人日'">
+        <thead>
+          <tr>
+            <th style="width: 5%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="ingredient">食材</mfDefaultSorter>
+            </th>
+            <th style="width: 10%">
+              <mfDefaultSorter by="categoryName">类别</mfDefaultSorter>
+            </th>
+            <th style="width: 15%">
+              <mfDefaultSorter by="alias">匹配名</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="protein_daily" tooltip="每人日份">蛋白质</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="fat_daily" tooltip="每人日份">脂肪</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="carbohydrate_daily" tooltip="每人日份">碳水化合物</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="heat_daily" tooltip="每人日份">热量</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="calcium_daily" tooltip="每人日份">钙</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="iron_daily" tooltip="每人日份">铁</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="zinc_daily" tooltip="每人日份">锌</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="va_daily" tooltip="每人日份">VA</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="vb1_daily" tooltip="每人日份">VB1</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="vb2_daily" tooltip="每人日份">VB2</mfDefaultSorter>
+            </th>
+            <th style="width: 5%">
+              <mfDefaultSorter by="vc_daily" tooltip="每人日份">VC</mfDefaultSorter>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{item.id}}</td>
+            <td>{{item.ingredient}}</td>
+            <td>{{item.categoryName}}</td>
+            <td>{{item.alias}}</td>
+            <td>{{item.protein_daily}}</td>
+            <td>{{item.fat_daily}}</td>
+            <td>{{item.carbohydrate_daily}}</td>
+            <td>{{item.heat_daily}}</td>
+            <td>{{item.calcium_daily}}</td>
+            <td>{{item.iron_daily}}</td>
+            <td>{{item.zinc_daily}}</td>
+            <td>{{item.va_daily}}</td>
+            <td>{{item.vb1_daily}}</td>
+            <td>{{item.vb2_daily}}</td>
+            <td>{{item.vc_daily}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="15">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
     </div>
   </div>
 </div>
@@ -121,8 +207,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '食物营养成分表.csv', $event)" [headers]="['ID','食材','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
-          [columns]="['id','ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv(true, '食物营养成分表.csv', $event)" [headers]="['ID','食材','类别','蛋白质(100g)','蛋白质(每人日)','脂肪(100g)','脂肪(每人日)','碳水化合物(100g)','碳水化合物(每人日)','热量(100g)','热量(每人日)','钙(100g)','钙(每人日)','铁(100g)','铁(每人日)','锌(100g)','锌(每人日)','VA(100g)','VA(每人日)','VB1(100g)','VB1(每人日)','VB2(100g)','VB2(每人日)','VC(100g)','VC(每人日)']"
+          [columns]="['id','ingredient','categoryName','protein_100g','protein_daily','fat_100g','fat_daily','carbohydrate_100g','carbohydrate_daily','heat_100g','heat_daily','calcium_100g','calcium_daily','iron_100g','iron_daily','zinc_100g','zinc_daily','va_100g','va_daily','vb1_100g','vb1_daily','vb2_100g','vb2_daily','vc_100g','vc_daily']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

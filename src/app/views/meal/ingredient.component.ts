@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Recipes, FormattedIngredient, Ingredients, Ingredient } from 'app/models/meal';
+import { Recipes, FormattedIngredient, Ingredient } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { environment } from 'environments/environment';

@@ -23,11 +23,8 @@
           <tr>
             <th style="width: 5%">
               <mfDefaultSorter by="id">ID</mfDefaultSorter>
-            </th>
-            <th style="width: 5%">
-              <mfDefaultSorter by="class.year">学年</mfDefaultSorter>
-            </th>
-            <th style="width: 25%">
+            </th>            
+            <th style="width: 30%">
               <mfDefaultSorter by="class.name">班级</mfDefaultSorter>
             </th>
             <th style="width: 35%">
@@ -40,8 +37,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">            
-            <td>{{item.id}}</td>
-            <td>{{item.class.year}}</td>
+            <td>{{item.id}}</td>            
             <td>{{item.class.name}}</td>
             <td>{{item.name}}</td>
             <td><a [routerLink]="['/出勤信息', item.id]"><i class="fa fa-link"></i></a></td>
@@ -51,7 +47,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="7">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -85,7 +81,7 @@
       </div>
       <div class="modal-footer">
         下载csv模板 
-        <csv (Download)="DownloadCsv(true, '园儿信息模板.csv', $event)" [headers]="['ID','班级ID','姓名']" [columns]="['id','classId','name']"></csv>
+        <csv (Download)="DownloadCsv(true, '园儿信息模板.csv', $event)" [headers]="['ID','学年','班级','姓名']" [columns]="['id','year','class','name']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

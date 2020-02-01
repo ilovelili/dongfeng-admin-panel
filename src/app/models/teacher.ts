@@ -4,10 +4,11 @@ import { User } from "./user";
 
 export class Teacher {
   id: number;
-  name: string;
+  name: string;  
   email?: string;
-  class?: Class;
+  class?: Class;  
   user?: User;
+  class_id: number;
 
   get className(): string {
     return this.class ? this.class.name : "-";

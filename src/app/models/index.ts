@@ -7,6 +7,8 @@ export * from './date_range';
 export * from './pupil';
 export * from './teacher';
 export * from './physique';
+export * from './ingredient';
+export * from './menu';
 export * from './meal';
 export * from './profile';
 export * from './ebook';

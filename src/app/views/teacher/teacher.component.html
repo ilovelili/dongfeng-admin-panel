@@ -32,7 +32,7 @@
               <mfDefaultSorter by="email">邮箱</mfDefaultSorter>
             </th>
             <th style="width: 25%">
-              <mfDefaultSorter by="className">班级</mfDefaultSorter>
+              <mfDefaultSorter by="class_id">班级</mfDefaultSorter>
             </th>            
             <th style="width: 15%">
               <mfDefaultSorter by="role">权限</mfDefaultSorter>
@@ -88,8 +88,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        下载csv模板 <csv (Download)="DownloadCsv(true, '教师信息模板.csv', $event)" [headers]="['ID','姓名','邮箱','班级ID']"
-          [columns]="['id','name','email','classId']"></csv>
+        下载csv模板 <csv (Download)="DownloadCsv(true, '教师信息模板.csv', $event)" [headers]="['ID','姓名','邮箱','学年','班级']"
+          [columns]="['id','name','email','year','class']"></csv>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

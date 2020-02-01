@@ -6,6 +6,8 @@
       </csv>
       <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
+      <button type="button" (click)="displayall()" *ngIf="displayMode=='workingday'" class="btn btn-sm btn-info pull-right">显示全部</button>
+      <button type="button" (click)="displayworkingday()" *ngIf="displayMode=='all'" class="btn btn-sm btn-warning pull-right">仅显示工作日</button>
     </div>
     <div class="card-body">
       <div class="row mb-3">
@@ -19,7 +21,7 @@
 
       <app-loading [loading]="loading"></app-loading>
 
-      <table class="table table-striped" [mfData]="items | dataFilter : filterQuery" #mf="mfDataTable"
+      <table class="table table-striped" [mfData]="filteredItems | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
           <tr>

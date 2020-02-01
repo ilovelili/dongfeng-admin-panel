@@ -20,6 +20,7 @@ import { AuthService } from 'app/services/auth.service';
 export class AttendanceComponent extends ViewComponent implements OnInit {
   classPupilMap: Map<number, Map<number, string>> = new Map(); // classID and pupil 1 => n map
   attendances: FormattedAttendance[];
+  displayMode = 'all';
 
   constructor(private attendanceClient: AttendanceClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, authService, activatedRoute, toasterService, localeService);
@@ -33,18 +34,17 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
     this.template = [
       {
         id: 1,
-        date: "2020-04-11 (注:日期为 年-月-日 格式)",
-        pupilId: 1,
+        year: 2009,
+        date: "2020-01-31 (注:日期为 年-月-日 格式)",
+        class: "大一班",
+        name: "居翼"
       },
       {
         id: 2,
-        date: "2020-04-12",
-        pupilId: 2,
-      },
-      {
-        id: 3,
-        date: "2020-09-02",
-        pupilId: 12
+        year: 2009,
+        date: "2020-02-01",
+        class: "大一班",
+        name: "居翼"
       },
     ];
   }
@@ -129,5 +129,21 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
       });
     }
     return results;
+  }
+
+  displayall() {
+    this.displayMode = 'all';
+  }
+
+  displayworkingday() {
+    this.displayMode = 'workingday';
+  }
+
+  get filteredItems(): FormattedAttendance[] {
+    if (this.displayMode == 'workingday') {
+      return this.items.filter((i: FormattedAttendance) => i.isWorkingDay);
+    } else {
+      return this.items;
+    }    
   }
 }

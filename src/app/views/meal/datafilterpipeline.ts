@@ -23,9 +23,10 @@ export class MenuFilterPipe implements PipeTransform {
 export class IngredientFilterPipe implements PipeTransform {
   transform(array: any[], query: string): any {
     if (query) {
-      return _.filter(array, row =>        
+      return _.filter(array, row =>  
+        row.id == query ||              
         row.ingredient.indexOf(query) > -1 ||
-        row.category.indexOf(query) > -1
+        row.categoryName.indexOf(query) > -1
       );
     }
     return array;

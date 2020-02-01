@@ -29,8 +29,8 @@ export class PhysiqueClient extends BaseClient {
   };
 
   updatePhysique(physique: Physique): Observable<Empty> {    
-    physique.weight = window.parseFloat(physique.weight.toString());
-    physique.height = window.parseFloat(physique.height.toString());
+    physique.weight = parseFloat(physique.weight.toString());
+    physique.height = parseFloat(physique.height.toString());
     return this.http.put<Empty>(environment.api.baseURI + '/physique', physique, this.defaultHttpOptions);
   };
     

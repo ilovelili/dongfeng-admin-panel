@@ -31,29 +31,20 @@ export class PupilComponent extends ViewComponent implements OnInit {
     this.template = [
       {
         id: 1,
-        classId: 1,
-        class: {
-          id: 1,
-          name: "小一班",
-        },
+        year: 2019,
+        class: "小一班",
         name: "王子涵"
       },
       {
         id: 2,
-        classId: 2,
-        class: {
-          id: 2,
-          name: "小二班",
-        },
+        year: 2019,
+        class: "小二班",        
         name: "张梓轩"
       },
       {
         id: 3,
-        classId: 3,
-        class: {
-          id: 3,
-          name: "小三班",
-        },
+        year: 2019,
+        class: "小三班",
         name: "李雨轩"
       }
     ];

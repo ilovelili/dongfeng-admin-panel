@@ -6,6 +6,10 @@ export class Constant {
     roles: Object;
     holidays: Object;
     masters: Object;
+    menus: {
+        breakfast_or_lunch: Object;
+        junior_or_senior: Object;
+    };
 
     static get Instance(): Constant {
         let key_const: string = 'consts';

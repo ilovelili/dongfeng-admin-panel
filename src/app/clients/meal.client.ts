@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Menus, Recipes, Ingredients, Ingredient, Empty, Procurements, FormattedProcurement } from 'app/models';
+import { Recipes, Ingredient, Empty, Procurements, FormattedProcurement, Menu } from 'app/models';
 
 @Injectable()
 export class MealClient extends BaseClient {
@@ -11,23 +11,11 @@ export class MealClient extends BaseClient {
     super(http);
   }
 
-  getMenus(cls: string, breakfast_or_lunch: string, from?: string, to?: string): Observable<Menus> {
+  getMenus(junior_or_senior: number, breakfast_or_lunch: number, from?: string, to?: string): Observable<Menu[]> {
     let params = new HttpParams();
-
-    if (cls == "小班") {
-      params = params.set("junior_or_senior", "junior");
-    } else if (cls == "中班" || cls == "大班") {
-      params = params.set("junior_or_senior", "senior");
-    }
-
-    if (breakfast_or_lunch == "点心") {
-      params = params.set("breakfast_or_lunch", "snack");
-    } else if (breakfast_or_lunch == "午餐") {
-      params = params.set("breakfast_or_lunch", "lunch");
-    } else if (breakfast_or_lunch == "早餐") {
-      params = params.set("breakfast_or_lunch", "breakfast");
-    }
-
+    params = params.set("junior_or_senior", junior_or_senior.toString());
+    params = params.set("breakfast_or_lunch", breakfast_or_lunch.toString());
+    
     if (from) {
       params = params.set("from", from);
     }
@@ -36,7 +24,7 @@ export class MealClient extends BaseClient {
       params = params.set("to", to);
     }
 
-    return this.http.get<Menus>(environment.api.baseURI + '/menus', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Menu[]>(environment.api.baseURI + '/menus', { headers: this.defaultHeaders, params: params });
   }
 
   getRecipes(recipes: string): Observable<Recipes> {
@@ -49,14 +37,14 @@ export class MealClient extends BaseClient {
     return this.http.get<Recipes>(environment.api.baseURI + '/recipes', { headers: this.defaultHeaders, params: params });
   }
 
-  getIngredients(ingredients: string): Observable<Ingredients> {
+  getIngredients(ingredients: string): Observable<Ingredient[]> {
     let params = new HttpParams();
 
-    if (ingredients && ingredients != "") {
+    if (ingredients) {
       params = params.set("ingredients", ingredients);
     }
 
-    return this.http.get<Ingredients>(environment.api.baseURI + '/ingredients', { headers: this.defaultHeaders, params: params });
+    return this.http.get<Ingredient[]>(environment.api.baseURI + '/ingredients', { headers: this.defaultHeaders, params: params });
   }
 
   updateIngredient(ingredient: Ingredient): Observable<Empty> {

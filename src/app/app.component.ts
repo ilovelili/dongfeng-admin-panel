@@ -16,10 +16,9 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private constClient: ConstClient) { }
 
   ngOnInit() {
-    this.constClient.getConsts().subscribe(
-      d => this.sessionFactory.set(this.key_const, d),
-      e => console.error(e)
-    )
+    this.constClient.getConsts().toPromise().then(
+      d => this.sessionFactory.set(this.key_const, d)
+    );
 
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {

@@ -31,34 +31,25 @@ export class TeacherComponent extends ViewComponent implements OnInit {
 
     this.template = [
       {
-        id: 1,
-        classId: 1,
-        class: {
-          id: 1,
-          name: "小一班",
-        },
-        name: "陆美美",
-        email: "12345@qq.com"
+        id: 1,        
+        email: "12345@qq.com",
+        year: 2019,
+        class: "小一班",
+        name: "陆美美"
       },
       {
         id: 2,
-        classId: 2,
-        class: {
-          id: 2,
-          name: "小二班",
-        },
-        name: "王丽丽",
-        email: "54321@163.com"
+        email: "54321@163.com",
+        year: 2019,
+        class: "小二班",
+        name: "王丽丽"
       },
       {
         id: 3,
-        classId: 3,
-        class: {
-          id: 3,
-          name: "小三班",
-        },
-        name: "陆美丽",
-        email: "abcde@qq.com"
+        email: "abcde@qq.com",
+        year: 2019,
+        class: "小三班",
+        name: "陆美丽"
       }
     ];
   }
@@ -81,6 +72,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
               _teacher.email = t.email;
               _teacher.user = t.user;
               _teacher.class = t.class;
+              _teacher.class_id = t.class_id;
               return _teacher;
             });
 
