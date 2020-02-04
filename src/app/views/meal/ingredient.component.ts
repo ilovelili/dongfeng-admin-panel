@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Recipes, FormattedIngredient, Ingredient } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { environment } from 'environments/environment';
 import { AuthService } from 'app/services/auth.service';
+import { Recipe, Ingredient } from 'app/models';
 
 @Component({
   templateUrl: './ingredient.component.html',
@@ -18,11 +18,10 @@ import { AuthService } from 'app/services/auth.service';
 export class IngredientComponent extends ViewComponent implements OnInit {
   @ViewChild('recipeModal') recipeModal
   @ViewChild('matchModal') matchModal
-
-  private recipes: Recipes;
+  
   private recipe_names: string = '';  
   private _recipes: string[];
-  private currentItem: FormattedIngredient;
+  private currentItem: Ingredient;
 
   private query: string = '';
   private matchurl: string = '';
@@ -41,30 +40,36 @@ export class IngredientComponent extends ViewComponent implements OnInit {
 
   getrecipes() {
     this.loading = true;
-
     this.mealClient.getRecipes(this.recipe_names).
       subscribe(
         d => {
-          this.loading = false;
-          this.recipes = new Recipes(d.recipes);
-          this.items = this.recipes.format_ingredient();
+          this.loading = false;          
+          this.items = d.map((r: Recipe) => new Recipe(
+            r.name,
+            r.ingredients,
+            r.carbohydrate,
+            r.dietaryfiber,
+            r.protein,
+            r.fat,
+            r.heat
+          ));
         },
         e => this.LogError(e, '获取食材信息失败，请重试'),
         () => this.LogComplete('ingredient component ingredients loading completed')
       );
   }
 
-  showrecipes(item: FormattedIngredient, e: Event) {
+  showrecipes(item: Ingredient, e: Event) {
     e.preventDefault();
     this.loading = true;
     this.currentItem = item;
     this.mealClient.getRecipes("").
       subscribe(
         d => {
-          this.loading = false;
-          let r = new Recipes(d.recipes).format_ingredient().find(i => i.ingredient == this.currentItem.ingredient);
-          this._recipes = r.recipes.split(',');
-          this.recipeModal.show();
+          // this.loading = false;
+          // let r = new Recipes(d.recipes).format_ingredient().find(i => i.ingredient == this.currentItem.ingredient);
+          // this._recipes = r.recipes.split(',');
+          // this.recipeModal.show();
         },
         e => {
           this.loading = false;
@@ -74,7 +79,7 @@ export class IngredientComponent extends ViewComponent implements OnInit {
       );
   }
 
-  match(item: FormattedIngredient, e: Event) {
+  match(item: Ingredient, e: Event) {
     e.preventDefault();    
     this.currentItem = item;
     this.query = item.ingredient;
@@ -86,6 +91,7 @@ export class IngredientComponent extends ViewComponent implements OnInit {
     let i = this.currentItem;    
 
     this.mealClient.updateIngredient(new Ingredient(
+      i.id,
       result,
       i.category,
       i.ingredient,
@@ -110,7 +116,8 @@ export class IngredientComponent extends ViewComponent implements OnInit {
       i.vb2_100g,
       i.vb2_daily,
       i.vc_100g,
-      i.vc_daily
+      i.vc_daily,
+      i.recipes
     )).
     subscribe(
       d => {

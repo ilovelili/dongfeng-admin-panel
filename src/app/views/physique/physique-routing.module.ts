@@ -18,42 +18,42 @@ const routes: Routes = [
         }
       },
       {
-        path: ':class/:name',
+        path: ':name',
         component: PhysiqueComponent,
         data: {
           title: '',
         }
       },
       {
-        path: '五项指标对照表',
+        path: '标准数据/五项指标对照表',
         component: AgeHeightWeightPMasterComponent,
         data: {
           title: '五项指标对照表',
         }
       },
       {
-        path: '生长迟缓标准表',
+        path: '标准数据/生长迟缓标准表',
         component: AgeHeightWeightSDMasterComponent,
         data: {
           title: '生长迟缓标准表',
         }
       },
       {
-        path: 'BMI指标对照表',
+        path: '标准数据/BMI指标对照表',
         component: BMIMasterComponent,
         data: {
           title: 'BMI指标对照表',
         }
       },
       {
-        path: '身高测体重对照表',
+        path: '标准数据/身高测体重对照表',
         component: HeightToWeightPMasterComponent,
         data: {
           title: '身高测体重对照表',
         }
       },
       {
-        path: '身高别体重标准表',
+        path: '标准数据/身高别体重标准表',
         component: HeightToWeightSDMasterComponent,
         data: {
           title: '身高别体重标准表',

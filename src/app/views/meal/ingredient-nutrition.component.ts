@@ -123,7 +123,8 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
             i.vb2_100g,
             i.vb2_daily,
             i.vc_100g,
-            i.vc_daily
+            i.vc_daily,
+            i.recipes
           ));
 
           this.loading = false;

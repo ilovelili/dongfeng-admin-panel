@@ -8,9 +8,11 @@ import { UserProfileComponent } from './user-profile.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToasterModule } from 'angular2-toaster';
 import { AppImageUploadModule } from '../../components';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
     UserProfileRoutingModule,
     FormsModule,
     ToasterModule,

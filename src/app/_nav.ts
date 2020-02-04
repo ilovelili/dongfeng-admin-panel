@@ -65,12 +65,7 @@ export const navigation = [
         name: '食材信息',
         url: '/膳食管理/食材信息',
         icon: 'icon-cup',
-      },
-      // {
-      //   name: '采购信息',
-      //   url: '/膳食管理/采购信息',
-      //   icon: 'icon-cup',
-      // },
+      },      
       {
         name: '食物营养成分表',
         url: '/膳食管理/食物营养成分表',
@@ -85,27 +80,27 @@ export const navigation = [
     children: [
       {
         name: '体格发育五项指标',
-        url: '/体格发育/五项指标对照表',
+        url: '/体格发育/标准数据/五项指标对照表',
         icon: 'icon-printer'
       },
       {
         name: '生长迟缓标准表',
-        url: '/体格发育/生长迟缓标准表',
+        url: '/体格发育/标准数据/生长迟缓标准表',
         icon: 'icon-printer'
       },
       {
         name: 'BMI指标',
-        url: '/体格发育/BMI指标对照表',
+        url: '/体格发育/标准数据/BMI指标对照表',
         icon: 'icon-printer'
       },
       {
         name: '身高测体重对照表',
-        url: '/体格发育/身高测体重对照表',
+        url: '/体格发育/标准数据/身高测体重对照表',
         icon: 'icon-printer'
       },
       {
         name: '身高别体重标准表',
-        url: '/体格发育/身高别体重标准表',
+        url: '/体格发育/标准数据/身高别体重标准表',
         icon: 'icon-printer'
       }
     ]

@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!recipes || recipes.empty()">
+  <div class="card">
     <div class="card-header">
       食材信息 <csv (Download)="DownloadCsv(false, filename('食材信息'), $event)"
         [headers]="['食材','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"

@@ -15,7 +15,6 @@ import { IngredientComponent } from './ingredient.component';
 import { RecipeComponent } from './recipe.component';
 import { IngredientNutritionComponent } from './ingredient-nutrition.component';
 import { NgxTypeaheadModule } from 'ngx-typeahead';
-import { ProcurementComponent } from './procurement.component';
 
 @NgModule({
   imports: [
@@ -38,7 +37,6 @@ import { ProcurementComponent } from './procurement.component';
     MenuComponent,
     IngredientComponent,
     IngredientNutritionComponent,
-    ProcurementComponent,
     RecipeComponent,
     IngredientFilterPipe,
     RecipeFilterPipe,

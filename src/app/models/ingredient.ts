@@ -1,3 +1,5 @@
+import { Recipe } from "./recipe";
+
 export class Ingredient {
     constructor(
       public id: number,
@@ -26,10 +28,15 @@ export class Ingredient {
       public vb2_daily: number,
       public vc_100g: number,
       public vc_daily: number,
+      public recipes: Recipe[],
     ) { }
   
     get categoryName(): string {
       return this.category.category;
+    }
+
+    get recipeNames(): string[] {
+      return this.recipes.map(r => r.name);
     }
   }
   

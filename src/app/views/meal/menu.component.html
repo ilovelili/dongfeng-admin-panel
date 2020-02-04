@@ -1,5 +1,5 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!menus || !menus.length">
+  <div class="card">
     <div class="card-header">本周食谱 ({{dateFrom}} ~ {{dateTo}})
       <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','食谱']"
         [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
@@ -34,7 +34,7 @@
               <mfDefaultSorter by="breakfast_or_lunch">早/中/点</mfDefaultSorter>
             </th>
             <th style="width: 45%">
-              <mfDefaultSorter by="recipe">食谱</mfDefaultSorter>
+              <mfDefaultSorter by="recipeName">食谱</mfDefaultSorter>
             </th>
             <th style="width: 10%">食谱信息</th>
           </tr>
@@ -44,8 +44,8 @@
             <td>{{item.date}}</td>
             <td>{{item.junior_or_senior_str}}</td>
             <td>{{item.breakfast_or_lunch_str}}</td>
-            <td>{{item.recipe}}</td>
-            <td><a [routerLink]="['../食谱信息', item.recipe]"><i class="fa fa-link"></i></a></td>
+            <td>{{item.recipeName}}</td>
+            <td><a [routerLink]="['../食谱信息', item.recipe.id]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
@@ -76,7 +76,7 @@
       <div class="modal-body">
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{meal}} <span class="caret"></span>
+            {{breakfastOrLunchString}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
@@ -96,20 +96,20 @@
 
         <div class="btn-group" dropdown>
           <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-            {{searchcriteria.class}} <span class="caret"></span>
+            {{juniorOrSeniorString}} <span class="caret"></span>
           </button>
           <ul *dropdownMenu class="dropdown-menu" role="menu">
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('0')">全部</a>
+              <a class="dropdown-item" (click)="set_junior_or_senior(0)">全部</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('1')">小班</a>
+              <a class="dropdown-item" (click)="set_junior_or_senior(1)">小班</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('2')">中班</a>
+              <a class="dropdown-item" (click)="set_junior_or_senior(2)">中班</a>
             </li>
             <li role="menuitem">
-              <a class="dropdown-item" (click)="setclass('2')">大班</a>
+              <a class="dropdown-item" (click)="set_junior_or_senior(2)">大班</a>
             </li>
           </ul>
         </div>
@@ -120,7 +120,7 @@
         </div>
 
         <div class="btn-group float-right">
-          <button type="button" class="btn btn-success" (click)="getmenus(false)">检索</button>
+          <button type="button" class="btn btn-success" (click)="getmenus()">检索</button>
         </div>
 
       </div>

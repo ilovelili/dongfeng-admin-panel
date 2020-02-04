@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { Recipes, FormattedRecipe } from 'app/models/meal';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { AuthService } from 'app/services/auth.service';
+import { Recipe } from 'app/models';
 
 @Component({
   templateUrl: './recipe.component.html',
@@ -14,8 +14,7 @@ import { AuthService } from 'app/services/auth.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class RecipeComponent extends ViewComponent implements OnInit {
-  private recipes: Recipes;
+export class RecipeComponent extends ViewComponent implements OnInit {  
   private recipe_names: string;
 
   @ViewChild('ingredientModal') ingredientModal
@@ -40,19 +39,25 @@ export class RecipeComponent extends ViewComponent implements OnInit {
     this.mealClient.getRecipes(this.recipe_names).
       subscribe(
         d => {
-          this.loading = false;
-          this.recipes = new Recipes(d.recipes);
-          this.items = this.recipes.format_recipe();
+          this.loading = false;          
+          this.items = d.map((r: Recipe) => new Recipe(
+            r.name,
+            r.ingredients,
+            r.carbohydrate,
+            r.dietaryfiber,
+            r.protein,
+            r.fat,r.heat
+          ));
         },
         e => this.LogError(e, '获取食谱信息失败，请重试'),
         () => this.LogComplete('recipe component recipes loading completed')
       );
   }
 
-  showingredients(item: FormattedRecipe, e: Event) {
-    e.preventDefault();
-    this._ingredients = item.ingredients.split(","),
-    this._recipe = item.recipe;
-    this.ingredientModal.show();
+  showingredients(item: Recipe, e: Event) {
+    // e.preventDefault();
+    // this._ingredients = item.ingredients.split(","),
+    // this._recipe = item.recipe;
+    // this.ingredientModal.show();
   }
 }

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
-import { DateRange, Menu } from 'app/models';
+import { DateRange, Menu, Constant } from 'app/models';
 import { BsLocaleService } from 'ngx-bootstrap';
 import { AuthService } from 'app/services/auth.service';
 
@@ -17,8 +17,6 @@ import { AuthService } from 'app/services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent extends ViewComponent implements OnInit {
-  private menus: Menu[];
-
   private breakfast_or_lunch: number = 0;
   private junior_or_senior: number = 0;
 
@@ -54,19 +52,31 @@ export class MenuComponent extends ViewComponent implements OnInit {
     this.mealClient.getMenus(this.junior_or_senior, this.breakfast_or_lunch, this.dateFrom, this.dateTo).
       subscribe(
         d => {
-          this.loading = false;
           this.conditionModal.hide();
-          this.menus = d;
-          this.items = this.menus.map((m: Menu) => new Menu(
-            m.id,
-            m.date,
-            m.recipe,
-            m.breakfast_or_lunch,
-            m.junior_or_senior
-          ));
+          if (d.length) {
+            this.items = Menu.sort(d.map((m: Menu) => new Menu(
+              m.id,
+              m.date,
+              m.recipe,
+              m.breakfast_or_lunch,
+              m.junior_or_senior
+            )));
+          } else {
+            this.LogWarning('没有食谱数据');
+          }
+
+          this.loading = false;
         },
         e => this.LogError(e, '获取食谱信息失败，请重试'),
         () => this.LogComplete('menu component menus loading completed')
       );
+  }
+
+  get breakfastOrLunchString(): string {
+    return Constant.Instance.menus.breakfast_or_lunch[this.breakfast_or_lunch];
+  }
+
+  get juniorOrSeniorString(): string {
+    return Constant.Instance.menus.junior_or_senior[this.junior_or_senior];
   }
 }

@@ -10,7 +10,8 @@ export class MenuFilterPipe implements PipeTransform {
       return _.filter(array, row =>        
         row.recipe.indexOf(query) > -1 ||
         row.breakfast_or_lunch_str.indexOf(query) > -1 ||
-        row.junior_or_senior_str.indexOf(query) > -1
+        row.junior_or_senior_str.indexOf(query) > -1 || 
+        row.recipeName.indexOf(query) > -1
       );
     }
     return array;
