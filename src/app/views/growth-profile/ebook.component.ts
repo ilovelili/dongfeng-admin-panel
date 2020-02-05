@@ -4,8 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
 import { ProfileClient } from 'app/clients';
-import { Ebooks, Ebook } from 'app/models';
 import { environment } from 'environments/environment';
+import { Ebook } from 'app/models/ebook';
 
 @Component({
   templateUrl: './ebook.component.html',
@@ -15,8 +15,7 @@ import { environment } from 'environments/environment';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class EBookComponent extends ViewComponent implements OnInit {
-  private ebooks: Ebooks;
+export class EBookComponent extends ViewComponent implements OnInit {  
   private oneyear = true; // show only one year
 
   @ViewChild('ebookModal') ebookModal
@@ -27,50 +26,45 @@ export class EBookComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {    
-    this.getebooks();
+    this.getEbooks();
   }
 
-  getebooks() {
-    // this.loading = true;
-    // this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
-    //   subscribe(
-    //     d => {
-    //       this.ebooks = new Ebooks(d.ebooks);
-    //       if (!this.ebooks.empty()) {
-    //         this.items = this.ebooks.ebooks;
-    //         this.items.forEach(e => {
-    //           if (!this.years.includes(e.year)) {
-    //             this.years.push(e.year);
-    //           }
-    //           if (!this.classes.includes(e.class)) {
-    //             this.classes.push(e.class);
-    //           }
-    //         });
-    //       } else {
-    //         this.LogWarning('没有电子书数据');
-    //       }
-
-    //       this.loading = false;
-    //     },
-    //     e => {
-    //       this.LogError(e, '获取电子书数据失败，请重试');
-    //       this.loading = false;
-    //     },
-    //     () => this.LogComplete('ebook component ebook loading completed')
-    //   );
+  getEbooks() {
+    this.loading = true;
+    this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
+      subscribe(
+        d => {     
+          if (!d.length) {
+            this.LogWarning("没有电子书信息");
+          } else {
+            this.items = Ebook.sort(d.map((e: Ebook) => {
+              return new Ebook(
+                e.id,
+                e.pupil,
+                e.date
+              );
+            }));
+            
+            this.items.forEach((e: Ebook) => {
+              if (!this.classMap.has(e.classId)) {
+                this.classMap.set(e.classId, e.className);
+              }
+            });
+          }
+          
+          this.loading = false;
+        },
+        e => {
+          this.LogError(e, '获取电子书数据失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('ebook component ebook loading completed')
+      );
   }  
 
-  showebook(ebook: Ebook, oneyear: boolean) {    
-    this.oneyear = oneyear;    
-    if (oneyear) {
-      this.currentYear = ebook.year;      
-    } else {
-      this.currentYear = '';
-    }
-    
-    // todo fix type
-    // this.currentName = ebook.name;
-    // this.currentClass = ebook.class;    
+  showebook(ebook: Ebook) {    
+    this.currentName = ebook.pupilId;
+    this.currentClass = ebook.classId;
 
     this.conditionModal.hide();
     this.explainModal.hide();
@@ -96,39 +90,36 @@ export class EBookComponent extends ViewComponent implements OnInit {
     window.open(url);
   }
 
-  get names() {
-    let result = [];
-    
-    this.items.filter(i => {
-      let filterres = true;
-      if (this.currentYear) {
-        filterres = filterres && i.year == this.currentYear;
-      }
-      if (this.currentClass) {
-        filterres = filterres && i.class == this.currentClass;
-      }
-      return filterres;
-    }).map(i => i.name).forEach(n => {
-      if (n && !result.includes(n)) {
-        result.push(n);
-      }
-    });
+  get filteredPupilMap() {
+    let pupils = this.items.
+      filter(a => a.pupil.class.id == this.currentClass).
+      map(a => { return { key: a.pupil.id, value: a.pupil.name } });
 
-    return result;
+    // remove duplicates
+    let distincts = {};
+    pupils.forEach(p => {
+      distincts[p.key] = p.value;
+    })
+
+    let results = [];
+    for (var key in distincts) {
+      results.push({
+        key: key,
+        value: distincts[key],
+      });
+    }
+    return results;
   }
   
   get images(): string[] {
     let result = [];
     this.items.filter(i => {
-      let filterres = true;
-      if (this.currentYear) {
-        filterres = filterres && i.year == this.currentYear;
-      }
+      let filterres = true;      
       if (this.currentClass) {
-        filterres = filterres && i.class == this.currentClass;
+        filterres = filterres && i.classId == this.currentClass;
       }
       if (this.currentName) {
-        filterres = filterres && i.name == this.currentName;
+        filterres = filterres && i.pupilName == this.currentName;
       }
       return filterres;
     }).map((i): Ebook => {      

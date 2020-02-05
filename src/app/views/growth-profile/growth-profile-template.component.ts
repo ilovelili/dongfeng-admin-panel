@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ProfileClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
+import { ProfileTemplate } from 'app/models';
 
 @Component({
   templateUrl: './growth-profile-template.component.html',
@@ -33,13 +34,18 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     this.profileClient.getProfileTemplates().
       subscribe(
         d => {
-          this.loading = false;
-          this.items = d.templates;
-          if (this.items) {
+          if (d.length) {
+            this.items = d.map(p => new ProfileTemplate(
+              p.id,
+              p.name,
+              p.created_by)
+            );
             this.names = this.items.map(i => i.name);
           } else {
-            this.names = [];
+            this.LogWarning("没有电子书模板");
           }
+
+          this.loading = false;
         },
         e => {
           this.LogError(e, '获取成长档案模板失败，请重试');
@@ -74,7 +80,7 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     this.loading = true;
     this.profileClient.deleteProfileTemplate(name).
       subscribe(
-        _ => {           
+        _ => {
           this.getProfileTemplates();
         },
         e => {

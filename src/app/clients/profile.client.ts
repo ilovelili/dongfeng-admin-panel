@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
 import { Profiles, Profile } from 'app/models/profile';
-import { Empty, Ebooks } from 'app/models';
-import { ProfileTemplates, ProfileTemplate } from 'app/models/profile_template';
+import { Empty, Ebook } from 'app/models';
+import { ProfileTemplate } from 'app/models/profile_template';
 
 @Injectable()
 export class ProfileClient extends BaseClient {
@@ -38,30 +38,29 @@ export class ProfileClient extends BaseClient {
   getProfileTemplate(name: string): Observable<ProfileTemplate> {
     let params = new HttpParams();
     params = params.set("name", name);
-    return this.http.get<ProfileTemplate>(environment.api.baseURI + '/profiletemplate', {
+    return this.http.get<ProfileTemplate>(environment.api.baseURI + '/profileTemplate', {
       headers: this.defaultHeaders,
       params: params,
     });
   }
 
-  getProfileTemplates(): Observable<ProfileTemplates> {
-    return this.http.get<ProfileTemplates>(environment.api.baseURI + '/profiletemplates', {
+  getProfileTemplates(): Observable<ProfileTemplate[]> {
+    return this.http.get<ProfileTemplate[]>(environment.api.baseURI + '/profileTemplates', {
       headers: this.defaultHeaders,
     });
   }
 
   createProfileTemplate(name: string): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profiletemplate', {
-      name: name,
-      enabled: true,
-    }, this.defaultHttpOptions);
+    return this.http.post<Empty>(environment.api.baseURI + `/profileTemplate?name=${name}`, {}, this.defaultHttpOptions);
   }
 
   deleteProfileTemplate(name: string): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profiletemplate', {
-      name: name,
-      enabled: false,
-    }, this.defaultHttpOptions);
+    let params = new HttpParams();
+    params = params.set("name", name);
+    return this.http.delete<Empty>(environment.api.baseURI + '/profileTemplate', {
+      headers: this.defaultHeaders,
+      params: params,
+    });
   }
 
   createProfile(profile: Profile): Observable<Empty> {
@@ -139,7 +138,7 @@ export class ProfileClient extends BaseClient {
     }, this.defaultHttpOptions);
   }
 
-  getEbooks(year?: string, classId?: number, pupilId?: number): Observable<Ebooks> {
+  getEbooks(year?: string, classId?: number, pupilId?: number): Observable<Ebook[]> {
     let params = new HttpParams();
 
     if (year) {
@@ -152,7 +151,7 @@ export class ProfileClient extends BaseClient {
       params = params.set("name", pupilId.toString());
     }
 
-    return this.http.get<Ebooks>(environment.api.baseURI + '/ebooks', {
+    return this.http.get<Ebook[]>(environment.api.baseURI + '/ebooks', {
       headers: this.defaultHeaders,
       params: params,
     });

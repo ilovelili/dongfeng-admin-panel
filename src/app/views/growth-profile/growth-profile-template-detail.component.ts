@@ -49,8 +49,8 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
                 autosave: true,
                 autoload: true,
                 stepsBeforeSave: 1,
-                urlStore: this.endpoint,
-                urlLoad: this.endpoint,
+                urlStore: this.saveEndpoint,
+                urlLoad: this.loadEndpoint,
                 headers: this.profileClient.rawHeaders,
                 contentTypeJson: true,
                 credentials: 'omit',
@@ -85,8 +85,12 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         this.profileloaded = true;
     }
 
-    get endpoint(): string {
-        return `${environment.api.baseURI}/profiletemplatedetail?name=${this.currentName}`;
+    get saveEndpoint(): string {
+        return `${environment.api.baseURI}/profileTemplate?name=${this.currentName}`;
+    }
+
+    get loadEndpoint(): string {
+        return `${environment.api.baseURI}/profileTemplateContent?name=${this.currentName}`;
     }
 
     browsercheck() {

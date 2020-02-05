@@ -1,15 +1,37 @@
-export class Ebooks {
-    constructor(public ebooks: Ebook[]) { }
-      
-    empty(): boolean {
-      return !this || !this.ebooks || !this.ebooks.length;
+import { Pupil } from "./pupil";
+
+export class Ebook {
+    constructor(
+        public id: number,
+        public pupil: Pupil,
+        public date: string
+    ) { }    
+
+    get pupilName(): string {
+        return this.pupil.name;
     }
-  }  
-  
-  export class Ebook {    
-    year: string;
-    class: string;
-    name: string;
-    dates: string[];
-  }
-  
+
+    get pupilId(): number {
+        return this.pupil.id;
+    }
+
+    get className(): string {
+        return this.pupil.class.name;
+    }
+
+    get classId(): number {
+        return this.pupil.class.id;
+    }
+
+    static sort(ebooks: Ebook[]): Ebook[] {
+        return ebooks.sort((e1, e2): number => {
+          let d = new Date(e2.date).getTime() - new Date(e1.date).getTime();
+          if (d > 0) return 1;
+          if (d < 0) return -1;
+          if (e2.className > e1.className) return 1;
+          if (e2.className < e1.className) return -1;
+    
+          return 0;
+        });
+      }
+}

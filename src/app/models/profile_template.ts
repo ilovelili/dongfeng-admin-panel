@@ -1,11 +1,7 @@
-export class ProfileTemplates {
-    constructor(public templates: ProfileTemplate[]) { }
-    empty(): boolean {
-        return !this || !this.templates || !this.templates.length;
-    }
-}
-
-export class ProfileTemplate {    
-    name: string;
-    created_by: string;
+export class ProfileTemplate {
+    constructor(
+        public id: number,
+        public name: string,
+        public created_by: string
+    ) { }
 }

@@ -5,9 +5,8 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient, PupilClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { Profiles, FormattedProfile, Pupil } from 'app/models';
+import { Profiles, FormattedProfile, Pupil, ProfileTemplate } from 'app/models';
 import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
-import { ProfileTemplates } from 'app/models/profile_template';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -60,11 +59,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   loadtemplates() {
     this.loading = true;
     this.profileClient.getProfileTemplates().subscribe(
-      d => {
-        let _templates = new ProfileTemplates(d.templates);
-        if (!_templates.empty()) {
-          this.templates = _templates.templates.map(t => t.name);
-        }
+      d => {        
+        this.templates = d.map(t => t.name);
       },
       e => {
         this.LogError(e, '获取成长档案模板失败，请重试');
