@@ -38,6 +38,10 @@ export class Ingredient {
     get recipeNames(): string[] {
       return this.recipes.map(r => r.name);
     }
+
+    get recipeIds(): string {
+      return this.recipes.map(r => r.id).join(",");
+    }
   }
   
   export class IngredientCategory {

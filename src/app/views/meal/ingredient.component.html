@@ -2,8 +2,8 @@
   <div class="card">
     <div class="card-header">
       食材信息 <csv (Download)="DownloadCsv(false, filename('食材信息'), $event)"
-        [headers]="['食材','类别','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
-        [columns]="['ingredient','category','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
+        [headers]="['ID','食材','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
+        [columns]="['id','ingredient','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
     </div>
 
@@ -23,11 +23,11 @@
         [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
           <tr>
+            <th style="width: 6%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
             <th style="width: 13%">
               <mfDefaultSorter by="ingredient">食材</mfDefaultSorter>
-            </th>
-            <th style="width: 10%">
-              <mfDefaultSorter by="category">类别</mfDefaultSorter>
             </th>
             <th style="width: 5%">
               <mfDefaultSorter by="protein_100g" tooltip="每100克含量">蛋白质</mfDefaultSorter>
@@ -61,17 +61,15 @@
             </th>
             <th style="width: 5%">
               <mfDefaultSorter by="vc_100g" tooltip="每100克含量">VC</mfDefaultSorter>
-            </th>
-            <th style="width: 6%"><span
-                tooltip="当食材与食品累计表中不匹配时,系统将无法生成营养信息报表,此时需要手动讲两者匹配或者在食品累计表中添加相应食材信息。不匹配的信息用粉红色背景表示">匹配</span></th>
+            </th>            
             <th style="width: 8%"><span tooltip="使用该食材的食谱一览">食谱一览</span></th>
             <th style="width: 8%">食谱信息</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data" [ngClass]="{'mismatch':!item.category}">
+            <td>{{item.id}}</td>
             <td>{{item.ingredient}}</td>
-            <td>{{item.category}}</td>
             <td>{{item.protein_100g}}</td>
             <td>{{item.fat_100g}}</td>
             <td>{{item.carbohydrate_100g}}</td>
@@ -82,15 +80,14 @@
             <td>{{item.va_100g}}</td>
             <td>{{item.vb1_100g}}</td>
             <td>{{item.vb2_100g}}</td>
-            <td>{{item.vc_100g}}</td>
-            <td class="text-center"><a (click)="match(item,$event)"><i class="fa fa-edit"></i></a></td>
-            <td class="text-center"><a (click)="showrecipes(item,$event)"><i class="fa fa-list-ul"></i></a></td>
-            <td class="text-center"><a [routerLink]="['../../食谱信息', item.recipes]"><i class="fa fa-link"></i></a></td>
+            <td>{{item.vc_100g}}</td>            
+            <td class="text-center"><a (click)="showRecipes(item,$event)"><i class="fa fa-list-ul"></i></a></td>
+            <td class="text-center"><a [routerLink]="['../../食谱信息', item.recipeIds]"><i class="fa fa-link"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="16">
+            <td colspan="15">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -121,36 +118,9 @@
           <div class="card-body">
             <ul>
               <li *ngFor="let recipe of _recipes">
-                <a [routerLink]="['../../食谱信息', recipe]">{{recipe}}</a>
+                <a [routerLink]="['../../食谱信息', recipe.id]">{{recipe.name}}</a>
               </li>
             </ul>
-          </div>
-        </div>
-
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-<div bsModal #matchModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-  <div class="modal-dialog modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">食材匹配</h6>
-        <button type="button" class="close" (click)="matchModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        <div class="card">
-          <div class="card-header">
-            食材 <strong>{{currentItem ? currentItem.ingredient : ''}}</strong> 匹配
-          </div>
-          <div class="card-body">
-            <input type="text" [value]="query" ngxTypeahead [taUrl]="matchurl" [taApi]="'http'"
-              [taDisplayOnFocus]="true" (taSelected)="updatematch($event)" />
           </div>
         </div>
 

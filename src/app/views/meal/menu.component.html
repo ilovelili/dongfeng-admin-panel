@@ -1,8 +1,8 @@
 <div class="animated fadeIn">
   <div class="card">
     <div class="card-header">本周食谱 ({{dateFrom}} ~ {{dateTo}})
-      <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['日期','班级','早/中/点','食谱']"
-        [columns]="['date','junior_or_senior_str','breakfast_or_lunch_str','recipe']">
+      <csv (Download)="DownloadCsv(false, filename('本周食谱'), $event)" [headers]="['ID','日期','班级','早/中/点','食谱']"
+        [columns]="['id','date','junior_or_senior_str','breakfast_or_lunch_str','recipeName']">
       </csv>
 
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
@@ -24,16 +24,19 @@
         [mfRowsOnPage]="10" [hidden]="loading">
         <thead>
           <tr>
+            <th style="width: 5%">
+              <mfDefaultSorter by="id">ID</mfDefaultSorter>
+            </th>
             <th style="width: 15%">
               <mfDefaultSorter by="date">日期</mfDefaultSorter>
             </th>
-            <th style="width: 15%">
+            <th style="width: 10%">
               <mfDefaultSorter by="junior_or_senior">班级</mfDefaultSorter>
             </th>
             <th style="width: 15%">
               <mfDefaultSorter by="breakfast_or_lunch">早/中/点</mfDefaultSorter>
             </th>
-            <th style="width: 45%">
+            <th style="width: 40%">
               <mfDefaultSorter by="recipeName">食谱</mfDefaultSorter>
             </th>
             <th style="width: 10%">食谱信息</th>
@@ -41,6 +44,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
+            <td>{{item.id}}</td>
             <td>{{item.date}}</td>
             <td>{{item.junior_or_senior_str}}</td>
             <td>{{item.breakfast_or_lunch_str}}</td>
@@ -50,7 +54,7 @@
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="5">
+            <td colspan="6">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>

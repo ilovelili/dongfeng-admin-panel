@@ -1,9 +1,9 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!recipes || recipes.empty()">
+  <div class="card">
     <div class="card-header">
       食谱信息
-      <csv (Download)="DownloadCsv(false, filename('食谱信息'), $event)" [headers]="['食谱名','食材','碳水化合物','膳食纤维','蛋白质','脂肪','热量']"
-        [columns]="['recipe','ingredients','carbohydrate','dietaryfiber','protein','fat','heat']">
+      <csv (Download)="DownloadCsv(false, filename('食谱信息'), $event)" [headers]="['ID','食谱名','食材','碳水化合物','膳食纤维','蛋白质','脂肪','热量']"
+        [columns]="['id','name','ingredientNames','nutrition?.carbohydrate','nutrition?.dietaryfiber','nutrition?.protein','nutrition?.fat','nutrition?.heat']">
       </csv>
     </div>
 
@@ -23,45 +23,49 @@
         [mfRowsOnPage]="30" [hidden]="loading">
         <thead>
           <tr>
-            <th style="width: 22%">
-              <mfDefaultSorter by="recipe">食谱名</mfDefaultSorter>
+            <th style="width: 5%">
+              <mfDefaultSorter by="name">ID</mfDefaultSorter>
+            </th>
+            <th style="width: 17%">
+              <mfDefaultSorter by="name">食谱名</mfDefaultSorter>
             </th>
             <th style="width: 35%">
-              <mfDefaultSorter by="ingredients">食材</mfDefaultSorter>
+              <mfDefaultSorter by="ingredientNames">食材</mfDefaultSorter>
             </th>
             <th style="width: 7%">
-              <mfDefaultSorter by="carbohydrate">碳水化合物</mfDefaultSorter>
+              <mfDefaultSorter by="nutrition?.carbohydrate">碳水化合物</mfDefaultSorter>
             </th>
             <th style="width: 7%">
-              <mfDefaultSorter by="dietaryfiber">膳食纤维</mfDefaultSorter>
+              <mfDefaultSorter by="nutrition?.dietaryfiber">膳食纤维</mfDefaultSorter>
             </th>
             <th style="width: 7%">
-              <mfDefaultSorter by="protein">蛋白质</mfDefaultSorter>
+              <mfDefaultSorter by="nutrition?.protein">蛋白质</mfDefaultSorter>
             </th>
             <th style="width: 7%">
-              <mfDefaultSorter by="fat">脂肪</mfDefaultSorter>
+              <mfDefaultSorter by="nutrition?.fat">脂肪</mfDefaultSorter>
             </th>
             <th style="width: 7%">
-              <mfDefaultSorter by="heat">热量</mfDefaultSorter>
+              <mfDefaultSorter by="nutrition?.heat">热量</mfDefaultSorter>
             </th>
             <th style="width: 8%">食材信息</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let item of mf.data">
-            <td>{{item.recipe}}</td>
-            <td>{{item.ingredients}}</td>
-            <td>{{item.carbohydrate}}</td>
-            <td>{{item.dietaryfiber}}</td>
-            <td>{{item.protein}}</td>
-            <td>{{item.fat}}</td>
-            <td>{{item.heat}}</td>
-            <td><a class="text-center" [routerLink]="['../../食材信息', item.recipe]"><i class="fa fa-link fa-sm"></i></a></td>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.ingredientNames}}</td>
+            <td>{{item.nutrition?.carbohydrate}}</td>
+            <td>{{item.nutrition?.dietaryfiber}}</td>
+            <td>{{item.nutrition?.protein}}</td>
+            <td>{{item.nutrition?.fat}}</td>
+            <td>{{item.nutrition?.heat}}</td>
+            <td><a class="text-center" [routerLink]="['../../食材信息', item.ingredientIds]"><i class="fa fa-link fa-sm"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="8">
+            <td colspan="9">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
