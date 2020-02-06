@@ -1,8 +1,7 @@
 <div class="animated fadeIn">
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
-            成长档案 - {{this.currentYear}}学年 {{this.currentClass}} {{this.currentName}} {{this.currentDate}}
-
+            成长档案 - {{searchcriteria.class}} {{searchcriteria.name}} {{searchcriteria.date}}
             <button type="button" (click)="getNext()" class="btn btn-sm btn-info pull-right">下一页</button>
             <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
@@ -29,44 +28,34 @@
             <div class="modal-body">
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["year"] || searchcriteria.year}} <span class="caret"></span>
+                        {{searchcriteria.class}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngFor="let year of years" role="menuitem">
-                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+                        <li *ngFor="let key of getKeys(classMap)" role="menuitem">
+                            <a class="dropdown-item" (click)="setclass(key, classMap.get(key))">{{classMap.get(key)}}</a>
                         </li>
-                        <li [hidden]="years.length" role="menuitem">
+
+                        <li [hidden]="classMap.size" role="menuitem">
                             <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
-                </div>
+                </div>                
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["class"] || searchcriteria.class}} <span class="caret"></span>
+                        {{searchcriteria.name}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngFor="let class of classes" role="menuitem">
-                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
+                        <li *ngIf="currentClass && classProfileIds.includes(currentClass)" role="menuitem">
+                            <a class="dropdown-item" (click)="setpupil(0)">{{currentClass}}全员</a>
                         </li>
-                        <li [hidden]="classes.length" role="menuitem">
-                            <a class="dropdown-item">没有数据，请新建成长档案</a>
+                        <li *ngFor="let key of getKeys(filterPupilMap(_pupilMap))" role="menuitem">
+                            <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(_pupilMap).get(key))">{{filterPupilMap(_pupilMap).get(key)}}</a>
                         </li>
-                    </ul>
-                </div>
-
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["name"] || searchcriteria.name}} <span class="caret"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngIf="currentClass" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(currentClass)">{{currentClass}}全员</a>
+                        <li *ngIf="!currentClass" role="menuitem">
+                            <a class="dropdown-item">请先选择班级</a>
                         </li>
-                        <li *ngFor="let name of profilenames" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
-                        </li>
-                        <li [hidden]="profilenames.length" role="menuitem">
+                        <li *ngIf="currentClass && !filterPupilMap(_pupilMap).size" role="menuitem">
                             <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
@@ -80,7 +69,10 @@
                         <li *ngFor="let date of profiledates" role="menuitem">
                             <a class="dropdown-item" (click)="setdate(date)">{{date}}</a>
                         </li>
-                        <li [hidden]="profiledates.length" role="menuitem">
+                        <li *ngIf="!currentName" role="menuitem">
+                            <a class="dropdown-item">请先选择姓名</a>
+                        </li>
+                        <li *ngIf="currentName && !profiledates.length" role="menuitem">
                             <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
@@ -106,57 +98,51 @@
                 </button>
             </div>
             <div class="modal-body">
+
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["year"] || searchcriteria.year}} <span class="caret"></span>
+                        {{searchcriteria.class}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngFor="let year of pupilyears" role="menuitem">
-                            <a class="dropdown-item" (click)="setyear(year)">{{year}}</a>
+                        <li *ngFor="let key of getKeys(fullClassMap)" role="menuitem">
+                            <a class="dropdown-item" (click)="setclass(key, fullClassMap.get(key))">{{fullClassMap.get(key)}}</a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["class"] || searchcriteria.class}} <span class="caret"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngFor="let class of pupilclasses" role="menuitem">
-                            <a class="dropdown-item" (click)="setclass(class)">{{class}}</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{params["name"] || searchcriteria.name}} <span class="caret"></span>
-                    </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngIf="currentClass && currentYear" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(currentClass)">{{currentClass}}全员</a>
-                        </li>
-                        <li *ngFor="let name of pupilnames" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(name)">{{name}}</a>
-                        </li>
-                        <li [hidden]="currentClass && currentYear" role="menuitem">
-                            <a class="dropdown-item">没有数据,请选择学年和班级</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="btn-group" dropdown>
-                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
-                        {{currentTemplate ? currentTemplate : '模板'}} <span class="caret"></span>
+                        {{searchcriteria.name}} <span class="caret"></span>
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li role="menuitem">
-                            <a class="dropdown-item" (click)="settemplate('')">不使用模板</a>
+                            <a class="dropdown-item" (click)="setpupil(0)">全员</a>
                         </li>
-                        <li *ngFor="let template of templates" role="menuitem">
-                            <a class="dropdown-item" (click)="settemplate(template)">{{template}}</a>
+
+                        <li *ngFor="let key of getKeys(filterPupilMap(fullPupilMap))" role="menuitem">
+                            <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(fullPupilMap).get(key))">{{filterPupilMap(fullPupilMap).get(key)}}</a>
                         </li>
-                        <li [hidden]="templates" role="menuitem">
+                        
+                        <li [hidden]="currentClass" role="menuitem">
+                            <a class="dropdown-item">请先选择班级</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group" dropdown>
+                    <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
+                        {{currentTemplate ? templateMap.get(currentTemplate) : '模板'}} <span class="caret"></span>
+                    </button>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
+                        <li role="menuitem">
+                            <a class="dropdown-item" (click)="settemplate(0)">不使用模板</a>
+                        </li>
+
+                        <li *ngFor="let key of getKeys(templateMap)" role="menuitem">
+                            <a class="dropdown-item" (click)="settemplate(key, templateMap.get(key))">{{templateMap.get(key)}}</a>
+                        </li>
+
+                        <li [hidden]="templateMap.size" role="menuitem">
                             <a class="dropdown-item">没有可用模板</a>
                         </li>
                     </ul>

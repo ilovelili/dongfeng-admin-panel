@@ -12,7 +12,6 @@ export * from './menu';
 export * from './recipe';
 export * from './ingredient';
 export * from './profile';
-export * from './profile_template';
 export * from './ebook';
 export * from './auth';
 export * from './const';

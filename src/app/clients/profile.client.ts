@@ -3,38 +3,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Profiles, Profile } from 'app/models/profile';
-import { Empty, Ebook } from 'app/models';
-import { ProfileTemplate } from 'app/models/profile_template';
+import { Empty, Ebook, Profile } from 'app/models';
+import { ProfileTemplate } from 'app/models';
 
 @Injectable()
 export class ProfileClient extends BaseClient {
   constructor(protected http: HttpClient) {
     super(http);
   }
-
-  getProfiles(year?: string, classId?: number, pupilId?: number, date?: string): Observable<Profiles> {
-    let params = new HttpParams();
-
-    if (year) {
-      params = params.set("year", year);
-    }
-    if (classId) {
-      params = params.set("class", classId.toString());
-    }
-    if (pupilId) {
-      params = params.set("name", pupilId.toString());
-    }
-    if (date) {
-      params = params.set("date", date);
-    }
-
-    return this.http.get<Profiles>(environment.api.baseURI + '/profiles', {
-      headers: this.defaultHeaders,
-      params: params,
-    });
-  }
-
+  
   getProfileTemplate(name: string): Observable<ProfileTemplate> {
     let params = new HttpParams();
     params = params.set("name", name);
@@ -63,23 +40,35 @@ export class ProfileClient extends BaseClient {
     });
   }
 
+  getProfiles(year?: string): Observable<Profile[]> {
+    let params = new HttpParams();
+
+    if (year) {
+      params = params.set("year", year);
+    }
+    
+    return this.http.get<Profile[]>(environment.api.baseURI + '/profiles', {
+      headers: this.defaultHeaders,
+      params: params,
+    });
+  }
+  
   createProfile(profile: Profile): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profile/create', {
-      year: profile.year,
-      class: profile.class,
-      name: profile.name,
+    return this.http.post<Empty>(environment.api.baseURI + '/profile', {
+      pupil_id: profile.pupil_id,
+      class_id: profile.class_id,
       date: profile.date,
-      template: profile.template,
+      template_id: profile.template_id,
     }, this.defaultHttpOptions);
   };
 
-  deleteProfile(profile: Profile): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profile/delete', {
-      year: profile.year,
-      class: profile.class,
-      name: profile.name,
-      date: profile.date,
-    }, this.defaultHttpOptions);
+  deleteProfile(id: number): Observable<Empty> {
+    let params = new HttpParams();
+    params = params.set("id", id.toString());
+    return this.http.delete<Empty>(environment.api.baseURI + '/profile', {
+      headers: this.defaultHeaders,
+      params: params,
+    });
   };
 
   getPrevProfile(year?: string, classId?: number, pupilId?: number, date?: string): Observable<Profile> {
@@ -128,9 +117,7 @@ export class ProfileClient extends BaseClient {
 
   updateEBook(profile: Profile, images: string[], html: string, css: string): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + '/ebook', {
-      year: profile.year,
-      class: profile.class,
-      name: profile.name,
+      pupilId: profile.pupilId,
       date: profile.date,
       images: images,
       html: html,

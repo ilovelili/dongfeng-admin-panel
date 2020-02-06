@@ -5,8 +5,8 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient, PupilClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { Profiles, FormattedProfile, Pupil, ProfileTemplate } from 'app/models';
 import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
+import { Profile, Pupil, ProfileTemplate } from 'app/models';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -25,13 +25,15 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('confirmModal') confirmModal
 
   private profileloaded = false;
-  private pupils: Pupil[];
-  private profiles: FormattedProfile[];
-  private templates: string[];
-  private currentTemplate: string = '';
+  private profiles: Profile[] = [];
+  private currentTemplate: number;
 
-  private pupilyears: string[] = [];
-  private pupilclasses: string[] = [];
+  private templateMap: Map<number, string> = new Map();
+  private fullClassMap: Map<number, string> = new Map();
+
+  private _pupilMap: Map<number, Pupil> = new Map();
+  private fullPupilMap: Map<number, Pupil> = new Map();
+  private classProfileIds = [];
 
   private editor: any;
   private profilecreatedate = new Date();
@@ -51,16 +53,57 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.browsercheck();
-    this.loadtemplates();
-    this.loadprofiles();
+    this.browserCheck();
+    this.loadTemplates();
+    this.loadProfiles();
+    this.loadPupils();
   }
 
-  loadtemplates() {
+  loadPupils() {
+    this.loading = true;
+    this.pupilClient.getPupils().
+      subscribe(
+        d => {
+          if (d.length) {
+            let pupils = d.map(p => {
+              let _pupil = new Pupil();
+              _pupil.id = p.id;
+              _pupil.class = p.class,
+                _pupil.name = p.name;
+              return _pupil;
+            });
+
+            pupils.forEach((p: Pupil) => {
+              if (!this.fullClassMap.has(p.class.id)) {
+                this.fullClassMap.set(p.class.id, p.class.name);
+              }
+
+              if (!this.fullPupilMap.has(p.id)) {
+                this.fullPupilMap.set(p.id, p);
+              }
+            });
+          } else {
+            this.LogError("no pupil", "加载园儿信息失败，请重试");
+          }
+          this.loading = false;
+        },
+        e => this.LogError(e, '获取成长档案信息失败，请重试'),
+        () => this.LogComplete('profile component pupils loading completed')
+      );
+  }
+
+  loadTemplates() {
     this.loading = true;
     this.profileClient.getProfileTemplates().subscribe(
-      d => {        
-        this.templates = d.map(t => t.name);
+      d => {
+        if (d.length) {
+          let templates = d.map(t => new ProfileTemplate(t.id, t.name, t.created_by));
+          templates.forEach(t => {
+            if (!this.templateMap.has(t.id)) {
+              this.templateMap.set(t.id, t.name);
+            }
+          });
+        }
       },
       e => {
         this.LogError(e, '获取成长档案模板失败，请重试');
@@ -70,83 +113,94 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     );
   }
 
-  loadprofiles() {
+  loadProfiles() {
+    this.loading = true;
+    this.profileClient.getProfiles(this.currentYear).
+      subscribe(
+        d => {
+          if (d.length) {
+            this.profiles = d.map(p => new Profile(
+              p.id,
+              p.date,
+              p.pupil,
+              p.pupil_id,
+              p.class_id,
+              p.template,
+              p.template_id
+            ));
+
+            this.profiles.forEach((p: Profile) => {
+              if (p.isClassProfile) {
+                this.classProfileIds.push(p.class_id);
+              }
+
+              if (!this.classMap.has(p.classId)) {
+                this.classMap.set(p.classId, p.className);
+              }
+
+              if (!this._pupilMap.has(p.pupilId)) {
+                this._pupilMap.set(p.pupilId, p.pupil);
+              }
+            });
+          }
+
+          this.loading = false;
+          this.showProfileModal();
+        },
+        e => {
+          this.LogError(e, '获取成长档案信息失败，请重试');
+          this.loading = false;
+        },
+        () => this.LogComplete('profile component profile loading completed')
+      );
+  }
+
+  getPrev() {
     // this.loading = true;
-    // this.profileClient.getProfiles(this.currentYear, this.currentClass, this.currentName, this.currentDate).
+    // this.profileClient.getPrevProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
     //   subscribe(
     //     d => {
-    //       if (this.currentYear) {
-    //         this.years.push(this.currentYear);
-    //       }
-    //       if (this.currentClass) {
-    //         this.classes.push(this.currentClass);
-    //       }
-
     //       this.loading = false;
-    //       this.profiles = new Profiles(d.profiles).format();
-    //       this.profiles.forEach(p => {
-    //         if (!this.years.includes(p.year)) {
-    //           this.years.push(p.year);
-    //         }
-    //         if (!this.classes.includes(p.class)) {
-    //           this.classes.push(p.class);
-    //         }
-    //       });
-
-    //       this.showProfileModal();
+    //       if (d && d.date) {
+    //         this.currentDate = d.date;
+    //         this.loadProfileEditor();
+    //       } else {
+    //         this.LogSuccess('没有上页了');
+    //       }
     //     },
     //     e => {
     //       this.LogError(e, '获取成长档案信息失败，请重试');
     //       this.loading = false;
     //     },
-    //     () => this.LogComplete('profile component profile loading completed')
+    //     () => this.LogComplete('profile component prev profile loading completed')
     //   );
   }
 
-  getPrev() {
-    this.loading = true;
-    this.profileClient.getPrevProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
-      subscribe(
-        d => {
-          this.loading = false;
-          if (d && d.date) {
-            this.currentDate = d.date;
-            this.loadProfileEditor();
-          } else {
-            this.LogSuccess('没有上页了');
-          }
-        },
-        e => {
-          this.LogError(e, '获取成长档案信息失败，请重试');
-          this.loading = false;
-        },
-        () => this.LogComplete('profile component prev profile loading completed')
-      );
-  }
-
   getNext() {
-    this.loading = true;
-    this.profileClient.getNextProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
-      subscribe(
-        d => {
-          this.loading = false;
-          if (d && d.date) {
-            this.currentDate = d.date;
-            this.loadProfileEditor();
-          } else {
-            this.LogSuccess('没有下页了');
-          }
-        },
-        e => {
-          this.LogError(e, '获取成长档案信息失败，请重试');
-          this.loading = false;
-        },
-        () => this.LogComplete('profile component next profile loading completed')
-      );
+    // this.loading = true;
+    // this.profileClient.getNextProfile(this.currentYear, this.currentClass, this.currentName, this.currentDate).
+    //   subscribe(
+    //     d => {
+    //       this.loading = false;
+    //       if (d && d.date) {
+    //         this.currentDate = d.date;
+    //         this.loadProfileEditor();
+    //       } else {
+    //         this.LogSuccess('没有下页了');
+    //       }
+    //     },
+    //     e => {
+    //       this.LogError(e, '获取成长档案信息失败，请重试');
+    //       this.loading = false;
+    //     },
+    //     () => this.LogComplete('profile component next profile loading completed')
+    //   );
   }
 
-  settemplate(template: string) {
-    this.currentTemplate = template;
+  settemplate(templateId: number) {
+    if (templateId != this.currentTemplate) {
+      this.currentTemplate = templateId;
+    }
   }
 
   showConfirmModal() {
@@ -174,142 +228,102 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.confirmModal.hide();
     this.profileModal.hide();
     this.explainModal.hide();
-    this.loading = true;
-
-    this.pupilClient.getPupils().
-      subscribe(
-        d => {
-          this.loading = false;
-          this.pupils = d;
-
-          if (this.pupils.length) {
-            this.pupils.forEach(p => {              
-              if (!this.pupilclasses.includes(p.class.name)) {
-                this.pupilclasses.push(p.class.name);
-              }
-            });
-
-            this.newprofileModal.show();
-          }
-        },
-        e => this.LogError(e, '获取成长档案信息失败，请重试'),
-        () => this.LogComplete('profile component pupils loading completed')
-      );
+    this.newprofileModal.show();
   }
 
-  getdates(year?: string, cls?: string, name?: string) {
-    return this.profiles.find(p => {
-      let result = true;
-      if (year) {
-        result = result && p.year == year;
+  filterPupilMap(pupilMap: Map<number, Pupil>): Map<number, string> {
+    let result = new Map<number, string>();
+    pupilMap.forEach((v, k) => {
+      if (v.class.id == this.currentClass) {
+        result.set(k, v.name);
       }
-      if (cls) {
-        result = result && p.class == cls;
+    });
+    return result;
+  }
+
+  get profiledates(): string[] {
+    return this.profiles.filter(p => p.pupilId == this.currentName).map(p => p.date);
+  }
+
+  get currentProfileId(): number {
+    return this.profiles.find((p: Profile) => {
+      if (!this.currentName) {
+        return p.class_id == this.currentClass && p.date == this.currentDate;
       }
-      if (name) {
-        result = result && p.name == name;
-      }
-      return result;
-    }).dates;
-  }
-
-  get profilenames() {
-    // todo: fix
-    return [];
-
-    // return this.profiles.filter(p => p.year == this.currentYear && p.class == this.currentClass && p.name != p.class).map(p => p.name);
-  }
-
-  get profiledates() {
-    // todo: fix
-    return []
-
-    // let profile = this.profiles.find(p => p.year == this.currentYear && p.class == this.currentClass && p.name == this.currentName);
-    // return profile ? profile.dates : [];
-  }
-
-  get pupilnames() {
-    // todo: fix
-
-    return [];
-    // return this.pupils.filter(p => p.class == this.currentClass).map(p => p.name);
+      return p.pupil_id == this.currentName && p.date == this.currentDate;
+    }).id;
   }
 
   get endpoint(): string {
-    let url = `${environment.api.baseURI}/profile?`;
-    let query = [];
-
-    if (this.currentYear) {
-      query.push(`year=${this.currentYear}`);
-    }
-    if (this.currentClass) {
-      query.push(`class=${this.currentClass}`);
-    }
-    if (this.currentName) {
-      query.push(`name=${this.currentName}`);
-    }
-    if (this.currentDate) {
-      query.push(`date=${this.currentDate}`);
-    }
-
-    return url + query.join('&');
+    return `${environment.api.baseURI}/profileContent?id=${this.currentProfileId}`;
   }
 
   createProfile() {
-    // if (!this.currentYear || !this.currentClass || !this.profilecreatedate) {
-    //   this.toasterService.pop('error', '', '请设置正确的条件');
-    //   return;
-    // }
+    if (!this.currentYear || !this.currentClass || !this.profilecreatedate) {
+      this.toasterService.pop('error', '', '请设置正确的条件');
+      return;
+    }
 
-    // this.currentDate = this.dateToString(this.profilecreatedate);    
-    // this.loading = true;
-    // let profile = {
-    //   id: 0,
-    //   year: this.currentYear,
-    //   class: this.currentClass,
-    //   name: this.currentName,
-    //   date: this.currentDate,
-    //   template: this.currentTemplate,
-    // };
+    this.currentDate = this.dateToString(this.profilecreatedate);
+    this.loading = true;
+    let profile = new Profile(
+      0,
+      this.currentDate,
+      null,
+      this.currentName,
+      this.currentClass,
+      null,
+      this.currentTemplate
+    );
 
-    // this.profileClient.createProfile(profile).subscribe(
-    //   d => {
-    //     this.LogSuccess("成长档案创建成功");
+    this.profileClient.createProfile(profile).subscribe(
+      id => {
+        this.LogSuccess("成长档案创建成功");
 
-    //     this.profileClient.getProfiles().
-    //       subscribe(
-    //         d => {
-    //           if (this.currentYear) {
-    //             this.years.push(this.currentYear);
-    //           }
-    //           if (this.currentClass) {
-    //             this.classes.push(this.currentClass);
-    //           }
+        this.loading = true;
+        this.profileClient.getProfiles(this.currentYear).
+          subscribe(
+            d => {
+              if (d.length) {
+                this.profiles = d.map(p => new Profile(
+                  p.id,
+                  p.date,
+                  p.pupil,
+                  p.pupil_id,
+                  p.class_id,
+                  p.template,
+                  p.template_id
+                ));
 
-    //           this.loading = false;
-    //           this.profiles = new Profiles(d.profiles).format();
-    //           this.profiles.forEach(p => {
-    //             if (!this.years.includes(p.year)) {
-    //               this.years.push(p.year);
-    //             }
-    //             if (!this.classes.includes(p.class)) {
-    //               this.classes.push(p.class);
-    //             }
-    //           });
+                this.profiles.forEach((p: Profile) => {
+                  if (p.isClassProfile) {
+                    this.classProfileIds.push(p.class_id);
+                  }
 
-    //           this.newprofileModal.hide();
-    //           this.loadProfileEditor();
-    //         },
-    //         e => {
-    //           this.LogError(e, '获取成长档案信息失败，请重试');
-    //           this.loading = false;
-    //         },
-    //         () => this.LogComplete('profile component profile loading completed')
-    //       );
-    //   },
-    //   e => this.LogError(e, '相同成长档案已经存在，无法创建'),
-    //   () => this.LogComplete('profile component profile creation completed')
-    // );
+                  if (!this.classMap.has(p.classId)) {
+                    this.classMap.set(p.classId, p.className);
+                  }
+
+                  if (!this._pupilMap.has(p.pupilId)) {
+                    this._pupilMap.set(p.pupilId, p.pupil);
+                  }
+                });
+              }
+
+              this.newprofileModal.hide();
+              this.loading = false;              
+              this.loadProfileEditor();
+            },
+            e => {
+              this.LogError(e, '获取成长档案信息失败，请重试');
+              this.loading = false;
+            },
+            () => this.LogComplete('profile component profile loading completed')
+          );
+      },
+      e => this.LogError(e, '相同成长档案已经存在，无法创建'),
+      () => this.LogComplete('profile component profile creation completed')
+    );
   }
 
   deleteProfile() {
@@ -357,7 +371,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   loadProfileEditor() {
-    if (!this.currentYear || !this.currentClass || !this.currentName || !this.currentDate) {
+    if (!this.currentClass || !this.currentName || !this.currentDate) {
       this.toasterService.pop('error', '', '请设置正确的检索条件');
       return;
     }
@@ -372,7 +386,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         'gjs-preset-newsletter': {},
         'grapesjs-plugin-export': {
           btnLabel: '导出为zip格式',
-          filename: editor => `成长档案_${this.currentYear}_${this.currentClass}_${this.currentName}_${this.currentDate}.zip`,
+          // {{searchcriteria.class}} {{searchcriteria.name}} {{searchcriteria.date}}
+          filename: editor => `成长档案_${this.currentYear}_${this.searchcriteria.class}_${this.searchcriteria.name}_${this.searchcriteria.date}.zip`,
           root: {
             css: {
               'style.css': editor => editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS(),
@@ -398,7 +413,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         contentTypeJson: true,
         credentials: 'omit',
         onComplete: () => {
-          window.setTimeout(() => {            
+          window.setTimeout(() => {
             let body = this.editor.getHtml();
             if (!body) {
               return;
@@ -538,7 +553,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     return content
   }
 
-  browsercheck() {
+  browserCheck() {
     // Opera 8.0+
     const isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
     // Firefox 1.0+

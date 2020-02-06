@@ -41,6 +41,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
               return new Ebook(
                 e.id,
                 e.pupil,
+                e.pupil_id,
                 e.date
               );
             }));
