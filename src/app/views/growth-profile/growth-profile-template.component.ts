@@ -42,9 +42,9 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
             );
             this.names = this.items.map(i => i.name);
           } else {
+            this.items = [];
             this.LogWarning("没有电子书模板");
           }
-
           this.loading = false;
         },
         e => {

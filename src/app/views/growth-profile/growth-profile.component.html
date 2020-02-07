@@ -45,10 +45,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li *ngIf="currentClass && classProfileIds.includes(currentClass)" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(0)">{{currentClass}}全员</a>
-                        </li>
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let key of getKeys(filterPupilMap(_pupilMap))" role="menuitem">
                             <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(_pupilMap).get(key))">{{filterPupilMap(_pupilMap).get(key)}}</a>
                         </li>
@@ -114,11 +111,7 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                        <li role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(0)">全员</a>
-                        </li>
-
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
                         <li *ngFor="let key of getKeys(filterPupilMap(fullPupilMap))" role="menuitem">
                             <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(fullPupilMap).get(key))">{{filterPupilMap(fullPupilMap).get(key)}}</a>
                         </li>

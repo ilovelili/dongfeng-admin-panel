@@ -2,19 +2,14 @@ import { Pupil } from "./pupil";
 
 export class Profile {
     constructor(
-        public id: number,        
+        public id: number,
         public date: string,
         public pupil?: Pupil,
         public pupil_id?: number,
-        public class_id?: number,
         public template?: ProfileTemplate,
-        public template_id?: number        
+        public template_id?: number
     ) { }
-
-    get isClassProfile(): boolean {
-        return !!this.class_id
-    }
-
+    
     get className(): string {
         return this.pupil.class.name;
     }
