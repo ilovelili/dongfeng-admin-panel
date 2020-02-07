@@ -12,6 +12,6 @@ export class ConstClient extends BaseClient {
     }
 
     getConsts(): Observable<Constant> {
-        return this.http.get<Constant>(environment.api.constURI + '/const.json', { headers: this.defaultHeaders });
+        return this.http.get<Constant>(environment.api.baseURI + '/const.json', { headers: this.defaultHeaders });
     };
 }
