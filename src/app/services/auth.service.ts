@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { environment } from 'environments/environment';
 import { Auth, Role } from 'app/models';
-import { UserClient } from 'app/clients';
+import { UserClient, ConstClient } from 'app/clients';
 
 (window as any).global = window;
 declare var Authing: any;
@@ -15,17 +15,26 @@ const KEY_EXP: string = 'exp';
 const KEY_AUTHED: string = 'authed';
 const KEY_CONSTS: string = 'consts';
 const KEY_YEAR: string = 'year';
+const KEY_CONST: string = 'consts';
 
 @Injectable()
 export class AuthService {
   private namespace: string = 'dongfeng';
   private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
 
-  constructor(private router: Router, private userClient: UserClient) {
+  constructor(private router: Router, private userClient: UserClient, private constClient: ConstClient) {
   }
 
   getRole() {
     return this.userClient.getUser();
+  }
+
+  setConst() {
+    if (!this.sessionFactory.get(KEY_CONST)) {
+      this.constClient.getConsts().toPromise().then(
+        d => this.sessionFactory.set(KEY_CONST, d)
+      );
+    }
   }
 
   validateAccessible() {
@@ -38,20 +47,20 @@ export class AuthService {
         },
         e => {
           console.error(e);
-          this.logout();          
+          this.logout();
         }
       );
   }
 
   setSession(auth: Auth) {
-    this.sessionFactory.set(KEY_TOKEN, auth.token);    
+    this.sessionFactory.set(KEY_TOKEN, auth.token);
     this.sessionFactory.set(KEY_EXP, new Date(auth.tokenExpiredAt).getTime());
     this.sessionFactory.set(KEY_AUTHED, true);
   }
 
   clearSession() {
     this.sessionFactory.remove(AUTHING_TOKEN);
-    this.sessionFactory.remove(KEY_TOKEN);    
+    this.sessionFactory.remove(KEY_TOKEN);
     this.sessionFactory.remove(KEY_EXP);
     this.sessionFactory.remove(KEY_AUTHED);
     this.sessionFactory.remove(KEY_CONSTS);
