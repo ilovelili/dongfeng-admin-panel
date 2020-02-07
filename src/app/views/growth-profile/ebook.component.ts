@@ -15,7 +15,7 @@ import { Ebook } from 'app/models/ebook';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class EBookComponent extends ViewComponent implements OnInit {  
+export class EBookComponent extends ViewComponent implements OnInit {
   private oneyear = true; // show only one year
 
   @ViewChild('ebookModal') ebookModal
@@ -25,7 +25,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
     super(router, authService, activatedRoute, toasterService);
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.getEbooks();
   }
 
@@ -33,7 +33,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
     this.loading = true;
     this.profileClient.getEbooks(this.currentYear, this.currentClass, this.currentName).
       subscribe(
-        d => {     
+        d => {
           if (!d.length) {
             this.LogWarning("没有电子书信息");
           } else {
@@ -45,14 +45,18 @@ export class EBookComponent extends ViewComponent implements OnInit {
                 e.date
               );
             }));
-            
+
             this.items.forEach((e: Ebook) => {
               if (!this.classMap.has(e.classId)) {
                 this.classMap.set(e.classId, e.className);
               }
+
+              if (!this.pupilMap.has(e.pupilId)) {
+                this.pupilMap.set(e.pupilId, e.pupilName);
+              }
             });
           }
-          
+
           this.loading = false;
         },
         e => {
@@ -61,9 +65,9 @@ export class EBookComponent extends ViewComponent implements OnInit {
         },
         () => this.LogComplete('ebook component ebook loading completed')
       );
-  }  
+  }
 
-  showebook(ebook: Ebook) {    
+  showebook(ebook: Ebook) {
     this.currentName = ebook.pupilId;
     this.currentClass = ebook.classId;
 
@@ -82,12 +86,9 @@ export class EBookComponent extends ViewComponent implements OnInit {
   // https://stackoverflow.com/questions/7428831/javascript-rename-file-on-download
   downloadebooks() {
     let url = '';
-    if (this.oneyear) {
-      url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_${this.currentYear}学年.pdf`;
-    } else {
-      url = `${environment.api.ebookServer}/${this.currentClass}/${this.currentName}/电子书_${this.currentName}_${this.currentClass}_全期间.pdf`;
-    }
-    
+    let cls = this.classMap.get(this.currentClass);
+    let pupil = this.pupilMap.get(this.currentName);
+    url = `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
     window.open(url);
   }
 
@@ -111,45 +112,23 @@ export class EBookComponent extends ViewComponent implements OnInit {
     }
     return results;
   }
-  
+
   get images(): string[] {
     let result = [];
     this.items.filter(i => {
-      let filterres = true;      
+      let filterres = true;
       if (this.currentClass) {
         filterres = filterres && i.classId == this.currentClass;
       }
       if (this.currentName) {
-        filterres = filterres && i.pupilName == this.currentName;
+        filterres = filterres && i.pupilId == this.currentName;
       }
       return filterres;
-    }).map((i): Ebook => {      
-      if (!this.currentClass || !this.currentName) {
-        return;
-      }
-
-      if (!i.dates) {
-        return;
-      }
-
-      if (this.oneyear) {
-        if (i.year == this.currentYear) {
-          i.dates.forEach(d => {
-            result.push({
-              url: `${environment.api.imageServer}/${i.year}/${i.class}/${i.name}/${d}.jpg`,
-              date: d,
-            });
-          });
-        }
-      } else {
-        i.dates.forEach(d => {
-          result.push({
-            url: `${environment.api.imageServer}/${i.year}/${i.class}/${i.name}/${d}.jpg`,
-            date: d,
-          });
-        });
-      }
-
+    }).map((i): Ebook => {
+      result.push({
+        url: `${environment.api.imageServer}/${this.currentYear}/${i.className}/${i.pupilName}/${i.date}.jpg`,
+        date: i.date,
+      });
       return;
     });
 
