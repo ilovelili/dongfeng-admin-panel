@@ -16,7 +16,7 @@ import { Class } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class ClassComponent extends ViewComponent implements OnInit {
-  private classes: Class[];
+  private classes: Class[] = [];
   constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';

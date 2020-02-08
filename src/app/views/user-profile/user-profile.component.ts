@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { User } from '../../models';
+import { User, Role } from '../../models';
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { UserClient } from 'app/clients/user.client';
 
-@Component({
-  providers: [User],
+@Component({  
   templateUrl: 'user-profile.component.html',
   styleUrls: ['../../../scss/vendors/toastr/toastr.scss'],
   // https://stackoverflow.com/questions/37689673/angular2-styling-issues-caused-by-dom-attributes-ngcontent-vs-nghost
@@ -15,6 +14,7 @@ import { UserClient } from 'app/clients/user.client';
 export class UserProfileComponent implements OnInit {  
   private showavatar: boolean = true;  
   private allowedit: boolean = false;
+  private user: User = new User(0, "", "", "", Role.RoleUndefined);
 
   toasterconfig: ToasterConfig =
     new ToasterConfig({
@@ -22,8 +22,7 @@ export class UserProfileComponent implements OnInit {
       timeout: 5000,
     });
 
-  constructor(
-    private user: User,
+  constructor(    
     private userClient: UserClient,
     private toasterService: ToasterService,
     private router: Router
@@ -32,8 +31,10 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userClient.getUser().
       subscribe(
-        d => this.user = d,
-        e => {
+        d => {
+          this.user = new User(d.id, d.email, d.name, d.photo, d.role)
+        },
+        e => {          
           console.error(e);
           this.toasterService.pop('error', '', '获取用户信息失败，请重试');
           // this.authService.logout();

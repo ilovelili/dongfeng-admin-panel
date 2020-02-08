@@ -16,8 +16,12 @@ export class UserClient extends BaseClient {
         return this.http.get<User>(environment.api.baseURI + '/login', { headers: this.defaultHeaders });
     };
 
+    getUsers(): Observable<User[]> {
+        return this.http.get<User[]>(environment.api.baseURI + '/users', { headers: this.defaultHeaders });
+    };
+
     updateUser(user: User): Observable<Empty> {
-        return this.http.put<Empty>(environment.api.baseURI + '/user/update', { name: user.name, photo: user.photo, email: user.email }, this.defaultHttpOptions);
+        return this.http.put<Empty>(environment.api.baseURI + '/user/update', user, this.defaultHttpOptions);
     };
 
     uploadAvatar(image: File): Observable<string[]> {

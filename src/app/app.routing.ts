@@ -52,6 +52,10 @@ export const routes: Routes = [
         path: '膳食管理',
         loadChildren: './views/meal/meal.module#MealModule',
       },
+      {
+        path: '后台管理',
+        loadChildren: './views/admin/admin.module#AdminModule',
+      },
     ]
   },
   {

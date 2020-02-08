@@ -106,7 +106,7 @@ export class AuthService {
       "/体格发育",
       "/膳食管理",
       "/标准数据",
-      // 设置面板 TBD (update user, teacher info ...)
+      "/后台管理",
     ];
 
     if (role == Role.RoleAdmin) return [
@@ -118,6 +118,7 @@ export class AuthService {
       "/体格发育",
       "/膳食管理",
       "/标准数据",
+      "/后台管理",
     ];
 
     if (role == Role.RoleHealth) return [

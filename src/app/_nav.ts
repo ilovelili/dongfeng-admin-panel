@@ -105,4 +105,16 @@ export const navigation = [
       }
     ]
   },
+  {
+    name: '后台管理',
+    url: '/后台管理',
+    icon: 'icon-magic-wand',
+    children: [
+      {
+        name: '用户管理',
+        url: '/后台管理/用户管理',
+        icon: 'icon-people'
+      }      
+    ]
+  },
 ];

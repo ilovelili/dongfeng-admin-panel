@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { User, Notification } from '../../models';
+import { User, Notification, Role } from '../../models';
 import { NotificationClient } from '../../clients/notification.client';
 import { environment } from 'environments/environment';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
@@ -15,13 +15,13 @@ interface BranchInfo {
 
 @Component({
     selector: 'app-header',
-    templateUrl: './app-header.component.html',    
+    templateUrl: './app-header.component.html',
 })
 export class AppHeaderComponent implements OnInit {
     private broadcasts: Notification[];
     private notifications: Notification[];
-    private user: User
-
+    private user: User = new User(0, "", "", "", Role.RoleUndefined);
+    
     private current_name = "";
     private branch_name = "";
     private current_link = "";
@@ -39,7 +39,6 @@ export class AppHeaderComponent implements OnInit {
         private notificationClient: NotificationClient,
         private classClient: ClassClient,
     ) {
-        this.user = new User();
         this.notifications = [];
         this.broadcasts = [];
         let branch = this.resolveBranchInfo();
@@ -52,7 +51,9 @@ export class AppHeaderComponent implements OnInit {
     ngOnInit() {
         this.userClient.getUser().
             subscribe(
-                d => this.user = d,
+                d => {
+                    this.user = new User(d.id, d.email, d.name, d.photo, d.role)
+                },
                 e => console.error(e),
                 () => console.log("app header component user loading completed")
             );

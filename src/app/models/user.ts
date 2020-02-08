@@ -1,9 +1,17 @@
+import { Constant } from "./const";
+
 export class User {
-  id: string;
-  email: string;
-  name: string;
-  photo: string;
-  role: number;
+  constructor(
+    public id: number,
+    public email: string,
+    public name: string,
+    public photo: string,
+    public role: number,
+  ) { }
+
+  get roleName(): string {
+    return Constant.Instance.roles[this.role];
+  }
 }
 
 export class Role {
@@ -12,4 +20,6 @@ export class Role {
   static RoleAdmin = 2;
   static RoleNormal = 3;
   static RoleHealth = 4;
+
+  static AllRoles = [Role.RoleAgentSmith, Role.RoleAdmin, Role.RoleNormal, Role.RoleHealth];
 }
