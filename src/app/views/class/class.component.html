@@ -1,8 +1,8 @@
 <div class="animated fadeIn">
-  <div class="card" [hidden]="!found">
+  <div class="card" [hidden]="!classes || !class.length">
     <div class="card-header">班级信息
       <csv (Download)="DownloadCsv(false, '班级信息.csv', $event)" [headers]="['ID','班级','学年']" [columns]="['id','name','year']"></csv>
-      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
+      <button *ngIf="isAdmin" type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>      
     </div>
     <div class="card-body">
       <app-loading [loading]="loading"></app-loading>

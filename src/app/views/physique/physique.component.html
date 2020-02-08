@@ -5,7 +5,7 @@
         [headers]="['班级','姓名','性别','出生日期','体检日期','身高','体重','年龄','身高评价','体重评价','身测体评价','BMI','肥胖指数','总评价']"
         [columns]="['className','name','gender','birth_date','exam_date','height','weight','age','height_p','weight_p','height_weight_p','bmi','fat_cofficient','conclusion']">
       </csv>
-      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger float-right">上传</button>
+      <button *ngIf="isAdmin" type="button" (click)="showupload()" class="btn btn-sm btn-danger float-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary float-right">按条件检索</button>
       <button type="button" (click)="showexplain()" class="btn btn-sm btn-success float-right">计算方法说明</button>
     </div>

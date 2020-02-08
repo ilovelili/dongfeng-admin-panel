@@ -71,7 +71,7 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
           this.conditionModal.hide();
 
           if (!d.length) {
-            if (showinfomodal) {
+            if (showinfomodal && this.isAdmin) {
               this.infoModal.show();
               this.items = this.template;
             } else {

@@ -63,7 +63,11 @@ export class TeacherComponent extends ViewComponent implements OnInit {
           this.conditionModal.hide();
 
           if (!d.length) {
-            this.infoModal.show();            
+            if (this.isAdmin) {
+              this.infoModal.show();
+            } else {
+              this.LogWarning("没有教师信息");
+            }
           } else {
             this.teachers = d.map(t => {
               let _teacher = new Teacher();
@@ -79,7 +83,7 @@ export class TeacherComponent extends ViewComponent implements OnInit {
             this.items = this.teachers;
             this.items.forEach((t: Teacher) => {
               if (!t.class) {
-                // todo:
+                // skip
               } else if (!this.classMap.has(t.class.id)) {
                 this.classMap.set(t.class.id, t.class.name);
               }

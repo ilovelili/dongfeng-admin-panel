@@ -58,7 +58,11 @@ export class AttendanceComponent extends ViewComponent implements OnInit {
         d => {
           this.conditionModal.hide();
           if (!d.length) {
-            this.infoModal.show();
+            if (this.isAdmin) {
+              this.infoModal.show();
+            } else {
+              this.LogWarning("没有出勤信息");
+            }
             this.items = this.template;
           } else {
             this.attendances = Attendance.sort(d.map((a: Attendance) => {

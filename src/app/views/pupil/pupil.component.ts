@@ -67,7 +67,11 @@ export class PupilComponent extends ViewComponent implements OnInit {
           });
 
           if (!this.pupils.length) {
-            this.infoModal.show();
+            if (this.isAdmin) {
+              this.infoModal.show();
+            } else {
+              this.LogWarning("没有园儿信息");
+            }            
             this.items = this.template;
           } else {
             this.items = this.pupils;

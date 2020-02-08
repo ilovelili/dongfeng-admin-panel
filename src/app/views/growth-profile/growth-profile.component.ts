@@ -82,7 +82,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
               }
             });
           } else {
-            this.LogError("no pupil", "加载园儿信息失败，请重试");
+            this.LogWarning("没有园儿数据");
           }
           this.loading = false;
         },

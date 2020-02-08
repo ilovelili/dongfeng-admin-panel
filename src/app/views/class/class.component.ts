@@ -4,6 +4,7 @@ import { ViewComponent } from '../base/view.component';
 import { ClassClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { AuthService } from 'app/services/auth.service';
+import { Class } from 'app/models';
 
 @Component({
   templateUrl: './class.component.html',
@@ -15,6 +16,7 @@ import { AuthService } from 'app/services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ClassComponent extends ViewComponent implements OnInit {
+  private classes: Class[];
   constructor(private classClient: ClassClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
     this.dateFrom = '';
@@ -56,12 +58,15 @@ export class ClassComponent extends ViewComponent implements OnInit {
       subscribe(
         d => {
           this.loading = false;
-
           if (!d.length) {
-            this.found = false;
-            this.infoModal.show();
+            if (this.isAdmin) {
+              this.infoModal.show();
+            } else {
+              this.LogWarning("没有教师信息");
+            }
             this.items = this.template;
-          } else {            
+          } else {
+            this.classes = d;
             this.items = d;
           }
         },

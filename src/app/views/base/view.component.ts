@@ -18,8 +18,6 @@ export abstract class ViewComponent extends BaseComponent {
   @ViewChild('explainModal') explainModal
 
   protected loading: boolean;
-  protected found: boolean = true;
-
   protected template: any[] = [];
   protected items: any[] = [];
 

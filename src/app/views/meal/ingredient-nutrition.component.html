@@ -5,7 +5,7 @@
         [headers]="['食材','类别','匹配名','蛋白质(100g)','脂肪(100g)','碳水化合物(100g)','热量(100g)','钙(100g)','铁(100g)','锌(100g)','VA(100g)','VB1(100g)','VB2(100g)','VC(100g)']"
         [columns]="['ingredient','categoryName','alias','protein_100g','fat_100g','carbohydrate_100g','heat_100g','calcium_100g','iron_100g','zinc_100g','va_100g','vb1_100g','vb2_100g','vc_100g']">
       </csv>
-      <button type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
+      <button *ngIf="isAdmin" type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="displaydaily()" *ngIf="displayMode=='每100g'" class="btn btn-sm btn-info pull-right">显示每人日份</button>
       <button type="button" (click)="display100g()" *ngIf="displayMode=='每人日'" class="btn btn-sm btn-warning pull-right">显示每100g份</button>      
     </div>
