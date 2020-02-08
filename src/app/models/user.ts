@@ -21,5 +21,5 @@ export class Role {
   static RoleNormal = 3;
   static RoleHealth = 4;
 
-  static AllRoles = [Role.RoleAgentSmith, Role.RoleAdmin, Role.RoleNormal, Role.RoleHealth];
+  static AllRoles = [Role.RoleAdmin, Role.RoleNormal, Role.RoleHealth];
 }
