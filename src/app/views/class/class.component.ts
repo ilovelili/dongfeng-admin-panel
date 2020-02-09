@@ -62,7 +62,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
             if (this.isAdmin) {
               this.infoModal.show();
             } else {
-              this.LogWarning("没有教师信息");
+              this.LogWarning("没有班级信息");
             }
             this.items = this.template;
           } else {
