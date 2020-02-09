@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
-import { User } from '../models/user';
+import { User, AuthingToken } from '../models/user';
 import { Empty } from '../models';
 import { environment } from 'environments/environment';
 
@@ -10,6 +10,10 @@ import { environment } from 'environments/environment';
 export class UserClient extends BaseClient {
     constructor(protected http: HttpClient) {
         super(http);
+    }
+
+    verifyToken(token: string): Observable<AuthingToken> {
+        return this.http.get<AuthingToken>(environment.auth.baseURI + token, { headers: this.defaultHeaders });
     }
 
     getUser(): Observable<User> {

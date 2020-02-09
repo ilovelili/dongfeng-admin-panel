@@ -34,10 +34,8 @@ export class UserProfileComponent implements OnInit {
         d => {
           this.user = new User(d.id, d.email, d.name, d.photo, d.role)
         },
-        e => {          
-          console.error(e);
-          this.toasterService.pop('error', '', '获取用户信息失败，请重试');
-          // this.authService.logout();
+        e => {
+          this.toasterService.pop('error', '', '获取用户信息失败，请重试');          
         },
         () => console.log("user profile component user loading completed")
       );

@@ -26,7 +26,18 @@ export class ClassComponent extends ViewComponent implements OnInit {
   ngOnInit(): void {
     this.initfileuploader(this.fileUploader1, 'classes', '班级');
     this.initfileuploader(this.fileUploader2, 'classes', '班级');
-    this.getclasses();
+    
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getclasses();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
 
     this.template = [
       {

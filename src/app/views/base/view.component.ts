@@ -31,12 +31,12 @@ export abstract class ViewComponent extends BaseComponent {
   protected currentYear: string = '';
   protected currentClass: number; // class ID
   protected currentName: number; // pupil ID
-  protected currentDate = '';  
+  protected currentDate = '';
   protected dateFrom = '';
   protected dateTo = '';
   protected dateRange: Date[];
-  protected daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();  
-  
+  protected daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+
   protected classMap: Map<number, string> = new Map();
   protected pupilMap: Map<number, string> = new Map();
 
@@ -71,7 +71,7 @@ export abstract class ViewComponent extends BaseComponent {
       method: 'POST',
       autoUpload: true,
       authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
-      authTokenHeader: `Authorization`,      
+      authTokenHeader: `Authorization`,
     });
 
     fileUploader.onProgressItem = () => {
@@ -126,7 +126,7 @@ export abstract class ViewComponent extends BaseComponent {
           containerClass: 'theme-dark-blue',
           value: this.dateRange,
           dateInputFormat: 'yyyy-MM-dd',
-        };        
+        };
       }
     });
   }
@@ -210,7 +210,7 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected setpupil(pupilId: number, pupilName: string) {    
+  protected setpupil(pupilId: number, pupilName: string) {
     if (pupilId != this.currentName) {
       this.currentName = pupilId;
     };
@@ -260,7 +260,7 @@ export abstract class ViewComponent extends BaseComponent {
 
     return [year, month, day].join('-');
   }
-  
+
   private stringToDate(d: string): Date {
     // yyyy/mm/dd or yyyy-mm-dd
     let segments = d.replace("/", "-").split("-");
@@ -296,7 +296,7 @@ export abstract class ViewComponent extends BaseComponent {
   protected getKeys(map: Map<number /** ID */, any>) {
     return Array.from(map.keys());
   }
-  
+
   protected getValues(map: Map<number, any>) {
     return Array.from(map.values());
   }

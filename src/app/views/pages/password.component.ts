@@ -20,9 +20,13 @@ export class PasswordComponent {
   private errormsg: string = "";
 
   constructor(private router: Router, private authService: AuthService) {
-    if (this.authService.isLoggedIn) {
-      this.router.navigate(["班级信息"]);
-    }
+    this.authService.checkLogin().then(
+      d => {
+        if (d.status) {
+          this.router.navigate(["班级信息"]);
+        }
+      }
+    );
   }
 
   sendVerifyCode() {

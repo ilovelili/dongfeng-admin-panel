@@ -22,7 +22,17 @@ export class AgeHeightWeightPMasterComponent extends ViewComponent implements On
   }
 
   ngOnInit(): void {
-    this.getmasters();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmasters();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getmasters() {
@@ -55,7 +65,17 @@ export class AgeHeightWeightSDMasterComponent extends ViewComponent implements O
   }
 
   ngOnInit(): void {
-    this.getmasters();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmasters();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getmasters() {
@@ -88,7 +108,17 @@ export class BMIMasterComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getmasters();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmasters();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getmasters() {
@@ -121,7 +151,17 @@ export class HeightToWeightPMasterComponent extends ViewComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.getmasters();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmasters();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getmasters() {
@@ -154,7 +194,17 @@ export class HeightToWeightSDMasterComponent extends ViewComponent implements On
   }
 
   ngOnInit(): void {
-    this.getmasters();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmasters();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getmasters() {

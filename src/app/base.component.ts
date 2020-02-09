@@ -9,25 +9,27 @@ export abstract class BaseComponent {
   get isAdmin(): boolean {
     return this.myRole == Role.RoleAdmin || this.myRole == Role.RoleAgentSmith;
   }
-  
-  constructor(protected router: Router, protected authService: AuthService, protected omitAuth: boolean = false) {
+
+  constructor(protected router: Router, protected authService: AuthService) {
     // set const
     this.authService.setConst();
 
-    // set role
-    this.authService.getRole().subscribe(
+    this.authService.checkLogin().then(
       d => {
-        this.myRole = d.role;        
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          // set role
+          this.authService.getRole().subscribe(
+            d => {
+              this.myRole = d.role;
+              this.authService.validateAccessible();
+            }
+          );
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
       });
-
-
-    if (!omitAuth && !authService.isLoggedIn) {
-      this.router.navigate(["页面/登录"]);
-      return;
-    }
-
-    if (!omitAuth) {
-      this.authService.validateAccessible();        
-    }
-  }  
+  }
 }

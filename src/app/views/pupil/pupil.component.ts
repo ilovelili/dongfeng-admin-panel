@@ -26,7 +26,18 @@ export class PupilComponent extends ViewComponent implements OnInit {
   ngOnInit(): void {
     this.initfileuploader(this.fileUploader1, 'pupils', '园儿');
     this.initfileuploader(this.fileUploader2, 'pupils', '园儿');
-    this.getpupils();
+
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getpupils();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
 
     this.template = [
       {

@@ -23,3 +23,7 @@ export class Role {
 
   static AllRoles = [Role.RoleAdmin, Role.RoleNormal, Role.RoleHealth];
 }
+
+export class AuthingToken {
+  constructor(public status: boolean){ }
+}

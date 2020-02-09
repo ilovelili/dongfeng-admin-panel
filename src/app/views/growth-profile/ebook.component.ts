@@ -26,7 +26,18 @@ export class EBookComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEbooks();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getEbooks();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      }
+    );
   }
 
   getEbooks() {

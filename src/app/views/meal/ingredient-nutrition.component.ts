@@ -10,7 +10,7 @@ import { Ingredient } from 'app/models';
   templateUrl: './ingredient-nutrition.component.html',
   styleUrls: [
     '../../../scss/vendors/toastr/toastr.scss',
-    '../../../scss/vendors/file-uploader/file-uploader.scss', 
+    '../../../scss/vendors/file-uploader/file-uploader.scss',
     './ingredient-nutrition.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
@@ -31,11 +31,21 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
     this.initfileuploader(this.fileUploader1, 'ingredients', '食物营养成分表');
     this.initfileuploader(this.fileUploader2, 'ingredients', '食物营养成分表');
 
-    this.getingredients();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getingredients();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
 
     this.template = [
       {
-        id: 1,        
+        id: 1,
         ingredient: "稻米",
         categoryName: "大米",
         protein_100g: 7.4,
@@ -61,8 +71,8 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
         vc_100g: 0,
         vc_daily: 0,
       },
-      { 
-        id: 2,       
+      {
+        id: 2,
         ingredient: "紫菜",
         categoryName: "菌藻类",
         protein_100g: 7.4,
@@ -95,7 +105,7 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
     this.loading = true;
     this.mealClient.getIngredients(this._ingredients).
       subscribe(
-        d => {          
+        d => {
           this.ingredients = d;
           this.items = this.ingredients.map(i => new Ingredient(
             i.id,

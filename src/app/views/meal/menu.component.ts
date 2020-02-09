@@ -29,7 +29,17 @@ export class MenuComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getmenus();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getmenus();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   protected set_breakfast_or_lunch(breakfast_or_lunch: number) {

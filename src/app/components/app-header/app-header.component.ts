@@ -5,6 +5,7 @@ import { NotificationClient } from '../../clients/notification.client';
 import { environment } from 'environments/environment';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
 import { ClassClient, UserClient } from 'app/clients';
+import { Router } from '@angular/router';
 
 interface BranchInfo {
     name: string,
@@ -21,7 +22,7 @@ export class AppHeaderComponent implements OnInit {
     private broadcasts: Notification[];
     private notifications: Notification[];
     private user: User = new User(0, "", "", "", Role.RoleUndefined);
-    
+
     private current_name = "";
     private branch_name = "";
     private current_link = "";
@@ -37,7 +38,7 @@ export class AppHeaderComponent implements OnInit {
         private authService: AuthService,
         private userClient: UserClient,
         private notificationClient: NotificationClient,
-        private classClient: ClassClient,
+        private classClient: ClassClient
     ) {
         this.notifications = [];
         this.broadcasts = [];
@@ -49,56 +50,61 @@ export class AppHeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userClient.getUser().
-            subscribe(
-                d => {
-                    this.user = new User(d.id, d.email, d.name, d.photo, d.role)
-                },
-                e => console.error(e),
-                () => console.log("app header component user loading completed")
-            );
+        this.authService.checkLogin().then(
+            d => {
+                if (d.status) {
+                    this.userClient.getUser().
+                        subscribe(
+                            d => {
+                                this.user = new User(d.id, d.email, d.name, d.photo, d.role)
+                            },
+                            e => console.error(e),
+                            () => console.log("app header component user loading completed")
+                        );
 
-        this.notificationClient.getNotifications().
-            subscribe(
-                // https://stackoverflow.com/questions/43367692/typescript-method-on-class-undefined
-                d => {
-                    d.forEach(n => {
-                        // agentsmith
-                        if (n.custom_code === 'N5001') {
-                            this.broadcasts.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
-                        } else {
-                            this.notifications.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
-                        }
-                    });
-                },
-                e => console.error(e),
-                () => console.log("app header component notification loading completed")
-            );
+                    this.notificationClient.getNotifications().
+                        subscribe(
+                            // https://stackoverflow.com/questions/43367692/typescript-method-on-class-undefined
+                            d => {
+                                d.forEach(n => {
+                                    // agentsmith
+                                    if (n.custom_code === 'N5001') {
+                                        this.broadcasts.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
+                                    } else {
+                                        this.notifications.push(new Notification(n.id, n.user, n.custom_code, n.category, n.details, n.link, n.created_at));
+                                    }
+                                });
+                            },
+                            e => console.error(e),
+                            () => console.log("app header component notification loading completed")
+                        );
 
-        this.classClient.getClasses().
-            subscribe(
-                d => {
-                    d.map(c => {
-                        if (!this.years.includes(c.year)) {
-                            this.years.push(c.year)
-                        }
-                    });
+                    this.classClient.getClasses().
+                        subscribe(
+                            d => {
+                                d.map(c => {
+                                    if (!this.years.includes(c.year)) {
+                                        this.years.push(c.year)
+                                    }
+                                });
 
-                    this.years.forEach(y => {
-                        if (this.current_year < y) {
-                            this.current_year = y;
-                        }
-                    })
+                                this.years.forEach(y => {
+                                    if (this.current_year < y) {
+                                        this.current_year = y;
+                                    }
+                                })
 
-                    this.setYear(this.current_year);
-                },
-                e => {
-                    console.error(e);
-                    this.authService.logout();
-                },
-                () => console.log("app header component notification loading completed")
-            );
-
+                                this.setYear(this.current_year);
+                            },
+                            e => {
+                                console.error(e);
+                                this.authService.logout();
+                            },
+                            () => console.log("app header component notification loading completed")
+                        );
+                }
+            }
+        );
     }
 
     logout(e: Event) {

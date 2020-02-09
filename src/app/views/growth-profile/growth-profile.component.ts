@@ -53,9 +53,21 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.browserCheck();
-    this.loadTemplates();
-    this.loadProfiles();
-    this.loadPupils();
+
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.loadTemplates();
+          this.loadProfiles();
+          this.loadPupils();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      }
+    );
   }
 
   loadPupils() {

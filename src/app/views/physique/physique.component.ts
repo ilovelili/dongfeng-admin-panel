@@ -27,8 +27,18 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   ngOnInit(): void {
     this.initfileuploader(this.fileUploader1, 'physiques', '体格发育');
     this.initfileuploader(this.fileUploader2, 'physiques', '体格发育');
-    this.getphysiques();
 
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getphysiques();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
 
     // ID,学员ID,性别,出生日期,体检日期,身高,体重 1,14,男,2013-08-13,2019-12-30,121.2,26.0
     this.template = [

@@ -8,9 +8,13 @@ export abstract class OpenIdComponent {
     protected openId: string;
 
     constructor(protected router: Router, protected authService: AuthService, protected userClient: UserClient) {
-        if (this.authService.isLoggedIn) {
-            this.router.navigate(["班级信息"]);
-        }
+        this.authService.checkLogin().then(
+            d => {
+                if (d.status) {
+                    this.router.navigate(["班级信息"]);
+                }
+            }
+        );
     }
 
     protected openIdCallback() {
@@ -28,7 +32,7 @@ export abstract class OpenIdComponent {
             this.router.navigate(["/页面/登录"]);
         }
 
-        if (!userInfo.email) {            
+        if (!userInfo.email) {
             userInfo.email = `${userInfo._id}@dongfeng.cn`;
         }
 

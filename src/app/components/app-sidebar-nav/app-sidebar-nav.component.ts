@@ -35,11 +35,18 @@ export class AppSidebarNavComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.getRole().subscribe(
+    this.authService.checkLogin().then(
       d => {
-        let accessibleUrls = this.authService.accessibleUrls(d.role);
-        this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
-      });
+        if (d.status) {
+          this.authService.getRole().subscribe(
+            d => {
+              let accessibleUrls = this.authService.accessibleUrls(d.role);
+              this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
+            }
+          );
+        }
+      }
+    );
   }
 }
 

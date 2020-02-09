@@ -26,7 +26,19 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
     ngOnInit(): void {
         this.browsercheck();
-        this.loadProfileEditor();
+
+        this.authService.checkLogin().then(
+            d => {
+                if (!d.status) {
+                    this.router.navigate(["页面/登录"])
+                } else {
+                    this.loadProfileEditor();
+                }
+            },
+            e => {
+                this.router.navigate(["页面/登录"])
+            }
+        );
     }
 
     loadProfileEditor() {

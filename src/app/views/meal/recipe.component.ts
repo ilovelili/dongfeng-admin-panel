@@ -9,12 +9,12 @@ import { Recipe } from 'app/models';
 @Component({
   templateUrl: './recipe.component.html',
   styleUrls: [
-    '../../../scss/vendors/toastr/toastr.scss',    
+    '../../../scss/vendors/toastr/toastr.scss',
     './recipe.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class RecipeComponent extends ViewComponent implements OnInit {  
+export class RecipeComponent extends ViewComponent implements OnInit {
   private recipeIds: string;
   constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
@@ -25,7 +25,17 @@ export class RecipeComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getrecipes();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getrecipes();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getrecipes() {

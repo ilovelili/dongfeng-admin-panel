@@ -26,7 +26,18 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.getProfileTemplates();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getProfileTemplates();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      }
+    );
   }
 
   getProfileTemplates() {

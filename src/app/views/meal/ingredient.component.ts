@@ -29,7 +29,17 @@ export class IngredientComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getrecipes();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getrecipes();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getrecipes() {

@@ -15,7 +15,7 @@ import { User, Constant, Role } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class UserAdminComponent extends ViewComponent implements OnInit {
-  private users: User[];  
+  private users: User[];
   private currentEditId: number;
 
   constructor(private userClient: UserClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
@@ -23,7 +23,17 @@ export class UserAdminComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getUsers();
+    this.authService.checkLogin().then(
+      d => {
+        if (!d.status) {
+          this.router.navigate(["页面/登录"])
+        } else {
+          this.getUsers();
+        }
+      },
+      e => {
+        this.router.navigate(["页面/登录"])
+      });
   }
 
   getUsers() {
@@ -65,7 +75,7 @@ export class UserAdminComponent extends ViewComponent implements OnInit {
   setRole(user: User, role: number, event: Event) {
     event.preventDefault();
     user.role = role;
-    this.loading = true;    
+    this.loading = true;
     this.userClient.updateUser(user).
       subscribe(
         d => {
