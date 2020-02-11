@@ -10,7 +10,6 @@ import { UserClient, ConstClient } from 'app/clients';
 declare var Authing: any;
 
 const KEY_TOKEN: string = 'token';
-const KEY_CONSTS: string = 'consts';
 const KEY_YEAR: string = 'year';
 const KEY_CONST: string = 'consts';
 
@@ -55,7 +54,7 @@ export class AuthService {
 
   clearSession() {
     this.sessionFactory.remove(KEY_TOKEN);    
-    this.sessionFactory.remove(KEY_CONSTS);
+    this.sessionFactory.remove(KEY_CONST);
     this.sessionFactory.remove(KEY_YEAR);
   }
 
