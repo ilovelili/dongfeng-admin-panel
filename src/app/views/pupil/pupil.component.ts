@@ -24,8 +24,8 @@ export class PupilComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'pupils', '园儿');
-    this.initfileuploader(this.fileUploader2, 'pupils', '园儿');
+    this.initfileuploader(this.fileUploader1, 'pupils', '幼儿');
+    this.initfileuploader(this.fileUploader2, 'pupils', '幼儿');
 
     this.authService.checkLogin().then(
       d => {
@@ -81,7 +81,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
             if (this.isAdmin) {
               this.infoModal.show();
             } else {
-              this.LogWarning("没有园儿信息");
+              this.LogWarning("没有幼儿信息");
             }            
             this.items = this.template;
           } else {
@@ -93,7 +93,7 @@ export class PupilComponent extends ViewComponent implements OnInit {
             });
           }
         },
-        e => this.LogError(e, '获取园儿信息失败，请重试'),
+        e => this.LogError(e, '获取幼儿信息失败，请重试'),
         () => this.LogComplete('pupil component pupils loading completed')
       );
   }

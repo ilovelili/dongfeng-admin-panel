@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: '',    
     data: {
-      title: '园儿信息'
+      title: '幼儿信息'
     },
     children: [
       {

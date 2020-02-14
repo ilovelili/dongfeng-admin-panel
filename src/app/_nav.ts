@@ -5,8 +5,8 @@ export const navigation = [
     icon: 'icon-notebook'
   },
   {
-    name: '园儿信息',
-    url: '/园儿信息',
+    name: '幼儿信息',
+    url: '/幼儿信息',
     icon: 'icon-people'
   },
   {

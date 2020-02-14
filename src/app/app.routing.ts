@@ -33,7 +33,7 @@ export const routes: Routes = [
         loadChildren: './views/class/class.module#ClassModule',
       },
       {
-        path: '园儿信息',
+        path: '幼儿信息',
         loadChildren: './views/pupil/pupil.module#PupilModule',
       },
       {

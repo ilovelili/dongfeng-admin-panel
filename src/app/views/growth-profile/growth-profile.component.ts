@@ -94,7 +94,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
               }
             });
           } else {
-            this.LogWarning("没有园儿数据");
+            this.LogWarning("没有幼儿数据");
           }
           this.loading = false;
         },

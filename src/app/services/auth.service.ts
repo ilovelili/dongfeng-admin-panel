@@ -81,7 +81,7 @@ export class AuthService {
   accessibleUrls(role: number): string[] {
     if (role == Role.RoleAgentSmith) return [
       "/班级信息",
-      "/园儿信息",
+      "/幼儿信息",
       "/教师信息",
       "/成长档案",
       "/出勤信息",
@@ -93,7 +93,7 @@ export class AuthService {
 
     if (role == Role.RoleAdmin) return [
       "/班级信息",
-      "/园儿信息",
+      "/幼儿信息",
       "/教师信息",
       "/成长档案",
       "/出勤信息",
@@ -111,7 +111,7 @@ export class AuthService {
 
     if (role == Role.RoleNormal) return [
       "/班级信息",
-      "/园儿信息",
+      "/幼儿信息",
       "/教师信息",
       "/成长档案",
       "/出勤信息",
