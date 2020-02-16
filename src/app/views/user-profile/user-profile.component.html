@@ -3,12 +3,12 @@
   <div class="card">
     <div class="card-header"><small>用户ID: {{user.id}}</small></div>
     <div class="card-body">
-      <form class="form-horizontal" #f="ngForm" (ngSubmit)="update(f.value)">
+      <form class="form-horizontal" #f="ngForm" (ngSubmit)="update(f.value)">        
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="avatar">头像</label>
           <div class="avatar col-md-9 avatar-lg">
-            <img [src]="user.photo" [hidden]="!showavatar" class="img-avatar" alt="{{user.email}}">
-            <app-image-upload [hidden]="showavatar" (onImageUploaded)="setUser($event)"></app-image-upload>
+            <img [src]="user.photo" class="img-avatar" (click)="openImageUpload()" alt="{{user.email}}" tooltip="点击上传头像">
+            <app-image-upload [hidden]="true" (onImageUploaded)="setUser($event)"></app-image-upload>
           </div>
         </div>
 

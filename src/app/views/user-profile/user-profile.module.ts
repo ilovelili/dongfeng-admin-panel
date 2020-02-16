@@ -9,6 +9,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ToasterModule } from 'angular2-toaster';
 import { AppImageUploadModule } from '../../components';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ToasterModule,
     AppImageUploadModule,
+    TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],  
   declarations: [

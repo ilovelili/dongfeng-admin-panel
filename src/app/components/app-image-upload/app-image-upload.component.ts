@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, Output, EventEmitter } from "@angular/core";
 import { UserClient } from "app/clients";
+import { ToasterConfig, ToasterService } from "angular2-toaster";
 
 class ImageSnippet {
   pending: boolean = false;
@@ -20,7 +21,13 @@ export class AppImageUploadComponent {
   private selectedfile: ImageSnippet;
   private title = "请选择图像";
 
-  constructor(private userClient: UserClient) {
+  private toasterconfig: ToasterConfig =
+    new ToasterConfig({
+      tapToDismiss: true,
+      timeout: 5000,
+    });
+
+  constructor(private userClient: UserClient, private toasterService: ToasterService) {
   }
 
   processFile(imageInput: any) {
@@ -30,13 +37,14 @@ export class AppImageUploadComponent {
       this.title = "图像上传中 ... ";
       this.selectedfile = new ImageSnippet(event.target.result, file);
       this.userClient.uploadAvatar(this.selectedfile.file).subscribe(
-        d => {
+        d => {          
           this.selectedfile.pending = false;
           this.selectedfile.status = 'ok';
           this.onImageUploaded.emit(d);
         },
         e => {
           console.error(e);
+          this.toasterService.pop('error', '', "仅支持png或者jpeg格式");
           this.selectedfile.pending = false;
           this.selectedfile.status = 'fail';
           this.selectedfile.src = '';
@@ -48,6 +56,8 @@ export class AppImageUploadComponent {
       )
     });
 
-    reader.readAsDataURL(file);
+    try {
+      reader.readAsDataURL(file);
+    } catch { }
   }
 }

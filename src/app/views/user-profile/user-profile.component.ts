@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { User, Role } from '../../models';
 import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { Router } from '@angular/router';
@@ -7,12 +7,14 @@ import { UserClient } from 'app/clients/user.client';
 
 @Component({  
   templateUrl: 'user-profile.component.html',
-  styleUrls: ['../../../scss/vendors/toastr/toastr.scss'],
+  styleUrls: [
+    '../../../scss/vendors/toastr/toastr.scss',
+    'user-profile.component.scss',
+  ],
   // https://stackoverflow.com/questions/37689673/angular2-styling-issues-caused-by-dom-attributes-ngcontent-vs-nghost
   encapsulation: ViewEncapsulation.None,
 })
-export class UserProfileComponent implements OnInit {  
-  private showavatar: boolean = true;  
+export class UserProfileComponent implements OnInit {    
   private allowedit: boolean = false;
   private user: User = new User(0, "", "", "", Role.RoleUndefined);
 
@@ -25,7 +27,8 @@ export class UserProfileComponent implements OnInit {
   constructor(    
     private userClient: UserClient,
     private toasterService: ToasterService,
-    private router: Router
+    private router: Router,
+    private elementRef: ElementRef
   ) { }
 
   ngOnInit(): void {
@@ -42,17 +45,19 @@ export class UserProfileComponent implements OnInit {
   }
 
   edit() {
-    this.allowedit = true;
-    this.showavatar = false;
+    this.allowedit = true;    
   }
 
   home() {
     this.router.navigate(['班级信息']);
-  }  
+  }
+
+  openImageUpload() {
+    this.elementRef.nativeElement.querySelector('#image-upload').click();
+  }
 
   setUser(uri: string[]) {
-    this.user.photo = uri[0];
-    this.showavatar = true;
+    this.user.photo = uri[0];    
     this.allowedit = true;    
   }
 
