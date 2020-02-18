@@ -67,7 +67,7 @@ export abstract class ViewComponent extends BaseComponent {
   protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
     fileUploader.setOptions({
       url: `${environment.api.baseURI}/${endpoint}`,
-      allowedMimeType: ['text/csv'],
+      // allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
       authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
