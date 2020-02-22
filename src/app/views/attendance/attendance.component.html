@@ -1,13 +1,15 @@
 <div class="animated fadeIn">
   <div class="card" [hidden]="!attendances || !attendances.length">
-    <div class="card-header">出勤信息 ({{dateFrom}} ~ {{dateTo}})      
+    <div class="card-header">出勤信息 ({{dateFrom}} ~ {{dateTo}})
       <csv (Download)="DownloadCsv(false, filename('出勤信息'), $event)" [headers]="['日期','班级','姓名','出勤']"
         [columns]="['date','class','name','attendance']">
       </csv>
       <button *ngIf="isAdmin" type="button" (click)="showupload()" class="btn btn-sm btn-danger pull-right">上传</button>
       <button type="button" (click)="showconditionsearch()" class="btn btn-sm btn-primary pull-right">按条件检索</button>
-      <button type="button" (click)="displayall()" *ngIf="displayMode=='workingday'" class="btn btn-sm btn-info pull-right">显示全部</button>
-      <button type="button" (click)="displayworkingday()" *ngIf="displayMode=='all'" class="btn btn-sm btn-warning pull-right">仅显示工作日</button>
+      <button type="button" (click)="displayall()" *ngIf="displayMode=='workingday'"
+        class="btn btn-sm btn-info pull-right">显示全部</button>
+      <button type="button" (click)="displayworkingday()" *ngIf="displayMode=='all'"
+        class="btn btn-sm btn-warning pull-right">仅显示工作日</button>
     </div>
     <div class="card-body">
       <div class="row mb-3">
@@ -77,14 +79,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
           请将出勤信息csv格式文件拖至此处上传
+          <button type="button" class="btn btn-success" (click)="uploadFile()">选择文件</button>
         </div>
-        <div>
-          或直接打开文件上传
-          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br />
-        </div>
+        <input #fileUpload type="file" ng2FileSelect [uploader]="fileUploader" class="input-hidden" />
       </div>
       <div class="modal-footer">
         下载csv模板 <csv (Download)="DownloadCsv(true, '出勤信息模板.csv', $event)" [headers]="['ID','学年','日期','班级','姓名']"

@@ -1,6 +1,11 @@
 /* file uploader */
-.my-drop-zone { border: dotted 3px lightgray; line-height: 1000%;}
+.my-drop-zone { border: dotted 3px lightgray; line-height: 600%;}
 
 .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
 
 .another-file-over-class { border: dotted 3px green; }
+
+.my-drop-zone button {
+  display: block;
+  margin: 10px auto;
+}

@@ -28,9 +28,7 @@ export class IngredientNutritionComponent extends ViewComponent implements OnIni
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'ingredients', '食物营养成分表');
-    this.initfileuploader(this.fileUploader2, 'ingredients', '食物营养成分表');
-
+    this.initfileuploader(this.fileUploader, 'ingredients', '食物营养成分表');
     this.authService.checkLogin().then(
       d => {
         if (!d.status) {

@@ -6,7 +6,7 @@ import { ToasterConfig, ToasterService } from 'angular2-toaster';
 import { zhCnLocale, BsLocaleService, BsDatepickerConfig } from 'ngx-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { DateRange } from 'app/models';
-import { ViewChild } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BaseComponent } from 'app/base.component';
 import { AuthService } from 'app/services';
@@ -16,6 +16,7 @@ export abstract class ViewComponent extends BaseComponent {
   @ViewChild('infoModal') infoModal
   @ViewChild('conditionModal') conditionModal
   @ViewChild('explainModal') explainModal
+  @ViewChild('fileUpload') fileUpload: ElementRef;
 
   protected loading: boolean;
   protected template: any[] = [];
@@ -49,8 +50,7 @@ export abstract class ViewComponent extends BaseComponent {
 
   protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
 
-  fileUploader1: FileUploader = new FileUploader({});
-  fileUploader2: FileUploader = new FileUploader({});
+  fileUploader: FileUploader = new FileUploader({});
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
 
@@ -63,6 +63,10 @@ export abstract class ViewComponent extends BaseComponent {
       tapToDismiss: true,
       timeout: 5000,
     });
+
+  protected uploadFile(e: Event) {
+    this.fileUpload.nativeElement.click();
+  }
 
   protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
     fileUploader.setOptions({
@@ -85,6 +89,14 @@ export abstract class ViewComponent extends BaseComponent {
       } else {
         callback(this);
       }
+    };
+
+    // https://github.com/valor-software/ng2-file-upload/issues/1018
+    // https://github.com/valor-software/ng2-file-upload/issues/158
+    // https://github.com/valor-software/ng2-file-upload/issues/220
+    fileUploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+      this.fileUpload.nativeElement.value = '';
     };
 
     fileUploader.onErrorItem = (_, res) => {

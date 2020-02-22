@@ -197,14 +197,12 @@
         </button>
       </div>
       <div class="modal-body">
-        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
-          请将食物营养成分表csv格式文件拖至此处上传
+          请将食物营养csv格式文件拖至此处上传
+          <button type="button" class="btn btn-success" (click)="uploadFile()">选择文件</button>
         </div>
-        <div>
-          或直接打开文件上传
-          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br />
-        </div>
+        <input #fileUpload type="file" ng2FileSelect [uploader]="fileUploader" class="input-hidden" />
       </div>
       <div class="modal-footer">
         下载csv模板 <csv (Download)="DownloadCsv(true, '食物营养成分表.csv', $event)" [headers]="['ID','食材','类别','蛋白质(100g)','蛋白质(每人日)','脂肪(100g)','脂肪(每人日)','碳水化合物(100g)','碳水化合物(每人日)','热量(100g)','热量(每人日)','钙(100g)','钙(每人日)','铁(100g)','铁(每人日)','锌(100g)','锌(每人日)','VA(100g)','VA(每人日)','VB1(100g)','VB1(每人日)','VB2(100g)','VB2(每人日)','VC(100g)','VC(每人日)']"

@@ -122,16 +122,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader1"
+        <div ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="fileUploader"
           (fileOver)="fileOverBase($event)" class="well my-drop-zone">
           请将体格发育信息csv格式文件拖至此处上传
+          <button type="button" class="btn btn-success" (click)="uploadFile()">选择文件</button>
         </div>
-        <div>
-          或直接打开文件上传
-          <input type="file" ng2FileSelect [uploader]="fileUploader2" /><br />
-        </div>
+        <input #fileUpload type="file" ng2FileSelect [uploader]="fileUploader" class="input-hidden" />
       </div>
-
       <div class="modal-footer">
         下载csv模板 <csv (Download)="DownloadCsv(true, '体格发育信息模板.csv', $event)"
           [headers]="['ID','幼儿ID','性别','出生日期','体检日期','身高','体重']"

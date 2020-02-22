@@ -25,9 +25,7 @@ export class PhysiqueComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader1, 'physiques', '体格发育');
-    this.initfileuploader(this.fileUploader2, 'physiques', '体格发育');
-
+    this.initfileuploader(this.fileUploader, 'physiques', '体格发育');
     this.authService.checkLogin().then(
       d => {
         if (!d.status) {
