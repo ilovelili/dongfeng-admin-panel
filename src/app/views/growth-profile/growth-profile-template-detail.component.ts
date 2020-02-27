@@ -54,6 +54,9 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             pluginsOpts: {
                 'gjs-preset-newsletter': {},
             },
+            canvas: {
+                styles: ['https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/NotoSerifSC.css'],
+            },
             // https://github.com/artf/grapesjs/blob/dev/src/storage_manager/config/config.js      
             storageManager: {
                 id: 'gjs-',
@@ -70,31 +73,42 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             domComponents: { storeWrapper: 1 },
         });
 
-        // Asset Manager config
-        const am = this.editor.AssetManager;
-        const imageDir = 'assets/img/';
-        const background_count = 3;
-        const stamp_count = 5;
+        this.editor.on('load', () => {
+            // Style Manager config
+            let styleManager = this.editor.StyleManager;
+            let fontProperty = styleManager.getProperty('字体和排版', 'font-family');
+            let list = fontProperty.get('list');
 
-        let assets = [];
-        for (let i = 1; i <= background_count; i++) {
-            assets.push({
-                category: 'background',
-                src: `${imageDir}background_${i}.png`,
-            });
-        }
+            // let oswald = [fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' })];
+            list.push({ value: 'Noto Serif SC', name: '宋体' });            
+            fontProperty.set('list', list);            
+            styleManager.render();
 
-        for (let i = 1; i <= stamp_count; i++) {
-            assets.push({
-                category: 'stamp',
-                src: `${imageDir}stamp_${i}.png`,
-            });
-        }
+            // Asset Manager config
+            const am = this.editor.AssetManager;
+            const imageDir = 'assets/img/';
+            const background_count = 3;
+            const stamp_count = 5;
 
-        am.add(assets);
-        am.render();
+            let assets = [];
+            for (let i = 1; i <= background_count; i++) {
+                assets.push({
+                    category: 'background',
+                    src: `${imageDir}background_${i}.png`,
+                });
+            }
 
-        this.profileloaded = true;
+            for (let i = 1; i <= stamp_count; i++) {
+                assets.push({
+                    category: 'stamp',
+                    src: `${imageDir}stamp_${i}.png`,
+                });
+            }
+
+            am.add(assets);
+            am.render();
+            this.profileloaded = true;
+        });
     }
 
     get saveEndpoint(): string {
