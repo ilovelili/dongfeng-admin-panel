@@ -427,6 +427,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       domComponents: { storeWrapper: 1 },
     });
 
+    this.editor.getModel().set('dmode', 'absolute');
+
     this.editor.on('load', () => {
       // Style Manager config
       let styleManager = this.editor.StyleManager;

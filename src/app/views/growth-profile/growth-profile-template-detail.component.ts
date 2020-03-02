@@ -47,7 +47,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         }
 
         this.editor = grapesjs.init({
-            container: '#gjs',
+            container: '#gjs',            
             plugins: [
                 'gjs-preset-newsletter',
             ],
@@ -72,6 +72,8 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             },
             domComponents: { storeWrapper: 1 },
         });
+
+        this.editor.getModel().set('dmode', 'absolute');
 
         this.editor.on('load', () => {
             // Style Manager config
