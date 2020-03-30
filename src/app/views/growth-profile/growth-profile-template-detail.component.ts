@@ -47,7 +47,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         }
 
         this.editor = grapesjs.init({
-            container: '#gjs',            
+            container: '#gjs',
             plugins: [
                 'gjs-preset-newsletter',
             ],
@@ -82,8 +82,35 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             let list = fontProperty.get('list');
 
             // let oswald = [fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' })];
-            list.push({ value: 'Noto Serif SC', name: '宋体' });            
-            fontProperty.set('list', list);            
+            list.push({ value: 'Noto Serif SC', name: '宋体' });
+            fontProperty.set('list', list);
+
+            styleManager.addSector('透明度和变形', {
+                name: '透明度和变形',
+                open: false,
+                buildProps: ['opacity', 'transform'],
+                properties: [{
+                    name: '透明度',
+                    type: 'slider',
+                    property: 'opacity',
+                    defaults: 1,
+                    step: 0.1,
+                    max: 1,
+                    min: 0,
+                }, {
+                    name: '变形',
+                    property: 'transform',
+                    properties: [
+                        { name: 'x轴旋转', property: 'transform-rotate-x' },
+                        { name: 'y轴旋转', property: 'transform-rotate-y' },
+                        { name: 'z轴旋转', property: 'transform-rotate-z' },
+                        { name: 'x轴比例', property: 'transform-scale-x' },
+                        { name: 'y轴比例', property: 'transform-scale-y' },
+                        { name: 'z轴比例', property: 'transform-scale-z' },
+                    ]
+                }]
+            });
+
             styleManager.render();
 
             // Asset Manager config
