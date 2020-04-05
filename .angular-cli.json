@@ -20,6 +20,7 @@
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/simple-line-icons/css/simple-line-icons.css",
         "../vendors/grapesjs-preset-newsletter/style/grapes.min.css",
+        "../vendors/grapesjs/dist/css/grapes.min.css",
         "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.css",
         "scss/style.scss"
       ],
@@ -27,7 +28,7 @@
         "../node_modules/chart.js/dist/Chart.bundle.min.js",
         "../node_modules/chart.js/dist/Chart.min.js",
         "../node_modules/authing-js-sdk/dist/authing-js-sdk-browser.min.js",
-        "../vendors/grapesjs-preset-newsletter/js/grapes.min.js",
+        "../vendors/grapesjs/dist/grapes.js",
         "../vendors/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js",
         "../vendors/grapesjs-plugin-export/dist/grapesjs-plugin-export.min.js",
         "../vendors/polyfill/polyfill.js"
