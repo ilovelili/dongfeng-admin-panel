@@ -66,5 +66,5 @@
     "test": "jest",
     "v:patch": "npm version --no-git-tag-version patch"
   },
-  "version": "0.2.64"
+  "version": "0.2.72"
 }

@@ -38446,14 +38446,14 @@ var traitInputAttr = {
   panels: {
     buttons: {
       titles: {
-        preview: 'Preview',
-        fullscreen: 'Fullscreen',
-        'sw-visibility': 'View components',
-        'export-template': 'View code',
-        'open-sm': 'Open Style Manager',
-        'open-tm': 'Settings',
-        'open-layers': 'Open Layer Manager',
-        'open-blocks': 'Open Blocks'
+        preview: '预览',
+        fullscreen: '全屏',
+        'sw-visibility': '当前页面',
+        'export-template': '导出代码',
+        'open-sm': '编辑式样',
+        'open-tm': '设置',
+        'open-layers': '编辑图层',
+        'open-blocks': '插入组件'
       }
     }
   },
@@ -38468,9 +38468,9 @@ var traitInputAttr = {
     }
   },
   styleManager: {
-    empty: 'Select an element before using Style Manager',
-    layer: 'Layer',
-    fileButton: 'Images',
+    empty: '请先选择要编辑的组件',
+    layer: '图层',
+    fileButton: '图像',
     sectors: {
       general: 'General',
       layout: 'Layout',
@@ -38485,8 +38485,8 @@ var traitInputAttr = {
     }
   },
   traitManager: {
-    empty: 'Select an element before using Trait Manager',
-    label: 'Component settings',
+    empty: '请先选择要编辑的组件',
+    label: '组件设置',
     traits: {
       // The core library generates the name by their `name` property
       labels: {// id: 'Id',
