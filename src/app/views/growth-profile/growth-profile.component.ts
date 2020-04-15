@@ -412,16 +412,16 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         contentTypeJson: true,
         credentials: 'omit',
         onComplete: () => {
-          // window.setTimeout(() => {
-          //   let body = this.editor.getHtml();
-          //   if (!body) {
-          //     return;
-          //   }
-          //   let images = this.readImgUrls(this.editor),
-          //     html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.currentYear}-${this.currentClass}-${this.currentName}-${this.currentDate}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
-          //     css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
-          //   this.updateEBookContent(images, html, css);
-          // }, 5000)
+          window.setTimeout(() => {
+            let body = this.editor.getHtml();
+            if (!body) {
+              return;
+            }
+            let images = this.readImgUrls(this.editor),
+              html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.currentYear}-${this.currentClass}-${this.currentName}-${this.currentDate}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
+              css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
+            this.updateEBookContent(images, html, css);
+          }, 5000)
         }
       },
       domComponents: { storeWrapper: 1 },
