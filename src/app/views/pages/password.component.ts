@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Auth } from 'app/models';
 import { environment } from 'environments/environment';
 
 declare var Authing: any;
@@ -11,13 +10,13 @@ declare var Authing: any;
   styleUrls: ['./login.component.scss'],
 })
 export class PasswordComponent {
-  private email: string = "";
-  private password: string = "";
-  private repeatPassword: string = "";
-  private verifyCode: string = "";
-  private verifyCodeSent: boolean = false;
-  private infomsg: string = "";
-  private errormsg: string = "";
+  email: string = "";
+  password: string = "";
+  repeatPassword: string = "";
+  verifyCode: string = "";
+  verifyCodeSent: boolean = false;
+  infomsg: string = "";
+  errormsg: string = "";
 
   constructor(private router: Router, private authService: AuthService) {
     this.authService.checkLogin().then(

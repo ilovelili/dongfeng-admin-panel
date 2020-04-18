@@ -19,20 +19,20 @@ interface BranchInfo {
     templateUrl: './app-header.component.html',
 })
 export class AppHeaderComponent implements OnInit {
-    private broadcasts: Notification[];
-    private notifications: Notification[];
-    private user: User = new User(0, "", "", "", Role.RoleUndefined);
+    broadcasts: Notification[];
+    notifications: Notification[];
+    user: User = new User(0, "", "", "", Role.RoleUndefined);
 
-    private current_name = "";
-    private branch_name = "";
-    private current_link = "";
-    private branch_link = "";
-    private years: string[] = [];
-    private current_year: string = "";
-    private key_year = "year";
+    current_name = "";
+    branch_name = "";
+    current_link = "";
+    branch_link = "";
+    years: string[] = [];
+    current_year: string = "";
+    key_year = "year";
 
-    private namespace: string = 'dongfeng';
-    private sessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+    namespace: string = 'dongfeng';
+    sessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
 
     constructor(
         private authService: AuthService,

@@ -22,8 +22,8 @@
               <div class="col-2">
                 <a [routerLink]="['../注册']" class="btn btn-link px-4" role="button">注册新用户</a>
               </div>
-              <div class="col-10 text-right">
-                <button type="button" class="btn btn-success px-4" (click)="login()">登录</button>
+              <div class="col-10 text-right">                
+                <button class="btn btn-success btn-ladda px-4" (click)="login()" data-style="zoom-in" [ladda]="clicked">登录</button>
                 <a [routerLink]="['../重置密码']" class="btn btn-link px-4" role="button">忘记密码?</a>
               </div>
             </div>

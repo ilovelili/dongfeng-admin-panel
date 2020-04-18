@@ -8,6 +8,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { TooltipModule } from 'ngx-bootstrap';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LaddaModule } from 'angular2-ladda';
 import { RegisterComponent } from './register.component';
 import { PasswordComponent } from './password.component';
 import { OpenIdDingTalkComponent, OpenIdWechatComponent } from './openid.component';
@@ -17,6 +18,7 @@ import { OpenIdDingTalkComponent, OpenIdWechatComponent } from './openid.compone
     CommonModule,
     FormsModule,
     PagesRoutingModule,
+    LaddaModule,
     TooltipModule.forRoot(),
   ],
   declarations: [

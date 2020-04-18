@@ -12,11 +12,11 @@ declare var Authing: any
   styleUrls: ['./login.component.scss'],
 })
 export class RegisterComponent {
-  private email: string = "";
-  private password: string = "";
-  private repeatPassword: string = "";
-  private name: string = "";
-  private errormsg: string = "";
+  email: string = "";
+  password: string = "";
+  repeatPassword: string = "";
+  name: string = "";
+  errormsg: string = "";
 
   constructor(private router: Router, private authService: AuthService, private userClient: UserClient) {
     this.authService.checkLogin().then(

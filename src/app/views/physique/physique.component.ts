@@ -16,7 +16,7 @@ import { AuthService } from 'app/services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class PhysiqueComponent extends ViewComponent implements OnInit {
-  private physiques: Physique[];
+  physiques: Physique[];
 
   constructor(private physiqueClient: PhysiqueClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);

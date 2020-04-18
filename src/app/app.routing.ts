@@ -22,39 +22,39 @@ export const routes: Routes = [
     children: [
       {
         path: '成长档案',
-        loadChildren: './views/growth-profile/growth-profile.module#GrowthProfileModule',
+        loadChildren: () => import('./views/growth-profile/growth-profile.module').then(m => m.GrowthProfileModule),
       },
       {
         path: '用户信息',
-        loadChildren: './views/user-profile/user-profile.module#UserProfileModule',
+        loadChildren: () => import('./views/user-profile/user-profile.module').then(m => m.UserProfileModule),
       },
       {
         path: '班级信息',
-        loadChildren: './views/class/class.module#ClassModule',
+        loadChildren: () => import('./views/class/class.module').then(m => m.ClassModule),
       },
       {
         path: '幼儿信息',
-        loadChildren: './views/pupil/pupil.module#PupilModule',
+        loadChildren: () => import('./views/pupil/pupil.module').then(m => m.PupilModule),
       },
       {
         path: '教师信息',
-        loadChildren: './views/teacher/teacher.module#TeacherModule',
+        loadChildren: () => import('./views/teacher/teacher.module').then(m => m.TeacherModule),
       },
       {
         path: '出勤信息',
-        loadChildren: './views/attendance/attendance.module#AttendanceModule',
+        loadChildren: () => import('./views/attendance/attendance.module').then(m => m.AttendanceModule),
       },      
       {
         path: '体格发育',
-        loadChildren: './views/physique/physique.module#PhysiqueModule',
+        loadChildren: () => import('./views/physique/physique.module').then(m => m.PhysiqueModule),
       },
       {
         path: '膳食管理',
-        loadChildren: './views/meal/meal.module#MealModule',
+        loadChildren: () => import('./views/meal/meal.module').then(m => m.MealModule),
       },
       {
         path: '后台管理',
-        loadChildren: './views/admin/admin.module#AdminModule',
+        loadChildren: () => import('./views/admin/admin.module').then(m => m.AdminModule),
       },
     ]
   },
@@ -64,7 +64,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: './views/pages/pages.module#PagesModule',
+        loadChildren: () => import('./views/pages/pages.module').then(m => m.PagesModule),
       },
     ]
   },
@@ -74,7 +74,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: './views/pages/pages.module#PagesModule',
+        loadChildren: () => import('./views/pages/pages.module').then(m => m.PagesModule),
       },
     ]
   },

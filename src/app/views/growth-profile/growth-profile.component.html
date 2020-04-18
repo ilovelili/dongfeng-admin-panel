@@ -11,6 +11,7 @@
         </div>
         <div class="card-body" id="gjs"></div>
     </div>
+    <button class="btn btn-primary btn-upload" *ngIf="showProfileUploadBtn" (click)="showProfileModal()">选择成长档案</button>
 </div>
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
@@ -21,7 +22,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">选择成长档案</h4>
-                <button type="button" class="close" (click)="profileModal.hide()" aria-label="Close">
+                <button type="button" class="close" (click)="closeProfileModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

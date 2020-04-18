@@ -3,7 +3,7 @@ import { Cookie } from './cookie'
 
 // CookieStorage cookie storage
 export class CookieStorage implements IStorage {
-  public hasOwnProperty(key) {
+  public hasProperty(key) {
     return <boolean>Cookie.get(key);
   }
 

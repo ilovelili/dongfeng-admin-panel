@@ -1,4 +1,4 @@
-import { Pupil } from ".";
+import { Pupil } from "./pupil";
 
 export class Physique {
   constructor(

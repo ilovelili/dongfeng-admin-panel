@@ -5,6 +5,7 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { ProfileTemplate } from 'app/models';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   templateUrl: './growth-profile-template.component.html',
@@ -15,11 +16,11 @@ import { ProfileTemplate } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class GrowthProfileTemplateComponent extends ViewComponent implements OnInit {
-  @ViewChild('newProfileTemplateModal') newProfileTemplateModal
+  @ViewChild('newProfileTemplateModal', { static: false }) newProfileTemplateModal: ModalDirective
 
-  private name: string;
-  private names: string[] = [];
-  private errormsg: string;
+  name: string;
+  names: string[] = [];
+  errormsg: string;
 
   constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
@@ -54,7 +55,7 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
             this.names = this.items.map(i => i.name);
           } else {
             this.items = [];
-            this.LogWarning("没有电子书模板");
+            this.LogWarning("没有成长档案模板");
           }
           this.loading = false;
         },
@@ -102,11 +103,11 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
       );
   }
 
-  show(e: Event) {
+  show() {
     this.newProfileTemplateModal.show();
   }
 
-  close(e: Event) {
+  close() {
     this.newProfileTemplateModal.hide();
   }
 }

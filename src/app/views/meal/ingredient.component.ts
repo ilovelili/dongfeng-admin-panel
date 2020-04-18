@@ -5,6 +5,7 @@ import { ToasterService } from 'angular2-toaster';
 import { MealClient } from 'app/clients';
 import { AuthService } from 'app/services/auth.service';
 import { Recipe, Ingredient } from 'app/models';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   templateUrl: './ingredient.component.html',
@@ -15,11 +16,11 @@ import { Recipe, Ingredient } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class IngredientComponent extends ViewComponent implements OnInit {
-  @ViewChild('recipeModal') recipeModal
+  @ViewChild('recipeModal', { static: false }) recipeModal: ModalDirective
 
-  private recipeIds: string = '';
-  private _recipes: Recipe[];
-  private currentItem: Ingredient;
+  recipeIds: string = '';
+  _recipes: Recipe[];
+  currentItem: Ingredient;
 
   constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);
@@ -73,7 +74,7 @@ export class IngredientComponent extends ViewComponent implements OnInit {
     this.mealClient.getRecipes(item.recipeIds).
       subscribe(
         d => {
-          this.loading = false;          
+          this.loading = false;
           this._recipes = d.filter((r: Recipe) => r.name != '未排菜').map((r: Recipe) => new Recipe(
             r.id,
             r.name,

@@ -15,8 +15,8 @@ import { User, Constant, Role } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class UserAdminComponent extends ViewComponent implements OnInit {
-  private users: User[];
-  private currentEditId: number;
+  users: User[];
+  currentEditId: number;
 
   constructor(private userClient: UserClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);

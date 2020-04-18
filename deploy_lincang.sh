@@ -2,7 +2,7 @@
 set -e
 
 echo "build"
-npm run build -- --output-path=./dist/out --environment prod
+npm run build -- --output-path=./dist/out --prod
 
 echo "scp compiled files"
 scp -r ./dist/out/* root@116.62.187.109:/var/www/dongfeng

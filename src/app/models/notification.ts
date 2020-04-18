@@ -1,5 +1,4 @@
 import { Constant } from "./const";
-import { SessionFactory, SessionConfig } from "app/sessionstorage/sessionfactory.service";
 
 export class Notification {
   constructor(

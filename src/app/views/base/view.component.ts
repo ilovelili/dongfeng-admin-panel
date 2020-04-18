@@ -3,7 +3,7 @@ import { AppCsvDownloadService } from 'app/components';
 import { CsvFormat } from 'app/components/app-csv/app-csv-model';
 import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory.service';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
-import { zhCnLocale, BsLocaleService, BsDatepickerConfig } from 'ngx-bootstrap';
+import { zhCnLocale, BsLocaleService, BsDatepickerConfig, ModalDirective } from 'ngx-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
 import { DateRange } from 'app/models';
 import { ViewChild, ElementRef } from '@angular/core';
@@ -12,63 +12,63 @@ import { BaseComponent } from 'app/base.component';
 import { AuthService } from 'app/services';
 
 export abstract class ViewComponent extends BaseComponent {
-  // use viewchild to get dom element by ref (#infoModal)
-  @ViewChild('infoModal') infoModal
-  @ViewChild('conditionModal') conditionModal
-  @ViewChild('explainModal') explainModal
-  @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('infoModal', { static: false }) infoModal: ModalDirective
+  @ViewChild('conditionModal', { static: false }) conditionModal: ModalDirective
+  @ViewChild('explainModal', { static: false }) explainModal: ModalDirective
 
-  protected loading: boolean;
-  protected template: any[] = [];
-  protected items: any[] = [];
+  @ViewChild('fileUpload', { static: false }) fileUpload: ElementRef
 
-  protected key_token: string = 'token';
-  protected key_year: string = 'year';
-  protected namespace: string = 'dongfeng';
-  protected sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
-  protected params: Object
+  loading: boolean;
+  template: any[] = [];
+  items: any[] = [];
 
-  protected filterQuery = '';
-  protected currentYear: string = '';
-  protected currentClass: number; // class ID
-  protected currentName: number; // pupil ID
-  protected currentDate = '';
-  protected dateFrom = '';
-  protected dateTo = '';
-  protected dateRange: Date[];
-  protected daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  key_token: string = 'token';
+  key_year: string = 'year';
+  namespace: string = 'dongfeng';
+  sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+  params: Object
 
-  protected classMap: Map<number, string> = new Map();
-  protected pupilMap: Map<number, string> = new Map();
+  filterQuery = '';
+  currentYear: string = '';
+  currentClass: number; // class ID
+  currentName: number; // pupil ID
+  currentDate = '';
+  dateFrom = '';
+  dateTo = '';
+  dateRange: Date[];
+  daterangepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
 
-  protected searchcriteria = {
+  classMap: Map<number, string> = new Map();
+  pupilMap: Map<number, string> = new Map();
+
+  searchcriteria = {
     year: '学年',
     class: '班级',
     name: '姓名',
     date: '日期',
   };
 
-  protected csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
+  csvDownloader: AppCsvDownloadService = new AppCsvDownloadService();
 
   fileUploader: FileUploader = new FileUploader({});
   hasBaseDropZoneOver: boolean = false;
   hasAnotherDropZoneOver: boolean = false;
 
-  protected fileOverBase = (e) => {
+  fileOverBase = (e) => {
     this.hasBaseDropZoneOver = e;
   }
 
-  protected toasterconfig: ToasterConfig =
+  toasterconfig: ToasterConfig =
     new ToasterConfig({
       tapToDismiss: true,
       timeout: 5000,
     });
 
-  protected uploadFile(e: Event) {
+  uploadFile() {
     this.fileUpload.nativeElement.click();
   }
 
-  protected initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
+  initfileuploader(fileUploader: FileUploader, endpoint: string, msg: string, callback?: Function, errcallback?: Function) {
     fileUploader.setOptions({
       url: `${environment.api.baseURI}/${endpoint}`,
       // allowedMimeType: ['text/csv'],
@@ -143,7 +143,7 @@ export abstract class ViewComponent extends BaseComponent {
     });
   }
 
-  protected showconditionsearch() {
+  showconditionsearch() {
     if (this.infoModal) {
       this.infoModal.hide();
     }
@@ -157,7 +157,7 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected showupload() {
+  showupload() {
     if (this.conditionModal) {
       this.conditionModal.hide();
     }
@@ -171,7 +171,7 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected showexplain() {
+  showexplain() {
     if (this.conditionModal) {
       this.conditionModal.hide();
     }
@@ -185,32 +185,32 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected DownloadCsv = (downloadtemplate: boolean, filename?: string, format?: CsvFormat) => {
+  DownloadCsv = (downloadtemplate: boolean, filename?: string, format?: CsvFormat) => {
     filename = filename || (window.location.hash.replace('#/', '') || (this.activatedRoute.component as any).name) + '.csv';
     let items = downloadtemplate ? this.template : this.items;
     this.csvDownloader.WriteFormattedCSV(items, format, filename);
   };
 
-  protected LogComplete = (msg: string) => {
+  LogComplete = (msg: string) => {
     console.log(msg);
   };
 
-  protected LogError = (err: string, msg: string) => {
+  LogError = (err: string, msg: string) => {
     console.error(err);
     this.toasterService.pop('error', '', msg);
   };
 
-  protected LogWarning = (msg: string) => {
+  LogWarning = (msg: string) => {
     console.log(msg);
     this.toasterService.pop('warning', '', msg);
   };
 
-  protected LogSuccess = (msg: string) => {
+  LogSuccess = (msg: string) => {
     console.log(msg);
     this.toasterService.pop('success', '', msg);
   };
 
-  protected setclass(classId: number, className: string) {
+  setclass(classId: number, className: string) {
     if (classId != this.currentClass) {
       this.currentClass = classId;
     };
@@ -222,7 +222,7 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected setpupil(pupilId: number, pupilName: string) {
+  setpupil(pupilId: number, pupilName: string) {
     if (pupilId != this.currentName) {
       this.currentName = pupilId;
     };
@@ -246,23 +246,23 @@ export abstract class ViewComponent extends BaseComponent {
     }
   }
 
-  protected setfrom(from: string) {
+  setfrom(from: string) {
     if (from != this.dateFrom) {
       this.dateFrom = from;
     };
   }
 
-  protected setto(to: string) {
+  setto(to: string) {
     if (to != this.dateTo) {
       this.dateTo = to;
     };
   }
 
-  protected filename(filename: string): string {
+  filename(filename: string): string {
     return `${filename}.csv`;
   }
 
-  protected dateToString(d: Date): string {
+  dateToString(d: Date): string {
     let month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
       year = d.getFullYear();
@@ -284,32 +284,32 @@ export abstract class ViewComponent extends BaseComponent {
     return new Date(year, month, day);
   }
 
-  protected firstDayInPrevMonth(): Date {
+  firstDayInPrevMonth(): Date {
     let d = new Date();
     d.setDate(1);
     d.setMonth(d.getMonth() - 1);
     return d;
   }
 
-  protected monday(): Date {
+  monday(): Date {
     let d = new Date();
     let day = d.getDay(),
       diff = d.getDate() - day + (day == 0 ? -6 : 1);
     return new Date(d.setDate(diff));
   }
 
-  protected friday(): Date {
+  friday(): Date {
     let monday = this.monday(),
       diff = monday.getDate() + 4;
     return new Date(monday.setDate(diff));
   }
 
   // https://stackoverflow.com/questions/48187362/how-to-iterate-using-ngfor-loop-map-containing-key-as-string-and-values-as-map-i
-  protected getKeys(map: Map<number /** ID */, any>) {
+  getKeys(map: Map<number /** ID */, any>) {
     return Array.from(map.keys());
   }
 
-  protected getValues(map: Map<number, any>) {
+  getValues(map: Map<number, any>) {
     return Array.from(map.values());
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ToasterService } from 'angular2-toaster';
@@ -16,9 +16,9 @@ import { Ingredient } from 'app/models';
   encapsulation: ViewEncapsulation.None,
 })
 export class IngredientNutritionComponent extends ViewComponent implements OnInit {
-  private ingredients: Ingredient[];
-  private _ingredients: string;
-  private displayMode = "每100g";
+  ingredients: Ingredient[];
+  _ingredients: string;
+  displayMode = "每100g";
 
   constructor(private mealClient: MealClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);

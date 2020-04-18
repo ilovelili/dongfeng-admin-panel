@@ -15,8 +15,8 @@ import { UserClient } from 'app/clients/user.client';
   encapsulation: ViewEncapsulation.None,
 })
 export class UserProfileComponent implements OnInit {    
-  private allowedit: boolean = false;
-  private user: User = new User(0, "", "", "", Role.RoleUndefined);
+  allowedit: boolean = false;
+  user: User = new User(0, "", "", "", Role.RoleUndefined);
 
   toasterconfig: ToasterConfig =
     new ToasterConfig({

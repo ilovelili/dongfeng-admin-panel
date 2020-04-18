@@ -1,4 +1,5 @@
 import { Component, Input, ViewEncapsulation, EventEmitter, Output, ViewChild } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-edit-btn',
@@ -7,14 +8,14 @@ import { Component, Input, ViewEncapsulation, EventEmitter, Output, ViewChild } 
   encapsulation: ViewEncapsulation.None,
 })
 export class AppEditButtonComponent {
-  @ViewChild('editModal') editModal
+  @ViewChild('editModal', { static: false }) editModal: ModalDirective
 
   @Input("title")
   public title: string;
 
   @Input("item")
   public item: any;
-  
+
   @Input("fields")
   public fields: string[];
 
@@ -25,7 +26,7 @@ export class AppEditButtonComponent {
     return this.hiddenFields.includes(field);
   }
 
-  editcriteria = {    
+  editcriteria = {
     year: "学年",
     name: "姓名",
     class: "班级",
@@ -39,14 +40,14 @@ export class AppEditButtonComponent {
   }
 
   @Output()
-  onSubmit: EventEmitter<any> = new EventEmitter<any>();  
+  onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
   edit(e: Event) {
     e.preventDefault();
-    this.editModal.show();    
+    this.editModal.show();
   }
 
-  close(e: Event) {
+  close() {
     this.editModal.hide();
   }
 

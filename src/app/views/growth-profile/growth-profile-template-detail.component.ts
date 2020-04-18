@@ -17,8 +17,8 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
     encapsulation: ViewEncapsulation.None,
 })
 export class GrowthProfileTemplateDetailComponent extends ViewComponent implements OnInit {
-    private editor: any;
-    private profileloaded = false;
+    editor: any;
+    profileloaded = false;
 
     constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
         super(router, authService, activatedRoute, toasterService);

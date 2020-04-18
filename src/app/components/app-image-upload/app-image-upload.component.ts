@@ -18,10 +18,10 @@ export class AppImageUploadComponent {
   @Output()
   onImageUploaded: EventEmitter<string[]> = new EventEmitter<string[]>();
 
-  private selectedfile: ImageSnippet;
-  private title = "请选择图像";
+  selectedfile: ImageSnippet;
+  title = "请选择图像";
 
-  private toasterconfig: ToasterConfig =
+  toasterconfig: ToasterConfig =
     new ToasterConfig({
       tapToDismiss: true,
       timeout: 5000,

@@ -6,6 +6,7 @@ import { ToasterService } from 'angular2-toaster';
 import { ProfileClient } from 'app/clients';
 import { environment } from 'environments/environment';
 import { Ebook } from 'app/models/ebook';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   templateUrl: './ebook.component.html',
@@ -16,10 +17,10 @@ import { Ebook } from 'app/models/ebook';
   encapsulation: ViewEncapsulation.None,
 })
 export class EBookComponent extends ViewComponent implements OnInit {
-  private oneyear = true; // show only one year
+  oneyear = true; // show only one year
 
-  @ViewChild('ebookModal') ebookModal
-  @ViewChild('explainModal') explainModal
+  @ViewChild('ebookModal', { static: false }) ebookModal: ModalDirective
+  @ViewChild('explainModal', { static: false }) explainModal: ModalDirective
 
   constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
     super(router, authService, activatedRoute, toasterService);

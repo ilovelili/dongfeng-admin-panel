@@ -5,7 +5,7 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient, PupilClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { BsLocaleService, BsDatepickerConfig, zhCnLocale } from 'ngx-bootstrap';
+import { BsLocaleService, BsDatepickerConfig, zhCnLocale, ModalDirective } from 'ngx-bootstrap';
 import { Profile, Pupil, ProfileTemplate } from 'app/models';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
@@ -20,24 +20,24 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
   encapsulation: ViewEncapsulation.None,
 })
 export class GrowthProfileComponent extends ViewComponent implements OnInit {
-  @ViewChild('profileModal') profileModal
-  @ViewChild('newprofileModal') newprofileModal
-  @ViewChild('confirmModal') confirmModal
+  @ViewChild('profileModal', { static: false }) profileModal: ModalDirective
+  @ViewChild('newprofileModal', { static: false }) newprofileModal: ModalDirective
+  @ViewChild('confirmModal', { static: false }) confirmModal: ModalDirective
 
-  private profileloaded = false;
-  private profiles: Profile[] = [];
-  private currentTemplate: number;
+  profileloaded = false;
+  profiles: Profile[] = [];
+  currentTemplate: number;
 
-  private templateMap: Map<number, string> = new Map();
-  private fullClassMap: Map<number, string> = new Map();
+  templateMap: Map<number, string> = new Map();
+  fullClassMap: Map<number, string> = new Map();
 
-  private _pupilMap: Map<number, Pupil> = new Map();
-  private fullPupilMap: Map<number, Pupil> = new Map();
+  _pupilMap: Map<number, Pupil> = new Map();
+  fullPupilMap: Map<number, Pupil> = new Map();
 
-  private editor: any;
-  private profilecreatedate = new Date();
+  editor: any;
+  profilecreatedate = new Date();
 
-  protected datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
   constructor(private profileClient: ProfileClient, private pupilClient: PupilClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, authService, activatedRoute, toasterService, localeService);
 
@@ -588,6 +588,12 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
     return content
   }
+
+  showProfileUploadBtn = false;
+  closeProfileModal() {
+    this.profileModal.hide();
+    this.showProfileUploadBtn = true;
+  }  
 
   browserCheck() {
     // Opera 8.0+

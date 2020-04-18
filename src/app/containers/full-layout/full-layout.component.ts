@@ -6,9 +6,9 @@ import { Router, NavigationStart } from '@angular/router';
   templateUrl: './full-layout.component.html',
 })
 export class FullLayoutComponent implements OnInit, AfterViewChecked {
-  private loading: boolean;
-  private seed1: number;
-  private seed2: number;
+  loading: boolean;
+  seed1: number;
+  seed2: number;
 
   constructor(private router: Router) {
     this.loading = true;

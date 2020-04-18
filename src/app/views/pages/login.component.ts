@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Auth } from 'app/models';
@@ -9,14 +9,16 @@ declare var Authing: any;
 
 @Component({
   templateUrl: 'login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: [
+    './login.component.scss',
+  ],
 })
 export class LoginComponent {
-  private email: string = "";
-  private password: string = "";
-  private errormsg: string = "";
+  email: string = "";
+  password: string = "";
+  errormsg: string = "";
 
-  constructor(private router: Router, private authService: AuthService, private userClient: UserClient) {
+  constructor(private router: Router, public authService: AuthService, private userClient: UserClient) {
     this.authService.checkLogin().then(
       d => {
         if (d.status) {
@@ -26,14 +28,18 @@ export class LoginComponent {
     );
   }
 
+  clicked = false;
   login() {
+    this.clicked = true;
     if (this.email == "") {
       this.setMessage('邮件不能为空白');
+      this.clicked = false;
       return;
     }
 
     if (this.password == "") {
       this.setMessage('密码不能为空白');
+      this.clicked = false;
       return;
     }
 
@@ -53,7 +59,7 @@ export class LoginComponent {
         me.authService.setSession(user);
         me.userClient.getUser().
           subscribe(
-            d => {              
+            d => {
               me.router.navigate(["班级信息"]);
             },
             e => {
@@ -69,6 +75,7 @@ export class LoginComponent {
           me.setMessage('登录失败,请重试');
           console.log(err);
         }
+        this.clicked = false;
       });
     })();
   }

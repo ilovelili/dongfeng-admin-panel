@@ -17,8 +17,8 @@
             <strong>{{title}}</strong>
           </div>
           <div class="card-body">
-            <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="submit(f.value, $event)">
-                            
+            <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="submit(f.value)">
+                                          
               <div class="form-group row" *ngFor="let field of fields">
                 <label class="col-md-3 col-form-label" [attr.for]="field">{{editcriteria[field]}}</label>
                 <div class="col-md-9">

@@ -6,6 +6,6 @@ export interface IStorage {
     setItem(key: string, data: any, config?: any): void
     removeItem(key: string): void
     clear(): void
-    hasOwnProperty(key: string): boolean
+    hasProperty(key: string): boolean
     key(index: number): string
 }

@@ -10,7 +10,7 @@ const getKeys = function () {
 }
 
 export class MemoryStorage implements IStorage {
-  public hasOwnProperty(key) {
+  public hasProperty(key) {
     return _cache.has(key);
   }
 
