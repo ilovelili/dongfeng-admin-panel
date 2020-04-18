@@ -83,10 +83,10 @@ export class MenuComponent extends ViewComponent implements OnInit {
   }
 
   get breakfastOrLunchString(): string {
-    return Constant.Instance.menus.breakfast_or_lunch[this.breakfast_or_lunch];
+    return Constant.Instance().menus.breakfast_or_lunch[this.breakfast_or_lunch];
   }
 
   get juniorOrSeniorString(): string {
-    return Constant.Instance.menus.junior_or_senior[this.junior_or_senior];
+    return Constant.Instance().menus.junior_or_senior[this.junior_or_senior];
   }
 }

@@ -12,7 +12,7 @@ export class Attendance {
     formattedAttendance.date = this.date;
 
     // if not working days, set to -
-    if (Constant.Instance.holidays["weekends"] == this.holiday) {
+    if (Constant.Instance().holidays["weekends"] == this.holiday) {
       formattedAttendance.class = "-";
       formattedAttendance.name = "-";
       formattedAttendance.attendance = "-";
@@ -21,7 +21,7 @@ export class Attendance {
       formattedAttendance.isWorkingDay = false;
       formattedAttendance.isWeekend = true;
       formattedAttendance.isHoliday = false;
-    } else if (Constant.Instance.holidays["holidays"] == this.holiday) {
+    } else if (Constant.Instance().holidays["holidays"] == this.holiday) {
       formattedAttendance.class = "-";
       formattedAttendance.name = "-";
       formattedAttendance.attendance = "-";

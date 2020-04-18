@@ -5,7 +5,7 @@ import { SessionFactory, SessionConfig } from 'app/sessionstorage/sessionfactory
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
 import { zhCnLocale, BsLocaleService, BsDatepickerConfig, ModalDirective } from 'ngx-bootstrap';
 import { FileUploader } from 'ng2-file-upload';
-import { DateRange } from 'app/models';
+import { DateRange, Constant } from 'app/models';
 import { ViewChild, ElementRef } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BaseComponent } from 'app/base.component';
@@ -21,11 +21,8 @@ export abstract class ViewComponent extends BaseComponent {
   loading: boolean;
   template: any[] = [];
   items: any[] = [];
-
-  key_token: string = 'token';
-  key_year: string = 'year';
-  namespace: string = 'dongfeng';
-  sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+  
+  sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(Constant.SESSION_NAMESPACE, SessionFactory.DRIVERS.LOCAL));
   params: Object
 
   filterQuery = '';
@@ -74,7 +71,7 @@ export abstract class ViewComponent extends BaseComponent {
       // allowedMimeType: ['text/csv'],
       method: 'POST',
       autoUpload: true,
-      authToken: `Bearer ${this.sessionFactory.get(this.key_token)}`,
+      authToken: `Bearer ${this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN)}`,
       authTokenHeader: `Authorization`,
     });
 
@@ -120,7 +117,7 @@ export abstract class ViewComponent extends BaseComponent {
     super(router, authService);
 
     this.loading = true;
-    this.currentYear = this.sessionFactory.get(this.key_year);
+    this.currentYear = this.sessionFactory.get(Constant.SESSION_KEY_YEAR);
     this.activatedRoute.params.subscribe((params) => {
       this.params = params;
 

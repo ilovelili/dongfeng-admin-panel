@@ -10,7 +10,7 @@ export class User {
   ) { }
 
   get roleName(): string {
-    return Constant.Instance.roles[this.role];
+    return Constant.Instance().roles[this.role];
   }
 }
 
@@ -18,12 +18,13 @@ export class Role {
   static RoleUndefined = 0;
   static RoleAgentSmith = 1;
   static RoleAdmin = 2;
-  static RoleNormal = 3;
+  static RoleTeacher = 3;
   static RoleHealth = 4;
+  static RoleNormal = 5;
 
-  static AllRoles = [Role.RoleAdmin, Role.RoleNormal, Role.RoleHealth];
+  static AllRoles = [Role.RoleAdmin, Role.RoleTeacher, Role.RoleNormal, Role.RoleHealth];
 }
 
 export class AuthingToken {
-  constructor(public status: boolean){ }
+  constructor(public status: boolean) { }
 }

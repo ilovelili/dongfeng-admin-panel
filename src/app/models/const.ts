@@ -1,7 +1,6 @@
 import { SessionFactory, SessionConfig } from "app/sessionstorage/sessionfactory.service";
 
 export class Constant {
-    errors: Object;
     notifications: Object;
     roles: Object;
     holidays: Object;
@@ -11,10 +10,21 @@ export class Constant {
         junior_or_senior: Object;
     };
 
-    static get Instance(): Constant {
-        let key_const: string = 'consts';
-        let namespace: string = 'dongfeng';
-        let sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(namespace, SessionFactory.DRIVERS.LOCAL));
-        return sessionFactory.get(key_const);
+    static SESSION_NAMESPACE: string = 'dongfeng';
+    static SESSION_KEY_IDTOKEN: string = 'token';
+    static SESSION_KEY_YEAR: string = 'year';
+    static SESSION_KEY_CONST: string = 'consts';
+
+    static Instance(retryCount = 0): Constant {
+        // add retry
+        if (retryCount > 10) return null;
+        let sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(Constant.SESSION_NAMESPACE, SessionFactory.DRIVERS.LOCAL));
+        let constant = sessionFactory.get(Constant.SESSION_KEY_CONST);
+        if (!constant) {
+            window.setTimeout(() => Constant.Instance(retryCount++), 500);
+            return;
+        }
+        
+        return constant;
     }
 }

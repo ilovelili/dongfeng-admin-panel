@@ -10,18 +10,18 @@ export class Notification {
     public link: string,
     public created_at: string,
     public read: boolean = false) { }
-  
+
   // parse details by customcode and detail info
   get detail(): string {
-    for (let key in Constant.Instance.notifications) {
+    for (let key in Constant.Instance().notifications) {
       if (key == this.custom_code) {
-        return Constant.Instance.notifications[key].replace(/{{time}}/g, this.formatDate(this.created_at));
+        return Constant.Instance().notifications[key].replace(/{{time}}/g, this.formatDate(this.created_at));
       }
     }
 
     return "";
   }
-  
+
   get title(): string {
     let title = this.category;
     if (this.custom_code != "N5001") {

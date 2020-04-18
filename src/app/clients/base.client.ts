@@ -1,23 +1,22 @@
 import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Constant } from 'app/models';
 
-export abstract class BaseClient {
-  private namespace: string = 'dongfeng';
-  private KEY_TOKEN: string = 'token';  
+export abstract class BaseClient {  
   private sessionFactory: SessionFactory;
 
   constructor(protected http: HttpClient) {
-    this.sessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
+    this.sessionFactory = new SessionFactory(new SessionConfig(Constant.SESSION_NAMESPACE, SessionFactory.DRIVERS.LOCAL));
   }
 
   get defaultHeaders() {
     let headers = {
-      'Content-Type': 'application/json',      
+      'Content-Type': 'application/json',
     };
 
-    if (this.sessionFactory.get(this.KEY_TOKEN)) {
-      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
-    }    
+    if (this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN);
+    }
 
     return new HttpHeaders(headers);
   }
@@ -30,11 +29,11 @@ export abstract class BaseClient {
 
   get rawHeaders() {
     let headers = {
-      'Content-Type': 'application/json',      
+      'Content-Type': 'application/json',
     };
 
-    if (this.sessionFactory.get(this.KEY_TOKEN)) {
-      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
+    if (this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN);
     }
 
     return headers;
@@ -43,8 +42,8 @@ export abstract class BaseClient {
   get multipartFormDataHttpOptions() {
     let headers = {};
 
-    if (this.sessionFactory.get(this.KEY_TOKEN)) {
-      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(this.KEY_TOKEN);
+    if (this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN)) {
+      headers["Authorization"] = 'Bearer ' + this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN);
     }
 
     return {

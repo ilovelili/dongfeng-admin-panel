@@ -63,7 +63,7 @@ export class RegisterComponent {
           email: me.email,
           password: me.password,
         }).then((user: Auth) => {
-          me.authService.setSession(user);
+          me.authService.setToken(user);
           me.userClient.getUser().
             subscribe(
               d => {

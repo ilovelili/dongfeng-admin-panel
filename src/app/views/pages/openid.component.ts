@@ -36,7 +36,7 @@ export abstract class OpenIdComponent {
             userInfo.email = `${userInfo._id}@dongfeng.cn`;
         }
 
-        this.authService.setSession(userInfo);
+        this.authService.setToken(userInfo);
         this.userClient.getUser().
             subscribe(
                 _ => {

@@ -11,9 +11,6 @@ export abstract class BaseComponent {
   }
 
   constructor(protected router: Router, protected authService: AuthService) {
-    // set const
-    this.authService.setConst();
-
     this.authService.checkLogin().then(
       d => {
         if (!d.status) {
@@ -23,7 +20,7 @@ export abstract class BaseComponent {
           this.authService.getRole().subscribe(
             d => {
               this.myRole = d.role;
-              this.authService.validateAccessible();
+              this.authService.validateAccessible(this.myRole);
             }
           );
         }

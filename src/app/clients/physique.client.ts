@@ -36,31 +36,31 @@ export class PhysiqueClient extends BaseClient {
     
   getAgeHeightWeightPMaster(): Observable<Physique_AgeHeightWeightPMaster[]> {
     let params = new HttpParams();
-    params = params.set("id", Constant.Instance.masters["age_height_weight_p"]);
+    params = params.set("id", Constant.Instance().masters["age_height_weight_p"]);
     return this.http.get<Physique_AgeHeightWeightPMaster[]>(environment.api.baseURI + '/masters', { headers: this.defaultHeaders, params: params });
   }
 
   getAgeHeightWeightSDMaster(): Observable<Physique_AgeHeightWeightSDMaster[]> {
     let params = new HttpParams();
-    params = params.set("id", Constant.Instance.masters["age_height_weight_sd"]);
+    params = params.set("id", Constant.Instance().masters["age_height_weight_sd"]);
     return this.http.get<Physique_AgeHeightWeightSDMaster[]>(environment.api.baseURI + '/masters', { headers: this.defaultHeaders, params: params });
   }
 
   getBMIMaster(): Observable<Physique_BMIMaster[]> {
     let params = new HttpParams();
-    params = params.set("id", Constant.Instance.masters["bmi"]);
+    params = params.set("id", Constant.Instance().masters["bmi"]);
     return this.http.get<Physique_BMIMaster[]>(environment.api.baseURI + '/masters', { headers: this.defaultHeaders, params: params });
   }
 
   getHeightToWeightPMaster(): Observable<Physique_HeightToWeightPMaster[]> {
     let params = new HttpParams();
-    params = params.set("id", Constant.Instance.masters["height_to_weight_p"]);
+    params = params.set("id", Constant.Instance().masters["height_to_weight_p"]);
     return this.http.get<Physique_HeightToWeightPMaster[]>(environment.api.baseURI + '/masters', { headers: this.defaultHeaders, params: params });
   }
 
   getHeightToWeightSDMaster(): Observable<Physique_HeightToWeightSDMaster[]> {
     let params = new HttpParams();
-    params = params.set("id", Constant.Instance.masters["height_to_weight_sd"]);
+    params = params.set("id", Constant.Instance().masters["height_to_weight_sd"]);
     return this.http.get<Physique_HeightToWeightSDMaster[]>(environment.api.baseURI + '/masters', { headers: this.defaultHeaders, params: params });
   }  
 }

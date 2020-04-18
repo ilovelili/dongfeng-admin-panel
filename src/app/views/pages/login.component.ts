@@ -28,6 +28,12 @@ export class LoginComponent {
     );
   }
 
+  tryLogin(event: KeyboardEvent) {
+    if(event.keyCode == 13) {
+      this.login();
+    }
+  }
+
   clicked = false;
   login() {
     this.clicked = true;
@@ -56,7 +62,7 @@ export class LoginComponent {
         email: me.email,
         password: me.password,
       }).then((user: Auth) => {
-        me.authService.setSession(user);
+        me.authService.setToken(user);
         me.userClient.getUser().
           subscribe(
             d => {

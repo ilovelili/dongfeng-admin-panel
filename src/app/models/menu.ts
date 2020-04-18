@@ -14,12 +14,12 @@ export class Menu {
     }
 
     get breakfast_or_lunch_str(): string {
-        let result = Constant.Instance.menus.breakfast_or_lunch[this.breakfast_or_lunch];
+        let result = Constant.Instance().menus.breakfast_or_lunch[this.breakfast_or_lunch];
         return result || "";
     }
 
     get junior_or_senior_str(): string {
-        let result = Constant.Instance.menus.junior_or_senior[this.junior_or_senior];
+        let result = Constant.Instance().menus.junior_or_senior[this.junior_or_senior];
         return result || "";
     }
 

@@ -1,61 +1,40 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionFactory, SessionConfig } from '../sessionstorage/sessionfactory.service';
 import { environment } from 'environments/environment';
-import { Auth, Role } from 'app/models';
+import { Auth, Role, Constant } from 'app/models';
 import { UserClient, ConstClient } from 'app/clients';
+import { BaseService } from './base.service';
 
 (window as any).global = window;
 declare var Authing: any;
 
-const KEY_TOKEN: string = 'token';
-const KEY_YEAR: string = 'year';
-const KEY_CONST: string = 'consts';
-
-@Injectable()
-export class AuthService {
-  private namespace: string = 'dongfeng';
-  private sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(this.namespace, SessionFactory.DRIVERS.LOCAL));
-
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService extends BaseService {
   constructor(private router: Router, private userClient: UserClient, private constClient: ConstClient) {
+    super();
   }
 
   getRole() {
     return this.userClient.getUser();
-  }
+  }  
 
-  setConst() {
-    if (!this.sessionFactory.get(KEY_CONST)) {
-      this.constClient.getConsts().toPromise().then(
-        d => this.sessionFactory.set(KEY_CONST, d)
-      );
+  validateAccessible(role: number) {
+    if (!this.validateRole(role, this.router.url)) {
+      this.router.navigate(["班级信息"]);
     }
   }
 
-  validateAccessible() {
-    this.getRole().
-      subscribe(
-        d => {
-          if (!this.validateRole(d.role, this.router.url)) {
-            this.router.navigate(["班级信息"]);
-          }
-        },
-        e => {
-          console.error(e);
-          this.logout();
-        }
-      );
-  }
-
-  setSession(auth: Auth) {
-    this.sessionFactory.set(KEY_TOKEN, auth.token);    
+  setToken(auth: Auth) {
+    this.sessionFactory.set(Constant.SESSION_KEY_IDTOKEN, auth.token);
   }
 
   clearSession() {
-    this.sessionFactory.remove(KEY_TOKEN);    
-    this.sessionFactory.remove(KEY_CONST);
-    this.sessionFactory.remove(KEY_YEAR);
+    this.sessionFactory.remove(Constant.SESSION_KEY_CONST);
+    this.sessionFactory.remove(Constant.SESSION_KEY_YEAR);
+    this.sessionFactory.remove(Constant.SESSION_KEY_IDTOKEN);
   }
 
   get openIdDingTalk(): string {
@@ -74,7 +53,7 @@ export class AuthService {
   }
 
   async checkLogin() {
-    let token = this.sessionFactory.get(KEY_TOKEN);
+    let token = this.sessionFactory.get(Constant.SESSION_KEY_IDTOKEN);
     return await this.userClient.verifyToken(token).toPromise();
   }
 
@@ -104,12 +83,21 @@ export class AuthService {
     ];
 
     if (role == Role.RoleHealth) return [
+      "/班级信息",
+      "/幼儿信息",
+      "/教师信息",
       "/膳食管理",
       "/体格发育",
       "/标准数据",
     ];
 
     if (role == Role.RoleNormal) return [
+      "/班级信息",
+      "/幼儿信息",
+      "/教师信息",
+    ];
+
+    if (role == Role.RoleTeacher) return [
       "/班级信息",
       "/幼儿信息",
       "/教师信息",

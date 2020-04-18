@@ -15,6 +15,6 @@ export class Teacher {
   }
   
   get role(): string {
-    return this.user ? Constant.Instance.roles[this.user.role] : "未设定";
+    return this.user ? Constant.Instance().roles[this.user.role] : "未设定";
   }
 }

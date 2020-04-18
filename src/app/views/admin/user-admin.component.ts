@@ -69,7 +69,7 @@ export class UserAdminComponent extends ViewComponent implements OnInit {
   }
 
   resolveRole(role: number): string {
-    return Constant.Instance.roles[role];
+    return Constant.Instance().roles[role];
   }
 
   setRole(user: User, role: number, event: Event) {
