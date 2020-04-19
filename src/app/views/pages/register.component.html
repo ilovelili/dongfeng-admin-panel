@@ -29,8 +29,8 @@
             <div class="input-group mb-4 text-danger" [hidden]="!errormsg">
               {{errormsg}}
             </div>
-
-            <button type="button" class="btn btn-block btn-success" [disabled]="errormsg" (click)="register()">注册</button>
+            
+            <button class="btn btn-block btn-success btn-ladda" [disabled]="errormsg" data-style="zoom-in" [ladda]="clicked" (click)="register()">注册</button>
             <a [routerLink]="['../登录']" class="btn btn-link px-4 float-right" role="button">返回登录页面</a>
           </div>          
         </div>

@@ -28,19 +28,24 @@ export class RegisterComponent {
     );
   }
 
+  clicked = false;
   register() {
+    this.clicked = true;
     if (this.name == "") {
       this.setMessage('用户名不能为空白');
+      this.clicked = false;
       return;
     }
 
     if (this.email == "") {
       this.setMessage('邮件不能为空白');
+      this.clicked = false;
       return;
     }
 
     if (this.password == "") {
       this.setMessage('密码不能为空白');
+      this.clicked = false;
       return;
     }
 
@@ -82,6 +87,7 @@ export class RegisterComponent {
             me.setMessage('登录失败,请重试');
             console.log(err);
           }
+          me.clicked = false;
         });
       }).catch(err => {
         if (err.message && err.message.message) {
@@ -89,6 +95,7 @@ export class RegisterComponent {
         } else {
           me.setMessage('注册失败,请重试');
         }
+        me.clicked = false;
       });
     })();
   }
