@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Auth } from 'app/models';
 import { environment } from 'environments/environment';
 import { UserClient } from 'app/clients';
+import { ConstService } from 'app/services';
 
 declare var Authing: any;
 
@@ -18,7 +19,7 @@ export class LoginComponent {
   password: string = "";
   errormsg: string = "";
 
-  constructor(private router: Router, public authService: AuthService, private userClient: UserClient) {
+  constructor(private router: Router, public authService: AuthService, private userClient: UserClient, private constService: ConstService) {
     this.authService.checkLogin().then(
       d => {
         if (d.status) {
@@ -62,7 +63,8 @@ export class LoginComponent {
         email: me.email,
         password: me.password,
       }).then((user: Auth) => {
-        me.authService.setToken(user);
+        me.constService.getConsts();
+        me.authService.setToken(user);        
         me.userClient.getUser().
           subscribe(
             d => {
