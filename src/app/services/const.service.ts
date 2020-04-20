@@ -17,6 +17,7 @@ export class ConstService extends BaseService {
       this.constClient.getConsts().subscribe(
         (c: Constant) => {
           this.sessionFactory.set(Constant.SESSION_KEY_CONST, {
+            notifications: c.notifications,
             roles: c.roles,
             holidays: c.holidays,
             masters: c.masters,

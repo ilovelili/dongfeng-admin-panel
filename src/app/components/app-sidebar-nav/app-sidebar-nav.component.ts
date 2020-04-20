@@ -4,6 +4,8 @@ import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { navigation } from './../../_nav';
 import { AuthService } from 'app/services/auth.service';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sidebar-nav',
   template: `
@@ -38,19 +40,15 @@ export class AppSidebarNavComponent implements OnInit {
     this.authService.checkLogin().then(
       d => {
         if (d.status) {
-          this.authService.getRole().subscribe(
-            d => {
-              let accessibleUrls = this.authService.accessibleUrls(d.role);
-              this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
-            }
-          );
+          this.authService.getUser().subscribe(u => {
+            let accessibleUrls = this.authService.accessibleUrls(u.role);
+            this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
+          });
         }
       }
     );
   }
 }
-
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-nav-item',

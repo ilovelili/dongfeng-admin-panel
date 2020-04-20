@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { Auth } from 'app/models';
+import { Auth, User } from 'app/models';
 import { environment } from 'environments/environment';
 import { UserClient } from 'app/clients';
-import { ConstService } from 'app/services';
+import { ConstService, DataSharingService } from 'app/services';
 
 declare var Authing: any;
 
@@ -19,18 +19,22 @@ export class LoginComponent {
   password: string = "";
   errormsg: string = "";
 
-  constructor(private router: Router, public authService: AuthService, private userClient: UserClient, private constService: ConstService) {
+  constructor(private router: Router, public authService: AuthService, private userClient: UserClient, private constService: ConstService, private dataSharingService: DataSharingService) {
     this.authService.checkLogin().then(
       d => {
         if (d.status) {
-          this.router.navigate(["班级信息"]);
+          this.userClient.getUser().
+            subscribe(d => {
+              this.dataSharingService.user = new User(d.id, d.email, d.name, d.photo, d.role);
+              this.router.navigate(["班级信息"]);
+            });
         }
       }
     );
   }
 
   tryLogin(event: KeyboardEvent) {
-    if(event.keyCode == 13) {
+    if (event.keyCode == 13) {
       this.login();
     }
   }
@@ -64,10 +68,11 @@ export class LoginComponent {
         password: me.password,
       }).then((user: Auth) => {
         me.constService.getConsts();
-        me.authService.setToken(user);        
+        me.authService.setToken(user);
         me.userClient.getUser().
           subscribe(
             d => {
+              me.dataSharingService.user = new User(d.id, d.email, d.name, d.photo, d.role);
               me.router.navigate(["班级信息"]);
             },
             e => {

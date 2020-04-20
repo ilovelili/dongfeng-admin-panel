@@ -4,6 +4,7 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { UserClient } from 'app/clients/user.client';
+import { DataSharingService, AuthService } from 'app/services';
 
 @Component({  
   templateUrl: 'user-profile.component.html',
@@ -28,20 +29,12 @@ export class UserProfileComponent implements OnInit {
     private userClient: UserClient,
     private toasterService: ToasterService,
     private router: Router,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    this.userClient.getUser().
-      subscribe(
-        d => {
-          this.user = new User(d.id, d.email, d.name, d.photo, d.role)
-        },
-        e => {
-          this.toasterService.pop('error', '', '获取用户信息失败，请重试');          
-        },
-        () => console.log("user profile component user loading completed")
-      );
+    this.authService.getUser().subscribe(u => this.user = u);
   }
 
   edit() {

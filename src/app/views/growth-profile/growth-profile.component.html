@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
-            成长档案 - {{searchcriteria.class}} {{searchcriteria.name}} {{searchcriteria.date}}
+            成长档案 - {{searchcriteria.class}} {{searchcriteria.name}} {{currentDate}}
             <button type="button" (click)="getNext()" class="btn btn-sm btn-info pull-right">下一页</button>
             <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>

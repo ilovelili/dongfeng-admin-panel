@@ -2,9 +2,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
-import { Auth, Role, Constant } from 'app/models';
+import { Auth, Role, Constant, User } from 'app/models';
 import { UserClient, ConstClient } from 'app/clients';
 import { BaseService } from './base.service';
+import { DataSharingService } from './data-sharing.service';
+import { of, Observable } from 'rxjs';
 
 (window as any).global = window;
 declare var Authing: any;
@@ -13,13 +15,16 @@ declare var Authing: any;
   providedIn: 'root'
 })
 export class AuthService extends BaseService {
-  constructor(private router: Router, private userClient: UserClient, private constClient: ConstClient) {
+  constructor(private router: Router, private userClient: UserClient, private constClient: ConstClient, private dataSharingService: DataSharingService) {
     super();
   }
 
-  getRole() {
+  getUser(): Observable<User> {
+    if (this.dataSharingService.user) {
+      return of(this.dataSharingService.user);
+    }    
     return this.userClient.getUser();
-  }  
+  }
 
   validateAccessible(role: number) {
     if (!this.validateRole(role, this.router.url)) {
