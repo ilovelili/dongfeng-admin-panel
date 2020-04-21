@@ -6,7 +6,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 # china registry to speed up npm install
-RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm
+# RUN npm i -g mirror-config-china --registry=https://registry.npm.taobao.org --unsafe-perm
 
 RUN npm install
 
@@ -14,7 +14,7 @@ COPY ./ /app/
 
 ARG env=prod
 
-RUN npm run build -- --output-path=./dist/out --environment $env
+RUN npm run build -- --output-path=./dist/out --$env
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.15
