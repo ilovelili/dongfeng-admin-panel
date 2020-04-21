@@ -5,7 +5,7 @@ import { ViewComponent } from '../base/view.component';
 import { ProfileClient, PupilClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
-import { BsLocaleService, BsDatepickerConfig, zhCnLocale, ModalDirective } from 'ngx-bootstrap';
+import { BsLocaleService, BsDatepickerConfig, zhCnLocale, ModalDirective, defineLocale } from 'ngx-bootstrap';
 import { Profile, Pupil, ProfileTemplate } from 'app/models';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
@@ -42,6 +42,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     super(router, authService, activatedRoute, toasterService, localeService);
 
     if (this.localeService) {
+      defineLocale(zhCnLocale.abbr, zhCnLocale);
       // https://github.com/valor-software/ngx-bootstrap/issues/4054    
       this.localeService.use(zhCnLocale.abbr);
       this.datepickerconfig = {

@@ -10,6 +10,7 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { environment } from 'environments/environment';
 import { BaseComponent } from 'app/base.component';
 import { AuthService } from 'app/services';
+import { defineLocale } from 'ngx-bootstrap/chronos';
 
 export abstract class ViewComponent extends BaseComponent {
   @ViewChild('infoModal', { static: false }) infoModal: ModalDirective
@@ -129,6 +130,7 @@ export abstract class ViewComponent extends BaseComponent {
       this.dateRange = new DateRange(this.dateFrom, this.dateTo).format();
 
       if (this.localeService) {
+        defineLocale(zhCnLocale.abbr, zhCnLocale);
         // https://github.com/valor-software/ngx-bootstrap/issues/4054    
         this.localeService.use(zhCnLocale.abbr);
         this.daterangepickerconfig = {
