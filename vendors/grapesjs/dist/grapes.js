@@ -38402,10 +38402,10 @@ var traitInputAttr = {
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   assetManager: {
-    addButton: 'Add image',
+    addButton: '添加图像',
     inputPlh: 'http://path/to/the/image.jpg',
-    modalTitle: 'Select Image',
-    uploadTitle: 'Drop files here or click to upload'
+    modalTitle: '选择图像',
+    uploadTitle: '可将文件拖至此处或者直接点击上传'
   },
   // Here just as a reference, GrapesJS core doesn't contain any block,
   // so this should be omitted from other local files

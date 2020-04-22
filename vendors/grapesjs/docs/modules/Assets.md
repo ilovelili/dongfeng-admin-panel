@@ -84,10 +84,10 @@ Below is a list of currently available options
   autoAdd: 1,
 
   // Text on upload input
-  uploadText: 'Drop files here or click to upload',
+  uploadText: '可将文件拖至此处或者直接点击上传',
 
   // Label for the add button
-  addBtnText: 'Add image',
+  addBtnText: '添加图像',
 
   // Custom uploadFile function
   // @example
