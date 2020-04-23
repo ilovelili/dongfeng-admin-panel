@@ -84,7 +84,7 @@ Below is a list of currently available options
   autoAdd: 1,
 
   // Text on upload input
-  uploadText: '可将文件拖至此处或者直接点击上传',
+  uploadText: '可将文件拖至此处或者直接点击上传(背景图像标准尺寸为930x1316像素)',
 
   // Label for the add button
   addBtnText: '添加图像',

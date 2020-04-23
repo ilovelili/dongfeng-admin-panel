@@ -48,6 +48,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
         this.editor = grapesjs.init({
             container: '#gjs',
+            height: '1316px',
             plugins: [
                 'gjs-preset-newsletter',
             ],

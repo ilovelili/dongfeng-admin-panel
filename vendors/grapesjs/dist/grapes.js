@@ -36352,7 +36352,8 @@ __webpack_require__.r(__webpack_exports__);
     devices: [{
       id: 'desktop',
       name: 'Desktop',
-      width: ''
+      width: '930px',
+      // height: '1315.5px',
     }, {
       id: 'tablet',
       name: 'Tablet',
@@ -38405,7 +38406,7 @@ var traitInputAttr = {
     addButton: '添加图像',
     inputPlh: 'http://path/to/the/image.jpg',
     modalTitle: '选择图像',
-    uploadTitle: '可将文件拖至此处或者直接点击上传'
+    uploadTitle: '可将文件拖至此处或者直接点击上传(背景图像标准尺寸为930x1316像素)'
   },
   // Here just as a reference, GrapesJS core doesn't contain any block,
   // so this should be omitted from other local files

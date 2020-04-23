@@ -375,6 +375,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
     this.editor = grapesjs.init({
       container: '#gjs',
+      // width: '1240px',
+      height: '1316px',
       plugins: [
         'gjs-preset-newsletter',
         'grapesjs-plugin-export'
