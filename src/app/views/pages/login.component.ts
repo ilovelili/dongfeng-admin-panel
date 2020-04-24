@@ -88,7 +88,7 @@ export class LoginComponent {
           me.setMessage('登录失败,请重试');
           console.log(err);
         }
-        this.clicked = false;
+        me.clicked = false;
       });
     })();
   }
