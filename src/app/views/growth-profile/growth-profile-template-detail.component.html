@@ -1,11 +1,12 @@
 <div class="animated fadeIn">
-    <div class="card" [hidden]="!profileloaded">
-        <div class="card-header">
-            成长档案模板 - {{this.currentName}}
-            <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
-        </div>
-        <div class="card-body" id="gjs"></div>
+  <div class="card" [hidden]="!profileloaded">
+    <div class="card-header">
+      成长档案模板 - {{this.currentName}}
+      <button type="button" (click)="showTagModal()" class="btn btn-sm btn-primary pull-right">编辑标签</button>
+      <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
     </div>
+    <div class="card-body" id="gjs"></div>
+  </div>
 </div>
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
@@ -21,11 +22,36 @@
         </button>
       </div>
       <div class="modal-body">
-          <ul>
-            <li>您可以通过拖/拉组件来实现各种效果，编辑效果会被自动保存。</li>
-            <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
-            <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
-          </ul>
+        <ul>
+          <li>您可以通过拖/拉组件来实现各种效果，编辑效果会被自动保存。</li>
+          <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
+          <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
+        </ul>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #tagModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">编辑标签 (可输入多个标签，用逗号隔开)</h6>
+        <button type="button" class="close" (click)="tagModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="updateTag()">
+          <div class="form-group row">
+            <div class="col-md-9">
+              <input type="text" name="tag" class="form-control" [(ngModel)]="tags" required>
+            </div>
+          </div>
+          <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger float-right"><i
+              class="fa fa-dot-circle-o"></i> 确定</button>
+        </form>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

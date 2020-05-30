@@ -22,7 +22,7 @@ export abstract class ViewComponent extends BaseComponent {
   loading: boolean;
   template: any[] = [];
   items: any[] = [];
-  
+
   sessionFactory: SessionFactory = new SessionFactory(new SessionConfig(Constant.SESSION_NAMESPACE, SessionFactory.DRIVERS.LOCAL));
   params: Object
 

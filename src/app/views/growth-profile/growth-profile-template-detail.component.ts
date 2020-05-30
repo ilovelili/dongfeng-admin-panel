@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
 import { ProfileClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -19,6 +20,9 @@ declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 export class GrowthProfileTemplateDetailComponent extends ViewComponent implements OnInit {
     editor: any;
     profileloaded = false;
+    tags = "";
+
+    @ViewChild('tagModal', { static: false }) tagModal: ModalDirective
 
     constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
         super(router, authService, activatedRoute, toasterService);
@@ -186,6 +190,22 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
     }
 
     showExplainModal() {
+        this.tagModal.hide();
         this.explainModal.show();
+    }
+
+    showTagModal() {
+        this.explainModal.hide();
+        this.tagModal.show();
+    }
+
+    updateTag() {
+        if (!this.tags.length) return;
+        let tags = this.tags.replace("，", ",");
+
+        this.profileClient.updateProfileTemplateTags(this.currentName.toString(), tags).subscribe(
+            (_) => this.toasterService.pop('success', '', '编辑标签成功'),
+            (_) => this.toasterService.pop('error', '', '编辑标签失败，请重试'),
+        )
     }
 }
