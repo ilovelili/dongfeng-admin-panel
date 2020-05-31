@@ -209,7 +209,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
     updateTags() {
         if (!this.tags.length) return;
-        let tags = this.tags.replace("，", ",");
+        let tags = this.tags.replace(/，/g, ",");
 
         this.profileClient.updateProfileTemplateTags(this.currentName.toString(), tags).subscribe(
             (_) => {
