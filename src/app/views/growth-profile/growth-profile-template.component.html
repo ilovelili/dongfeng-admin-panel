@@ -37,7 +37,8 @@
                     <tr *ngFor="let item of mf.data">
                         <td>{{item.name}}</td>
                         <td>{{item.created_by}}</td>
-                        <td>
+                        <td *ngIf="!item.tags"></td>
+                        <td *ngIf="item.tags">
                             <span *ngFor="let tag of item.tags?.split(',');let index=index" class="badge"
                                 [ngClass]="{'margin-left-5':index>0,'badge-success':index%6==0,'badge-danger':index%6==1,'badge-warning':index%6==2,'badge-dark':index%6==3,'badge-primary':index%6==4,'badge-info':index%6==5}">
                                 {{tag}}

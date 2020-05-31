@@ -23,6 +23,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   @ViewChild('profileModal', { static: false }) profileModal: ModalDirective
   @ViewChild('newprofileModal', { static: false }) newprofileModal: ModalDirective
   @ViewChild('confirmModal', { static: false }) confirmModal: ModalDirective
+  @ViewChild('convertToTemplateModal', { static: false }) convertToTemplateModal: ModalDirective
 
   profileloaded = false;
   profiles: Profile[] = [];
@@ -38,6 +39,10 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   profilecreatedate = new Date();
 
   datepickerconfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+
+  templateName = ""
+  tags = "";
+
   constructor(private profileClient: ProfileClient, private pupilClient: PupilClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
     super(router, authService, activatedRoute, toasterService, localeService);
 
@@ -214,6 +219,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.newprofileModal.hide();
     this.profileModal.hide();
     this.explainModal.hide();
+    this.convertToTemplateModal.hide();
     this.confirmModal.show();
   }
 
@@ -221,6 +227,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.newprofileModal.hide();
     this.confirmModal.hide();
     this.explainModal.hide();
+    this.convertToTemplateModal.hide();
     this.profileModal.show();
   }
 
@@ -228,6 +235,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.newprofileModal.hide();
     this.confirmModal.hide();
     this.profileModal.hide();
+    this.convertToTemplateModal.hide();
     this.explainModal.show();
   }
 
@@ -235,7 +243,16 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.confirmModal.hide();
     this.profileModal.hide();
     this.explainModal.hide();
+    this.convertToTemplateModal.hide();
     this.newprofileModal.show();
+  }
+
+  showConvertToTemplateModal() {
+    this.confirmModal.hide();
+    this.profileModal.hide();
+    this.explainModal.hide();
+    this.newprofileModal.hide();
+    this.convertToTemplateModal.show();
   }
 
   filterPupilMap(pupilMap: Map<number, Pupil>): Map<number, string> {
@@ -604,6 +621,17 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   closeProfileModal() {
     this.profileModal.hide();
     this.showProfileUploadBtn = true;
+  }
+
+  convertToTemplate() {
+    let tags = this.tags.replace(/，/g, ",");
+    this.profileClient.convertToTemplate(this.currentProfileId, this.templateName, tags).subscribe(
+      (_) => {
+        this.toasterService.pop('success', '', '模板保存成功');
+        this.convertToTemplateModal.hide();
+      },
+      (_) => this.toasterService.pop('error', '', '模板保存失败，模板名已经存在')
+    );
   }
 
   browserCheck() {

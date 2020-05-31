@@ -2,6 +2,8 @@
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
             成长档案 - {{searchcriteria.class}} {{searchcriteria.name}} {{currentDate}}
+            <button type="button" (click)="showConvertToTemplateModal()"
+                class="btn btn-sm btn-secondary pull-right">复制为模板</button>
             <button type="button" (click)="getNext()" class="btn btn-sm btn-info pull-right">下一页</button>
             <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
@@ -33,22 +35,24 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let key of getKeys(classMap)" role="menuitem">
-                            <a class="dropdown-item" (click)="setclass(key, classMap.get(key))">{{classMap.get(key)}}</a>
+                            <a class="dropdown-item"
+                                (click)="setclass(key, classMap.get(key))">{{classMap.get(key)}}</a>
                         </li>
 
                         <li [hidden]="classMap.size" role="menuitem">
                             <a class="dropdown-item">没有数据，请新建成长档案</a>
                         </li>
                     </ul>
-                </div>                
+                </div>
 
                 <div class="btn-group" dropdown>
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let key of getKeys(filterPupilMap(_pupilMap))" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(_pupilMap).get(key))">{{filterPupilMap(_pupilMap).get(key)}}</a>
+                            <a class="dropdown-item"
+                                (click)="setpupil(key, filterPupilMap(_pupilMap).get(key))">{{filterPupilMap(_pupilMap).get(key)}}</a>
                         </li>
                         <li *ngIf="!currentClass" role="menuitem">
                             <a class="dropdown-item">请先选择班级</a>
@@ -103,7 +107,8 @@
                     </button>
                     <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let key of getKeys(fullClassMap)" role="menuitem">
-                            <a class="dropdown-item" (click)="setclass(key, fullClassMap.get(key))">{{fullClassMap.get(key)}}</a>
+                            <a class="dropdown-item"
+                                (click)="setclass(key, fullClassMap.get(key))">{{fullClassMap.get(key)}}</a>
                         </li>
                     </ul>
                 </div>
@@ -112,11 +117,12 @@
                     <button dropdownToggle type="button" class="btn btn-outline-primary dropdown-toggle">
                         {{searchcriteria.name}} <span class="caret"></span>
                     </button>
-                    <ul *dropdownMenu class="dropdown-menu" role="menu">                        
+                    <ul *dropdownMenu class="dropdown-menu" role="menu">
                         <li *ngFor="let key of getKeys(filterPupilMap(fullPupilMap))" role="menuitem">
-                            <a class="dropdown-item" (click)="setpupil(key, filterPupilMap(fullPupilMap).get(key))">{{filterPupilMap(fullPupilMap).get(key)}}</a>
+                            <a class="dropdown-item"
+                                (click)="setpupil(key, filterPupilMap(fullPupilMap).get(key))">{{filterPupilMap(fullPupilMap).get(key)}}</a>
                         </li>
-                        
+
                         <li [hidden]="currentClass" role="menuitem">
                             <a class="dropdown-item">请先选择班级</a>
                         </li>
@@ -133,7 +139,8 @@
                         </li>
 
                         <li *ngFor="let key of getKeys(templateMap)" role="menuitem">
-                            <a class="dropdown-item" (click)="settemplate(key, templateMap.get(key))">{{templateMap.get(key)}}</a>
+                            <a class="dropdown-item"
+                                (click)="settemplate(key, templateMap.get(key))">{{templateMap.get(key)}}</a>
                         </li>
 
                         <li [hidden]="templateMap.size" role="menuitem">
@@ -196,6 +203,42 @@
                     <li>您可以使用编辑器的<b>导出模板</b>功能导出压缩文件。</li>
                     <li>您可以使用编辑器的<b>编辑代码</b>功能直接编辑HTML。</li>
                 </ul>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #convertToTemplateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">将此成长档案复制为模板</h6>
+                <button type="button" class="close" (click)="convertToTemplateModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="convertToTemplate()">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="templateName">模板名</label>
+                        <div class="col-md-9">
+                            <input type="text" name="templateName" class="form-control" [(ngModel)]="templateName"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label" for="tag">标签</label>
+                        <div class="col-md-9">
+                            <input type="text" name="tag" class="form-control" [(ngModel)]="tags"
+                                placeholder="可输入多个标签，用逗号隔开">
+                        </div>
+                    </div>
+
+                    <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger float-right">
+                        <i class="fa fa-dot-circle-o"></i> 确定</button>
+                </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

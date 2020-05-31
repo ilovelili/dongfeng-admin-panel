@@ -37,7 +37,7 @@
   <div class="modal-dialog modal-info" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h6 class="modal-title">编辑标签 (可输入多个标签，用逗号隔开)</h6>
+        <h6 class="modal-title">编辑标签</h6>
         <button type="button" class="close" (click)="tagModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -46,7 +46,8 @@
         <form action="" method="post" class="form-horizontal" #f="ngForm" (ngSubmit)="updateTags()">
           <div class="form-group row">
             <div class="col-md-9">
-              <input type="text" name="tag" class="form-control" [(ngModel)]="tags" required>
+              <input type="text" name="tag" class="form-control" [(ngModel)]="tags" required
+                placeholder="可输入多个标签，用逗号隔开">
             </div>
           </div>
           <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger float-right"><i

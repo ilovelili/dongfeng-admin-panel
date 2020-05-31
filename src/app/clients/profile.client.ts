@@ -90,6 +90,10 @@ export class ProfileClient extends BaseClient {
     });
   }
 
+  convertToTemplate(id: number, templateName: string, tags: string): Observable<Empty> {
+    return this.http.post<Profile>(environment.api.baseURI + `/convertProfileToTemplate?id=${id}&templateName=${templateName}&tags=${tags}`, {}, this.defaultHttpOptions);
+  }
+
   updateEBook(profile: Profile, images: string[], html: string, css: string): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + '/ebook', {
       pupil_id: profile.pupil_id,
