@@ -405,7 +405,15 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         'grapesjs-plugin-export'
       ],
       canvas: {
-        styles: ['https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/NotoSerifSC.css'],
+        styles: [
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/NotoSerifSC.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/NotoSansSC.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/ZCOOLXiaoWei.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/MaShanZheng.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/ZCOOLQinKeHuangYou.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/LongCang.css',
+          'https://dong-feng.oss-cn-shanghai.aliyuncs.com/fonts/KuaiLe.css',
+        ],
       },
       pluginsOpts: {
         'gjs-preset-newsletter': {},
@@ -461,10 +469,17 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       // Style Manager config
       let styleManager = this.editor.StyleManager;
       let fontProperty = styleManager.getProperty('字体和排版', 'font-family');
-      let list = fontProperty.get('list');
+      // let list = fontProperty.get('list');
 
-      // let oswald = [fontProperty.addOption({ value: "'Oswald', sans-serif", name: 'Oswald' })];
+      let list = [];
       list.push({ value: 'Noto Serif SC', name: '宋体' });
+      list.push({ value: 'Noto Sans SC', name: '黑体' });
+      list.push({ value: 'ZCOOL XiaoWei', name: '站酷小薇' });
+      list.push({ value: 'ZCOOL QingKe HuangYou', name: '站酷庆科黄油体' });
+      list.push({ value: 'ZCOOL KuaiLe', name: '站酷快乐体' });
+      list.push({ value: 'Ma Shan Zheng', name: '马善政楷体' });
+      list.push({ value: 'Long Cang', name: '有字库龙藏体' });
+
       fontProperty.set('list', list);
 
       styleManager.addSector('透明度和变形', {
