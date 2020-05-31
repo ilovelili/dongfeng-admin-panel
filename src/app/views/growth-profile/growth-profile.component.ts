@@ -141,7 +141,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
               p.date,
               p.pupil,
               p.pupil_id,
-              p.template,
+              null,
               p.template_id
             ));
 
@@ -319,7 +319,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
                   p.date,
                   p.pupil,
                   p.pupil_id,
-                  p.template,
+                  null,
                   p.template_id
                 ));
 
