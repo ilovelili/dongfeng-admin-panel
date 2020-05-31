@@ -26,6 +26,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
     constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
         super(router, authService, activatedRoute, toasterService);
+        this.loadTags();
     }
 
     ngOnInit(): void {
@@ -199,12 +200,22 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         this.tagModal.show();
     }
 
-    updateTag() {
+    loadTags() {
+        this.profileClient.getProfileTemplateTags(this.currentName.toString()).subscribe(
+            (tags) => this.tags = tags,
+            (_) => this.toasterService.pop('error', '', '加载标签失败，请重试'),
+        )
+    }
+
+    updateTags() {
         if (!this.tags.length) return;
         let tags = this.tags.replace("，", ",");
 
         this.profileClient.updateProfileTemplateTags(this.currentName.toString(), tags).subscribe(
-            (_) => this.toasterService.pop('success', '', '编辑标签成功'),
+            (_) => {
+                this.toasterService.pop('success', '', '编辑标签成功');
+                this.tagModal.hide();
+            },
             (_) => this.toasterService.pop('error', '', '编辑标签失败，请重试'),
         )
     }

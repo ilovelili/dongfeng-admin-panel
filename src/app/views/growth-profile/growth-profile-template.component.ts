@@ -50,7 +50,8 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
             this.items = d.map(p => new ProfileTemplate(
               p.id,
               p.name,
-              p.created_by)
+              p.created_by,
+              p.tags)
             );
             this.names = this.items.map(i => i.name);
           } else {

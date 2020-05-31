@@ -17,6 +17,7 @@ import { NgxTypeaheadModule } from 'ngx-typeahead';
 import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
 import { DataTableModule } from 'angular2-datatable';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { TagFilterPipe } from './tagfilterpipeline';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     CommonModule,
     ToasterModule,
     AppLoadingModule,
-    DataTableModule,    
+    DataTableModule,
     GrowthProfileRoutingModule,
     ChartsModule,
     BsDropdownModule,
@@ -34,13 +35,14 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
   ],
-  declarations: [ 
+  declarations: [
     GrowthProfileComponent,
     GrowthProfileTemplateComponent,
     GrowthProfileTemplateDetailComponent,
     EBookComponent,
     DataFilterPipe,
+    TagFilterPipe,
   ]
 })
 
-export class GrowthProfileModule {}
+export class GrowthProfileModule { }

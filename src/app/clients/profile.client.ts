@@ -31,6 +31,15 @@ export class ProfileClient extends BaseClient {
     });
   }
 
+  getProfileTemplateTags(name: string): Observable<string> {
+    let params = new HttpParams();
+    params = params.set("name", name);
+    return this.http.get<string>(environment.api.baseURI + '/profileTemplateTags', {
+      headers: this.defaultHeaders,
+      params: params,
+    });
+  }
+
   updateProfileTemplateTags(name: string, tags: string): Observable<Empty> {
     return this.http.post<Empty>(environment.api.baseURI + `/profileTemplateTags?name=${name}&tags=${tags}`, {}, this.defaultHttpOptions);
   }

@@ -9,7 +9,7 @@ export class Profile {
         public template?: ProfileTemplate,
         public template_id?: number
     ) { }
-    
+
     get className(): string {
         return this.pupil.class.name;
     }
@@ -35,6 +35,7 @@ export class ProfileTemplate {
     constructor(
         public id: number,
         public name: string,
-        public created_by: string
+        public created_by: string,
+        public tags?: string,
     ) { }
 }
