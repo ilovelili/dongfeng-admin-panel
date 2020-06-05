@@ -17,6 +17,7 @@ import { ModalDirective } from 'ngx-bootstrap';
 })
 export class GrowthProfileTemplateComponent extends ViewComponent implements OnInit {
   @ViewChild('newProfileTemplateModal', { static: false }) newProfileTemplateModal: ModalDirective
+  @ViewChild('deleteConfirmModal', { static: false }) deleteConfirmModal: ModalDirective
 
   name: string;
   names: string[] = [];
@@ -88,8 +89,7 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
       );
   }
 
-  deleteProfileTemplate(e: Event, name: string) {
-    e.preventDefault();
+  deleteProfileTemplate(name: string) {
     this.loading = true;
     this.profileClient.deleteProfileTemplate(name).
       subscribe(
@@ -102,13 +102,22 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
         },
         () => this.LogComplete('profile template component profile delete completed')
       );
+    this.close();
   }
 
   show() {
     this.newProfileTemplateModal.show();
+    this.deleteConfirmModal.hide();
   }
 
   close() {
     this.newProfileTemplateModal.hide();
+    this.deleteConfirmModal.hide();
+  }
+
+  currentItem: string;
+  showdeleteConfirmModal(name: string) {
+    this.currentItem = name;
+    this.deleteConfirmModal.show();
   }
 }

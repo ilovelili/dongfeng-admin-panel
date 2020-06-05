@@ -45,7 +45,7 @@
                             </span>
                         </td>
                         <td><a [routerLink]="['/成长档案/模板', item.name]"><i class="fa fa-edit"></i></a></td>
-                        <td><a (click)="deleteProfileTemplate($event, item.name)"><i class="fa fa-trash-o"></i></a></td>
+                        <td><a (click)="showdeleteConfirmModal(item.name)"><i class="fa fa-trash-o"></i></a></td>
                     </tr>
                 </tbody>
                 <tfoot>
@@ -80,6 +80,24 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" (click)="createProfileTemplate()">确定</button>
+                <button type="button" class="btn btn-primary" (click)="close()">返回</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #deleteConfirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+    <div class="modal-dialog modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">删除模板</h4>
+                <button type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="deleteProfileTemplate(currentItem)">确定</button>
                 <button type="button" class="btn btn-primary" (click)="close()">返回</button>
             </div>
         </div>
