@@ -18,6 +18,7 @@ import { DataFilterPipe } from '../growth-profile/datafilterpipeline';
 import { DataTableModule } from 'angular2-datatable';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { TagFilterPipe } from './tagfilterpipeline';
+import { LaddaModule } from 'angular2-ladda';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { TagFilterPipe } from './tagfilterpipeline';
     ChartsModule,
     BsDropdownModule,
     NgxTypeaheadModule,
+    LaddaModule,
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),

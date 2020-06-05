@@ -236,7 +236,8 @@
                         </div>
                     </div>
 
-                    <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger float-right">
+                    <button type="submit" [disabled]="!f.form.valid" class="btn btn-sm btn-danger btn-ladda float-right"
+                        data-style="zoom-in" [ladda]="clicked">
                         <i class="fa fa-dot-circle-o"></i> 确定</button>
                 </form>
             </div>

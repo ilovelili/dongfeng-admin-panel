@@ -51,6 +51,7 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             this.router.navigate(['成长档案']);
         }
 
+        this.toasterService.pop('info', '', '成长档案加载中');
         this.editor = grapesjs.init({
             container: '#gjs',
             height: '1316px',

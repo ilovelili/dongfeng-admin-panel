@@ -396,6 +396,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       return;
     }
 
+    this.toasterService.pop('info', '', '成长档案加载中');
+
     this.editor = grapesjs.init({
       container: '#gjs',
       // width: '1240px',
@@ -638,14 +640,20 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.showProfileUploadBtn = true;
   }
 
+  clicked = false;
   convertToTemplate() {
     let tags = this.tags.replace(/，/g, ",");
+    this.clicked = true;
     this.profileClient.convertToTemplate(this.currentProfileId, this.templateName, tags).subscribe(
       (_) => {
+        this.clicked = false;
         this.toasterService.pop('success', '', '模板保存成功');
         this.convertToTemplateModal.hide();
       },
-      (_) => this.toasterService.pop('error', '', '模板保存失败，模板名已经存在')
+      (_) => {
+        this.clicked = false;
+        this.toasterService.pop('error', '', '模板保存失败，模板名已经存在');
+      }
     );
   }
 
