@@ -19,6 +19,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { TagFilterPipe } from './tagfilterpipeline';
 import { LaddaModule } from 'angular2-ladda';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { LaddaModule } from 'angular2-ladda';
     BsDropdownModule,
     NgxTypeaheadModule,
     LaddaModule,
+    NgxSpinnerModule,
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),

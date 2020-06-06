@@ -6,6 +6,7 @@ import { ProfileClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -24,7 +25,14 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
     @ViewChild('tagModal', { static: false }) tagModal: ModalDirective
 
-    constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+    constructor(
+        private profileClient: ProfileClient,
+        protected router: Router,
+        protected authService: AuthService,
+        protected activatedRoute: ActivatedRoute,
+        protected toasterService: ToasterService,
+        private spinner: NgxSpinnerService
+    ) {
         super(router, authService, activatedRoute, toasterService);
         this.loadTags();
     }
@@ -51,7 +59,6 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
             this.router.navigate(['成长档案']);
         }
 
-        this.toasterService.pop('info', '', '成长档案加载中');
         this.editor = grapesjs.init({
             container: '#gjs',
             height: '1316px',
@@ -84,6 +91,9 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
                 headers: this.profileClient.rawHeaders,
                 contentTypeJson: true,
                 credentials: 'omit',
+                onComplete: () => {
+                    this.spinner.hide();
+                },
             },
             domComponents: { storeWrapper: 1 },
         });
@@ -91,6 +101,8 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         this.editor.getModel().set('dmode', 'absolute');
 
         this.editor.on('load', () => {
+            this.spinner.show();
+
             // Style Manager config
             let styleManager = this.editor.StyleManager;
             let fontProperty = styleManager.getProperty('字体和排版', 'font-family');

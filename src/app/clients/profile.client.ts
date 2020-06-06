@@ -53,8 +53,8 @@ export class ProfileClient extends BaseClient {
     });
   }
 
-  createProfile(profile: Profile): Observable<Empty> {
-    return this.http.post<Empty>(environment.api.baseURI + '/profile', {
+  createProfile(profile: Profile): Observable<Profile> {
+    return this.http.post<Profile>(environment.api.baseURI + '/profile', {
       pupil_id: profile.pupil_id,
       date: profile.date,
       template_id: profile.template_id,

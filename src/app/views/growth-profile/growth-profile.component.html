@@ -1,3 +1,5 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" type="ball-climbing-dot" [fullScreen]="true"></ngx-spinner>
+
 <div class="animated fadeIn">
     <div class="card" [hidden]="!profileloaded">
         <div class="card-header">
@@ -159,7 +161,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="createProfile()">确定</button>
+                <button type="button" class="btn btn-success btn-ladda" data-style="zoom-in" [ladda]="clicked"
+                    (click)="createProfile()">确定</button>
                 <button type="button" class="btn btn-primary" (click)="showProfileModal()">返回</button>
             </div>
         </div>

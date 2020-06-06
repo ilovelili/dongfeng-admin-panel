@@ -7,6 +7,7 @@ import { ToasterService } from 'angular2-toaster';
 import { environment } from 'environments/environment';
 import { BsLocaleService, BsDatepickerConfig, zhCnLocale, ModalDirective, defineLocale } from 'ngx-bootstrap';
 import { Profile, Pupil, ProfileTemplate } from 'app/models';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare var grapesjs, window, opr, InstallTrigger, document, safari: any;
 
@@ -42,8 +43,18 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
   templateName = ""
   tags = "";
+  clicked = false;
 
-  constructor(private profileClient: ProfileClient, private pupilClient: PupilClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService, protected localeService: BsLocaleService) {
+  constructor(
+    private profileClient: ProfileClient,
+    private pupilClient: PupilClient,
+    protected router: Router,
+    protected authService: AuthService,
+    protected activatedRoute: ActivatedRoute,
+    protected toasterService: ToasterService,
+    protected localeService: BsLocaleService,
+    private spinner: NgxSpinnerService
+  ) {
     super(router, authService, activatedRoute, toasterService, localeService);
 
     if (this.localeService) {
@@ -295,6 +306,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       return;
     }
 
+    this.clicked = true;
     this.loading = true;
     let profile = new Profile(
       0,
@@ -306,46 +318,36 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     );
 
     this.profileClient.createProfile(profile).subscribe(
-      _ => {
-        this.LogSuccess("成长档案创建成功");
+      (p) => {
+        profile = new Profile(
+          p.id,
+          p.date,
+          p.pupil,
+          p.pupil_id,
+          null,
+          p.template_id
+        );
 
-        this.loading = true;
-        this.profileClient.getProfiles(this.currentYear).
-          subscribe(
-            d => {
-              if (d.length) {
-                this.profiles = d.map(p => new Profile(
-                  p.id,
-                  p.date,
-                  p.pupil,
-                  p.pupil_id,
-                  null,
-                  p.template_id
-                ));
+        this.profiles.push(profile);
+        this.profiles.forEach((p: Profile) => {
+          if (!this.classMap.has(p.classId)) {
+            this.classMap.set(p.classId, p.className);
+          }
 
-                this.profiles.forEach((p: Profile) => {
-                  if (!this.classMap.has(p.classId)) {
-                    this.classMap.set(p.classId, p.className);
-                  }
+          if (!this._pupilMap.has(p.pupilId)) {
+            this._pupilMap.set(p.pupilId, p.pupil);
+          }
 
-                  if (!this._pupilMap.has(p.pupilId)) {
-                    this._pupilMap.set(p.pupilId, p.pupil);
-                  }
-                });
-              }
-
-              this.newprofileModal.hide();
-              this.loading = false;
-              this.loadProfileEditor();
-            },
-            e => {
-              this.LogError(e, '获取成长档案信息失败，请重试');
-              this.loading = false;
-            },
-            () => this.LogComplete('profile component profile loading completed')
-          );
+          this.newprofileModal.hide();
+          this.loading = false;
+          this.clicked = false;
+          this.loadProfileEditor();
+        });
       },
-      e => this.LogError(e, '相同成长档案已经存在，无法创建'),
+      e => {
+        this.LogError(e, '相同成长档案已经存在，无法创建');
+        this.clicked = false;
+      },
       () => this.LogComplete('profile component profile creation completed')
     );
   }
@@ -395,8 +397,6 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       this.toasterService.pop('error', '', '请设置正确的检索条件');
       return;
     }
-
-    this.toasterService.pop('info', '', '成长档案加载中');
 
     this.editor = grapesjs.init({
       container: '#gjs',
@@ -448,6 +448,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         contentTypeJson: true,
         credentials: 'omit',
         onComplete: () => {
+          this.spinner.hide();
           if (!this.ebookBusy) {
             window.setTimeout(() => {
               let body = this.editor.getHtml();
@@ -468,6 +469,8 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.editor.getModel().set('dmode', 'absolute');
 
     this.editor.on('load', () => {
+      this.spinner.show();
+
       // Style Manager config
       let styleManager = this.editor.StyleManager;
       let fontProperty = styleManager.getProperty('字体和排版', 'font-family');
@@ -640,7 +643,6 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
     this.showProfileUploadBtn = true;
   }
 
-  clicked = false;
   convertToTemplate() {
     let tags = this.tags.replace(/，/g, ",");
     this.clicked = true;
