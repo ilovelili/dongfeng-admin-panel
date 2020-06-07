@@ -35,7 +35,7 @@
             <td>{{currentYear}}</td>
             <td>{{item.className}}</td>
             <td>{{item.pupilName}}</td>
-            <td><a (click)="showebook(item)"><i class="fa fa-address-book"></i></a></td>            
+            <td><a (click)="showebook(item)"><i class="fa fa-address-book"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
@@ -120,12 +120,8 @@
             <small> {{classMap.get(currentClass)}}</small>
           </div>
 
-          <div class="card-body">
-            <carousel [interval]="4500">
-              <slide *ngFor="let image of images; let i = index">
-                <img [src]="image" [alt]="'slide'+i" style="display: block; width: 100%;">
-              </slide>
-            </carousel>
+          <div class="card-body pdf-container">
+            <embed [src]="pdfPreview" width="100%" height="100%" type="application/pdf">
           </div>
 
           <div class="card-footer">
@@ -150,7 +146,7 @@
       </div>
       <div class="modal-body">
         <ul>
-          <li>电子书是根据成长档案编辑器自动创建的。您编辑的结果将在5分钟内反映到电子书</li>          
+          <li>电子书是根据成长档案编辑器自动创建的。您编辑的结果将在5分钟内反映到电子书</li>
           <li>您可以下载PDF格式的电子书供打印成册</li>
         </ul>
       </div>

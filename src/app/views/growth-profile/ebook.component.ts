@@ -7,6 +7,7 @@ import { ProfileClient } from 'app/clients';
 import { environment } from 'environments/environment';
 import { Ebook } from 'app/models/ebook';
 import { ModalDirective } from 'ngx-bootstrap';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './ebook.component.html',
@@ -22,7 +23,14 @@ export class EBookComponent extends ViewComponent implements OnInit {
   @ViewChild('ebookModal', { static: false }) ebookModal: ModalDirective
   @ViewChild('explainModal', { static: false }) explainModal: ModalDirective
 
-  constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  constructor(
+    private profileClient: ProfileClient,
+    protected router: Router,
+    protected authService: AuthService,
+    protected activatedRoute: ActivatedRoute,
+    protected toasterService: ToasterService,
+    public sanitizer: DomSanitizer,
+  ) {
     super(router, authService, activatedRoute, toasterService);
   }
 
@@ -94,14 +102,17 @@ export class EBookComponent extends ViewComponent implements OnInit {
     this.explainModal.show();
   }
 
+  get downloadUrl() {
+    return `http://47.110.143.96:81/ebooks_prev/1.pdf`;
+    let cls = this.classMap.get(this.currentClass);
+    let pupil = this.pupilMap.get(this.currentName);
+    return `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
+  }
+
   // we can rename file on download as well
   // https://stackoverflow.com/questions/7428831/javascript-rename-file-on-download
   downloadebooks() {
-    let url = '';
-    let cls = this.classMap.get(this.currentClass);
-    let pupil = this.pupilMap.get(this.currentName);
-    url = `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
-    window.open(url);
+    window.open(this.downloadUrl);
   }
 
   get filteredPupilMap() {
@@ -125,30 +136,11 @@ export class EBookComponent extends ViewComponent implements OnInit {
     return results;
   }
 
-  get images(): string[] {
-    let result = [];
-    this.items.filter(i => {
-      let filterres = true;
-      if (this.currentClass) {
-        filterres = filterres && i.classId == this.currentClass;
-      }
-      if (this.currentName) {
-        filterres = filterres && i.pupilId == this.currentName;
-      }
-      return filterres;
-    }).map((i): Ebook => {
-      result.push({
-        url: `${environment.api.imageServer}/${this.currentYear}/${i.className}/${i.pupilName}/${i.date}.jpg`,
-        date: i.date,
-      });
-      return;
-    });
+  get pdfPreview(): SafeResourceUrl {
+    return this.sanitizeUrl(this.downloadUrl);
+  }
 
-    return result.sort((r1, r2) => {
-      let d = new Date(r1.date).getTime() - new Date(r2.date).getTime();
-      if (d > 0) return 1;
-      if (d < 0) return -1;
-      return 0;
-    }).map(r => r.url);
+  sanitizeUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
