@@ -108,6 +108,12 @@ export class EBookComponent extends ViewComponent implements OnInit {
     return `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
   }
 
+  get prevUrl() {
+    let cls = this.classMap.get(this.currentClass);
+    let pupil = this.pupilMap.get(this.currentName);
+    return `${environment.api.ebookPrevServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
+  }
+
   // we can rename file on download as well
   // https://stackoverflow.com/questions/7428831/javascript-rename-file-on-download
   downloadebooks() {
@@ -136,7 +142,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
   }
 
   get pdfPreview(): SafeResourceUrl {
-    return this.sanitizeUrl(this.downloadUrl);
+    return this.sanitizeUrl(this.prevUrl);
   }
 
   sanitizeUrl(url: string): SafeResourceUrl {

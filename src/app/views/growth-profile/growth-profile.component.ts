@@ -541,6 +541,11 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
       this.profileModal.hide();
       this.profileloaded = true;
     });
+
+    this.editor.on('storage:error', (err) => {
+      this.toasterService.pop('warning', '', "上一步保存失败(可继续操作)");
+      console.error(err);
+    });
   }
 
   /***
