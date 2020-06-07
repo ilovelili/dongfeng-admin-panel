@@ -21,13 +21,14 @@
         <thead>
           <tr>
             <th style="width: 20%">学年</th>
-            <th style="width: 30%">
+            <th style="width: 15%">
               <mfDefaultSorter by="className">班级</mfDefaultSorter>
             </th>
-            <th style="width: 25%">
+            <th style="width: 15%">
               <mfDefaultSorter by="pupilName">姓名</mfDefaultSorter>
             </th>
-            <th style="width: 25%">电子书</th>
+            <th style="width: 25%">电子书(本学年)</th>
+            <th style="width: 25%">电子书(全期间)</th>
           </tr>
         </thead>
         <tbody>
@@ -35,12 +36,13 @@
             <td>{{currentYear}}</td>
             <td>{{item.className}}</td>
             <td>{{item.pupilName}}</td>
-            <td><a (click)="showebook(item)"><i class="fa fa-address-book"></i></a></td>
+            <td><a (click)="showEbook(item, true)"><i class="fa fa-address-book"></i></a></td>
+            <td><a (click)="showEbook(item, false)"><i class="fa fa-address-book"></i></a></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
               <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
             </td>
           </tr>
@@ -106,7 +108,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h6 class="modal-title">电子书预览</h6>
+        <h6 class="modal-title">电子书预览 ({{oneYear ? currentYear + '学年' : '全期间'}})</h6>
         <button type="button" class="close" (click)="ebookModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

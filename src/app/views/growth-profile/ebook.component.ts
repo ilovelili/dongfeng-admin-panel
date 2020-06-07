@@ -18,7 +18,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   encapsulation: ViewEncapsulation.None,
 })
 export class EBookComponent extends ViewComponent implements OnInit {
-  oneyear = true; // show only one year
+  oneYear = true; // show only one year
 
   @ViewChild('ebookModal', { static: false }) ebookModal: ModalDirective
   @ViewChild('explainModal', { static: false }) explainModal: ModalDirective
@@ -78,16 +78,20 @@ export class EBookComponent extends ViewComponent implements OnInit {
           }
 
           this.loading = false;
+          this.conditionModal.hide();
         },
         e => {
           this.LogError(e, '获取电子书数据失败，请重试');
           this.loading = false;
+          this.conditionModal.hide();
         },
         () => this.LogComplete('ebook component ebook loading completed')
       );
   }
 
-  showebook(ebook: Ebook) {
+  showEbook(ebook: Ebook, oneYear: boolean) {
+    this.oneYear = oneYear;
+
     this.currentName = ebook.pupilId;
     this.currentClass = ebook.classId;
 
@@ -105,13 +109,17 @@ export class EBookComponent extends ViewComponent implements OnInit {
   get downloadUrl() {
     let cls = this.classMap.get(this.currentClass);
     let pupil = this.pupilMap.get(this.currentName);
-    return `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
+    return this.oneYear ?
+      `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf` :
+      `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_全期间.pdf`;
   }
 
   get prevUrl() {
     let cls = this.classMap.get(this.currentClass);
     let pupil = this.pupilMap.get(this.currentName);
-    return `${environment.api.ebookPrevServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
+    return this.oneYear ?
+      `${environment.api.ebookPrevServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf` :
+      `${environment.api.ebookPrevServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_全期间.pdf`
   }
 
   // we can rename file on download as well
