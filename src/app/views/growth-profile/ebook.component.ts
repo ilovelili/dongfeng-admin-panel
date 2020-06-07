@@ -103,7 +103,6 @@ export class EBookComponent extends ViewComponent implements OnInit {
   }
 
   get downloadUrl() {
-    return `http://47.110.143.96:81/ebooks_prev/1.pdf`;
     let cls = this.classMap.get(this.currentClass);
     let pupil = this.pupilMap.get(this.currentName);
     return `${environment.api.ebookServer}/${cls}/${pupil}/电子书_${pupil}_${cls}_${this.currentYear}学年.pdf`;
