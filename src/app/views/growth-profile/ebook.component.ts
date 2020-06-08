@@ -64,7 +64,7 @@ export class EBookComponent extends ViewComponent implements OnInit {
                 e.pupil_id,
                 e.date
               );
-            }));
+            })).filter((value, index, self) => { return self.map(s => s.pupilId).indexOf(value.pupilId) == index });
 
             this.items.forEach((e: Ebook) => {
               if (!this.classMap.has(e.classId)) {
