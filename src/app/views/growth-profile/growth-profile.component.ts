@@ -44,6 +44,9 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   templateName = ""
   tags = "";
   clicked = false;
+  nextClicked = false;
+  prevClicked = false;
+  genClicked = false;
 
   constructor(
     private profileClient: ProfileClient,
@@ -179,10 +182,12 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   getPrev() {
+    this.prevClicked = true;
     this.loading = true;
     this.profileClient.getPrevProfile(this.currentName, this.currentDate).
       subscribe(
         d => {
+          this.prevClicked = false;
           this.loading = false;
           if (d && d.date) {
             this.currentDate = d.date;
@@ -193,6 +198,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         },
         e => {
           this.LogError(e, '加载失败，请重试');
+          this.prevClicked = false;
           this.loading = false;
         },
         () => this.LogComplete('profile component prev profile loading completed')
@@ -200,10 +206,12 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
   }
 
   getNext() {
+    this.nextClicked = true;
     this.loading = true;
     this.profileClient.getNextProfile(this.currentName, this.currentDate).
       subscribe(
         d => {
+          this.nextClicked = false;
           this.loading = false;
           if (d && d.date) {
             this.currentDate = d.date;
@@ -214,10 +222,47 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
         },
         e => {
           this.LogError(e, '加载失败，请重试');
+          this.nextClicked = false;
           this.loading = false;
         },
         () => this.LogComplete('profile component next profile loading completed')
       );
+  }
+
+  generateEbook() {
+    this.genClicked = true;
+
+    if (!this.ebookBusy) {
+      let body = this.editor.getHtml();
+      if (!body) {
+        return;
+      }
+      let images = this.readImgUrls(this.editor),
+        html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.currentYear}-${this.currentClass}-${this.currentName}-${this.currentDate}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
+        css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
+
+      let profile = new Profile(
+        this.currentProfileId,
+        this.currentDate,
+        null,
+        this.currentName
+      );
+
+      this.ebookBusy = true;
+      this.profileClient.updateEBook(profile, images, html, css).subscribe(
+        () => {
+          this.ebookBusy = false;
+          this.genClicked = false;
+          this.toasterService.pop('success', '', '电子书保存成功')
+        },
+        e => {
+          console.error(e);
+          this.ebookBusy = false;
+          this.genClicked = false;
+          this.toasterService.pop('error', '', '电子书保存失败，请重试')
+        }
+      );
+    }
   }
 
   settemplate(templateId: number) {

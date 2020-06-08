@@ -6,12 +6,16 @@
             成长档案 - {{searchcriteria.class}} {{searchcriteria.name}} {{currentDate}}
             <button type="button" (click)="showConvertToTemplateModal()"
                 class="btn btn-sm btn-secondary pull-right">复制为模板</button>
-            <button type="button" (click)="getNext()" class="btn btn-sm btn-info pull-right">下一页</button>
-            <button type="button" (click)="getPrev()" class="btn btn-sm btn-info pull-right">上一页</button>
+            <button type="button" (click)="getNext()" class="btn btn-sm btn-info btn-ladda pull-right"
+                data-style="zoom-in" [ladda]="nextClicked">下一页</button>
+            <button type="button" (click)="getPrev()" class="btn btn-sm btn-info btn-ladda pull-right"
+                data-style="zoom-in" [ladda]="prevClicked">上一页</button>
             <button type="button" (click)="showConfirmModal()" class="btn btn-sm btn-danger pull-right">删除</button>
             <button type="button" (click)="showNewProfileModal()" class="btn btn-sm btn-success pull-right">新建</button>
             <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
             <button type="button" (click)="showProfileModal()" class="btn btn-sm btn-primary pull-right">检索</button>
+            <button type="button" (click)="generateEbook()" class="btn btn-sm btn-success btn-ladda pull-right"
+                data-style="zoom-in" [ladda]="genClicked">生成电子书</button>
         </div>
         <div class="card-body" id="gjs"></div>
     </div>
