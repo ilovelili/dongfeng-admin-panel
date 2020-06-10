@@ -42,7 +42,7 @@ export class AppSidebarNavComponent implements OnInit {
         if (d.status) {
           this.authService.getUser().subscribe(u => {
             let accessibleUrls = this.authService.accessibleUrls(u.role);
-            this.navigation = navigation.filter(i => accessibleUrls.indexOf(i.url) > -1);
+            this.navigation = navigation.filter((i: any) => i.title || i.divider || accessibleUrls.indexOf(i.url) > -1);
           });
         }
       }
