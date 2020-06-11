@@ -1,13 +1,37 @@
 export const navigation = [
   {
-    name: '班级信息',
-    url: '/班级信息',
-    icon: 'icon-notebook'
-  },
-  {
-    name: '幼儿信息',
-    url: '/幼儿信息',
-    icon: 'icon-people'
+    name: '班级管理',
+    url: '/dummy',
+    icon: 'icon-list',
+    children: [
+      {
+        name: '班级信息',
+        url: '/班级信息',
+        icon: 'icon-notebook',
+      },
+      {
+        name: '幼儿管理',
+        url: '/dummy',
+        icon: 'icon-list',
+        children: [
+          {
+            name: '幼儿信息',
+            url: '/幼儿信息',
+            icon: 'icon-people',
+          },
+          {
+            name: '出勤信息',
+            url: '/出勤信息',
+            icon: 'icon-note',
+          },
+          {
+            name: '体格发育',
+            url: '/体格发育',
+            icon: 'icon-heart',
+          },
+        ]
+      },
+    ]
   },
   {
     name: '教师信息',
@@ -18,7 +42,7 @@ export const navigation = [
     name: '成长档案',
     url: '/成长档案',
     icon: 'icon-pencil',
-    children: [      
+    children: [
       {
         name: '编辑成长档案',
         url: '/成长档案',
@@ -35,16 +59,6 @@ export const navigation = [
         icon: 'icon-pencil',
       }
     ],
-  },
-  {
-    name: '出勤信息',
-    url: '/出勤信息',
-    icon: 'icon-note'
-  },
-  {
-    name: '体格发育',
-    url: '/体格发育',
-    icon: 'icon-heart'
   },
   {
     name: '膳食管理',
@@ -65,7 +79,7 @@ export const navigation = [
         name: '食材信息',
         url: '/膳食管理/食材信息',
         icon: 'icon-cup',
-      },      
+      },
       {
         name: '食物营养成分表',
         url: '/膳食管理/食物营养成分表',
@@ -114,7 +128,7 @@ export const navigation = [
         name: '用户管理',
         url: '/后台管理/用户管理',
         icon: 'icon-people'
-      }      
+      }
     ]
   },
 ];

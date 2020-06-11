@@ -22,7 +22,7 @@ export class AuthService extends BaseService {
   getUser(): Observable<User> {
     if (this.dataSharingService.user) {
       return of(this.dataSharingService.user);
-    }    
+    }
     return this.userClient.getUser();
   }
 
@@ -73,6 +73,7 @@ export class AuthService extends BaseService {
       "/膳食管理",
       "/标准数据",
       "/后台管理",
+      "/dummy",
     ];
 
     if (role == Role.RoleAdmin) return [
@@ -85,6 +86,7 @@ export class AuthService extends BaseService {
       "/膳食管理",
       "/标准数据",
       "/后台管理",
+      "/dummy",
     ];
 
     if (role == Role.RoleHealth) return [
@@ -94,12 +96,14 @@ export class AuthService extends BaseService {
       "/膳食管理",
       "/体格发育",
       "/标准数据",
+      "/dummy",
     ];
 
     if (role == Role.RoleNormal) return [
       "/班级信息",
       "/幼儿信息",
       "/教师信息",
+      "/dummy",
     ];
 
     if (role == Role.RoleTeacher) return [
@@ -108,6 +112,7 @@ export class AuthService extends BaseService {
       "/教师信息",
       "/成长档案",
       "/出勤信息",
+      "/dummy",
     ];
 
     if (role == Role.RoleUndefined) return [];

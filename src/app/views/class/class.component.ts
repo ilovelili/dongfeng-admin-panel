@@ -24,7 +24,7 @@ export class ClassComponent extends ViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initfileuploader(this.fileUploader, 'classes', '班级');    
+    this.initfileuploader(this.fileUploader, 'classes', '班级');
     this.authService.checkLogin().then(
       d => {
         if (!d.status) {
