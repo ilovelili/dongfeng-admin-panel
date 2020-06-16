@@ -6,6 +6,8 @@ import { ProfileClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
 import { ProfileTemplate } from 'app/models';
 import { ModalDirective } from 'ngx-bootstrap';
+import { environment } from 'environments/environment';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './growth-profile-template.component.html',
@@ -18,12 +20,20 @@ import { ModalDirective } from 'ngx-bootstrap';
 export class GrowthProfileTemplateComponent extends ViewComponent implements OnInit {
   @ViewChild('newProfileTemplateModal', { static: false }) newProfileTemplateModal: ModalDirective
   @ViewChild('deleteConfirmModal', { static: false }) deleteConfirmModal: ModalDirective
+  @ViewChild('templatePreviewModal', { static: false }) templatePreviewModal: ModalDirective
 
   name: string;
   names: string[] = [];
   errormsg: string;
 
-  constructor(private profileClient: ProfileClient, protected router: Router, protected authService: AuthService, protected activatedRoute: ActivatedRoute, protected toasterService: ToasterService) {
+  constructor(
+    private profileClient: ProfileClient,
+    protected router: Router,
+    protected authService: AuthService,
+    protected activatedRoute: ActivatedRoute,
+    protected toasterService: ToasterService,
+    private sanitizer: DomSanitizer,
+  ) {
     super(router, authService, activatedRoute, toasterService);
   }
 
@@ -105,19 +115,37 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     this.close();
   }
 
-  show() {
-    this.newProfileTemplateModal.show();
+  currentTemplateName = ""
+  showTemplatePreview(name: string) {
+    this.currentTemplateName = name;
+    this.newProfileTemplateModal.hide();
     this.deleteConfirmModal.hide();
+    this.templatePreviewModal.show();
+  }
+
+  show() {
+    this.deleteConfirmModal.hide();
+    this.templatePreviewModal.hide();
+    this.newProfileTemplateModal.show();
   }
 
   close() {
     this.newProfileTemplateModal.hide();
     this.deleteConfirmModal.hide();
+    this.templatePreviewModal.hide();
   }
 
   currentItem: string;
   showdeleteConfirmModal(name: string) {
     this.currentItem = name;
     this.deleteConfirmModal.show();
+  }
+
+  get pdfPreview(): SafeResourceUrl {
+    return this.sanitizeUrl(`${environment.api.ebookServer}/templatePreview/${this.currentTemplateName}.pdf`);
+  }
+
+  sanitizeUrl(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }

@@ -1,105 +1,133 @@
 <div class="animated fadeIn">
-    <div class="card">
-        <div class="card-header">成长档案模板
-            <button type="button" (click)="show()" class="btn btn-sm btn-primary pull-right">新建成长档案模板</button>
-        </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-4 offset-md-8">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
-                    </div>
-                </div>
-            </div>
-
-            <app-loading [loading]="loading"></app-loading>
-
-            <table class="table table-striped" [mfData]="items | tagFilter : filterQuery" #mf="mfDataTable"
-                [mfRowsOnPage]="10" [hidden]="loading">
-                <thead>
-                    <tr>
-                        <th style="width: 20%">
-                            <mfDefaultSorter by="name">模板名</mfDefaultSorter>
-                        </th>
-                        <th style="width: 20%">
-                            <mfDefaultSorter by="created_by">创建者</mfDefaultSorter>
-                        </th>
-                        <th style="width: 50%">
-                            <mfDefaultSorter by="tags">标签</mfDefaultSorter>
-                        </th>
-
-                        <th style="width: 5%">编辑</th>
-                        <th style="width: 5%">删除</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of mf.data">
-                        <td>{{item.name}}</td>
-                        <td>{{item.created_by}}</td>
-                        <td *ngIf="!item.tags"></td>
-                        <td *ngIf="item.tags">
-                            <span *ngFor="let tag of item.tags?.split(',');let index=index" class="badge"
-                                [ngClass]="{'margin-left-5':index>0,'badge-success':index%6==0,'badge-danger':index%6==1,'badge-warning':index%6==2,'badge-dark':index%6==3,'badge-primary':index%6==4,'badge-info':index%6==5}">
-                                {{tag}}
-                            </span>
-                        </td>
-                        <td><a [routerLink]="['/成长档案/模板', item.name]"><i class="fa fa-edit"></i></a></td>
-                        <td><a (click)="showdeleteConfirmModal(item.name)"><i class="fa fa-trash-o"></i></a></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="5">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+  <div class="card">
+    <div class="card-header">成长档案模板
+      <button type="button" (click)="show()" class="btn btn-sm btn-primary pull-right">新建成长档案模板</button>
     </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 offset-md-8">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            <input type="text" class="form-control" [(ngModel)]="filterQuery" placeholder="查询" />
+          </div>
+        </div>
+      </div>
+
+      <app-loading [loading]="loading"></app-loading>
+
+      <table class="table table-striped" [mfData]="items | tagFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="10" [hidden]="loading">
+        <thead>
+          <tr>
+            <th style="width: 20%">
+              <mfDefaultSorter by="name">模板名</mfDefaultSorter>
+            </th>
+            <th style="width: 20%">
+              <mfDefaultSorter by="created_by">创建者</mfDefaultSorter>
+            </th>
+            <th style="width: 45%">
+              <mfDefaultSorter by="tags">标签</mfDefaultSorter>
+            </th>
+
+            <th style="width: 5%">预览</th>
+            <th style="width: 5%">编辑</th>
+            <th style="width: 5%">删除</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mf.data">
+            <td>{{item.name}}</td>
+            <td>{{item.created_by}}</td>
+            <td *ngIf="!item.tags"></td>
+            <td *ngIf="item.tags">
+              <span *ngFor="let tag of item.tags?.split(',');let index=index" class="badge"
+                [ngClass]="{'margin-left-5':index>0,'badge-success':index%6==0,'badge-danger':index%6==1,'badge-warning':index%6==2,'badge-dark':index%6==3,'badge-primary':index%6==4,'badge-info':index%6==5}">
+                {{tag}}
+              </span>
+            </td>
+            <td><a (click)="showTemplatePreview(item.name)"><i class="fa fa-address-book-o"></i></a></td>
+            <td><a [routerLink]="['/成长档案/模板', item.name]"><i class="fa fa-edit"></i></a></td>
+            <td><a (click)="showdeleteConfirmModal(item.name)"><i class="fa fa-trash-o"></i></a></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6">
+              <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15,30]"></mfBootstrapPaginator>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 </div>
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
 
 <div bsModal #newProfileTemplateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-    <div class="modal-dialog modal-info" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">输入模板名</h4>
-                <button type="button" class="close" (click)="close()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="btn-group" dropdown>
-                    <input type="text" class="form-control" [(ngModel)]="name" required>
-                </div>
-                <h6 [hidden]="!errormsg" class="text-danger">{{errormsg}}</h6>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" (click)="createProfileTemplate()">确定</button>
-                <button type="button" class="btn btn-primary" (click)="close()">返回</button>
-            </div>
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">输入模板名</h4>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="btn-group" dropdown>
+          <input type="text" class="form-control" [(ngModel)]="name" required>
         </div>
+        <h6 [hidden]="!errormsg" class="text-danger">{{errormsg}}</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="createProfileTemplate()">确定</button>
+        <button type="button" class="btn btn-primary" (click)="close()">返回</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <div bsModal #deleteConfirmModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-    aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
-    <div class="modal-dialog modal-info" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">删除模板</h4>
-                <button type="button" class="close" (click)="close()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="deleteProfileTemplate(currentItem)">确定</button>
-                <button type="button" class="btn btn-primary" (click)="close()">返回</button>
-            </div>
-        </div>
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">删除模板</h4>
+        <button type="button" class="close" (click)="close()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="deleteProfileTemplate(currentItem)">确定</button>
+        <button type="button" class="btn btn-primary" (click)="close()">返回</button>
+      </div>
     </div>
+  </div>
+</div>
+
+<div bsModal #templatePreviewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog modal-info" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h6 class="modal-title">模板预览</h6>
+        <button type="button" class="close" (click)="templatePreviewModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-header">
+            {{currentName}}
+          </div>
+          <div class="card-body pdf-container">
+            <embed [src]="pdfPreview" width="100%" height="100%" type="application/pdf">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

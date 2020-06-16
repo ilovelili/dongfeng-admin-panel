@@ -93,6 +93,18 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
         credentials: 'omit',
         onComplete: () => {
           this.spinner.hide();
+          if (!this.templatePreviewBusy) {
+            window.setTimeout(() => {
+              let body = this.editor.getHtml();
+              if (!body) {
+                return;
+              }
+              let images = this.readImgUrls(this.editor),
+                html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.currentYear}-${this.currentClass}-${this.currentName}-${this.currentDate}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
+                css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
+              this.updateTemplatePreview(images, html, css);
+            }, 5000)
+          }
         },
       },
       domComponents: { storeWrapper: 1 },
@@ -184,6 +196,143 @@ export class GrowthProfileTemplateDetailComponent extends ViewComponent implemen
 
   get loadEndpoint(): string {
     return `${environment.api.baseURI}/profileTemplateContent?name=${this.currentName}`;
+  }
+
+  templatePreviewBusy = false;
+  updateTemplatePreview(images: string[], html: string, css: string) {
+    this.templatePreviewBusy = true;
+    this.profileClient.updateTemplatePreview(this.currentName.toString(), images, html, css).subscribe(
+      () => {
+        this.templatePreviewBusy = false;
+      },
+      e => {
+        console.error(e);
+        this.templatePreviewBusy = false;
+      }
+    );
+  }
+
+  clicked = false;
+  generateTemplatePreview() {
+    this.clicked = true;
+    if (!this.templatePreviewBusy) {
+      let body = this.editor.getHtml();
+      if (!body) {
+        return;
+      }
+      let images = this.readImgUrls(this.editor),
+        html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="./css/style.css"><title="${this.currentYear}-${this.currentClass}-${this.currentName}-${this.currentDate}"></head><body>${body}</body></html>`.replace(/assets\/img/g, './img'),
+        css = this.editor.getCss().replace(/assets\/img/g, '../img') + this.chromePrintCSS();
+
+      this.templatePreviewBusy = true;
+      this.profileClient.updateTemplatePreview(this.currentName.toString(), images, html, css).subscribe(
+        () => {
+          this.templatePreviewBusy = false;
+          this.clicked = false;
+          this.toasterService.pop('success', '', '模板预览保存成功')
+        },
+        e => {
+          console.error(e);
+          this.templatePreviewBusy = false;
+          this.clicked = false;
+          this.toasterService.pop('error', '', '模板预览保存失败，请重试')
+        }
+      );
+    }
+  }
+
+  /***
+  image export related
+  ***/
+  // get image src from CSS file
+  imgCSS(ed: any): string[] {
+    let code = ed.getCss(),
+      imags: string[],
+      local = document.location.host.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'),
+      regex = new RegExp('(http:|https:){0,1}\/\/' + local, 'g');
+
+    code = code.replace(regex, '');
+    code = code.replace(/(http:|https:){0,1}\/\//g, '#');
+    imags = code.match(/\("{0,1}[^#^\(]+?\.(gif|jpg|png|jpeg|tif|tiff|webp|svg|ico)"{0,1}\)/gi);
+    if (imags !== null) {
+      imags = imags.map(x => x.replace(/\("{0,1}(.*){0,1}"\)/, '$1').replace(/[()]/g, ''));
+    }
+    else
+      imags = [];
+
+    return imags;
+  }
+
+  // this is for chrome headless print-to-pdf option
+  chromePrintCSS(): string {
+    return `
+@media print {
+  @page { margin: 0; }
+  body { margin: 1.6cm; }
+}`;
+  }
+
+  // get image src from HTML file
+  imgHTML(): string[] {
+    if (!document.querySelector('.gjs-frame')) {
+      return [];
+    }
+
+    let imags: string[] = [],
+      src: string,
+      code = (<any>document.querySelector('.gjs-frame')).contentDocument.getElementsByTagName('img');
+
+    for (let i = 0; i < code.length; i++) {
+      src = code[i].src;
+      src = src.replace(location.origin, '');
+      if (!src.includes('http')) {
+        imags.push(src);
+      }
+    };
+
+    return imags;
+  }
+
+  arrayBufferToBinary(buffer: any) {
+    let binary = '',
+      bytes = [].slice.call(new Uint8Array(buffer));
+
+    bytes.forEach((b: any) => binary += String.fromCharCode(b));
+    return binary;
+  };
+
+  async readImgs(ed: any) {
+    let imgData, listaImgs, petition, archive, content = [];
+    let htmlimages = this.imgHTML(),
+      cssimages = this.imgCSS(ed);
+
+    listaImgs = htmlimages.concat(cssimages);
+    for (let i = 0; i < listaImgs.length; i++) {
+      try {
+        petition = await fetch(listaImgs[i]);
+        imgData = await petition.arrayBuffer();
+        archive = petition.url.match(/[^\/\.]*\.[^\.]*$/, '$&')[0];
+        content[archive] = this.arrayBufferToBinary(imgData);
+      }
+      catch (e) {
+        console.log("error " + e.message);
+      }
+    };
+
+    return content
+  }
+
+  readImgUrls(ed: any) {
+    let listaImgs = [], content = [];
+    let htmlimages = this.imgHTML(),
+      cssimages = this.imgCSS(ed);
+
+    listaImgs = htmlimages.concat(cssimages);
+    for (let i = 0; i < listaImgs.length; i++) {
+      content.push(listaImgs[i].replace(/assets\/img/g, './img'))
+    };
+
+    return content
   }
 
   browsercheck() {

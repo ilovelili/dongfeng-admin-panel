@@ -122,4 +122,13 @@ export class ProfileClient extends BaseClient {
       params: params,
     });
   }
+
+  updateTemplatePreview(name: string, images: string[], html: string, css: string): Observable<Empty> {
+    return this.http.post<Empty>(environment.api.baseURI + '/profileTemplatePreview', {
+      name: name,
+      images: images,
+      html: html,
+      css: css,
+    }, this.defaultHttpOptions);
+  }
 }

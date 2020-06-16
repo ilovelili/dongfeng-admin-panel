@@ -583,6 +583,7 @@ export class GrowthProfileComponent extends ViewComponent implements OnInit {
 
       am.add(assets);
       am.render();
+
       this.profileModal.hide();
       this.profileloaded = true;
     });

@@ -7,6 +7,8 @@
       成长档案模板 - {{this.currentName}}
       <button type="button" (click)="showTagModal()" class="btn btn-sm btn-primary pull-right">编辑标签</button>
       <button type="button" (click)="showExplainModal()" class="btn btn-sm btn-warning pull-right">说明</button>
+      <button type="button" (click)="generateTemplatePreview()" class="btn btn-sm btn-success btn-ladda pull-right"
+        data-style="zoom-in" [ladda]="clicked">生成模板预览</button>
     </div>
     <div class="card-body" id="gjs"></div>
   </div>
