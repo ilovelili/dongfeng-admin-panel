@@ -142,7 +142,7 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
   }
 
   get pdfPreview(): SafeResourceUrl {
-    return this.sanitizeUrl(`${environment.api.ebookServer}/templatePreview/${this.currentTemplateName}.pdf`);
+    return this.sanitizeUrl(`${environment.api.templatePrevServer}/${this.currentTemplateName}.pdf`);
   }
 
   sanitizeUrl(url: string): SafeResourceUrl {
