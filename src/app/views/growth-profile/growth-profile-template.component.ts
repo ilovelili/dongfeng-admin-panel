@@ -2,10 +2,10 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ViewComponent } from '../base/view.component';
-import { ProfileClient } from 'app/clients';
+import { ProfileClient, PupilClient } from 'app/clients';
 import { ToasterService } from 'angular2-toaster';
-import { ProfileTemplate } from 'app/models';
-import { ModalDirective } from 'ngx-bootstrap';
+import { ProfileTemplate, Pupil, ProfileCount } from 'app/models';
+import { ModalDirective, BsDatepickerConfig, BsLocaleService, defineLocale, zhCnLocale } from 'ngx-bootstrap';
 import { environment } from 'environments/environment';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
@@ -14,6 +14,7 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
   styleUrls: [
     '../../../scss/vendors/toastr/toastr.scss',
     './growth-profile-template.component.scss',
+    '../../../scss/vendors/bs-datepicker/bs-datepicker.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -21,10 +22,18 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
   @ViewChild('newProfileTemplateModal', { static: false }) newProfileTemplateModal: ModalDirective
   @ViewChild('deleteConfirmModal', { static: false }) deleteConfirmModal: ModalDirective
   @ViewChild('templatePreviewModal', { static: false }) templatePreviewModal: ModalDirective
+  @ViewChild('templateApplyModal', { static: false }) templateApplyModal: ModalDirective
+  @ViewChild('profileExistingModal', { static: false }) profileExistingModal: ModalDirective
 
   name: string;
   names: string[] = [];
   errormsg: string;
+  pupils: Pupil[] = [];
+  profileCreateDate = new Date();
+  datepickerConfig: Partial<BsDatepickerConfig> = new BsDatepickerConfig();
+  exsitingProfiles: ProfileCount[] = [];
+  currentTemplateName = "";
+  currentTemplateId = 0;
 
   constructor(
     private profileClient: ProfileClient,
@@ -33,8 +42,20 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     protected activatedRoute: ActivatedRoute,
     protected toasterService: ToasterService,
     private sanitizer: DomSanitizer,
+    private pupilClient: PupilClient,
+    protected localeService: BsLocaleService,
   ) {
     super(router, authService, activatedRoute, toasterService);
+
+    if (this.localeService) {
+      defineLocale(zhCnLocale.abbr, zhCnLocale);
+      // https://github.com/valor-software/ngx-bootstrap/issues/4054    
+      this.localeService.use(zhCnLocale.abbr);
+      this.datepickerConfig = {
+        containerClass: 'theme-dark-blue',
+        dateInputFormat: 'YYYY-MM-DD',
+      };
+    }
   }
 
   ngOnInit(): void {
@@ -44,6 +65,7 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
           this.router.navigate(["页面/登录"])
         } else {
           this.getProfileTemplates();
+          this.getPupils();
         }
       },
       e => {
@@ -115,17 +137,122 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     this.close();
   }
 
-  currentTemplateName = ""
-  showTemplatePreview(name: string) {
-    this.currentTemplateName = name;
+  getPupils() {
+    this.loading = true;
+    this.pupilClient.getPupils(this.currentYear).
+      subscribe(
+        d => {
+          this.loading = false;
+          this.pupils = d.map(p => {
+            let _pupil = new Pupil();
+            _pupil.id = p.id;
+            _pupil.class = p.class;
+            _pupil.name = p.name;
+            return _pupil;
+          });
+
+          if (this.pupils.length) {
+            this.pupils.forEach((p: Pupil) => {
+              if (!this.classMap.has(p.class.id)) {
+                this.classMap.set(p.class.id, p.class.name);
+              }
+            });
+          }
+        },
+        e => this.LogError(e, '获取幼儿信息失败，请重试'),
+      );
+  }
+
+  clicked = false;
+  exclusivePupilIds = [];
+
+  preApplyProfileTemplate() {
+    if (!this.currentClass) {
+      this.toasterService.pop('error', '', '请指定班级');
+      return;
+    }
+
+    this.clicked = true;
+    this.profileClient.getProfileCount(this.currentClass, this.dateToString(this.profileCreateDate)).subscribe(
+      (profileCounts: any[]) => {
+        if (profileCounts.length) {
+          this.exsitingProfiles = profileCounts.map(p => new ProfileCount(p.pupilId, p.pupil, p.class));
+          this.exclusivePupilIds = this.exsitingProfiles.map(p => p.pupilId);
+          this.showProfileExisting();
+          this.clicked = false;
+        } else {
+          this.applyProfileTemplate();
+          this.clicked = false;
+        }
+      },
+      (e) => {
+        console.error(e);
+      }
+    );
+  }
+
+  overwriteClicked = false;
+  nonOverwirteClicked = false;
+  applyProfileTemplate(overwrite = false) {
+    overwrite ? this.overwriteClicked = true : this.nonOverwirteClicked = true;
+
+    this.profileClient.applyProfileTemplate(
+      this.dateToString(this.profileCreateDate),
+      this.currentClass,
+      this.exclusivePupilIds,
+      this.currentTemplateId,
+      overwrite
+    ).subscribe(
+      (_) => {
+        this.toasterService.pop('success', '', '模板应用成功');
+      },
+      (err) => {
+        this.toasterService.pop('error', '', '模板应用失败，请重试');
+        console.error(err);
+      },
+      () => {
+        this.overwriteClicked = false;
+        this.nonOverwirteClicked = false;
+        this.close();
+      }
+    );
+  }
+
+  showTemplatePreview(template: ProfileTemplate) {
+    this.currentTemplateName = template.name;
+    this.currentTemplateId = template.id;
+
     this.newProfileTemplateModal.hide();
     this.deleteConfirmModal.hide();
+    this.templateApplyModal.hide();
+    this.profileExistingModal.hide();
     this.templatePreviewModal.show();
+  }
+
+  showTemplateApply(template: ProfileTemplate) {
+    this.currentTemplateName = template.name;
+    this.currentTemplateId = template.id;
+
+    this.newProfileTemplateModal.hide();
+    this.deleteConfirmModal.hide();
+    this.templatePreviewModal.hide();
+    this.profileExistingModal.hide();
+    this.templateApplyModal.show();
+  }
+
+  showProfileExisting() {
+    this.newProfileTemplateModal.hide();
+    this.deleteConfirmModal.hide();
+    this.templatePreviewModal.hide();
+    this.templateApplyModal.hide();
+    this.profileExistingModal.show();
   }
 
   show() {
     this.deleteConfirmModal.hide();
     this.templatePreviewModal.hide();
+    this.templateApplyModal.hide();
+    this.profileExistingModal.hide();
     this.newProfileTemplateModal.show();
   }
 
@@ -133,6 +260,8 @@ export class GrowthProfileTemplateComponent extends ViewComponent implements OnI
     this.newProfileTemplateModal.hide();
     this.deleteConfirmModal.hide();
     this.templatePreviewModal.hide();
+    this.templateApplyModal.hide();
+    this.profileExistingModal.hide();
   }
 
   currentItem: string;

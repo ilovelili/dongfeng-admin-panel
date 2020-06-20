@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseClient } from './base.client';
 import { environment } from 'environments/environment';
-import { Empty, Ebook, Profile } from 'app/models';
+import { Empty, Ebook, Profile, ProfileCount } from 'app/models';
 import { ProfileTemplate } from 'app/models';
 
 @Injectable()
@@ -48,6 +48,16 @@ export class ProfileClient extends BaseClient {
     let params = new HttpParams();
     params = params.set("year", year);
     return this.http.get<Profile[]>(environment.api.baseURI + '/profiles', {
+      headers: this.defaultHeaders,
+      params: params,
+    });
+  }
+
+  getProfileCount(classId: number, date: string): Observable<ProfileCount[]> {
+    let params = new HttpParams();
+    params = params.set("classId", classId.toString());
+    params = params.set("date", date);
+    return this.http.get<ProfileCount[]>(environment.api.baseURI + '/profileCount', {
       headers: this.defaultHeaders,
       params: params,
     });
@@ -129,6 +139,16 @@ export class ProfileClient extends BaseClient {
       images: images,
       html: html,
       css: css,
+    }, this.defaultHttpOptions);
+  }
+
+  applyProfileTemplate(date: string, classId: number, pupilIds: number[], templateId: number, overwrite: boolean) {
+    return this.http.post<Empty>(environment.api.baseURI + '/applyProfileTemplate', {
+      date: date,
+      classId: classId,
+      pupilIds: pupilIds,
+      templateId: templateId,
+      overwrite: overwrite,
     }, this.defaultHttpOptions);
   }
 }

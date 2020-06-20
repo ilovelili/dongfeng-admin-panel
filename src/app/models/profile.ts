@@ -39,3 +39,15 @@ export class ProfileTemplate {
         public tags?: string,
     ) { }
 }
+
+export class ProfileCount {
+    constructor(
+        public pupilId: number,
+        public pupil: string,
+        public cls: string
+    ) { }
+
+    format(date: string): string {
+        return date + " " + this.cls + " " + this.pupil;
+    }
+}
