@@ -33,7 +33,7 @@
     "bootstrap": "4.0.0-beta.3",
     "brace": "0.11.0",
     "chart.js": "^2.9.3",
-    "codemirror": "5.33.0",
+    "codemirror": "5.58.2",
     "core-js": "2.5.3",
     "dragula": "3.7.2",
     "flag-icon-css": "2.9.0",
